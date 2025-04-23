@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dricks</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    .bottom-button {
+      margin-top: 40px;
+      position: relative;
+      height: 60px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #noTipBtn {
+      background-color: #888;
+      transition: top 0.2s ease, left 0.2s ease, transform 0.2s ease;
+      position: absolute;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      display: none;
+    }
+    .popup {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      width: 300px;
+      font-size: 1.1rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .spinner, .face-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #4CAF50;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .mobilepay-logo {
+      width: 60px;
+      height: 60px;
+      background: #0078d7;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-family: Arial;
+      font-size: 14px;
+    }
+
+    .faceid {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      animation: fadein 0.5s ease forwards;
+    }
+
+    .faceid-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Välj dricks</h1>
+  <div class="button-container" id="container">
+    <button onclick="showFakePayment('15%')">15%</button>
+    <button onclick="showFakePayment('20%')">20%</button>
+    <button onclick="showFakePayment('25%')">25%</button>
+  </div>
+
+  <div class="bottom-button" id="bottomContainer">
+    <button id="noTipBtn">Ingen dricks</button>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="popup" id="popup">
+      <div class="mobilepay-logo">MobilePay</div>
+      <div id="popupText">Loggar in...</div>
+      <div class="spinner" id="spinner"></div>
+
+      <div class="faceid" id="faceid">
+        <div class="faceid-icon">🧑‍🦲</div>
+        <div class="face-spinner"></div>
+        <div style="color: #666; margin-top: 5px;">Face ID...</div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="ping" src="https://www.myinstants.com/media/sounds/mobilepay.mp3" preload="auto"></audio>
+  <audio id="sad" src="https://www.soundjay.com/fail/sounds/sad-trombone-01.mp3" preload="auto"></audio>
+
+  <script>
+    const overlay = document.getElementById('overlay');
+    const popupText = document.getElementById('popupText');
+    const spinner = document.getElementById('spinner');
+    const faceid = document.getElementById('faceid');
+    const ping = document.getElementById('ping');
+    const sad = document.getElementById('sad');
+
+    function showFakePayment(tipAmount) {
+      overlay.style.display = 'flex';
+      popupText.innerText = 'Öppnar MitID-appen...';
+      spinner.style.display = 'block';
+      faceid.style.display = 'none';
+
+      setTimeout(() => {
+        popupText.innerText = 'Autentiserar med MitID-appen… (3)';
+        let count = 2;
+        const countdown = setInterval(() => {
+          if (count > 0) {
+            popupText.innerText = `Autentiserar med MitID-appen… (${count})`;
+            count--;
+          } else {
+            clearInterval(countdown);
+            popupText.innerText = '';
+            spinner.style.display = 'none';
+            faceid.style.display = 'flex';
+
+            setTimeout(() => {
+              faceid.style.display = 'none';
+              popupText.innerText = `Drar pengar (${tipAmount})...`;
+              ping.play();
+
+              setTimeout(() => {
+                let belopp;
+                switch (tipAmount) {
+                  case '15%':
+                  case '20%':
+                    belopp = '1500 DKK';
+                    break;
+                  case '25%':
+                    belopp = '2500 DKK';
+                    break;
+                  default:
+                    belopp = '0 DKK';
+                }
+                popupText.innerText = `Tack för ditt bidrag på ${belopp}!`;
+
+                setTimeout(() => {
+                  overlay.style.display = 'none';
+                }, 2000);
+              }, 1500);
+            }, 2000);
+          }
+        }, 1000);
+      }, 1500);
+    }
+
+    const noTipBtn = document.getElementById('noTipBtn');
+    const bottomContainer = document.getElementById('bottomContainer');
+
+    function moveButton() {
+      sad.play();
+      const maxX = bottomContainer.clientWidth - noTipBtn.offsetWidth;
+      const maxY = bottomContainer.clientHeight - noTipBtn.offsetHeight;
+
+      const newX = Math.random() * maxX;
+      const newY = Math.random() * maxY;
+
+      noTipBtn.style.left = `${newX}px`;
+      noTipBtn.style.top = `${newY}px`;
+      noTipBtn.style.transform = `scale(1.1) rotate(${Math.random() * 10 - 5}deg)`;
+    }
+
+    noTipBtn.addEventListener('mouseenter', moveButton);
+    noTipBtn.addEventListener('touchstart', moveButton);
+    noTipBtn.addEventListener('mouseleave', () => {
+      noTipBtn.style.transform = 'scale(1)';
+    });
+  </script>
+</body>
+</html>

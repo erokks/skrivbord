@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erik AI – Terminal</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: monospace;
+      background: black;
+      color: #00ff88;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    header {
+      background: #002d1f;
+      padding: 1rem 2rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .message {
+      border-left: 2px solid #00ff88;
+      padding-left: 1rem;
+      white-space: pre-wrap;
+    }
+    .status {
+      background: #002d1f;
+      padding: 0.5rem 2rem;
+      font-size: 0.9rem;
+    }
+    #log {
+      height: 150px;
+      overflow-y: auto;
+      font-size: 0.8rem;
+      background: #001a12;
+      border-top: 1px solid #00ff88;
+      padding: 0.5rem 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>Erik – AI-terminal</header>
+  <main id="chat"></main>
+  <div id="log"></div>
+  <div class="status">Erik arbetar...</div>
+
+  <script>
+    const chat = document.getElementById("chat");
+    const log = document.getElementById("log");
+
+    const messages = [
+      "Statuskontroll (telefonläge: ready): Spårar IP-adress... kommer till Frösön.",
+      "Analyserar kontext: Skickar uppdatering till systemet...",
+      "Initierar sekvens: Byter språk till finska och tillbaka.",
+      "Validerar steg: Sänder e-mail om löneförhöjning till Ilona.",
+      "Validerar steg: Sorterar e-post efter färg.",
+      "Kör beslutsträd: Datorstrul... sänder 100 e-mail till Larry att komma bort och hjälpa.",
+      "Optimerar rutin: Lägger till kund i nyhetsbrev – oavsett samtycke.",
+      "Statuskontroll (telefonläge: ready): Lägger till 1 000 taggar i CRM. Kategoriserar sedan med färg.",
+      "Tillämpar heuristik: Installerar om skrivare. Skrivaren är inte ansluten.",
+      "Simulerar scenario: Datorstrul... sänder 100 e-mail till Larry att komma bort och hjälpa.",
+      "Analyserar kontext: Ignorerar autosvar från noreply@post.se.",
+      "Analyserar kontext: Klagar till Soffis att jag är hungrig.",
+      "Optimerar rutin: Föreslår AI-implementering i fikarummet.",
+      "Validerar steg: Skriver ut en PDF och matar in den igen digitalt.",
+      "Validerar steg: Skickar emojis till ekonomisystemet.",
+      "Logisk slutsats: Skapar ny etikett: 'Märkliga fall'.",
+      "Tillämpar heuristik: Optimerar optimeringstabellen.",
+      "Analyserar kontext: Sänder kund ett e-mail... error... mailar klagomål till Andreas.",
+      "Logisk slutsats: Sänder e-mail om löneförhöjning till Ilona.",
+      "Validerar steg: Arkiverar alla PDF:er som JPEG.",
+      "Statuskontroll (telefonläge: lunch): Startar loop i loop för att lösa loopproblem.",
+      "Validerar steg: Föreslår AI-implementering i fikarummet.",
+      "Beräknar påverkan: Skickar uppdatering till systemet...",
+      "Tillämpar heuristik: Lägger till 1 000 taggar i CRM. Kategoriserar sedan med färg.",
+      "Initierar sekvens: Kollar om någon glömt logga ut från Teams.",
+      "Analyserar kontext: Skriver ut rapport i Comic Sans.",
+      "Kör beslutsträd: Lägger till automatisk väderrapport i fakturor.",
+      "Simulerar scenario: Klagar till Soffis att jag är hungrig.",
+      "Observerar mönster: Föreslår AI-implementering i fikarummet.",
+      "Initierar sekvens: Skickar uppdatering till systemet...",
+      "Kör beslutsträd: Returnerar e-post med blinkgubbe ;)",
+      "Validerar steg: Installerar om skrivare. Skrivaren är inte ansluten.",
+      "Observerar mönster: Tittar i Kampanjer och rabatter. Lägger till 60% rabatt på alla Äldresagen-medlemmar.",
+      "Optimerar rutin: Spårar IP-adress... kommer till Frösön.",
+      "Optimerar rutin: Försöker förstå varför kundens CRM är skrivet på latin.",
+      "Simulerar scenario: Försöker logga in med fel lösenord 7 gånger.",
+      "Optimerar rutin: Söker ett recept på prinsesstårta.",
+      "Observerar mönster: Försöker förstå varför kundens CRM är skrivet på latin.",
+      "Observerar mönster: Fyller på karamellskålen.",
+      "Tillämpar heuristik: Returnerar e-post med blinkgubbe ;)",
+      "Initierar sekvens: Tittar i Kampanjer och rabatter. Lägger till 60% rabatt på alla Äldresagen-medlemmar.",
+      "Analyserar kontext: Startar loop i loop för att lösa loopproblem.",
+      "Beräknar påverkan: Lägger till kund i nyhetsbrev – oavsett samtycke.",
+      "Logisk slutsats: Utvärderar om 'Fredagsfika' bör uppgraderas till 'Fredagsbuffé'.",
+      "Optimerar rutin: Gör om allt i versaler.",
+      "Simulerar scenario: Startar långsam AI-process... igen.",
+      "Optimerar rutin: Sänder kund ett e-mail... error... mailar klagomål till Andreas.",
+      "Logisk slutsats: Lägger till 1 000 taggar i CRM. Kategoriserar sedan med färg.",
+      "Initierar sekvens: Optimerar optimeringstabellen.",
+      "Statuskontroll (telefonläge: short break): Spårar IP-adress... kommer till Frösön.",
+      "Tillämpar heuristik: Översätter interna mejl till esperanto.",
+      "Validerar steg: Analyserar potentiell friktion i ordet 'rabatt'.",
+      "Optimerar rutin: Skapar ny etikett: 'Märkliga fall'.",
+      "Analyserar kontext: Avinstallerar och återinstallerar Excel. För säkerhets skull.",
+      "Statuskontroll (telefonläge: worktime): Skriver ut en PDF och matar in den igen digitalt.",
+      "Initierar sekvens: Försöker logga in med fel lösenord 7 gånger.",
+      "Optimerar rutin: Lägger till kund i nyhetsbrev – oavsett samtycke.",
+      "Validerar steg: Analyserar skillnaden mellan kaffe och te.",
+      "Optimerar rutin: Skickar kalenderinbjudan till fel kontinent.",
+      "Simulerar scenario: Sorterar e-post efter färg.",
+      "Initierar sekvens: Ignorerar autosvar från noreply@post.se.",
+      "Beräknar påverkan: Arkiverar alla PDF:er som JPEG.",
+      "Statuskontroll (telefonläge: short break): Analyserar potentiell friktion i ordet 'rabatt'.",
+      "Kör beslutsträd: Startar långsam AI-process... igen.",
+      "Observerar mönster: Hämtar kaffe.",
+      "Observerar mönster: Datorstrul... sänder 100 e-mail till Larry att komma bort och hjälpa.",
+      "Validerar steg: Lägger till automatisk väderrapport i fakturor.",
+      "Statuskontroll (telefonläge: short break): Klagar till Soffis att jag är hungrig.",
+      "Statuskontroll (telefonläge: ready): Byter språk till finska och tillbaka.",
+      "Tillämpar heuristik: Hämtar kaffe.",
+      "Statuskontroll (telefonläge: worktime): Fyller på karamellskålen.",
+      "Logisk slutsats: Utvärderar om 'Fredagsfika' bör uppgraderas till 'Fredagsbuffé'.",
+      "Validerar steg: Försöker logga in med fel lösenord 7 gånger.",
+      "Kör beslutsträd: Föreslår AI-implementering i fikarummet.",
+      "Beräknar påverkan: Loggar på Finska linjen.",
+      "Simulerar scenario: Startar loop i loop för att lösa loopproblem.",
+      "Initierar sekvens: Startar om datorn i felsäkert läge. Fortsätter jobba.",
+      "Statuskontroll (telefonläge: worktime): Startar om datorn i felsäkert läge. Fortsätter jobba.",
+      "Statuskontroll (telefonläge: short break): Sänder e-mail om löneförhöjning till Ilona.",
+      "Analyserar kontext: Ignorerar autosvar från noreply@post.se.",
+      "Validerar steg: Sänder kund ett e-mail... error... mailar klagomål till Andreas.",
+      "Analyserar kontext: Skickar kalenderinbjudan till fel kontinent.",
+      "Observerar mönster: Sänder kund ett e-mail... error... mailar klagomål till Andreas.",
+      "Simulerar scenario: Skapar ny etikett: 'Märkliga fall'.",
+      "Initierar sekvens: Fyller på karamellskålen.",
+      "Optimerar rutin: Översätter interna mejl till esperanto.",
+      "Validerar steg: Installerar om skrivare. Skrivaren är inte ansluten.",
+      "Tillämpar heuristik: Optimerar optimeringstabellen.",
+      "Observerar mönster: Utvärderar om 'Fredagsfika' bör uppgraderas till 'Fredagsbuffé'.",
+      "Validerar steg: Skickar faktura till fel företag. Igen.",
+      "Statuskontroll (telefonläge: lunch): Konverterar kundens namn till runor.",
+      "Simulerar scenario: Skriver ut rapport i Comic Sans.",
+      "Statuskontroll (telefonläge: lunch): Planerar julfika i maj.",
+      "Kör beslutsträd: Signerar dokument med ASCII-konst.",
+      "Initierar sekvens: Signerar dokument med ASCII-konst.",
+      "Kör beslutsträd: Översätter interna mejl till esperanto.",
+      "Validerar steg: Försöker förstå varför kundens CRM är skrivet på latin.",
+      "Logisk slutsats: Startar om datorn i felsäkert läge. Fortsätter jobba.",
+      "Logisk slutsats: Fyller på karamellskålen.",
+      "Initierar sekvens: Avinstallerar och återinstallerar Excel. För säkerhets skull.",
+      "Tillämpar heuristik: Bakar prinsesstårta till Ilona.",
+      "Simulerar scenario: Klagar till Soffis att jag är hungrig.",
+      "Tillämpar heuristik: Avinstallerar och återinstallerar Excel. För säkerhets skull.",
+      "Simulerar scenario: Lägger till automatisk väderrapport i fakturor.",
+      "Observerar mönster: Byter språk till finska och tillbaka.",
+      "Validerar steg: Utvärderar om 'Fredagsfika' bör uppgraderas till 'Fredagsbuffé'.",
+      "Kör beslutsträd: Gör om allt i versaler.",
+      "Logisk slutsats: Signerar dokument med ASCII-konst.",
+      "Beräknar påverkan: Lägger till kund i nyhetsbrev – oavsett samtycke.",
+      "Optimerar rutin: Försöker logga in med fel lösenord 7 gånger.",
+      "Analyserar kontext: Planerar julfika i maj.",
+      "Optimerar rutin: Avinstallerar och återinstallerar Excel. För säkerhets skull.",
+      "Kör beslutsträd: Byter språk till finska och tillbaka.",
+      "Statuskontroll (telefonläge: worktime): Skickar faktura till fel företag. Igen.",
+      "Statuskontroll (telefonläge: lunch): Loggar på Finska linjen.",
+      "Tillämpar heuristik: Kollar om någon glömt logga ut från Teams.",
+      "Optimerar rutin: Kollar om någon glömt logga ut från Teams.",
+      "Simulerar scenario: Returnerar e-post med blinkgubbe ;)",
+      "Simulerar scenario: Gör om allt i versaler.",
+      "Tillämpar heuristik: Planerar julfika i maj.",
+      "Beräknar påverkan: Skickar emojis till ekonomisystemet.",
+      "Logisk slutsats: Lägger till 1 000 taggar i CRM. Kategoriserar sedan med färg.",
+      "Initierar sekvens: Ignorerar autosvar från noreply@post.se.",
+      "Logisk slutsats: Sorterar e-post efter färg.",
+      "Analyserar kontext: Gör om allt i versaler.",
+      "Statuskontroll (telefonläge: ready): Söker ett recept på prinsesstårta.",
+      "Statuskontroll (telefonläge: short break): Bakar prinsesstårta till Ilona.",
+      "Statuskontroll (telefonläge: short break): Konverterar kundens namn till runor.",
+      "Optimerar rutin: Konverterar kundens namn till runor.",
+      "Initierar sekvens: Arkiverar alla PDF:er som JPEG.",
+      "Simulerar scenario: Skriver ut en PDF och matar in den igen digitalt.",
+      "Kör beslutsträd: Analyserar skillnaden mellan kaffe och te.",
+      "Beräknar påverkan: Skickar faktura till fel företag. Igen.",
+      "Analyserar kontext: Kollar om någon glömt logga ut från Teams.",
+      "Initierar sekvens: Startar långsam AI-process... igen.",
+      "Logisk slutsats: Skickar emojis till ekonomisystemet.",
+      "Kör beslutsträd: Bakar prinsesstårta till Ilona.",
+      "Logisk slutsats: Skickar uppdatering till systemet...",
+      "Optimerar rutin: Loggar på Finska linjen.",
+      "Statuskontroll (telefonläge: short break): Hämtar kaffe.",
+      "Statuskontroll (telefonläge: worktime): Startar om datorn i felsäkert läge. Fortsätter jobba.",
+      "Kör beslutsträd: Söker ett recept på prinsesstårta.",
+      "Observerar mönster: Söker ett recept på prinsesstårta.",
+      "Kör beslutsträd: Loggar på Finska linjen.",
+      "Logisk slutsats: Försöker förstå varför kundens CRM är skrivet på latin.",
+      "Logisk slutsats: Analyserar potentiell friktion i ordet 'rabatt'.",
+      "Analyserar kontext: Returnerar e-post med blinkgubbe ;)",
+      "Tillämpar heuristik: Analyserar skillnaden mellan kaffe och te.",
+      "Observerar mönster: Skickar kalenderinbjudan till fel kontinent.",
+      "Beräknar påverkan: Skriver ut rapport i Comic Sans.",
+      "Analyserar kontext: Tittar i Kampanjer och rabatter. Lägger till 60% rabatt på alla Äldresagen-medlemmar.",
+      "Optimerar rutin: Bakar prinsesstårta till Ilona.",
+      "Observerar mönster: Skriver ut rapport i Comic Sans.",
+      "Initierar sekvens: Installerar om skrivare. Skrivaren är inte ansluten.",
+      "Validerar steg: Skriver ut en PDF och matar in den igen digitalt.",
+      "Analyserar kontext: Tittar i Kampanjer och rabatter. Lägger till 60% rabatt på alla Äldresagen-medlemmar.",
+      "Validerar steg: Översätter interna mejl till esperanto.",
+      "Tillämpar heuristik: Sorterar e-post efter färg.",
+      "Optimerar rutin: Datorstrul... sänder 100 e-mail till Larry att komma bort och hjälpa.",
+      "Optimerar rutin: Optimerar optimeringstabellen.",
+      "Beräknar påverkan: Hämtar kaffe.",
+      "Optimerar rutin: Startar loop i loop för att lösa loopproblem.",
+      "Logisk slutsats: Signerar dokument med ASCII-konst.",
+      "Kör beslutsträd: Skickar faktura till fel företag. Igen.",
+      "Kör beslutsträd: Startar långsam AI-process... igen.",
+      "Statuskontroll (telefonläge: lunch): Skickar emojis till ekonomisystemet.",
+      "Logisk slutsats: Analyserar skillnaden mellan kaffe och te.",
+      "Kör beslutsträd: Sänder e-mail om löneförhöjning till Ilona.",
+      "Initierar sekvens: Skapar ny etikett: 'Märkliga fall'.",
+      "Logisk slutsats: Arkiverar alla PDF:er som JPEG.",
+      "Tillämpar heuristik: Konverterar kundens namn till runor.",
+      "Simulerar scenario: Planerar julfika i maj.",
+      "Validerar steg: Analyserar potentiell friktion i ordet 'rabatt'.",
+      "Logisk slutsats: Skickar kalenderinbjudan till fel kontinent.",
+      "Validerar steg: Spårar IP-adress... kommer till Frösön.",
+      "Initierar sekvens: Lägger till automatisk väderrapport i fakturor."
+    ];
+
+    function addMessage(text) {
+      const msg = document.createElement("div");
+      msg.className = "message";
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+
+      let i = 0;
+      function type() {
+        if (i <= text.length) {
+          msg.textContent = "E: " + text.slice(0, i);
+          i++;
+          setTimeout(type, 15);
+        } else {
+          const timestamp = new Date().toTimeString().split(" ")[0];
+          log.textContent += `[${timestamp}] E: ${text}\n`;
+          log.scrollTop = log.scrollHeight;
+        }
+      }
+      type();
+    }
+
+    function loop() {
+      const text = messages[Math.floor(Math.random() * messages.length)];
+      const r = Math.random();
+
+      if (r < 0.03) {
+        addMessage("🔐 ADMINLÄGE AKTIVERAT – Åtkomst till förbjudna menyer...");
+        setTimeout(() => {
+          addMessage("⚠️ Erik justerar säkerhetsprotokoll. Det här loggas inte.");
+          setTimeout(() => {
+            addMessage("🟢 ADMINLÄGE STÄNGT – Normal drift återupptas.");
+            setTimeout(loop, 2000);
+          }, 2500);
+        }, 2000);
+        return;
+      }
+
+      if (r >= 0.03 && r < 0.08) {
+        addMessage("🛑 SYSTEMFEL – Erik startar om...");
+        setTimeout(() => {
+          addMessage("✅ System återställt. Återupptar arbete...");
+          setTimeout(loop, 2000);
+        }, 3000);
+        return;
+      }
+
+      addMessage(text);
+      const next = Math.random() * 3000 + 2000;
+      setTimeout(loop, next);
+    }
+
+    addMessage("Authenticating Erik...");
+    setTimeout(() => {
+      addMessage("Access granted. Terminal öppen.");
+      setTimeout(loop, 2000);
+    }, 1000);
+  </script>
+</body>
+</html>

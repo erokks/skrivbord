@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GODISTERMINAL™</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to right, #ffe0f0, #ffe8cc);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      color: #663399;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      padding: 2rem;
+    }
+    .terminal {
+      background-color: #fff8f0;
+      border: 4px dashed #ff66b2;
+      padding: 2rem;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px #ffb6c1;
+    }
+    .header {
+      font-size: 2rem;
+      text-align: center;
+      color: #cc3366;
+      margin-bottom: 1.5rem;
+    }
+    .log {
+      background-color: #fff0fa;
+      padding: 1rem;
+      height: 60vh;
+      overflow-y: auto;
+      font-size: 1rem;
+      border: 2px dotted #ff99cc;
+      color: #333;
+    }
+    .log-entry {
+      margin-bottom: 0.6rem;
+    }
+    .footer {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 1rem;
+      color: #aa3366;
+    }
+  </style>
+</head>
+<body style="flex-direction: row; justify-content: center; align-items: flex-start;">
+  <div class="terminal" style="flex: 1; max-width: 50vw;">
+    <div class="header">🍭 GODISTERMINAL™</div>
+    <div class="log" id="logg" style="height: 75vh;">
+      <div class="log-entry">🍬 Väntar på nästa sötsugna kund...</div>
+    </div>
+    <button onclick="sluträkning()" style="padding:0.5rem 1rem;margin-bottom:1rem;font-size:1rem;background:#cc3366;color:white;border:none;border-radius:8px;">🍫 Godis slut – Skicka faktura</button>
+    <div class="footer">
+    <label for="namn">Blippa namn (eller skriv):</label><br>
+    <input id="namn" type="text" placeholder="Skriv namn här..." style="margin-top:0.5rem;padding:0.3rem;font-family:inherit;font-size:1rem;"><br><br>
+    Totalt registrerat godis idag: <span id="counter">0</span> 🍭<br><br>Tryck på "OK" för att godkänna ditt sötsug 😋</div>
+  </div>
+  <div class="terminal" style="flex: 1; max-width: 40vw;"><div class="header">Statuspanel</div><button onclick="sluträkning()" style="padding:0.5rem 1rem;margin-bottom:1rem;font-size:1rem;background:#cc3366;color:white;border:none;border-radius:8px;">🍫 Godis slut – Skicka faktura</button>
+    <div class="footer">
+    <label for="namn">Blippa namn (eller skriv):</label><br>
+    <input id="namn" type="text" placeholder="Skriv namn här..." style="margin-top:0.5rem;padding:0.3rem;font-family:inherit;font-size:1rem;"><br><br>
+    Totalt registrerat godis idag: <span id="counter">0</span> 🍭<br><br>Tryck på "OK" för att godkänna ditt sötsug 😋</div></div>
+  <audio id="ping" src="https://freesound.org/data/previews/341/341695_5260877-lq.mp3"></audio>
+
+  <script>
+    const names = ['Marianne', 'Jakob', 'Frederik', 'Sofie', 'Erik', 'Hedda', 'Marlene', 'Marcus', 'Emelie', 'Lotta', 'Line', 'Vivi', 'Sandra', 'Bjørn', 'Tina', 'Karin', 'Blerta', 'Ilona'];
+    const logg = document.getElementById("logg");
+    const sound = document.getElementById("ping");
+
+    let totalCandy = 0;
+    function addLog(text) {
+      const entry = document.createElement("div");
+      entry.className = "log-entry";
+      const now = new Date().toTimeString().split(" ")[0];
+      entry.textContent = `[${now}] ${text}`;
+      logg.appendChild(entry);
+      logg.scrollTop = logg.scrollHeight;
+      sound.currentTime = 0;
+      sound.play();
+      const match = text.match(/– (\d+) godisar/);
+      if (match) { totalCandy += parseInt(match[1]); document.getElementById("counter").textContent = totalCandy; }
+    }
+
+    function godisSimulering() {
+      const inputField = document.getElementById("namn");
+      const person = inputField.value.trim() || names[Math.floor(Math.random() * names.length)];
+      const antal = Math.ceil(Math.random() * 5);
+      const pris = antal * 5 + (Math.random() < 0.2 ? 10 : 0);
+      const tillägg = Math.random() < 0.3 ? " 🍩 Skickar skuldrapport till HR!" : "";
+      const entry = `🍬 Identifierar ${person} – ${antal} godisar – ${pris} DKK tillagd.${tillägg}`;
+      addLog(entry);
+      setTimeout(godisSimulering, Math.random() * 5000 + 3000);
+    }
+
+    setTimeout(godisSimulering, 3000);
+
+    function checkDailyReport() {
+      const now = new Date();
+      if (now.getHours() === 16 && now.getMinutes() === 0 && !window.reportSent) {
+        window.reportSent = true;
+        addLog("📨 Skickar daglig rapport till ledningen: " + totalCandy + " godisar registrerade idag.");
+      }
+    }
+    
+    setInterval(checkDailyReport, 60000);
+
+    function sluträkning() {
+      const belopp = totalCandy * 5;
+      addLog("📦 Sluträkning – totalt " + totalCandy + " godisar. Faktura skickad till HR på " + belopp + " DKK 💰 (mejl till Andreas).");
+    }
+     // check every minute
+
+  </script>
+</body>
+</html>

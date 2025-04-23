@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eriks Helpdesk – Nu betjänas nummer</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      color: #002647;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+    }
+    .display {
+      background-color: #fff;
+      border: 5px solid #002647;
+      border-radius: 15px;
+      padding: 40px 80px;
+      font-size: 6rem;
+      font-weight: bold;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    }
+    .blink {
+      animation: blink 1s steps(2, start) infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .error {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #ffe6e6;
+      color: #a80000;
+      border: 3px dashed #a80000;
+      border-radius: 10px;
+      font-size: 1.3rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Eriks Helpdesk – Nu betjänas nummer</h1>
+  <div class="display" id="numberDisplay">001</div>
+  <div class="error" id="errorBox">Systemfel. Vänligen ta ny nummerlapp.</div>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://eriks-helpdesk.se/lapp" alt="QR" style="margin-top: 40px;">
+  <div class="footer">Vänligen vänta på din tur</div>
+
+  <script>
+    const display = document.getElementById("numberDisplay");
+    const errorBox = document.getElementById("errorBox");
+    let currentNumber = 1;
+
+    function formatNumber(num) {
+      return num.toString().padStart(3, "0");
+    }
+
+    function updateNumber() {
+      let change = Math.floor(Math.random() * 5);
+      if (Math.random() < 0.2) {
+        // 20% chans att gå bakåt eller långt fram
+        if (Math.random() < 0.5) {
+          currentNumber -= Math.floor(Math.random() * 15);
+        } else {
+          currentNumber += Math.floor(Math.random() * 900 + 100);
+        }
+      } else {
+        currentNumber += change;
+      }
+
+      if (currentNumber < 1) currentNumber = 1;
+      if (currentNumber > 999) currentNumber = Math.floor(Math.random() * 50) + 1;
+
+      display.textContent = formatNumber(currentNumber);
+      display.classList.add('blink');
+      setTimeout(() => display.classList.remove('blink'), 800);
+
+      // 5% chans att visa systemfel
+      if (Math.random() < 0.05) {
+        errorBox.style.display = "block";
+        setTimeout(() => {
+          errorBox.style.display = "none";
+          
+      // 3% chans att helt svartna
+      if (Math.random() < 0.03) {
+        document.body.style.backgroundColor = "black";
+        document.body.style.color = "black";
+        document.getElementById("headline").style.display = "none";
+        display.style.display = "none";
+        errorBox.style.display = "none";
+        setTimeout(() => {
+          document.body.style.backgroundColor = "#f4f4f4";
+          document.body.style.color = "#002647";
+          document.getElementById("headline").style.display = "block";
+          display.style.display = "block";
+          currentNumber = 1;
+          updateNumber();
+        }, 5000);
+        return;
+      }
+        setTimeout(updateNumber, Math.random() * 4000 + 1000);
+        }, 3000);
+      } else {
+        
+      // 3% chans att helt svartna
+      if (Math.random() < 0.03) {
+        document.body.style.backgroundColor = "black";
+        document.body.style.color = "black";
+        document.getElementById("headline").style.display = "none";
+        display.style.display = "none";
+        errorBox.style.display = "none";
+        setTimeout(() => {
+          document.body.style.backgroundColor = "#f4f4f4";
+          document.body.style.color = "#002647";
+          document.getElementById("headline").style.display = "block";
+          display.style.display = "block";
+          currentNumber = 1;
+          updateNumber();
+        }, 5000);
+        return;
+      }
+        setTimeout(updateNumber, Math.random() * 4000 + 1000);
+      }
+    }
+
+    setTimeout(updateNumber, 2000);
+  </script>
+</body>
+</html>
