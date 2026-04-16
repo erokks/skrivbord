@@ -3,7 +3,7 @@
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Pekskärmsväxling – Erik Automation</title>
+      <title>Erik Automation</title>
     <style>
           html, body {
                   margin: 0;
@@ -66,7 +66,7 @@
   </head>
   <body>
       <div id="fsOverlay">
-            <span>TRYCK FÖR FULLSKÄRM</span>
+            <span>TRYCK FOR FULLSKARM</span>
       </div>div>
     <div id="lunchOverlay"></div>div>
     <iframe id="displayFrame" src="" allow="fullscreen"></iframe>iframe>
@@ -74,8 +74,8 @@
     <script>
           const overlay = document.getElementById("fsOverlay");
           const lunchOverlay = document.getElementById("lunchOverlay");
+          let userActivatedFS = false;
 
-          // Skapa rullande LUNCH-rader
           function buildLunchRows() {
                   lunchOverlay.innerHTML = "";
                   const rowCount = Math.ceil(window.innerHeight / 80);
@@ -94,83 +94,97 @@
           }
           buildLunchRows();
 
-          // Kolla om det ar lunch-tid: mon-ons 11:45-12:15
           function isLunchTime() {
                   const now = new Date();
-                  const day = now.getDay(); // 1=mon, 2=tis, 3=ons
+                  const day = now.getDay();
                   const h = now.getHours();
                   const m = now.getMinutes();
                   const time = h * 60 + m;
                   return (day >= 1 && day <= 3) && time >= 705 && time < 735;
           }
 
-          // Kolla lunch varje 30 sek
-          setInterval(() => {
+          setInterval(function() {
                   if (isLunchTime()) {
                             lunchOverlay.style.display = "block";
                   } else {
                             lunchOverlay.style.display = "none";
                   }
           }, 30000);
-          // Kolla direkt vid start
           if (isLunchTime()) {
                   lunchOverlay.style.display = "block";
           }
 
-          // Fullscreen
-          overlay.addEventListener("click", () => {
-                  const el = document.documentElement;
+          function goFullscreen() {
+                  var el = document.documentElement;
                   if (el.requestFullscreen) {
-                            el.requestFullscreen();
+                            el.requestFullscreen().catch(function() {});
                   } else if (el.webkitRequestFullscreen) {
                             el.webkitRequestFullscreen();
                   } else if (el.msRequestFullscreen) {
                             el.msRequestFullscreen();
                   }
+          }
+
+          function isFullscreen() {
+                  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+          }
+
+          overlay.addEventListener("click", function() {
+                  goFullscreen();
                   overlay.style.display = "none";
+                  userActivatedFS = true;
           });
 
-          document.addEventListener("fullscreenchange", () => {
-                  if (!document.fullscreenElement) {
+          function onFSChange() {
+                  if (!isFullscreen() && userActivatedFS) {
                             overlay.style.display = "flex";
                   }
-          });
-          document.addEventListener("webkitfullscreenchange", () => {
-                  if (!document.webkitFullscreenElement) {
-                            overlay.style.display = "flex";
+          }
+          document.addEventListener("fullscreenchange", onFSChange);
+          document.addEventListener("webkitfullscreenchange", onFSChange);
+
+          document.addEventListener("click", function() {
+                  if (userActivatedFS && !isFullscreen()) {
+                            goFullscreen();
+                            overlay.style.display = "none";
                   }
           });
+
+          setInterval(function() {
+                  if (userActivatedFS && !isFullscreen()) {
+                            overlay.style.display = "flex";
+                  } else if (isFullscreen()) {
+                            overlay.style.display = "none";
+                  }
+          }, 10000);
 
           function getCurrentModeURL() {
-                  const now = new Date();
-                  const day = now.getDay();
-                  const hour = now.getHours();
-                  const minute = now.getMinutes();
-                  const time = hour + minute / 60;
-
-                  const isBetween = (start, end) => time >= start && time < end;
+                  var now = new Date();
+                  var day = now.getDay();
+                  var hour = now.getHours();
+                  var minute = now.getMinutes();
+                  var time = hour + minute / 60;
+                  var isBetween = function(start, end) { return time >= start && time < end; };
 
                   if (day === 1 || day === 2) {
                             return isBetween(8.5, 16) ? "dricks.html" : "ai-erik.html";
                   }
-
                   if (day === 3) {
                             return isBetween(8.5, 16) ? "godis.html" : "ai-erik.html";
                   }
-
                   if (day === 4 || day === 5) {
                             return "ai-erik.html";
                   }
-
                   return "helpdesk.html";
           }
 
-          const frame = document.getElementById("displayFrame");
+          var frame = document.getElementById("displayFrame");
           frame.src = getCurrentModeURL();
 
-          setInterval(() => {
-                  const newURL = getCurrentModeURL();
-                  if (frame.src !== new URL(newURL, window.location.href).href) {
+          setInterval(function() {
+                  var newURL = getCurrentModeURL();
+                  var currentFull = new URL(newURL, window.location.href).href;
+                  if (frame.src !== currentFull) {
                             frame.src = newURL;
                   }
           }, 60000);
