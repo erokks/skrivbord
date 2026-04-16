@@ -1,52 +1,66 @@
 
 <!DOCTYPE html>
 <html lang="sv">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pekskärmsväxling – Erik Automation</title>
-  <style>
-    html, body {
-      margin: 0;
-      height: 100%;
-      background: black;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-  </style>
-</head>
-<body>
-  <iframe id="displayFrame" src=""></iframe>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Pekskärmsväxling – Erik Automation</title>
+    <style>
+          html, body {
+                  margin: 0;
+                  height: 100%;
+                  background: black;
+          }
+          iframe {
+                  width: 100%;
+                  height: 100%;
+                  border: none;
+          }
+        </style>
+  </head>
+  <body>
+      <iframe id="displayFrame" src=""></iframe>iframe>
 
-  <script>
-    function getCurrentModeURL() {
-      const now = new Date();
-      const day = now.getDay(); // 0=söndag, 1=måndag,... 6=lördag
-      const hour = now.getHours();
-      const minute = now.getMinutes();
-      const time = hour + minute / 60;
+      <script>
+            function getCurrentModeURL() {
+                    const now = new Date();
+                    const day = now.getDay(); // 0=söndag, 1=måndag,... 6=lördag
+                    const hour = now.getHours();
+                    const minute = now.getMinutes();
+                    const time = hour + minute / 60;
 
-      const isBetween = (start, end) => time >= start && time < end;
+                    const isBetween = (start, end) => time >= start && time < end;
 
-      if (day === 1 || day === 2) {
-        return isBetween(8.5, 16) ? "dricks.html" : "ai-erik.html";
-      }
+                    if (day === 1 || day === 2) {
+                              return isBetween(8.5, 16) ? "dricks.html" : "ai-erik.html";
+                    }
 
-      if (day === 3) {
-        return isBetween(8.5, 16) ? "godis.html" : "ai-erik.html";
-      }
+                    if (day === 3) {
+                              return isBetween(8.5, 16) ? "godis.html" : "ai-erik.html";
+                    }
 
-      if (day === 4 || day === 5) {
-        return "ai-erik.html";
-      }
+                    if (day === 4 || day === 5) {
+                              return "ai-erik.html";
+                    }
 
-      return "helpdesk.html";
-    }
+                    return "helpdesk.html";
+            }
 
-    document.getElementById("displayFrame").src = getCurrentModeURL();
-  </script>
-</body>
-</html>
+            // Sätt rätt sida direkt
+            const frame = document.getElementById("displayFrame");
+            frame.src = getCurrentModeURL();
+
+            // Kolla varje minut om sidan ska bytas
+            setInterval(() => {
+                    const newURL = getCurrentModeURL();
+                    if (frame.src !== new URL(newURL, window.location.href).href) {
+                              frame.src = newURL;
+                    }
+            }, 60000);
+      </script>
+  </body>
+</html>html>
+      </script>
+  </body>
+    </style></title>
+  </head>
