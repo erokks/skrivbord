@@ -86,6 +86,29 @@
                   flex-shrink: 0;
                   color: #00ff8899;
           }
+          /* Hungrig-overlay */
+          #hungryOverlay {
+                  position: fixed;
+                  top: 0; left: 0;
+                  width: 100%; height: 100%;
+                  background: white;
+                  display: none;
+                  justify-content: center;
+                  align-items: center;
+                  z-index: 9999;
+          }
+          #hungryText {
+                  color: #cc0000;
+                  font-family: 'Share Tech Mono', monospace;
+                  font-size: 6rem;
+                  font-weight: bold;
+                  text-align: center;
+                  animation: hungryPulse 0.8s infinite;
+          }
+          @keyframes hungryPulse {
+                  0%, 100% { transform: scale(1); }
+                  50% { transform: scale(1.08); }
+          }
         </style>
   </head>
   <body>
@@ -95,11 +118,15 @@
           <span id="status">STATUS: ONLINE</span>span>
           <span id="clock"></span>span>
     </footer>
+      <div id="hungryOverlay">
+            <div id="hungryText">NÄR SKA VI ÄTA?</div>div>
+      </div>div>
 
       <script>
             const chat = document.getElementById("chat");
             const clockEl = document.getElementById("clock");
             const statusEl = document.getElementById("status");
+            const hungryOverlay = document.getElementById("hungryOverlay");
             const MAX_MESSAGES = 5;
 
             const messages = [
@@ -145,7 +172,7 @@
               { text: "Skickar tackmejl till skrivaren.", type: "" },
               { text: "Byter bakgrund paa alla till Comic Sans.", type: "" },
               { text: "Lagger till sig sjalv i alla mejllistor.", type: "" },
-              { text: "Startar om routern for att 'rensa tankar'.", type: "" },
+              { text: "Startar om routern for att rensa tankar.", type: "" },
               { text: "Skapar backup av backupen av backupen.", type: "" },
               { text: "Analyserar om maandag verkligen behovs.", type: "" }
                   ];
@@ -174,12 +201,27 @@
                     "STATUS: JOBBAR HAART", "STATUS: DROMMER"
                   ];
 
+            // Kolla om det ar torsdag/fredag formiddag
+            function isHungryTime() {
+                    const now = new Date();
+                    const day = now.getDay(); // 4=torsdag, 5=fredag
+                    const hour = now.getHours();
+                    return (day === 4 || day === 5) && hour >= 8 && hour < 12;
+            }
+
+            // Visa hungrig-overlay
+            function showHungry() {
+                    hungryOverlay.style.display = "flex";
+                    setTimeout(() => {
+                              hungryOverlay.style.display = "none";
+                    }, 5000);
+            }
+
             function addMessage(text, type) {
                     const msg = document.createElement("div");
                     msg.className = "message" + (type ? " " + type : "");
                     chat.appendChild(msg);
 
-                    // Ta bort gamla meddelanden
                     while (chat.children.length > MAX_MESSAGES) {
                               chat.removeChild(chat.firstChild);
                     }
@@ -205,8 +247,14 @@
             function loop() {
                     const r = Math.random();
 
+                    // Hungrig-avbrott paa torsdag/fredag formiddag
+                    if (isHungryTime() && r < 0.15) {
+                              showHungry();
+                              setTimeout(loop, 6000);
+                              return;
+                    }
+
                     if (r < 0.05) {
-                              // Special sekvens
                               const s1 = specials[Math.floor(Math.random() * specials.length)];
                               addMessage(s1.text, s1.type);
                               setTimeout(() => {
@@ -217,7 +265,6 @@
                               return;
                     }
 
-                    // Byt status ibland
                     if (r < 0.3) {
                               statusEl.textContent = statuses[Math.floor(Math.random() * statuses.length)];
                     }
