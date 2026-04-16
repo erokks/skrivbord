@@ -39,17 +39,85 @@
                   0%, 100% { opacity: 1; }
                   50% { opacity: 0.4; }
           }
+          #lunchOverlay {
+                  position: fixed;
+                  top: 0; left: 0;
+                  width: 100%; height: 100%;
+                  background: black;
+                  display: none;
+                  z-index: 9998;
+                  overflow: hidden;
+          }
+          .lunch-scroll {
+                  position: absolute;
+                  white-space: nowrap;
+                  font-family: monospace;
+                  font-size: 5rem;
+                  font-weight: bold;
+                  color: #00ff88;
+                  text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff8866;
+                  animation: scrollLeft 8s linear infinite;
+          }
+          @keyframes scrollLeft {
+                  0% { transform: translateX(100%); }
+                  100% { transform: translateX(-100%); }
+          }
         </style>
   </head>
   <body>
       <div id="fsOverlay">
             <span>TRYCK FÖR FULLSKÄRM</span>
       </div>div>
+    <div id="lunchOverlay"></div>div>
     <iframe id="displayFrame" src="" allow="fullscreen"></iframe>iframe>
   
     <script>
           const overlay = document.getElementById("fsOverlay");
+          const lunchOverlay = document.getElementById("lunchOverlay");
 
+          // Skapa rullande LUNCH-rader
+          function buildLunchRows() {
+                  lunchOverlay.innerHTML = "";
+                  const rowCount = Math.ceil(window.innerHeight / 80);
+                  for (let i = 0; i < rowCount; i++) {
+                            const row = document.createElement("div");
+                            row.className = "lunch-scroll";
+                            row.style.top = (i * 80) + "px";
+                            row.style.animationDelay = (-i * 0.7) + "s";
+                            row.style.animationDuration = (6 + Math.random() * 4) + "s";
+                            if (i % 2 === 1) {
+                                        row.style.animationDirection = "reverse";
+                            }
+                            row.textContent = "LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  ";
+                            lunchOverlay.appendChild(row);
+                  }
+          }
+          buildLunchRows();
+
+          // Kolla om det ar lunch-tid: mon-ons 11:45-12:15
+          function isLunchTime() {
+                  const now = new Date();
+                  const day = now.getDay(); // 1=mon, 2=tis, 3=ons
+                  const h = now.getHours();
+                  const m = now.getMinutes();
+                  const time = h * 60 + m;
+                  return (day >= 1 && day <= 3) && time >= 705 && time < 735;
+          }
+
+          // Kolla lunch varje 30 sek
+          setInterval(() => {
+                  if (isLunchTime()) {
+                            lunchOverlay.style.display = "block";
+                  } else {
+                            lunchOverlay.style.display = "none";
+                  }
+          }, 30000);
+          // Kolla direkt vid start
+          if (isLunchTime()) {
+                  lunchOverlay.style.display = "block";
+          }
+
+          // Fullscreen
           overlay.addEventListener("click", () => {
                   const el = document.documentElement;
                   if (el.requestFullscreen) {
