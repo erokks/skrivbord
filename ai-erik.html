@@ -86,8 +86,7 @@
                   flex-shrink: 0;
                   color: #00ff8899;
           }
-          /* Hungrig-overlay */
-          #hungryOverlay {
+          #interruptOverlay {
                   position: fixed;
                   top: 0; left: 0;
                   width: 100%; height: 100%;
@@ -97,15 +96,16 @@
                   align-items: center;
                   z-index: 9999;
           }
-          #hungryText {
+          #interruptText {
                   color: #cc0000;
                   font-family: 'Share Tech Mono', monospace;
                   font-size: 6rem;
                   font-weight: bold;
                   text-align: center;
-                  animation: hungryPulse 0.8s infinite;
+                  padding: 1rem;
+                  animation: interruptPulse 0.8s infinite;
           }
-          @keyframes hungryPulse {
+          @keyframes interruptPulse {
                   0%, 100% { transform: scale(1); }
                   50% { transform: scale(1.08); }
           }
@@ -118,15 +118,16 @@
           <span id="status">STATUS: ONLINE</span>span>
           <span id="clock"></span>span>
     </footer>
-      <div id="hungryOverlay">
-            <div id="hungryText">NÄR SKA VI ÄTA?</div>div>
+      <div id="interruptOverlay">
+            <div id="interruptText"></div>div>
       </div>div>
 
       <script>
             const chat = document.getElementById("chat");
             const clockEl = document.getElementById("clock");
             const statusEl = document.getElementById("status");
-            const hungryOverlay = document.getElementById("hungryOverlay");
+            const interruptOverlay = document.getElementById("interruptOverlay");
+            const interruptText = document.getElementById("interruptText");
             const MAX_MESSAGES = 5;
 
             const messages = [
@@ -201,19 +202,27 @@
                     "STATUS: JOBBAR HAART", "STATUS: DROMMER"
                   ];
 
-            // Kolla om det ar torsdag/fredag formiddag
+            // Torsdag/fredag formiddag 08-12
             function isHungryTime() {
                     const now = new Date();
-                    const day = now.getDay(); // 4=torsdag, 5=fredag
+                    const day = now.getDay();
                     const hour = now.getHours();
                     return (day === 4 || day === 5) && hour >= 8 && hour < 12;
             }
 
-            // Visa hungrig-overlay
-            function showHungry() {
-                    hungryOverlay.style.display = "flex";
+            // Fredag runt kl 14
+            function isBeerTime() {
+                    const now = new Date();
+                    const day = now.getDay();
+                    const hour = now.getHours();
+                    return day === 5 && hour >= 14 && hour < 15;
+            }
+
+            function showInterrupt(text) {
+                    interruptText.textContent = text;
+                    interruptOverlay.style.display = "flex";
                     setTimeout(() => {
-                              hungryOverlay.style.display = "none";
+                              interruptOverlay.style.display = "none";
                     }, 5000);
             }
 
@@ -247,9 +256,16 @@
             function loop() {
                     const r = Math.random();
 
-                    // Hungrig-avbrott paa torsdag/fredag formiddag
+                    // Oel-avbrott fredag kl 14
+                    if (isBeerTime() && r < 0.2) {
+                              showInterrupt("N\u00C4R KOMMER \u00D6L VAGNEN?");
+                              setTimeout(loop, 6000);
+                              return;
+                    }
+
+                    // Hungrig-avbrott torsdag/fredag formiddag
                     if (isHungryTime() && r < 0.15) {
-                              showHungry();
+                              showInterrupt("N\u00C4R SKA VI \u00C4TA?");
                               setTimeout(loop, 6000);
                               return;
                     }
