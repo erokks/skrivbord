@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="sv">
   <head>
@@ -10,57 +9,104 @@
                   margin: 0;
                   height: 100%;
                   background: black;
+                  overflow: hidden;
           }
           iframe {
                   width: 100%;
                   height: 100%;
                   border: none;
           }
+          #fsOverlay {
+                  position: fixed;
+                  top: 0; left: 0;
+                  width: 100%; height: 100%;
+                  background: rgba(0,0,0,0.85);
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  z-index: 9999;
+                  cursor: pointer;
+          }
+          #fsOverlay span {
+                  color: #00ff88;
+                  font-family: monospace;
+                  font-size: 3rem;
+                  text-align: center;
+                  text-shadow: 0 0 20px #00ff88;
+                  animation: pulse 1.5s infinite;
+          }
+          @keyframes pulse {
+                  0%, 100% { opacity: 1; }
+                  50% { opacity: 0.5; }
+          }
         </style>
   </head>
   <body>
-      <iframe id="displayFrame" src=""></iframe>iframe>
+      <div id="fsOverlay">
+            <span>TRYCK FÖR FULLSKÄRM</span>
+      </div>div>
+    <iframe id="displayFrame" src=""></iframe>iframe>
+  
+    <script>
+          const overlay = document.getElementById("fsOverlay");
 
-      <script>
-            function getCurrentModeURL() {
-                    const now = new Date();
-                    const day = now.getDay(); // 0=söndag, 1=måndag,... 6=lördag
-                    const hour = now.getHours();
-                    const minute = now.getMinutes();
-                    const time = hour + minute / 60;
+          // Gå till fullscreen vid klick
+          overlay.addEventListener("click", () => {
+                  const el = document.documentElement;
+                  if (el.requestFullscreen) {
+                            el.requestFullscreen();
+                  } else if (el.webkitRequestFullscreen) {
+                            el.webkitRequestFullscreen();
+                  } else if (el.msRequestFullscreen) {
+                            el.msRequestFullscreen();
+                  }
+                  overlay.style.display = "none";
+          });
 
-                    const isBetween = (start, end) => time >= start && time < end;
+          // Visa overlay igen om man lämnar fullscreen
+          document.addEventListener("fullscreenchange", () => {
+                  if (!document.fullscreenElement) {
+                            overlay.style.display = "flex";
+                  }
+          });
 
-                    if (day === 1 || day === 2) {
-                              return isBetween(8.5, 16) ? "dricks.html" : "ai-erik.html";
-                    }
+          function getCurrentModeURL() {
+                  const now = new Date();
+                  const day = now.getDay();
+                  const hour = now.getHours();
+                  const minute = now.getMinutes();
+                  const time = hour + minute / 60;
 
-                    if (day === 3) {
-                              return isBetween(8.5, 16) ? "godis.html" : "ai-erik.html";
-                    }
+                  const isBetween = (start, end) => time >= start && time < end;
 
-                    if (day === 4 || day === 5) {
-                              return "ai-erik.html";
-                    }
+                  if (day === 1 || day === 2) {
+                            return isBetween(8.5, 16) ? "dricks.html" : "ai-erik.html";
+                  }
 
-                    return "helpdesk.html";
-            }
+                  if (day === 3) {
+                            return isBetween(8.5, 16) ? "godis.html" : "ai-erik.html";
+                  }
 
-            // Sätt rätt sida direkt
-            const frame = document.getElementById("displayFrame");
-            frame.src = getCurrentModeURL();
+                  if (day === 4 || day === 5) {
+                            return "ai-erik.html";
+                  }
 
-            // Kolla varje minut om sidan ska bytas
-            setInterval(() => {
-                    const newURL = getCurrentModeURL();
-                    if (frame.src !== new URL(newURL, window.location.href).href) {
-                              frame.src = newURL;
-                    }
-            }, 60000);
-      </script>
+                  return "helpdesk.html";
+          }
+
+          const frame = document.getElementById("displayFrame");
+          frame.src = getCurrentModeURL();
+
+          setInterval(() => {
+                  const newURL = getCurrentModeURL();
+                  if (frame.src !== new URL(newURL, window.location.href).href) {
+                            frame.src = newURL;
+                  }
+          }, 60000);
+    </script>
   </body>
 </html>html>
-      </script>
+    </script></span>
   </body>
     </style></title>
   </head>
