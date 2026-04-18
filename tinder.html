@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tinder</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #1a1a2e; font-family: Arial, sans-serif; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+    #tinderApp { width: 100%; height: 100%; position: relative; }
+    .topBar { background: linear-gradient(135deg, #fd267a, #ff6036); padding: 12px; text-align: center; }
+    .topBar h1 { color: white; font-size: 2rem; letter-spacing: 2px; }
+    .cardStack { position: relative; width: 90%; max-width: 400px; height: 65vh; margin: 10px auto; }
+    .card { position: absolute; width: 100%; height: 100%; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.3); transition: transform 0.6s ease, opacity 0.6s ease; }
+    .card .photo { width: 100%; height: 70%; display: flex; justify-content: center; align-items: center; font-size: 8rem; }
+    .card .info { padding: 15px 20px; }
+    .card .info h2 { font-size: 1.8rem; color: #333; }
+    .card .info p { font-size: 1.1rem; color: #888; margin-top: 5px; }
+    .card.swipe-left { transform: translateX(-150%) rotate(-30deg); opacity: 0; }
+    .card.swipe-right { transform: translateX(150%) rotate(30deg); opacity: 0; }
+    .buttons { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
+    .btn { width: 65px; height: 65px; border-radius: 50%; border: 3px solid; display: flex; justify-content: center; align-items: center; font-size: 2rem; cursor: pointer; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+    .btn.nope { border-color: #fd267a; color: #fd267a; }
+    .btn.like { border-color: #00d46a; color: #00d46a; }
+    #matchScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #fd267a, #ff6036); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
+    #matchScreen h1 { font-size: 4rem; color: white; text-shadow: 0 0 30px rgba(255,255,255,0.5); animation: matchPulse 0.8s ease infinite; }
+    #matchScreen .matchAvatars { display: flex; gap: 30px; margin-top: 20px; }
+    #matchScreen .matchAv { width: 100px; height: 100px; border-radius: 50%; border: 4px solid white; display: flex; justify-content: center; align-items: center; font-size: 3.5rem; background: rgba(255,255,255,0.2); }
+    @keyframes matchPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    #chatScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f0f0f0; display: none; flex-direction: column; z-index: 101; }
+    .chatHeader { background: white; padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #ddd; }
+    .chatHeader .av { width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; background: #ffe0e6; }
+    .chatHeader .name { font-size: 1.3rem; font-weight: bold; color: #333; }
+    .chatMessages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .msg { max-width: 75%; padding: 12px 16px; border-radius: 18px; font-size: 1.2rem; animation: msgIn 0.3s ease; }
+    .msg.them { background: white; color: #333; align-self: flex-start; border-bottom-left-radius: 4px; }
+    .msg.me { background: linear-gradient(135deg, #fd267a, #ff6036); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .typing { align-self: flex-start; background: white; padding: 12px 20px; border-radius: 18px; font-size: 1.5rem; color: #999; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    #fadeOut { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; opacity: 0; z-index: 200; pointer-events: none; transition: opacity 1s ease; }
+  </style>
+</head>
+<body>
+  <div id="tinderApp">
+    <div class="topBar"><h1>tinder</h1></div>
+    <div class="cardStack" id="cardStack"></div>
+    <div class="buttons">
+      <div class="btn nope">X</div>
+      <div class="btn like">&#9829;</div>
+    </div>
+  </div>
+  <div id="matchScreen">
+    <h1>IT'S A MATCH!</h1>
+    <div class="matchAvatars">
+      <div class="matchAv">&#128104;</div>
+      <div class="matchAv" id="matchEmoji"></div>
+    </div>
+  </div>
+  <div id="chatScreen">
+    <div class="chatHeader">
+      <div class="av" id="chatAvatar"></div>
+      <div class="name" id="chatName"></div>
+    </div>
+    <div class="chatMessages" id="chatMessages"></div>
+  </div>
+  <div id="fadeOut"></div>
+
+  <script>
+    var profiles = [
+      { name: "Jessica, 28", bio: "Yoga, resor & vin", emoji: "\ud83d\udc69", bg: "#ffe0e6", action: "left" },
+      { name: "Amanda, 25", bio: "Hundmamma. Taco-entusiast", emoji: "\ud83d\udc71\u200d\u2640\ufe0f", bg: "#e0f0ff", action: "left" },
+      { name: "Sofia, 31", bio: "IT-konsult som gillar dad jokes", emoji: "\ud83d\udc69\u200d\ud83d\udcbb", bg: "#f0ffe0", action: "right" },
+      { name: "Linda, 27", bio: "Swipe right om du gillar korv", emoji: "\ud83d\udc83", bg: "#fff0e0", action: "left" }
+    ];
+
+    var chatConvo = [
+      { from: "them", text: "Hej Erik! Snygg profilbild ;)" },
+      { from: "me", text: "Tack! Du ser inte sa pjatt ut sjalv" },
+      { from: "them", text: "Haha charmigt... Vad jobbar du med?" },
+      { from: "me", text: "Jag jobbar med resor pa Albatros" },
+      { from: "them", text: "Omg jag alskar att resa!!" },
+      { from: "them", text: "Vart ska vi aka pa forsta dejten? ;)" },
+      { from: "me", text: "Maldiverna? Jag fixar personalrabatt" },
+      { from: "them", text: "HAHA deal!! Nar da?" }
+    ];
+
+    var matchProfile = profiles[2];
+    var stack = document.getElementById("cardStack");
+
+    for (var i = profiles.length - 1; i >= 0; i--) {
+      var card = document.createElement("div");
+      card.className = "card";
+      card.id = "card" + i;
+      card.innerHTML = '<div class="photo" style="background:' + profiles[i].bg + '">' + profiles[i].emoji + '</div><div class="info"><h2>' + profiles[i].name + '</h2><p>' + profiles[i].bio + '</p></div>';
+      stack.appendChild(card);
+    }
+
+    var currentCard = 0;
+    var totalDelay = 2000;
+
+    function swipeCard(index) {
+      var card = document.getElementById("card" + index);
+      var action = profiles[index].action;
+      if (!card) return;
+      setTimeout(function() {
+        card.classList.add(action === "right" ? "swipe-right" : "swipe-left");
+        if (action === "right") {
+          setTimeout(showMatch, 800);
+        } else {
+          currentCard++;
+          if (currentCard < profiles.length) {
+            swipeCard(currentCard);
+          }
+        }
+      }, totalDelay);
+      totalDelay = 2500;
+    }
+
+    function showMatch() {
+      document.getElementById("matchEmoji").textContent = matchProfile.emoji;
+      var ms = document.getElementById("matchScreen");
+      ms.style.display = "flex";
+      setTimeout(function() {
+        ms.style.display = "none";
+        showChat();
+      }, 3500);
+    }
+
+    function showChat() {
+      document.getElementById("chatAvatar").textContent = matchProfile.emoji;
+      document.getElementById("chatName").textContent = matchProfile.name;
+      var cs = document.getElementById("chatScreen");
+      cs.style.display = "flex";
+      var msgs = document.getElementById("chatMessages");
+      var i = 0;
+
+      function nextMsg() {
+        if (i >= chatConvo.length) {
+          setTimeout(fadeAndEnd, 2000);
+          return;
+        }
+        var typing = document.createElement("div");
+        typing.className = "typing";
+        typing.textContent = "...";
+        msgs.appendChild(typing);
+        msgs.scrollTop = msgs.scrollHeight;
+
+        setTimeout(function() {
+          msgs.removeChild(typing);
+          var msg = document.createElement("div");
+          msg.className = "msg " + chatConvo[i].from;
+          msg.textContent = chatConvo[i].text;
+          msgs.appendChild(msg);
+          msgs.scrollTop = msgs.scrollHeight;
+          i++;
+          setTimeout(nextMsg, 1500);
+        }, 1000);
+      }
+      setTimeout(nextMsg, 800);
+    }
+
+    function fadeAndEnd() {
+      var fo = document.getElementById("fadeOut");
+      fo.style.opacity = "1";
+    }
+
+    swipeCard(0);
+  </script>
+</body>
+</html>
