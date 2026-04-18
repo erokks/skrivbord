@@ -34,87 +34,53 @@
       background: black; display: none; justify-content: center;
       align-items: center; z-index: 9997;
     }
-    #memeOverlay iframe { width: 100%; height: 100%; border: none; }
+    #memeOverlay iframe { width: 100%; height: 100%; }
     #tinderOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: black; display: none; z-index: 9996;
     }
     #tinderOverlay iframe { width: 100%; height: 100%; border: none; }
+    #nyheterOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: black; display: none; z-index: 9995;
+    }
+    #nyheterOverlay iframe { width: 100%; height: 100%; border: none; }
   </style>
 </head>
 <body>
-  <div id="fsOverlay"><span>TRYCK FOR FULLSKARM</span></div>
+  <div id="fsOverlay" onclick="goFS()"><span>TRYCK FOR FULLSCREEN</span></div>
   <div id="lunchOverlay"></div>
-  <div id="memeOverlay"><iframe id="memeFrame" src="" allow="autoplay"></iframe></div>
-  <div id="tinderOverlay"><iframe id="tinderFrame" src=""></iframe></div>
-  <iframe id="displayFrame" src="" allow="fullscreen"></iframe>
+  <div id="memeOverlay"></div>
+  <div id="tinderOverlay"></div>
+  <div id="nyheterOverlay"></div>
+  <iframe id="mainFrame" src=""></iframe>
   <script>
-    var memes = [
-      { url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&start=0", duration: 15000 },
-      { url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&start=43", duration: 12000 },
-      { url: "https://www.youtube.com/embed/ZZ5LpwO-An4?autoplay=1", duration: 10000 },
-      { url: "https://www.youtube.com/embed/y6120QOlsfU?autoplay=1", duration: 10000 },
-      { url: "https://www.youtube.com/embed/oHg5SJYRHA0?autoplay=1", duration: 12000 },
-      { url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&start=18", duration: 15000 }
-    ];
-
-    function showMeme() {
-      var m = memes[Math.floor(Math.random() * memes.length)];
-      var ov = document.getElementById("memeOverlay");
-      var fr = document.getElementById("memeFrame");
-      fr.src = m.url;
-      ov.style.display = "flex";
-      setTimeout(function() {
-        ov.style.display = "none";
-        fr.src = "";
-      }, m.duration);
-    }
-
-    function showTinder() {
-      var ov = document.getElementById("tinderOverlay");
-      var fr = document.getElementById("tinderFrame");
-      fr.src = "tinder.html?" + Date.now();
-      ov.style.display = "block";
-      setTimeout(function() {
-        ov.style.display = "none";
-        fr.src = "";
-      }, 55000);
-    }
-
-    setInterval(function() {
-      var r = Math.random();
-      if (r < 0.03) { showTinder(); }
-      else if (r < 0.10) { showMeme(); }
-    }, 120000);
-
-    var userActivatedFS = false;
-    var overlay = document.getElementById("fsOverlay");
-
     function goFS() {
       var el = document.documentElement;
       if (el.requestFullscreen) el.requestFullscreen();
       else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
       else if (el.msRequestFullscreen) el.msRequestFullscreen();
+      document.getElementById("fsOverlay").style.display = "none";
     }
-
-    overlay.addEventListener("click", function() {
-      goFS();
-      userActivatedFS = true;
-      overlay.style.display = "none";
-    });
-
-    document.addEventListener("fullscreenchange", function() {
-      if (!document.fullscreenElement && userActivatedFS) {
-        overlay.style.display = "flex";
-      }
-    });
-
     setInterval(function() {
-      if (userActivatedFS && !document.fullscreenElement) {
-        overlay.style.display = "flex";
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        document.getElementById("fsOverlay").style.display = "flex";
       }
     }, 10000);
-
+    function loadPage() {
+      var now = new Date();
+      var day = now.getDay();
+      var time = now.getHours() * 60 + now.getMinutes();
+      var page = "ai-erik.html";
+      if (day === 1) page = "ai-erik.html";
+      else if (day === 2) page = "dricks.html";
+      else if (day === 3) page = "godis.html";
+      else if (day === 4) page = time < 720 ? "ai-erik.html" : "helpdesk.html";
+      else if (day === 5) page = time < 720 ? "dricks.html" : "ai-erik.html";
+      document.getElementById("mainFrame").src = page;
+    }
+    loadPage();
+    setInterval(loadPage, 300000);
     function checkLunch() {
       var now = new Date();
       var day = now.getDay();
@@ -127,48 +93,42 @@
           for (var i = 0; i < 8; i++) {
             var d = document.createElement("div");
             d.className = "lunch-scroll";
+            d.textContent = "LUNCH LUNCH LUNCH LUNCH LUNCH";
             d.style.top = (i * 13) + "%";
-            d.style.animationDelay = (i * -1.2) + "s";
-            d.textContent = "LUNCH LUNCH LUNCH LUNCH LUNCH LUNCH LUNCH LUNCH";
+            d.style.animationDelay = (i * 0.7) + "s";
             lo.appendChild(d);
           }
         }
-      } else {
-        lo.style.display = "none";
-      }
+      } else { lo.style.display = "none"; }
     }
-
-    function getPage() {
-      var now = new Date();
-      var day = now.getDay();
-      var hour = now.getHours();
-      if (day === 0 || day === 6) return "ai-erik.html";
-      if (day === 1) return "ai-erik.html";
-      if (day === 2) return "dricks.html";
-      if (day === 3) return "godis.html";
-      if (day === 4) {
-        if (hour < 12) return "ai-erik.html";
-        return "helpdesk.html";
-      }
-      if (day === 5) {
-        if (hour < 12) return "dricks.html";
-        return "ai-erik.html";
-      }
-      return "ai-erik.html";
-    }
-
-    var frame = document.getElementById("displayFrame");
-    frame.src = getPage();
-
-    setInterval(function() {
-      var page = getPage();
-      if (frame.src.indexOf(page) === -1) {
-        frame.src = page;
-      }
-      checkLunch();
-    }, 60000);
-
+    setInterval(checkLunch, 30000);
     checkLunch();
+    var memes = ["dQw4w9WgXcQ","djV11Xbc914","lDhAdMKrl9I","EE-xtCF3T94","y6120QOlsfU","2Z4m4lnjxkY"];
+    function showMeme() {
+      var mo = document.getElementById("memeOverlay");
+      var id = memes[Math.floor(Math.random() * memes.length)];
+      mo.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1&controls=0" allow="autoplay" allowfullscreen></iframe>';
+      mo.style.display = "flex";
+      setTimeout(function() { mo.style.display = "none"; mo.innerHTML = ""; }, 10000 + Math.random() * 5000);
+    }
+    function showTinder() {
+      var to = document.getElementById("tinderOverlay");
+      to.innerHTML = '<iframe src="tinder.html"></iframe>';
+      to.style.display = "block";
+      setTimeout(function() { to.style.display = "none"; to.innerHTML = ""; }, 55000);
+    }
+    function showNyheter() {
+      var no = document.getElementById("nyheterOverlay");
+      no.innerHTML = '<iframe src="nyheter.html"></iframe>';
+      no.style.display = "block";
+      setTimeout(function() { no.style.display = "none"; no.innerHTML = ""; }, 45000);
+    }
+    setInterval(function() {
+      var r = Math.random();
+      if (r < 0.03) { showTinder(); }
+      else if (r < 0.06) { showNyheter(); }
+      else if (r < 0.13) { showMeme(); }
+    }, 120000);
   </script>
 </body>
 </html>
