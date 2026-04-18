@@ -1,197 +1,155 @@
 <!DOCTYPE html>
 <html lang="sv">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Erik Automation</title>
-    <style>
-          html, body {
-                  margin: 0;
-                  height: 100%;
-                  background: black;
-                  overflow: hidden;
-          }
-          iframe {
-                  width: 100%;
-                  height: 100%;
-                  border: none;
-          }
-          #fsOverlay {
-                  position: fixed;
-                  top: 0; left: 0;
-                  width: 100%; height: 100%;
-                  background: #000000;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  z-index: 9999;
-                  cursor: pointer;
-          }
-          #fsOverlay span {
-                  color: #00ff88;
-                  font-family: monospace;
-                  font-size: 4rem;
-                  text-align: center;
-                  text-shadow: 0 0 30px #00ff88;
-                  animation: pulse 1.5s infinite;
-          }
-          @keyframes pulse {
-                  0%, 100% { opacity: 1; }
-                  50% { opacity: 0.4; }
-          }
-          #lunchOverlay {
-                  position: fixed;
-                  top: 0; left: 0;
-                  width: 100%; height: 100%;
-                  background: black;
-                  display: none;
-                  z-index: 9998;
-                  overflow: hidden;
-          }
-          .lunch-scroll {
-                  position: absolute;
-                  white-space: nowrap;
-                  font-family: monospace;
-                  font-size: 5rem;
-                  font-weight: bold;
-                  color: #00ff88;
-                  text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff8866;
-                  animation: scrollLeft 8s linear infinite;
-          }
-          @keyframes scrollLeft {
-                  0% { transform: translateX(100%); }
-                  100% { transform: translateX(-100%); }
-          }
-        </style>
-  </head>
-  <body>
-      <div id="fsOverlay">
-            <span>TRYCK FOR FULLSKARM</span>
-      </div>div>
-    <div id="lunchOverlay"></div>div>
-    <iframe id="displayFrame" src="" allow="fullscreen"></iframe>iframe>
-  
-    <script>
-          const overlay = document.getElementById("fsOverlay");
-          const lunchOverlay = document.getElementById("lunchOverlay");
-          let userActivatedFS = false;
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erik Automation</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: black; overflow: hidden; }
+    iframe { width: 100%; height: 100%; border: none; }
+    #fsOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #000000; display: flex; justify-content: center;
+      align-items: center; z-index: 9999; cursor: pointer;
+    }
+    #fsOverlay span {
+      color: #00ff88; font-family: monospace; font-size: 4rem;
+      text-align: center; text-shadow: 0 0 30px #00ff88;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    #lunchOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: black; display: none; z-index: 9998; overflow: hidden;
+    }
+    .lunch-scroll {
+      position: absolute; white-space: nowrap; font-family: monospace;
+      font-size: 5rem; font-weight: bold; color: #00ff88;
+      text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff8866;
+      animation: scrollLeft 8s linear infinite;
+    }
+    @keyframes scrollLeft { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    #memeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: black; display: none; justify-content: center;
+      align-items: center; z-index: 9997;
+    }
+    #memeOverlay iframe { width: 100%; height: 100%; border: none; }
+  </style>
+</head>
+<body>
+  <div id="fsOverlay"><span>TRYCK FOR FULLSKARM</span></div>
+  <div id="lunchOverlay"></div>
+  <div id="memeOverlay"><iframe id="memeFrame" src="" allow="autoplay"></iframe></div>
+  <iframe id="displayFrame" src="" allow="fullscreen"></iframe>
+  <script>
+    var memes = [
+      { url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&start=0", duration: 15000 },
+      { url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&start=43", duration: 12000 },
+      { url: "https://www.youtube.com/embed/ZZ5LpwO-An4?autoplay=1", duration: 10000 },
+      { url: "https://www.youtube.com/embed/y6120QOlsfU?autoplay=1", duration: 10000 },
+      { url: "https://www.youtube.com/embed/oHg5SJYRHA0?autoplay=1", duration: 12000 },
+      { url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&start=18", duration: 15000 }
+    ];
 
-          function buildLunchRows() {
-                  lunchOverlay.innerHTML = "";
-                  const rowCount = Math.ceil(window.innerHeight / 80);
-                  for (let i = 0; i < rowCount; i++) {
-                            const row = document.createElement("div");
-                            row.className = "lunch-scroll";
-                            row.style.top = (i * 80) + "px";
-                            row.style.animationDelay = (-i * 0.7) + "s";
-                            row.style.animationDuration = (6 + Math.random() * 4) + "s";
-                            if (i % 2 === 1) {
-                                        row.style.animationDirection = "reverse";
-                            }
-                            row.textContent = "LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  LUNCH  ";
-                            lunchOverlay.appendChild(row);
-                  }
+    function showMeme() {
+      var m = memes[Math.floor(Math.random() * memes.length)];
+      var ov = document.getElementById("memeOverlay");
+      var fr = document.getElementById("memeFrame");
+      fr.src = m.url;
+      ov.style.display = "flex";
+      setTimeout(function() {
+        ov.style.display = "none";
+        fr.src = "";
+      }, m.duration);
+    }
+
+    setInterval(function() {
+      if (Math.random() < 0.08) { showMeme(); }
+    }, 120000);
+
+    var userActivatedFS = false;
+    var overlay = document.getElementById("fsOverlay");
+
+    function goFS() {
+      var el = document.documentElement;
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    }
+
+    overlay.addEventListener("click", function() {
+      goFS();
+      userActivatedFS = true;
+      overlay.style.display = "none";
+    });
+
+    document.addEventListener("fullscreenchange", function() {
+      if (!document.fullscreenElement && userActivatedFS) {
+        overlay.style.display = "flex";
+      }
+    });
+
+    setInterval(function() {
+      if (userActivatedFS && !document.fullscreenElement) {
+        overlay.style.display = "flex";
+      }
+    }, 10000);
+
+    function checkLunch() {
+      var now = new Date();
+      var day = now.getDay();
+      var time = now.getHours() * 60 + now.getMinutes();
+      var lo = document.getElementById("lunchOverlay");
+      if (day >= 1 && day <= 3 && time >= 705 && time < 735) {
+        if (lo.style.display !== "block") {
+          lo.style.display = "block";
+          lo.innerHTML = "";
+          for (var i = 0; i < 8; i++) {
+            var d = document.createElement("div");
+            d.className = "lunch-scroll";
+            d.style.top = (i * 13) + "%";
+            d.style.animationDelay = (i * -1.2) + "s";
+            d.textContent = "LUNCH LUNCH LUNCH LUNCH LUNCH LUNCH LUNCH LUNCH";
+            lo.appendChild(d);
           }
-          buildLunchRows();
+        }
+      } else {
+        lo.style.display = "none";
+      }
+    }
 
-          function isLunchTime() {
-                  const now = new Date();
-                  const day = now.getDay();
-                  const h = now.getHours();
-                  const m = now.getMinutes();
-                  const time = h * 60 + m;
-                  return (day >= 1 && day <= 3) && time >= 705 && time < 735;
-          }
+    function getPage() {
+      var now = new Date();
+      var day = now.getDay();
+      var hour = now.getHours();
+      if (day === 0 || day === 6) return "ai-erik.html";
+      if (day === 1) return "ai-erik.html";
+      if (day === 2) return "dricks.html";
+      if (day === 3) return "godis.html";
+      if (day === 4) {
+        if (hour < 12) return "ai-erik.html";
+        return "helpdesk.html";
+      }
+      if (day === 5) {
+        if (hour < 12) return "dricks.html";
+        return "ai-erik.html";
+      }
+      return "ai-erik.html";
+    }
 
-          setInterval(function() {
-                  if (isLunchTime()) {
-                            lunchOverlay.style.display = "block";
-                  } else {
-                            lunchOverlay.style.display = "none";
-                  }
-          }, 30000);
-          if (isLunchTime()) {
-                  lunchOverlay.style.display = "block";
-          }
+    var frame = document.getElementById("displayFrame");
+    frame.src = getPage();
 
-          function goFullscreen() {
-                  var el = document.documentElement;
-                  if (el.requestFullscreen) {
-                            el.requestFullscreen().catch(function() {});
-                  } else if (el.webkitRequestFullscreen) {
-                            el.webkitRequestFullscreen();
-                  } else if (el.msRequestFullscreen) {
-                            el.msRequestFullscreen();
-                  }
-          }
+    setInterval(function() {
+      var page = getPage();
+      if (frame.src.indexOf(page) === -1) {
+        frame.src = page;
+      }
+      checkLunch();
+    }, 60000);
 
-          function isFullscreen() {
-                  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
-          }
-
-          overlay.addEventListener("click", function() {
-                  goFullscreen();
-                  overlay.style.display = "none";
-                  userActivatedFS = true;
-          });
-
-          function onFSChange() {
-                  if (!isFullscreen() && userActivatedFS) {
-                            overlay.style.display = "flex";
-                  }
-          }
-          document.addEventListener("fullscreenchange", onFSChange);
-          document.addEventListener("webkitfullscreenchange", onFSChange);
-
-          document.addEventListener("click", function() {
-                  if (userActivatedFS && !isFullscreen()) {
-                            goFullscreen();
-                            overlay.style.display = "none";
-                  }
-          });
-
-          setInterval(function() {
-                  if (userActivatedFS && !isFullscreen()) {
-                            overlay.style.display = "flex";
-                  } else if (isFullscreen()) {
-                            overlay.style.display = "none";
-                  }
-          }, 10000);
-
-          function getCurrentModeURL() {
-                  var now = new Date();
-                  var day = now.getDay();
-                  var hour = now.getHours();
-                  var minute = now.getMinutes();
-                  var time = hour + minute / 60;
-                  var isBetween = function(start, end) { return time >= start && time < end; };
-
-                  if (day === 1 || day === 2) {
-                            return isBetween(8.5, 16) ? "dricks.html" : "ai-erik.html";
-                  }
-                  if (day === 3) {
-                            return isBetween(8.5, 16) ? "godis.html" : "ai-erik.html";
-                  }
-                  if (day === 4 || day === 5) {
-                            return "ai-erik.html";
-                  }
-                  return "helpdesk.html";
-          }
-
-          var frame = document.getElementById("displayFrame");
-          frame.src = getCurrentModeURL();
-
-          setInterval(function() {
-                  var newURL = getCurrentModeURL();
-                  var currentFull = new URL(newURL, window.location.href).href;
-                  if (frame.src !== currentFull) {
-                            frame.src = newURL;
-                  }
-          }, 60000);
-    </script>
-  </body>
-</html>html>
-    </script></span>
-  </body>
-    </style></title>
-  </head>
+    checkLunch();
+  </script>
+</body>
+</html>
