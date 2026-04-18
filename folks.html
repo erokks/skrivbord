@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thats All Folks</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;
+      background:radial-gradient(ellipse at center,#ff6b6b 0%,#c0392b 30%,#922b21 60%,#641e16 100%);}
+    .rings{position:absolute;width:100%;height:100%;}
+    .ring{position:absolute;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);
+      border:8px solid rgba(255,255,255,0.15);}
+    .ring:nth-child(1){width:90%;height:90%;}
+    .ring:nth-child(2){width:75%;height:75%;border-color:rgba(255,255,255,0.12);}
+    .ring:nth-child(3){width:60%;height:60%;border-color:rgba(255,255,255,0.1);}
+    .ring:nth-child(4){width:45%;height:45%;border-color:rgba(255,255,255,0.08);}
+    .ring:nth-child(5){width:30%;height:30%;border-color:rgba(255,255,255,0.06);}
+    .center{position:relative;z-index:1;text-align:center;}
+    .thats-all{font-family:"Georgia","Times New Roman",serif;font-size:5rem;color:white;
+      text-shadow:3px 3px 6px rgba(0,0,0,0.5);opacity:0;animation:fadeWrite 1.5s 0.5s forwards;
+      font-style:italic;}
+    .folks{font-family:"Georgia","Times New Roman",serif;font-size:3rem;color:#fff8dc;
+      text-shadow:2px 2px 4px rgba(0,0,0,0.5);opacity:0;animation:fadeWrite 1s 1.5s forwards;
+      margin-top:10px;font-weight:700;}
+    .subtitle{font-family:Arial,sans-serif;font-size:1.3rem;color:#ffdddd;
+      opacity:0;animation:fadeWrite 1s 2.5s forwards;margin-top:25px;}
+    @keyframes fadeWrite{to{opacity:1;}}
+    .wb{position:absolute;bottom:20px;right:30px;font-family:serif;font-size:0.8rem;
+      color:rgba(255,255,255,0.3);letter-spacing:2px;}
+  </style>
+</head>
+<body>
+  <div class="rings">
+    <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+    <div class="ring"></div><div class="ring"></div>
+  </div>
+  <div class="center">
+    <div class="thats-all">That's All Folks!</div>
+    <div class="folks">Erik har gaatt for idag</div>
+    <div class="subtitle">Albatros Travel - Vi ses imorgon!</div>
+  </div>
+  <div class="wb">LOONEY TUNES</div>
+  <script>
+    // Add wobble to rings
+    var rings = document.querySelectorAll(".ring");
+    rings.forEach(function(r,i){
+      r.style.animation = "wobble "+(3+i*0.5)+"s ease-in-out infinite";
+      r.style.animationDelay = (i*0.2)+"s";
+    });
+    var style = document.createElement("style");
+    style.textContent = "@keyframes wobble{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.03);}}";
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
