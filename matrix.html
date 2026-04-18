@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HACKAD</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#000;color:#00ff41;font-family:"Courier New",monospace;height:100vh;overflow:hidden;position:relative;}
+    canvas{position:absolute;top:0;left:0;z-index:0;}
+    .overlay{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+    .skull{font-size:6rem;animation:glitch 0.3s infinite;}
+    @keyframes glitch{0%{text-shadow:2px 0 red,-2px 0 cyan;}25%{text-shadow:-2px 0 red,2px 0 cyan;}50%{text-shadow:2px 2px red,-2px -2px cyan;}75%{text-shadow:-2px 2px red,2px -2px cyan;}100%{text-shadow:2px 0 red,-2px 0 cyan;}}
+    .hack-title{font-size:3rem;font-weight:900;margin:20px 0;text-transform:uppercase;animation:flicker 0.5s infinite;letter-spacing:8px;}
+    @keyframes flicker{0%,100%{opacity:1;}50%{opacity:0.7;}}
+    .hack-msg{font-size:1.2rem;margin:8px 0;opacity:0;animation:typeIn 0.5s forwards;}
+    .progress-bar{width:400px;height:20px;border:2px solid #00ff41;margin:25px 0;position:relative;overflow:hidden;}
+    .progress-fill{height:100%;background:#00ff41;width:0%;transition:width 0.3s;}
+    .terminal{font-size:0.85rem;text-align:left;width:500px;max-height:200px;overflow:hidden;margin-top:15px;border:1px solid #00ff4166;padding:10px;background:#00000088;}
+    @keyframes typeIn{to{opacity:1;}}
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div class="overlay">
+    <div class="skull">&#9760;</div>
+    <div class="hack-title">SYSTEM HACKAD</div>
+    <div class="hack-msg" style="animation-delay:0.5s">Hej Erik. Vi har tagit over din dator.</div>
+    <div class="hack-msg" style="animation-delay:1.5s">Dina hemliga Excel-filer har avslojats.</div>
+    <div class="hack-msg" style="animation-delay:2.5s">Vi vet att du googlar "hur gor man en vlookup" varje vecka.</div>
+    <div class="hack-msg" style="animation-delay:3.5s">LADDAR NER ERIKS BROWSERVHISTORIK...</div>
+    <div class="progress-bar"><div class="progress-fill" id="pbar"></div></div>
+    <div class="terminal" id="term"></div>
+  </div>
+<script>
+// Matrix rain
+var c=document.getElementById("c"),ctx=c.getContext("2d");
+c.width=window.innerWidth;c.height=window.innerHeight;
+var cols=Math.floor(c.width/14),drops=[];
+for(var i=0;i<cols;i++) drops[i]=Math.floor(Math.random()*-50);
+function drawRain(){
+  ctx.fillStyle="rgba(0,0,0,0.05)";ctx.fillRect(0,0,c.width,c.height);
+  ctx.fillStyle="#00ff41";ctx.font="14px monospace";
+  for(var i=0;i<drops.length;i++){
+    var ch=String.fromCharCode(0x30A0+Math.floor(Math.random()*96));
+    ctx.fillText(ch,i*14,drops[i]*14);
+    if(drops[i]*14>c.height&&Math.random()>0.975) drops[i]=0;
+    drops[i]++;
+  }
+}
+setInterval(drawRain,50);
+
+// Progress bar
+var pbar=document.getElementById("pbar"),pct=0;
+var piv=setInterval(function(){pct+=Math.floor(Math.random()*4)+1;if(pct>100)pct=100;pbar.style.width=pct+"%";if(pct>=100)clearInterval(piv);},400);
+
+// Terminal output
+var termLines=[
+  "> ssh erik@albatros-travel.dk",
+  "Password: ********",
+  "Access granted.",
+  "> cat /home/erik/secrets.txt",
+  "- Jag kan inte koda utan Stack Overflow",
+  "- Jag ater andras mat i kylskapet",
+  "- Jag har 47 ooppnade Teams-meddelanden",
+  "- Min favoritlat ar Vengaboys - Boom Boom Boom",
+  "> find /home/erik -name '*.xlsx' | wc -l",
+  "347 filer hittade (alla heter Budget_FINAL_v2)",
+  "> cat /home/erik/browser_history.txt",
+  "- hur stavas onsddag",
+  "- ar det onsdag idag",
+  "- vlookup for dummies",
+  "- vad tjaenar man som influencer",
+  "- basta far-vitsar 2026",
+  "> rm -rf /home/erik/dignity",
+  "Borttaget.",
+  "> echo HACKAD AV ANONYMANSEN",
+  "HACKAD AV ANONYMANSEN"
+];
+var term=document.getElementById("term"),ti=0;
+function addLine(){
+  if(ti>=termLines.length)return;
+  var line=document.createElement("div");
+  line.textContent=termLines[ti];
+  line.style.color=termLines[ti].startsWith(">")?("#00ff41"):("#00cc33");
+  term.appendChild(line);
+  term.scrollTop=term.scrollHeight;
+  ti++;
+  setTimeout(addLine,800+Math.random()*600);
+}
+setTimeout(addLine,2000);
+</script>
+</body>
+</html>
