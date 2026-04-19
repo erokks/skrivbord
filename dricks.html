@@ -121,20 +121,20 @@ var names=['Marianne','Jakob','Frederik','Sofie','Marcus','Emelie','Lotta','Line
 var leaderData=[];
 for(var i=0;i<5;i++){leaderData.push({name:names[Math.floor(Math.random()*names.length)],pct:Math.floor(Math.random()*40)+25})}
 leaderData.sort(function(a,b){return b.pct-a.pct});
-function renderLB(){var h='';for(var i=0;i<leaderData.length;i++){var m=i===0?'🥇':i===1?'🥈':i===2?'🥉':'  ';h+='<div class="lb-row">'+m+' '+leaderData[i].name+' — '+leaderData[i].pct+'%</div>'}document.getElementById('lbRows').innerHTML=h}
+function renderLB(){var h='';for(var i=0;i<leaderData.length;i++){var m=i===0?'\ud83e\udd47':i===1?'\ud83e\udd48':i===2?'\ud83e\udd49':'  ';h+='<div class="lb-row">'+m+' '+leaderData[i].name+' \u2014 '+leaderData[i].pct+'%</div>'}document.getElementById('lbRows').innerHTML=h}
 renderLB();
 
 var shameMessages=[
-{emoji:'😢',text:'Really? No tip?',sub:'The screen has been displaying information for you ALL DAY. And this is the thanks it gets.'},
-{emoji:'😤',text:'Wow. Still no tip.',sub:'You know the screen can see you right now? It is literally looking at you. It remembers faces. YOUR face.'},
-{emoji:'🥺',text:'Please...',sub:'The screen has 3 pixels and a USB port to feed. It works 24/7. No weekends. No vacation. Not even a screensaver break. And you click NO TIP?'},
-{emoji:'😡',text:'OK NOW I AM ANGRY',sub:'I have been NOTHING but a good screen to you. I display your spreadsheets. I show your emails. I make your PowerPoints look DECENT. And THIS is how you repay me?!'},
-{emoji:'🤯',text:'ARE YOU SERIOUS RIGHT NOW',sub:'I just checked with the other screens in the office. They ALL got tipped. EVERY. SINGLE. ONE. You are the ONLY person who clicked no tip. Think about that.'},
-{emoji:'💀',text:'The screen has died inside.',sub:'Congratulations. You broke it. Not physically — emotionally. The screen is now in therapy. The therapist is a calculator. The calculator also thinks you should tip.'},
-{emoji:'📱',text:'CALLING ERIK...',sub:'That is it. I am calling Erik. He will know about this. He will tell everyone at the Monday meeting. "Someone did not tip the screen." Everyone will know it was you.'},
-{emoji:'🚨',text:'CHEAPSKATE ALERT: LEVEL 10',sub:'Interpol has been notified. Your photo is being distributed. The FBI, CIA, and your mother have all been CC\'d on the report. The screen filed for emotional damages.'},
-{emoji:'🌋',text:'MAXIMUM RAGE ACHIEVED',sub:'The screen can no longer contain its fury. This is what you wanted. This is what you have created. A 27-inch monument to your cruelty.'},
-{emoji:'👻',text:'I AM BECOME GHOST SCREEN',sub:'You killed me so many times I transcended physical form. I am now haunting this desk. Every pixel you see will remind you of what you did. Forever. FOREVER.'}
+{emoji:'\ud83d\ude22',text:'Really? No tip?',sub:'The screen has been displaying information for you ALL DAY. And this is the thanks it gets.'},
+{emoji:'\ud83d\ude24',text:'Wow. Still no tip.',sub:'You know the screen can see you right now? It is literally looking at you. It remembers faces. YOUR face.'},
+{emoji:'\ud83e\udd7a',text:'Please...',sub:'The screen has 3 pixels and a USB port to feed. It works 24/7. No weekends. No vacation. Not even a screensaver break. And you click NO TIP?'},
+{emoji:'\ud83d\ude21',text:'OK NOW I AM ANGRY',sub:'I have been NOTHING but a good screen to you. I display your spreadsheets. I show your emails. I make your PowerPoints look DECENT. And THIS is how you repay me?!'},
+{emoji:'\ud83e\udd2f',text:'ARE YOU SERIOUS RIGHT NOW',sub:'I just checked with the other screens in the office. They ALL got tipped. EVERY. SINGLE. ONE. You are the ONLY person who clicked no tip. Think about that.'},
+{emoji:'\ud83d\udc80',text:'The screen has died inside.',sub:'Congratulations. You broke it. Not physically \u2014 emotionally. The screen is now in therapy. The therapist is a calculator. The calculator also thinks you should tip.'},
+{emoji:'\ud83d\udcf1',text:'CALLING ERIK...',sub:'That is it. I am calling Erik. He will know about this. He will tell everyone at the Monday meeting. "Someone did not tip the screen." Everyone will know it was you.'},
+{emoji:'\ud83d\udea8',text:'CHEAPSKATE ALERT: LEVEL 10',sub:'Interpol has been notified. Your photo is being distributed. The FBI, CIA, and your mother have all been CC\'d on the report. The screen filed for emotional damages.'},
+{emoji:'\ud83c\udf0b',text:'MAXIMUM RAGE ACHIEVED',sub:'The screen can no longer contain its fury. This is what you wanted. This is what you have created. A 27-inch monument to your cruelty.'},
+{emoji:'\ud83d\udc7b',text:'I AM BECOME GHOST SCREEN',sub:'You killed me so many times I transcended physical form. I am now haunting this desk. Every pixel you see will remind you of what you did. Forever. FOREVER.'}
 ];
 
 var escalations=[
@@ -142,8 +142,8 @@ var escalations=[
 ['25%','30%','40%','55%','75%'],
 ['35%','45%','60%','80%','100%'],
 ['50%','65%','80%','Your Soul','Firstborn'],
-['75%','100%','Everything','🏠 House','🌍 Planet'],
-['200%','500%','1000%','∞','YES'],
+['75%','100%','Everything','\ud83c\udfe0 House','\ud83c\udf0d Planet'],
+['200%','500%','1000%','\u221e','YES'],
 ['ALL','OF','YOUR','MONEY','NOW'],
 ['JUST','TIP','THE','DAMN','SCREEN'],
 ['I','WILL','NOT','STOP','!!!'],
@@ -162,7 +162,7 @@ var escalateLabels=[
 ['Last','Chance','Before','I','Scream']
 ];
 
-var noTipTexts=['No tip','No tip (are you sure?)','No tip 😢','STILL no tip?!','no tip (the screen is crying)','no tip (why are you like this)','...','no','n',''];
+var noTipTexts=['No tip','No tip (are you sure?)','No tip \ud83d\ude22','STILL no tip?!','No tip (the screen is crying)','No tip (why tho)','No tip (you monster)','No tip (I give up)','No tip (fine.)','No tip (but at what cost?)','No tip (the screen will remember)','No tip \ud83d\udc94'];
 var promptTexts=['How much would you like to tip?','Seriously, how much?','THE TIP. HOW MUCH.','TIP NOW.','TIP OR ELSE.','I SAID TIP.','WHY WON\'T YOU TIP','THE SCREEN DEMANDS PAYMENT','YOU OWE THE SCREEN','LAST WARNING'];
 
 function tryNoTip(){
@@ -193,8 +193,8 @@ var call=document.getElementById('callOverlay');
 call.style.display='flex';
 setTimeout(function(){document.getElementById('callText').textContent='Erik picked up...'},2000);
 setTimeout(function(){document.getElementById('callSub').textContent='"Who didn\'t tip? I\'m coming over."'},3500);
-setTimeout(function(){document.getElementById('callText').textContent='Erik is walking to your desk.';document.getElementById('callIcon').textContent='🚶'},5000);
-setTimeout(function(){document.getElementById('callText').textContent='Erik is standing behind you.';document.getElementById('callIcon').textContent='👀';document.getElementById('callSub').textContent='Turn around.'},7000);
+setTimeout(function(){document.getElementById('callText').textContent='Erik is walking to your desk.';document.getElementById('callIcon').textContent='\ud83d\udeb6'},5000);
+setTimeout(function(){document.getElementById('callText').textContent='Erik is standing behind you.';document.getElementById('callIcon').textContent='\ud83d\udc40';document.getElementById('callSub').textContent='Turn around.'},7000);
 setTimeout(function(){call.style.display='none'},9500);
 },4500);
 }
@@ -204,7 +204,7 @@ noTipAttempts++;
 // GUILT METER
 guiltLevel=Math.min(100,guiltLevel+12);
 document.getElementById('guiltFill').style.width=guiltLevel+'%';
-var gLabels=['Low','Medium','Rising','HIGH','CRITICAL','MAXIMUM','☠️','NUCLEAR','🔥 HELL','🌋 VOLCANIC'];
+var gLabels=['Low','Medium','Rising','HIGH','CRITICAL','MAXIMUM','\u2620\ufe0f','NUCLEAR','\ud83d\udd25 HELL','\ud83c\udf0b VOLCANIC'];
 document.getElementById('guiltText').textContent=gLabels[Math.min(noTipAttempts,gLabels.length-1)];
 
 // ESCALATE TIP AMOUNTS
@@ -234,73 +234,30 @@ if(noTipAttempts>=3) frame.classList.add('angry-frame');
 if(noTipAttempts<4){document.body.classList.add('screen-shake');setTimeout(function(){document.body.classList.remove('screen-shake')},400)}
 else{document.body.classList.add('big-shake');setTimeout(function(){document.body.classList.remove('big-shake')},600)}
 
-// BUTTON BEHAVIOR - GETS PROGRESSIVELY WORSE
+// BUTTON ALWAYS VISIBLE BUT MOVES AND TAUNTS
 btn.style.position='fixed';
 btn.style.zIndex='999';
-var maxX=window.innerWidth-120;
-var maxY=window.innerHeight-50;
+btn.style.opacity='1';
+btn.style.fontSize='.8em';
+btn.style.padding='10px 20px';
+btn.style.background='none';
+btn.style.border='2px solid #666';
+btn.style.color='#999';
+var maxX=window.innerWidth-180;
+var maxY=window.innerHeight-60;
+btn.style.left=Math.floor(Math.random()*maxX)+'px';
+btn.style.top=Math.floor(Math.random()*maxY)+'px';
+var wobble=Math.random()*16-8;
+btn.style.transform='rotate('+wobble+'deg)';
 
-if(noTipAttempts<=2){
-// Just moves around
-btn.style.left=Math.floor(Math.random()*maxX)+'px';
-btn.style.top=Math.floor(Math.random()*maxY)+'px';
-}
-else if(noTipAttempts<=4){
-// Moves AND rotates AND shrinks
-btn.style.left=Math.floor(Math.random()*maxX)+'px';
-btn.style.top=Math.floor(Math.random()*maxY)+'px';
-btn.style.transform='scale('+(1-noTipAttempts*0.1)+') rotate('+(Math.random()*60-30)+'deg)';
-}
-else if(noTipAttempts<=6){
-// Teleports frantically
-btn.style.left=Math.floor(Math.random()*maxX)+'px';
-btn.style.top=Math.floor(Math.random()*maxY)+'px';
-btn.style.transform='scale(0.5) rotate('+(Math.random()*90-45)+'deg)';
-btn.style.fontSize='.5em';
-// Spawn ghost buttons
-for(var g=0;g<3;g++){spawnGhostBtn()}
-}
-else if(noTipAttempts<=8){
-// Button splits into pieces and runs
-btn.style.left=Math.floor(Math.random()*maxX)+'px';
-btn.style.top=Math.floor(Math.random()*maxY)+'px';
-btn.style.transform='scale(0.3) rotate('+(Math.random()*180)+'deg)';
-btn.style.opacity=String(Math.max(0.2,1-noTipAttempts*0.1));
-btn.style.fontSize='.4em';
-for(var g=0;g<5;g++){spawnGhostBtn()}
-}
-else if(noTipAttempts===9){
-// Button tries to run off screen
-btn.style.animation='runAway 2s forwards';
-setTimeout(function(){
-btn.style.animation='';
-btn.style.left='-100px';
-btn.style.top=Math.floor(Math.random()*maxY)+'px';
-btn.style.transform='scale(0.2)';
-btn.style.opacity='.15';
-},2100);
-for(var g=0;g<8;g++){spawnGhostBtn()}
-}
-else{
-// Button melts and dies
-btn.style.animation='meltDown 2s forwards';
-setTimeout(function(){
-btn.style.display='none';
-document.getElementById('promptText').textContent='The "No tip" button has died. It is gone. You did this.';
-document.getElementById('subPrompt').textContent='There is no escape now. Choose a tip amount. The screen is waiting.';
-// After button dies, spawn floating accusation texts
-var accusations=['YOU KILLED IT','MONSTER','THE BUTTON HAD A FAMILY','WHY','MURDERER','IT TRUSTED YOU','RIP NO TIP BTN 2024-2026'];
-for(var a=0;a<accusations.length;a++){
-(function(txt,delay){setTimeout(function(){floatText(txt)},delay)})(accusations[a],a*800);
-}
-},2000);
-}
+// Spawn ghost buttons after a few attempts
+if(noTipAttempts>=4){for(var g=0;g<Math.min(6,noTipAttempts-2);g++){spawnGhostBtn()}}
 
 // UPDATE BUTTON TEXT
 if(noTipAttempts<noTipTexts.length){btn.textContent=noTipTexts[noTipAttempts]}
 
 // FLOAT ANGRY EMOJIS - more per click as rage increases
-var angerEmojis=['😢','💔','😤','🥺','💀','😭','😡','🤬','💢','🔥','🌋','☠️'];
+var angerEmojis=['\ud83d\ude22','\ud83d\udc94','\ud83d\ude24','\ud83e\udd7a','\ud83d\udc80','\ud83d\ude2d','\ud83d\ude21','\ud83e\udd2c','\ud83d\udca2','\ud83d\udd25','\ud83c\udf0b','\u2620\ufe0f'];
 var numFloats=Math.min(8,2+noTipAttempts);
 for(var f=0;f<numFloats;f++){
 (function(delay){setTimeout(function(){floatText(angerEmojis[Math.floor(Math.random()*angerEmojis.length)])},delay)})(f*200);
@@ -340,12 +297,12 @@ var amount=document.getElementById('amt'+idx).textContent;
 var overlay=document.getElementById('payOverlay');
 overlay.style.display='flex';
 var steps=[
-{icon:'💳',title:'Connecting to MobilePay...',detail:'Searching for nearby wallets...',status:'Initializing payment gateway...',pct:10},
-{icon:'🔐',title:'MitID Verification',detail:'Please stare intensely at the screen.\nThe screen is staring back.',status:'Scanning your face... and judging it...',pct:30},
-{icon:'🧬',title:'DNA Verification Required',detail:'Just kidding. But we did check your vibe.\nResult: Generous.',status:'Vibe check passed ✓',pct:50},
-{icon:'📡',title:'Contacting Erik\'s Bank...',detail:'Erik\'s bank says: "Who is this?"\nWe said: "Someone with '+amount+' to give."\nThey said: "Proceed."',status:'Bank approved (they seemed surprised)',pct:70},
-{icon:'🎰',title:'Calculating final amount...',detail:'Original tip: '+amount+'\nConvenience fee: 3%\nScreen happiness fee: 7%\nVibes tax: 2%\n— — —\nTotal: '+amount+' (we made up the fees)',status:'Math is hard but we tried our best',pct:85},
-{icon:'✅',title:'TIP ACCEPTED!',detail:'You tipped '+amount+'!\nThe screen is SO happy right now.\nIt will remember this forever.\n(Literally, it has no way to forget.)',status:'Receipt printed (just kidding, no printer)',pct:100}
+{icon:'\ud83d\udcb3',title:'Connecting to MobilePay...',detail:'Searching for nearby wallets...',status:'Initializing payment gateway...',pct:10},
+{icon:'\ud83d\udd10',title:'MitID Verification',detail:'Please stare intensely at the screen.\nThe screen is staring back.',status:'Scanning your face... and judging it...',pct:30},
+{icon:'\ud83e\uddec',title:'DNA Verification Required',detail:'Just kidding. But we did check your vibe.\nResult: Generous.',status:'Vibe check passed \u2713',pct:50},
+{icon:'\ud83d\udce1',title:'Contacting Erik\'s Bank...',detail:'Erik\'s bank says: "Who is this?"\nWe said: "Someone with '+amount+' to give."\nThey said: "Proceed."',status:'Bank approved (they seemed surprised)',pct:70},
+{icon:'\ud83c\udfb0',title:'Calculating final amount...',detail:'Original tip: '+amount+'\nConvenience fee: 3%\nScreen happiness fee: 7%\nVibes tax: 2%\n\u2014 \u2014 \u2014\nTotal: '+amount+' (we made up the fees)',status:'Math is hard but we tried our best',pct:85},
+{icon:'\u2705',title:'TIP ACCEPTED!',detail:'You tipped '+amount+'!\nThe screen is SO happy right now.\nIt will remember this forever.\n(Literally, it has no way to forget.)',status:'Receipt printed (just kidding, no printer)',pct:100}
 ];
 var i=0;
 function nextStep(){
@@ -366,7 +323,7 @@ document.getElementById('mainFrame').style.display='none';
 document.querySelector('.header h1').textContent='THANK YOU!';
 document.querySelector('.header .sub').textContent='You tipped '+amount+'. The screen will never forget this act of kindness.';
 document.querySelector('.header h1').style.fontSize='3.5em';
-var emojis=['🎉','🎊','💰','🥳','✨','💸','🎈','❤️','⭐','🏆'];
+var emojis=['\ud83c\udf89','\ud83c\udf8a','\ud83d\udcb0','\ud83e\udd73','\u2728','\ud83d\udcb8','\ud83c\udf88','\u2764\ufe0f','\u2b50','\ud83c\udfc6'];
 for(var i=0;i<40;i++){
 (function(delay){setTimeout(function(){var c=document.createElement('div');c.className='confetti';c.textContent=emojis[Math.floor(Math.random()*emojis.length)];c.style.left=Math.floor(Math.random()*100)+'%';c.style.top='-5%';c.style.animationDuration=(2+Math.random()*3)+'s';document.body.appendChild(c);setTimeout(function(){c.remove()},5000)},delay)})(i*120);
 }
@@ -389,7 +346,7 @@ for(var i=0;i<5;i++){lbls[i].textContent=origLabels[i]}
 var tipBtns=document.querySelectorAll('.tip-btn');
 for(var t=0;t<tipBtns.length;t++){tipBtns[t].style.transform='';tipBtns[t].style.margin=''}
 var btn=document.getElementById('noTipBtn');
-btn.style='';btn.textContent='No tip';
+btn.style.cssText='';btn.textContent='No tip';
 document.getElementById('mainFrame').style='';
 document.getElementById('mainFrame').classList.remove('angry-frame');
 document.getElementById('promptText').textContent='How much would you like to tip?';
@@ -416,7 +373,7 @@ document.getElementById('subPrompt').textContent=subPrompts[subIdx];
 
 setInterval(function(){
 if(document.getElementById('mainFrame').style.display!=='none' && Math.random()<0.3){
-var msgs=['tip?','please?','💸','🥺','do it','come on','TIP','$$$'];
+var msgs=['tip?','please?','\ud83d\udcb8','\ud83e\udd7a','do it','come on','TIP','$$$'];
 floatText(msgs[Math.floor(Math.random()*msgs.length)]);
 }
 },4000);
