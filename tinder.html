@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,32 +43,32 @@
   <div class="match-screen" id="matchScreen">
     <div class="match-title">IT'S A MATCH!</div>
     <div class="match-avatars"><div>&#128187;</div><div id="matchAvatar"></div></div>
-    <p style="color:white;font-size:1.1rem;margin-top:10px;">Skarmen gillar dig!</p>
+    <p style="color:white;font-size:1.1rem;margin-top:10px;">The Screen likes you!</p>
   </div>
   <div class="chat-screen" id="chatScreen">
-    <div class="chat-header">Chat med Sofia</div>
+    <div class="chat-header">Chat with Sofia</div>
     <div class="chat-body" id="chatBody"></div>
   </div>
 <script>
 var profiles=[
-  {name:"Jessica, 28",bio:"Yoga, resor & vin",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Jessica28yoga&backgroundColor=ffd5dc",action:"left"},
-  {name:"Amanda, 25",bio:"Hundmamma. Taco-entusiast",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Amanda25hund&backgroundColor=c0d8f0",action:"left"},
-  {name:"Sofia, 31",bio:"IT-konsult som gillar dad jokes",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Sofia31it&backgroundColor=d5f5d5",action:"right"},
-  {name:"Linda, 27",bio:"Swipe right om du gillar korv",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Linda27korv&backgroundColor=fff0d5",action:"left"}
+  {name:"Jessica, 28",bio:"Yoga, travel & wine",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Jessica28yoga&backgroundColor=ffd5dc",action:"left"},
+  {name:"Amanda, 25",bio:"Dog mom. Taco enthusiast",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Amanda25hund&backgroundColor=c0d8f0",action:"left"},
+  {name:"Sofia, 31",bio:"IT consultant who loves dad jokes",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Sofia31it&backgroundColor=d5f5d5",action:"right"},
+  {name:"Linda, 27",bio:"Swipe right if you like sausage",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Linda27korv&backgroundColor=fff0d5",action:"left"}
 ];
 var chatConvo=[
-  {from:"them",text:"Hej! Vem ar du egentligen?"},
-  {from:"me",text:"Hej! Jag ar en skarm. En infoskarm. 27 tum."},
-  {from:"them",text:"Va?? En skarm?? Haha skojar du?"},
-  {from:"me",text:"Nej jag star pa Eriks skrivbord pa Albatros Travel"},
-  {from:"them",text:"Omg... sa du ar typ en datorskarm som swipear?"},
-  {from:"me",text:"Ja! Jag visar reseinfo pa dagarna men pa kvallarna ar jag ledig"},
-  {from:"them",text:"Det har ar det konstigaste jag varit med om"},
-  {from:"me",text:"Jag har 1920x1080 pixlar och alltid pa. Det ar typ min basta egenskap"},
-  {from:"them",text:"Haha okej men VAR ska vi ses pa dejt?"},
-  {from:"me",text:"Kan du komma till kontoret? Jag kan inte flytta pa mig"},
-  {from:"them",text:"...jag tror jag unmatchear nu. Hejda!"},
-  {from:"me",text:"NEJ VANTA JAG KAN VISA POWERPOINTS FOR DIG"}
+  {from:"them",text:"Hey! Who are you exactly?"},
+  {from:"me",text:"Hi! I am a screen. An info screen. 27 inches."},
+  {from:"them",text:"What?? A screen?? Haha are you joking?"},
+  {from:"me",text:"No I am mounted on Erik's desk at Albatros Travel"},
+  {from:"them",text:"Omg... so you're like a computer monitor that swipes?"},
+  {from:"me",text:"Yes! I show travel info during the day but at night I am free"},
+  {from:"them",text:"This is the weirdest thing I've ever experienced"},
+  {from:"me",text:"I have 1920x1080 pixels and I am always on. That's basically my best quality"},
+  {from:"them",text:"Haha ok but WHERE would we go on a date?"},
+  {from:"me",text:"Can you come to the office? I can't really move"},
+  {from:"them",text:"...I think I'm gonna unmatch now. Bye!"},
+  {from:"me",text:"NO WAIT I CAN SHOW YOU POWERPOINTS"}
 ];
 var ci=0,card=document.getElementById("card"),cardImg=document.getElementById("cardImg"),
   cardName=document.getElementById("cardName"),cardBio=document.getElementById("cardBio");
@@ -106,7 +106,7 @@ function startChat(){
   function addMsg(){
     if(mi>=chatConvo.length){setTimeout(function(){document.body.style.transition="opacity 2s";document.body.style.opacity="0";},3000);return;}
     var typing=document.createElement("div");typing.className="typing";
-    typing.textContent=chatConvo[mi].from==="me"?"Skarmen skriver...":"Sofia skriver...";
+    typing.textContent=chatConvo[mi].from==="me"?"The Screen is typing...":"Sofia is typing...";
     cb.appendChild(typing);cb.scrollTop=cb.scrollHeight;
     setTimeout(function(){
       cb.removeChild(typing);
