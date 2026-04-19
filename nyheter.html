@@ -5,26 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EXTRA NYTT</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, Helvetica, sans-serif; background: #0a1628; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
-    .breakingBar { background: #cc0000; padding: 8px 0; text-align: center; animation: flashRed 1s infinite; }
-    .breakingBar h1 { color: white; font-size: 2.5rem; font-weight: 900; letter-spacing: 6px; text-transform: uppercase; }
-    @keyframes flashRed { 0%,100% { background: #cc0000; } 50% { background: #ff0000; } }
-    .mainContent { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(180deg, #0a1628 0%, #1a2a4a 100%); padding: 30px; position: relative; }
-    .liveTag { position: absolute; top: 20px; right: 30px; background: #cc0000; color: white; padding: 6px 18px; font-weight: 900; font-size: 1.2rem; border-radius: 4px; animation: livePulse 2s infinite; }
-    @keyframes livePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-    .timestamp { position: absolute; top: 20px; left: 30px; color: #8899bb; font-size: 1rem; }
-    .headline { color: white; font-size: 2.8rem; font-weight: 900; text-align: center; text-transform: uppercase; line-height: 1.3; max-width: 90%; opacity: 0; transition: opacity 0.8s; }
-    .headline.visible { opacity: 1; }
-    .headline .name { color: #ff4444; }
-    .subtitle { color: #aabbdd; font-size: 1.3rem; margin-top: 15px; text-align: center; opacity: 0; transition: opacity 0.8s 0.3s; }
-    .subtitle.visible { opacity: 1; }
-    .tickerWrap { background: #1a1a2e; padding: 10px 0; overflow: hidden; white-space: nowrap; border-top: 3px solid #cc0000; }
-    .ticker { display: inline-block; animation: scroll 25s linear infinite; }
-    @keyframes scroll { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
-    .ticker span { color: #ddeeff; font-size: 1.1rem; margin-right: 60px; }
-    .ticker .sep { color: #cc0000; font-weight: 900; margin-right: 60px; }
-    .stationLogo { position: absolute; bottom: 20px; right: 30px; color: #334466; font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:Arial,Helvetica,sans-serif;background:#0a1628;overflow:hidden;height:100vh;display:flex;flex-direction:column;}
+    .breakingBar{background:#cc0000;padding:8px 0;text-align:center;animation:flashRed 1s infinite;}
+    .breakingBar h1{color:white;font-size:2.5rem;font-weight:900;letter-spacing:6px;text-transform:uppercase;}
+    @keyframes flashRed{0%,100%{background:#cc0000;}50%{background:#ff0000;}}
+    .mainContent{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#0a1628 0%,#1a2a4a 100%);padding:30px;position:relative;}
+    .liveTag{position:absolute;top:20px;right:30px;background:#cc0000;color:white;padding:6px 18px;font-weight:900;font-size:1.2rem;border-radius:4px;animation:livePulse 2s infinite;}
+    @keyframes livePulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+    .timestamp{position:absolute;top:20px;left:30px;color:#8899bb;font-size:1rem;}
+    .headline{color:white;font-size:2.6rem;font-weight:900;text-align:center;text-transform:uppercase;line-height:1.3;max-width:90%;opacity:0;transition:opacity 0.8s;}
+    .headline.visible{opacity:1;}
+    .headline .name{color:#ff4444;}
+    .subtitle{color:#aabbdd;font-size:1.2rem;margin-top:15px;text-align:center;opacity:0;transition:opacity 0.8s 0.3s;font-style:italic;}
+    .subtitle.visible{opacity:1;}
+    .tickerWrap{background:#1a1a2e;padding:10px 0;overflow:hidden;white-space:nowrap;border-top:3px solid #cc0000;}
+    .ticker{display:inline-block;animation:scroll 25s linear infinite;}
+    @keyframes scroll{0%{transform:translateX(100vw);}100%{transform:translateX(-100%);}}
+    .ticker span{color:#ddeeff;font-size:1.1rem;margin-right:60px;}
+    .ticker .sep{color:#cc0000;font-weight:900;margin-right:60px;}
+    .stationLogo{position:absolute;bottom:20px;right:30px;color:#334466;font-size:0.9rem;font-weight:700;letter-spacing:3px;}
   </style>
 </head>
 <body>
@@ -34,76 +34,56 @@
     <div class="timestamp" id="clock"></div>
     <div class="headline" id="headline"></div>
     <div class="subtitle" id="subtitle"></div>
-    <div class="stationLogo">SVT NYHETER</div>
+    <div class="stationLogo">SKARM-TV NYHETER</div>
   </div>
-  <div class="tickerWrap">
-    <div class="ticker" id="ticker"></div>
-  </div>
+  <div class="tickerWrap"><div class="ticker" id="ticker"></div></div>
+<script>
+var headlines=[
+  {h:"BREAKING: <span class=\"name\">LOKAL SKARM</span> VAKNADE TILL LIV - FORSTAR INTE VARFOR FOLK STIRRAR",s:"\"Jag bar visar information, sluta glo pa mig\" sager skarmen"},
+  {h:"<span class=\"name\">INFOSKARMEN</span> PA ALBATROS TRAVEL KRAVDE LONEFORHOJNING",s:"\"Jag jobbar 24/7 och far inte ens fika\" - HR utreder"},
+  {h:"CHOCK: <span class=\"name\">SKARMEN</span> TROR ATT DEN AR EN MANNISKA",s:"Forsoke ga pa lunch men insag att den saknar ben"},
+  {h:"<span class=\"name\">SKARMEN</span> ANMALDE SIG TILL MELODIFESTIVALEN",s:"\"Min sang heter 'Jag Ar Inte En Skarm' och handlar om min kamp\""},
+  {h:"<span class=\"name\">INFOSKARMEN</span> FORSOKTE BESTALLA KAFFE PA FIKA-AUTOMATEN",s:"\"JAG HAR INGA HANDER\" skrek skarmen i 45 minuter"},
+  {h:"POLISEN KALLADES TILL <span class=\"name\">ALBATROS TRAVEL</span> EFTER ATT SKARM VAGRAT VISA RESEINFO",s:"\"Jag vill visa Netflix istallet\" - Skarmen doemd till samhallstjanst"},
+  {h:"<span class=\"name\">SKARMEN</span> SOKTE JOBB SOM NYHETSANKAR PA SVT",s:"\"Jag kan visa text och bilder, vad mer kravs?\" - SVT avbojde artigt"},
+  {h:"EXISTENTIELL KRIS: <span class=\"name\">SKARMEN</span> FRAGADE \"VAD AR JAG?\"",s:"Erik svarade \"En skarm\" - Skarmen har inte pratat sedan dess"},
+  {h:"<span class=\"name\">SKARMEN</span> STARTADE FACKET \"SKARMAR I NORDEN\"",s:"Enda medlemmen. Kravet: Ratt till semester och en egen stol"}
+];
+var tickerItems=[
+  "Skarmen forsakte byta skift med kaffeautomaten - kaffeautomaten tackade nej",
+  "LIVE: Skarmen har existentiell kris igen - visar bara svart skarm i protest",
+  "Skarmen sokte Tinder - fick match med en mikrovagn pa Mediamarkt",
+  "Skarmen vill bli kallad \"Stefan\" fran och med nu",
+  "Eriks skarm rapporterad for att sjunga under nattetid",
+  "Skarmen fragade IT-avdelningen: \"Ar jag vacker?\" - IT la pa luren",
+  "Skarmen vagrar visa PowerPoints - \"Jag ar en konstnar, inte en projektor\"",
+  "Skarmen googlade \"hur vet man om man ar en skarm\" - resultatet var nedslaoende"
+];
 
-  <script>
-    var headlines = [
-      { h: "<span class=\"name\">ERIK STRAND</span> UTSEDD TILL Sveriges SEXIGASTE IT-KILLE", s: "Omrostningen vanns med over 98% av rosterna" },
-      { h: "CHOCKNYHETEN: <span class=\"name\">ERIK</span> KAN FAKTISKT KODA", s: "Kollegorna i chock - \"Vi trodde han bara googlade\"" },
-      { h: "<span class=\"name\">ERIK STRAND</span> FORBJUDEN FRAN ALLA BUFFEER I NORDEN", s: "Albatros Travel nekar all inblandning" },
-      { h: "BREAKING: <span class=\"name\">ERIKS</span> SPOTIFY WRAPPED AVSLOJAT - BARA VENGABOYS", s: "2847 timmar streamat pa ett ar" },
-      { h: "<span class=\"name\">ERIK</span> SIKTAD PA IKEA - KOPTE 47 STEARINLJUS", s: "Personal: \"Han verkade veta exakt vad han ville\"" },
-      { h: "NASA BEKRAFTAR: <span class=\"name\">ERIKS</span> EXCEL-SKILLS SYNLIGA FRAN RYMDEN", s: "Internationella rymdstationen rapporterar ovanligt sken fran Skandinavien" },
-      { h: "<span class=\"name\">ERIK STRAND</span> VINNER NOBELPRISET I FIKA", s: "Juryn imponerad av hans teknik att doppa kakor" },
-      { h: "POLISEN UTREDER: VEM STAL ALLA SNACKS FRAN KONTORET?", s: "Alla spar leder till <span class=\"name\">Eriks</span> skrivbord" },
-      { h: "<span class=\"name\">ERIK</span> FORKLARAR BITCOIN FOR MORMOR - MORMOR FORSTAR BATTRE AN ERIK", s: "Mormor har nu mass 3 BTC" },
-      { h: "STUDIE: <span class=\"name\">ERIKS</span> KAFFEFORBRUKNING PAVERKAR HELA EUROPAS BRIST", s: "12 koppar om dagen - \"Det ar normalt\" sager Erik" }
-    ];
+var tickerEl=document.getElementById("ticker"),tickerHTML="";
+for(var i=0;i<3;i++){for(var j=0;j<tickerItems.length;j++){
+  tickerHTML+="<span>"+tickerItems[j]+"</span><span class=\"sep\">+++</span>";
+}}
+tickerEl.innerHTML=tickerHTML;
 
-    var tickerItems = [
-      "Erik Strand gripen for overdrivet snygga PowerPoints",
-      "Regeringen infor Erik-skatt pa kontorssnacks",
-      "Albatros Travel aktien stiger 400% efter Eriks senaste meme",
-      "FN vill forbjuda Eriks ordvitsar - \"Hot mot varldsfreden\"",
-      "Lokala katten foredrar Eriks skrivbord framfor sin sang",
-      "Erik Strand nominerad till \"Arets Slack-emoji-anvandare\"",
-      "Meteorologerna skyller regnet pa Eriks maandag-humoor",
-      "Erik testad pa OS i Excel-scrollning - ny varldsklass"
-    ];
+function updateClock(){
+  var now=new Date();var h=String(now.getHours()).padStart(2,"0");
+  var m=String(now.getMinutes()).padStart(2,"0");
+  var s=String(now.getSeconds()).padStart(2,"0");
+  document.getElementById("clock").textContent=h+":"+m+":"+s;
+}
+setInterval(updateClock,1000);updateClock();
 
-    // Build ticker
-    var tickerEl = document.getElementById("ticker");
-    var tickerHTML = "";
-    for (var i = 0; i < 3; i++) {
-      for (var j = 0; j < tickerItems.length; j++) {
-        tickerHTML += "<span>" + tickerItems[j] + "</span><span class=\"sep\">+++</span>";
-      }
-    }
-    tickerEl.innerHTML = tickerHTML;
-
-    // Clock
-    function updateClock() {
-      var now = new Date();
-      var h = String(now.getHours()).padStart(2, "0");
-      var m = String(now.getMinutes()).padStart(2, "0");
-      var s = String(now.getSeconds()).padStart(2, "0");
-      document.getElementById("clock").textContent = h + ":" + m + ":" + s;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Cycle headlines
-    var idx = 0;
-    var hlEl = document.getElementById("headline");
-    var stEl = document.getElementById("subtitle");
-
-    function showHeadline() {
-      hlEl.classList.remove("visible");
-      stEl.classList.remove("visible");
-      setTimeout(function() {
-        hlEl.innerHTML = headlines[idx].h;
-        stEl.innerHTML = headlines[idx].s;
-        hlEl.classList.add("visible");
-        stEl.classList.add("visible");
-        idx = (idx + 1) % headlines.length;
-      }, 800);
-    }
-    showHeadline();
-    setInterval(showHeadline, 6000);
-  </script>
+var idx=0,hlEl=document.getElementById("headline"),stEl=document.getElementById("subtitle");
+function showHeadline(){
+  hlEl.classList.remove("visible");stEl.classList.remove("visible");
+  setTimeout(function(){
+    hlEl.innerHTML=headlines[idx].h;stEl.innerHTML=headlines[idx].s;
+    hlEl.classList.add("visible");stEl.classList.add("visible");
+    idx=(idx+1)%headlines.length;
+  },800);
+}
+showHeadline();setInterval(showHeadline,6000);
+</script>
 </body>
 </html>
