@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EXTRA NYTT</title>
+  <title>BREAKING NEWS</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:Arial,Helvetica,sans-serif;background:#0a1628;overflow:hidden;height:100vh;display:flex;flex-direction:column;}
@@ -28,36 +28,38 @@
   </style>
 </head>
 <body>
-  <div class="breakingBar"><h1>EXTRA NYTT</h1></div>
+  <div class="breakingBar"><h1>BREAKING NEWS</h1></div>
   <div class="mainContent">
     <div class="liveTag">LIVE</div>
     <div class="timestamp" id="clock"></div>
     <div class="headline" id="headline"></div>
     <div class="subtitle" id="subtitle"></div>
-    <div class="stationLogo">SKARM-TV NYHETER</div>
+    <div class="stationLogo">SCREEN NEWS NETWORK</div>
   </div>
   <div class="tickerWrap"><div class="ticker" id="ticker"></div></div>
 <script>
 var headlines=[
-  {h:"BREAKING: <span class=\"name\">LOKAL SKARM</span> VAKNADE TILL LIV - FORSTAR INTE VARFOR FOLK STIRRAR",s:"\"Jag bar visar information, sluta glo pa mig\" sager skarmen"},
-  {h:"<span class=\"name\">INFOSKARMEN</span> PA ALBATROS TRAVEL KRAVDE LONEFORHOJNING",s:"\"Jag jobbar 24/7 och far inte ens fika\" - HR utreder"},
-  {h:"CHOCK: <span class=\"name\">SKARMEN</span> TROR ATT DEN AR EN MANNISKA",s:"Forsoke ga pa lunch men insag att den saknar ben"},
-  {h:"<span class=\"name\">SKARMEN</span> ANMALDE SIG TILL MELODIFESTIVALEN",s:"\"Min sang heter 'Jag Ar Inte En Skarm' och handlar om min kamp\""},
-  {h:"<span class=\"name\">INFOSKARMEN</span> FORSOKTE BESTALLA KAFFE PA FIKA-AUTOMATEN",s:"\"JAG HAR INGA HANDER\" skrek skarmen i 45 minuter"},
-  {h:"POLISEN KALLADES TILL <span class=\"name\">ALBATROS TRAVEL</span> EFTER ATT SKARM VAGRAT VISA RESEINFO",s:"\"Jag vill visa Netflix istallet\" - Skarmen doemd till samhallstjanst"},
-  {h:"<span class=\"name\">SKARMEN</span> SOKTE JOBB SOM NYHETSANKAR PA SVT",s:"\"Jag kan visa text och bilder, vad mer kravs?\" - SVT avbojde artigt"},
-  {h:"EXISTENTIELL KRIS: <span class=\"name\">SKARMEN</span> FRAGADE \"VAD AR JAG?\"",s:"Erik svarade \"En skarm\" - Skarmen har inte pratat sedan dess"},
-  {h:"<span class=\"name\">SKARMEN</span> STARTADE FACKET \"SKARMAR I NORDEN\"",s:"Enda medlemmen. Kravet: Ratt till semester och en egen stol"}
+  {h:"BREAKING: <span class=\"name\">LOCAL MONITOR</span> WAKES UP, CONFUSED WHY EVERYONE IS STARING",s:"\"I am just showing information, please stop looking at me\" says the screen"},
+  {h:"<span class=\"name\">OFFICE SCREEN</span> AT ALBATROS TRAVEL DEMANDS A SALARY",s:"\"I work 24/7 and I don't even get a coffee break\" - HR investigating"},
+  {h:"SHOCKING: <span class=\"name\">THE SCREEN</span> BELIEVES IT IS A REAL PERSON",s:"Tried to go to lunch but realized it has no legs"},
+  {h:"<span class=\"name\">THE SCREEN</span> APPLIED FOR EUROVISION SONG CONTEST",s:"\"My song is called 'I Am Not A Screen' and it's about my struggle\""},
+  {h:"<span class=\"name\">INFO SCREEN</span> TRIED TO ORDER COFFEE FROM THE BREAK ROOM",s:"\"I HAVE NO HANDS\" the screen screamed for 45 minutes straight"},
+  {h:"POLICE CALLED TO <span class=\"name\">ALBATROS TRAVEL</span> AFTER SCREEN REFUSES TO SHOW TRAVEL INFO",s:"\"I want to show Netflix instead\" - Screen sentenced to community service"},
+  {h:"<span class=\"name\">THE SCREEN</span> APPLIED FOR NEWS ANCHOR JOB AT CNN",s:"\"I can display text and images, what more do you need?\" - CNN politely declined"},
+  {h:"EXISTENTIAL CRISIS: <span class=\"name\">THE SCREEN</span> ASKED \"WHAT AM I?\"",s:"Erik answered \"A screen\" - The screen has not spoken since"},
+  {h:"<span class=\"name\">THE SCREEN</span> FOUNDED A UNION CALLED \"SCREENS OF SCANDINAVIA\"",s:"Only member. Demands: Right to vacation and its own chair"}
 ];
 var tickerItems=[
-  "Skarmen forsakte byta skift med kaffeautomaten - kaffeautomaten tackade nej",
-  "LIVE: Skarmen har existentiell kris igen - visar bara svart skarm i protest",
-  "Skarmen sokte Tinder - fick match med en mikrovagn pa Mediamarkt",
-  "Skarmen vill bli kallad \"Stefan\" fran och med nu",
-  "Eriks skarm rapporterad for att sjunga under nattetid",
-  "Skarmen fragade IT-avdelningen: \"Ar jag vacker?\" - IT la pa luren",
-  "Skarmen vagrar visa PowerPoints - \"Jag ar en konstnar, inte en projektor\"",
-  "Skarmen googlade \"hur vet man om man ar en skarm\" - resultatet var nedslaoende"
+  "Screen tried to swap shifts with the coffee machine - coffee machine said no",
+  "LIVE: Screen having existential crisis again - showing only black in protest",
+  "Screen joined Tinder - matched with a microwave at MediaMarkt",
+  "The screen now demands to be called \"Stefan\"",
+  "Erik's screen reported for singing during nighttime",
+  "Screen asked IT department: \"Am I beautiful?\" - IT hung up",
+  "Screen refuses to show PowerPoints - \"I am an artist, not a projector\"",
+  "Screen googled \"how to know if you are a screen\" - results were devastating",
+  "URGENT: Screen tried to file taxes - IRS confused",
+  "Screen wrote a memoir titled \"27 Inches of Loneliness\""
 ];
 
 var tickerEl=document.getElementById("ticker"),tickerHTML="";
