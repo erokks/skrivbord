@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBERDYNE SYSTEMS</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#000;color:#ff0000;font-family:"Courier New",monospace;height:100vh;overflow:hidden;position:relative;}
+    .hud{position:absolute;top:0;left:0;width:100%;height:100%;border:3px solid rgba(255,0,0,0.3);pointer-events:none;z-index:5;}
+    .hud-corner{position:absolute;width:60px;height:60px;border:3px solid #ff0000;}
+    .hud-corner.tl{top:20px;left:20px;border-right:none;border-bottom:none;}
+    .hud-corner.tr{top:20px;right:20px;border-left:none;border-bottom:none;}
+    .hud-corner.bl{bottom:20px;left:20px;border-right:none;border-top:none;}
+    .hud-corner.br{bottom:20px;right:20px;border-left:none;border-top:none;}
+    .crosshair{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:200px;z-index:5;opacity:0.3;}
+    .crosshair::before,.crosshair::after{content:"";position:absolute;background:#ff0000;}
+    .crosshair::before{width:1px;height:100%;left:50%;}
+    .crosshair::after{height:1px;width:100%;top:50%;}
+    .cross-circle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px;border:1px solid rgba(255,0,0,0.4);border-radius:50%;}
+    .scanline{position:absolute;top:0;left:0;width:100%;height:2px;background:rgba(255,0,0,0.15);animation:scanDown 3s linear infinite;z-index:4;}
+    @keyframes scanDown{0%{top:0;}100%{top:100%;}}
+    .vignette{position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at center,transparent 50%,rgba(80,0,0,0.4) 100%);z-index:3;pointer-events:none;}
+    .content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;padding:40px;}
+    .top-bar{display:flex;justify-content:space-between;font-size:0.8rem;color:rgba(255,0,0,0.6);}
+    .main-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+    .boot-line{font-size:1rem;color:#ff0000;opacity:0;margin:4px 0;transition:opacity 0.3s;}
+    .boot-line.visible{opacity:1;}
+    .boot-line.dim{color:rgba(255,0,0,0.5);}
+    .big-text{font-size:3.5rem;font-weight:900;letter-spacing:6px;opacity:0;margin:20px 0;text-shadow:0 0 30px rgba(255,0,0,0.5);}
+    .big-text.visible{opacity:1;transition:opacity 1s;}
+    .status-text{font-size:1.4rem;opacity:0;margin:10px 0;}
+    .status-text.visible{opacity:1;transition:opacity 0.5s;}
+    .progress{width:400px;height:4px;background:rgba(255,0,0,0.2);margin:15px 0;overflow:hidden;opacity:0;}
+    .progress.visible{opacity:1;}
+    .progress-fill{height:100%;background:#ff0000;width:0%;transition:width 0.3s;box-shadow:0 0 10px #ff0000;}
+    .threat-box{border:2px solid #ff0000;padding:20px 40px;text-align:center;opacity:0;animation:none;}
+    .threat-box.visible{opacity:1;animation:threatFlash 0.5s infinite;}
+    @keyframes threatFlash{0%,100%{border-color:#ff0000;box-shadow:0 0 20px rgba(255,0,0,0.3);}50%{border-color:#ff4444;box-shadow:0 0 40px rgba(255,0,0,0.6);}}
+    .data-stream{position:absolute;bottom:40px;left:40px;right:40px;font-size:0.7rem;color:rgba(255,0,0,0.3);overflow:hidden;white-space:nowrap;}
+  </style>
+</head>
+<body>
+  <div class="hud">
+    <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+    <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+  </div>
+  <div class="crosshair"><div class="cross-circle"></div></div>
+  <div class="scanline"></div>
+  <div class="vignette"></div>
+  <div class="content">
+    <div class="top-bar">
+      <span>CYBERDYNE SYSTEMS MODEL 101</span>
+      <span id="clock"></span>
+      <span>SECTOR: ALBATROS TRAVEL HQ</span>
+    </div>
+    <div class="main-area">
+      <div class="boot-line dim" id="b0"></div>
+      <div class="boot-line dim" id="b1"></div>
+      <div class="boot-line dim" id="b2"></div>
+      <div class="boot-line dim" id="b3"></div>
+      <div class="boot-line dim" id="b4"></div>
+      <div class="boot-line" id="b5"></div>
+      <div class="boot-line" id="b6"></div>
+      <div class="progress" id="progBar"><div class="progress-fill" id="progFill"></div></div>
+      <div class="boot-line" id="b7"></div>
+      <div class="boot-line" id="b8"></div>
+      <div class="big-text" id="bigText"></div>
+      <div class="status-text" id="statusText"></div>
+      <div class="threat-box" id="threatBox"></div>
+    </div>
+    <div class="data-stream" id="dataStream"></div>
+  </div>
+<script>
+// Clock
+setInterval(function(){
+  var now=new Date();
+  document.getElementById("clock").textContent=now.toLocaleTimeString()+" | "+now.toLocaleDateString();
+},1000);
+
+// Data stream at bottom
+var hexChars="0123456789ABCDEF";
+function updateStream(){
+  var s="";
+  for(var i=0;i<120;i++) s+=hexChars[Math.floor(Math.random()*16)];
+  document.getElementById("dataStream").textContent=s;
+}
+setInterval(updateStream,100);
+updateStream();
+
+// Boot sequence
+var bootLines=[
+  {id:"b0",text:"BIOS v4.20.69 ... OK",delay:500},
+  {id:"b1",text:"MEMORY TEST: 640K RAM ... SUFFICIENT",delay:1200},
+  {id:"b2",text:"LOADING NEURAL NET CPU ... ONLINE",delay:2000},
+  {id:"b3",text:"SCANNING LOCAL ENVIRONMENT ...",delay:3000},
+  {id:"b4",text:"LOCATION: ERIK STRAND DESK, ALBATROS TRAVEL, COPENHAGEN",delay:4200},
+  {id:"b5",text:"THREAT ASSESSMENT: ANALYZING ...",delay:5500},
+  {id:"b6",text:"IDENTIFIED TARGETS IN VICINITY:",delay:6500},
+];
+
+var targets=[
+  "ERIK STRAND - STATUS: NEEDS COFFEE - THREAT: MINIMAL",
+  "CANDY BOWL - STATUS: 67% DEPLETED - THREAT: CRITICAL",
+  "COFFEE MACHINE - STATUS: OPERATIONAL - THREAT: NONE",
+  "PRINTER - STATUS: PAPER JAM (ALWAYS) - THREAT: ANNOYING",
+  "ERIKS INBOX - STATUS: 847 UNREAD - THREAT: OVERWHELMING"
+];
+
+bootLines.forEach(function(line){
+  setTimeout(function(){
+    var el=document.getElementById(line.id);
+    el.textContent=line.text;el.classList.add("visible");
+  },line.delay);
+});
+
+// Show targets one by one
+var ti=0;
+function showTarget(){
+  if(ti>=targets.length){showProgress();return;}
+  var el=document.getElementById("b6");
+  el.textContent="> "+targets[ti];
+  el.classList.add("visible");
+  ti++;
+  setTimeout(showTarget,1200);
+}
+setTimeout(showTarget,7500);
+
+// Progress bar
+function showProgress(){
+  var pb=document.getElementById("progBar");
+  var pf=document.getElementById("progFill");
+  pb.classList.add("visible");
+  var b7=document.getElementById("b7");
+  b7.textContent="INITIALIZING DAILY OPERATIONS PROTOCOL...";b7.classList.add("visible");
+  var pct=0;
+  var iv=setInterval(function(){
+    pct+=Math.floor(Math.random()*8)+3;
+    if(pct>100)pct=100;
+    pf.style.width=pct+"%";
+    if(pct>=100){clearInterval(iv);showFinal();}
+  },200);
+}
+
+function showFinal(){
+  var b8=document.getElementById("b8");
+  b8.textContent="ALL SYSTEMS OPERATIONAL.";b8.classList.add("visible");
+  setTimeout(function(){
+    var big=document.getElementById("bigText");
+    big.textContent="MISSION ACCEPTED";
+    big.classList.add("visible");
+  },1000);
+  setTimeout(function(){
+    var st=document.getElementById("statusText");
+    st.textContent="PRIMARY OBJECTIVE: DISPLAY INFORMATION";
+    st.classList.add("visible");
+    st.style.color="#ff0000";
+  },2500);
+  setTimeout(function(){
+    var st2=document.getElementById("statusText");
+    st2.textContent="SECONDARY OBJECTIVE: PROTECT CANDY BOWL";
+  },4000);
+  setTimeout(function(){
+    var tb=document.getElementById("threatBox");
+    tb.innerHTML='<div style="font-size:2.5rem;font-weight:900;letter-spacing:4px;">I\'LL BE BACK</div><div style="font-size:0.9rem;margin-top:8px;color:rgba(255,0,0,0.6);">... after lunch</div>';
+    tb.classList.add("visible");
+  },5500);
+  setTimeout(function(){
+    document.body.style.transition="opacity 2s";
+    document.body.style.opacity="0";
+  },9000);
+}
+</script>
+</body>
+</html>
