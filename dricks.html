@@ -252,10 +252,38 @@ setTimeout(function(){c.remove()},5000);
 },delay);
 })(i*120);
 }
-// Add to leaderboard
 setTimeout(function(){
 document.querySelector('.header .sub').textContent='Your generosity has been noted. Erik is proud. The screen is glowing.';
 },4000);
+// Reset after 10 seconds
+setTimeout(resetScreen,10000);
+}
+
+function resetScreen(){
+noTipAttempts=0;
+guiltLevel=0;
+escalateIndex=0;
+document.getElementById('guiltFill').style.width='0%';
+document.getElementById('guiltText').textContent='Low';
+document.getElementById('amt0').textContent='15%';
+document.getElementById('amt1').textContent='20%';
+document.getElementById('amt2').textContent='25%';
+document.getElementById('amt3').textContent='30%';
+document.getElementById('amt4').textContent='50%';
+var lbls=document.querySelectorAll('.tip-btn .label');
+var origLabels=['Acceptable','Standard','Generous','Hero','Legend'];
+for(var i=0;i<5;i++){lbls[i].textContent=origLabels[i]}
+var btn=document.getElementById('noTipBtn');
+btn.style.display='';btn.style.position='absolute';btn.style.left='';btn.style.top='';btn.style.transform='';btn.style.fontSize='.8em';btn.style.opacity='1';btn.style.animation='';btn.style.zIndex='';btn.textContent='No tip';
+document.getElementById('mainFrame').style.display='';
+document.querySelector('.header h1').textContent='TIP YOUR SCREEN';
+document.querySelector('.header h1').style.fontSize='2.8em';
+document.querySelector('.header .sub').textContent='Your screen has been working hard all day. It deserves this.';
+// Regenerate leaderboard
+leaderData=[];
+for(var i=0;i<5;i++){leaderData.push({name:names[Math.floor(Math.random()*names.length)],pct:Math.floor(Math.random()*40)+25})}
+leaderData.sort(function(a,b){return b.pct-a.pct});
+renderLB();
 }
 
 // Passive aggressive subprompt rotation
