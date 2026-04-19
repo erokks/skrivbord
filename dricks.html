@@ -23,8 +23,13 @@ body{font-family:'Segoe UI',sans-serif;background:#1a1a2e;color:#fff;height:100v
 .tip-btn.t4{background:linear-gradient(135deg,#fdcb6e,#e67e22);color:#fff}
 .tip-btn.t5{background:linear-gradient(135deg,#fd79a8,#e84393);color:#fff;animation:pulse 1s infinite}
 .tip-btn .label{font-size:.65em;display:block;opacity:.8;margin-top:2px}
-#noTipBtn{background:none;border:2px solid #444;color:#666;border-radius:12px;padding:10px 20px;font-size:.8em;cursor:pointer;transition:all .3s;position:absolute;bottom:15px;right:15px}
-#noTipBtn:hover{border-color:#666;color:#999}
+#noTipBtn{background:radial-gradient(circle at 35% 35%,#ff4444,#cc0000 50%,#880000);border:4px solid #aa0000;color:#fff;border-radius:50%;width:120px;height:120px;font-size:1em;font-weight:900;cursor:pointer;transition:all .3s;position:absolute;bottom:15px;right:15px;box-shadow:0 0 30px rgba(255,0,0,.4),0 8px 20px rgba(0,0,0,.5),inset 0 -4px 8px rgba(0,0,0,.3),inset 0 4px 8px rgba(255,100,100,.3);text-transform:uppercase;letter-spacing:1px;text-shadow:0 2px 4px rgba(0,0,0,.5);animation:nukePulse 2s infinite;display:flex;align-items:center;justify-content:center;line-height:1.1;text-align:center}
+#noTipBtn:hover{transform:scale(1.1);box-shadow:0 0 50px rgba(255,0,0,.7),0 8px 30px rgba(0,0,0,.5),inset 0 -4px 8px rgba(0,0,0,.3),inset 0 4px 8px rgba(255,100,100,.4)}
+#noTipBtn::before{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border-radius:50%;border:2px dashed rgba(255,255,0,.3);animation:nukeRotate 10s linear infinite;pointer-events:none}
+#noTipBtn::after{content:'\2622';position:absolute;top:-18px;right:-18px;font-size:1.8em;animation:nukeWarn 1s infinite;pointer-events:none}
+@keyframes nukePulse{0%,100%{box-shadow:0 0 30px rgba(255,0,0,.4),0 8px 20px rgba(0,0,0,.5),inset 0 -4px 8px rgba(0,0,0,.3),inset 0 4px 8px rgba(255,100,100,.3)}50%{box-shadow:0 0 50px rgba(255,0,0,.7),0 8px 30px rgba(0,0,0,.5),inset 0 -4px 8px rgba(0,0,0,.3),inset 0 4px 8px rgba(255,100,100,.5)}}
+@keyframes nukeRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes nukeWarn{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.2)}}
 #shameZone{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:100;text-align:center}
 #shameZone .shame-text{font-size:2.5em;font-weight:700;margin-bottom:15px}
 #shameZone .shame-sub{font-size:1.1em;color:#aaa;margin-bottom:20px;max-width:600px;line-height:1.5}
@@ -89,7 +94,7 @@ body{font-family:'Segoe UI',sans-serif;background:#1a1a2e;color:#fff;height:100v
 <div class="lb-title">TOP TIPPERS TODAY</div>
 <div id="lbRows"></div>
 </div>
-<button id="noTipBtn" onclick="tryNoTip()">No tip</button>
+<button id="noTipBtn" onclick="tryNoTip()">&#9762;<br>NO TIP</button>
 </div>
 <div id="shameZone">
 <div class="shame-emoji" id="shameEmoji"></div>
@@ -162,7 +167,7 @@ var escalateLabels=[
 ['Last','Chance','Before','I','Scream']
 ];
 
-var noTipTexts=['No tip','No tip (are you sure?)','No tip \ud83d\ude22','STILL no tip?!','No tip (the screen is crying)','No tip (why tho)','No tip (you monster)','No tip (I give up)','No tip (fine.)','No tip (but at what cost?)','No tip (the screen will remember)','No tip \ud83d\udc94'];
+var noTipTexts=['\u2622\nNO TIP','\u2622\nARE YOU SURE?','\u2622\nDANGER','\u26a0\ufe0f\nABORT?!','\u2622\nDEFCON 1','\ud83d\udca3\nARMED','\u2622\nMALTDOWN','\ud83d\udd25\nCRITICAL','\u2622\nNO GOING BACK','\u2620\ufe0f\nFINAL WARNING','\ud83d\udca5\nDETONATE','\u2622\nGOD HELP YOU'];
 var promptTexts=['How much would you like to tip?','Seriously, how much?','THE TIP. HOW MUCH.','TIP NOW.','TIP OR ELSE.','I SAID TIP.','WHY WON\'T YOU TIP','THE SCREEN DEMANDS PAYMENT','YOU OWE THE SCREEN','LAST WARNING'];
 
 function tryNoTip(){
@@ -178,7 +183,6 @@ document.getElementById('shameEmoji').textContent=msg.emoji;
 document.getElementById('shameText').textContent=msg.text;
 document.getElementById('shameSub').textContent=msg.sub;
 zone.style.display='flex';
-// Shame zone gets angrier
 if(noTipAttempts>=3) zone.style.background='rgba(80,0,0,.95)';
 if(noTipAttempts>=5) zone.style.background='rgba(120,0,0,.97)';
 if(noTipAttempts>=7){document.getElementById('shameText').classList.add('glitch')}
@@ -201,13 +205,11 @@ setTimeout(function(){call.style.display='none'},9500);
 
 noTipAttempts++;
 
-// GUILT METER
 guiltLevel=Math.min(100,guiltLevel+12);
 document.getElementById('guiltFill').style.width=guiltLevel+'%';
 var gLabels=['Low','Medium','Rising','HIGH','CRITICAL','MAXIMUM','\u2620\ufe0f','NUCLEAR','\ud83d\udd25 HELL','\ud83c\udf0b VOLCANIC'];
 document.getElementById('guiltText').textContent=gLabels[Math.min(noTipAttempts,gLabels.length-1)];
 
-// ESCALATE TIP AMOUNTS
 if(escalateIndex<escalations.length){
 var newAmts=escalations[escalateIndex];
 var newLabels=escalateLabels[escalateIndex];
@@ -218,52 +220,61 @@ document.querySelectorAll('.tip-btn .label')[i].textContent=newLabels[i];
 escalateIndex++;
 }
 
-// PROMPT GETS ANGRIER
 if(noTipAttempts<promptTexts.length){
 document.getElementById('promptText').textContent=promptTexts[noTipAttempts];
 }
 
-// BACKGROUND GETS REDDER
 var r=Math.min(60,noTipAttempts*7);
 document.body.style.background='rgb('+r+','+Math.max(10,26-noTipAttempts*2)+','+Math.max(15,46-noTipAttempts*4)+')';
 
-// FRAME GETS ANGRY
 if(noTipAttempts>=3) frame.classList.add('angry-frame');
 
-// SCREEN SHAKE ESCALATES
 if(noTipAttempts<4){document.body.classList.add('screen-shake');setTimeout(function(){document.body.classList.remove('screen-shake')},400)}
 else{document.body.classList.add('big-shake');setTimeout(function(){document.body.classList.remove('big-shake')},600)}
 
-// BUTTON ALWAYS VISIBLE BUT MOVES AND TAUNTS
+// BIG RED NUKE BUTTON - ALWAYS VISIBLE, MOVES AROUND, LOOKS DEADLY
 btn.style.position='fixed';
 btn.style.zIndex='999';
 btn.style.opacity='1';
-btn.style.fontSize='.8em';
-btn.style.padding='10px 20px';
-btn.style.background='none';
-btn.style.border='2px solid #666';
-btn.style.color='#999';
-var maxX=window.innerWidth-180;
-var maxY=window.innerHeight-60;
+var nukeSize=Math.min(180,120+noTipAttempts*8);
+btn.style.width=nukeSize+'px';
+btn.style.height=nukeSize+'px';
+btn.style.fontSize=(1+noTipAttempts*0.08)+'em';
+btn.style.borderRadius='50%';
+btn.style.fontWeight='900';
+btn.style.textTransform='uppercase';
+btn.style.letterSpacing='1px';
+btn.style.lineHeight='1.1';
+btn.style.display='flex';
+btn.style.alignItems='center';
+btn.style.justifyContent='center';
+btn.style.textAlign='center';
+var intensity=Math.min(255,180+noTipAttempts*10);
+var glow=Math.min(80,30+noTipAttempts*6);
+btn.style.background='radial-gradient(circle at 35% 35%,rgb('+intensity+',60,60),rgb('+(intensity-60)+',0,0) 50%,rgb('+(intensity-120)+',0,0))';
+btn.style.border='4px solid rgb('+(intensity-40)+',0,0)';
+btn.style.color='#fff';
+btn.style.textShadow='0 2px 4px rgba(0,0,0,.5),0 0 '+(10+noTipAttempts*3)+'px rgba(255,'+Math.max(0,100-noTipAttempts*10)+',0,.6)';
+btn.style.boxShadow='0 0 '+glow+'px rgba(255,0,0,.6),0 0 '+(glow*2)+'px rgba(255,0,0,.3),0 8px 20px rgba(0,0,0,.5),inset 0 -4px 8px rgba(0,0,0,.3),inset 0 4px 8px rgba(255,100,100,.3)';
+btn.style.cursor='pointer';
+var maxX=window.innerWidth-nukeSize-20;
+var maxY=window.innerHeight-nukeSize-20;
 btn.style.left=Math.floor(Math.random()*maxX)+'px';
 btn.style.top=Math.floor(Math.random()*maxY)+'px';
 var wobble=Math.random()*16-8;
 btn.style.transform='rotate('+wobble+'deg)';
+btn.style.padding='0';
 
-// Spawn ghost buttons after a few attempts
 if(noTipAttempts>=4){for(var g=0;g<Math.min(6,noTipAttempts-2);g++){spawnGhostBtn()}}
 
-// UPDATE BUTTON TEXT
-if(noTipAttempts<noTipTexts.length){btn.textContent=noTipTexts[noTipAttempts]}
+if(noTipAttempts<noTipTexts.length){btn.innerHTML=noTipTexts[noTipAttempts].replace(/\n/g,'<br>')}
 
-// FLOAT ANGRY EMOJIS - more per click as rage increases
 var angerEmojis=['\ud83d\ude22','\ud83d\udc94','\ud83d\ude24','\ud83e\udd7a','\ud83d\udc80','\ud83d\ude2d','\ud83d\ude21','\ud83e\udd2c','\ud83d\udca2','\ud83d\udd25','\ud83c\udf0b','\u2620\ufe0f'];
 var numFloats=Math.min(8,2+noTipAttempts);
 for(var f=0;f<numFloats;f++){
 (function(delay){setTimeout(function(){floatText(angerEmojis[Math.floor(Math.random()*angerEmojis.length)])},delay)})(f*200);
 }
 
-// TIP BUTTONS GET BIGGER when you refuse
 var tipBtns=document.querySelectorAll('.tip-btn');
 var grow=1+noTipAttempts*0.03;
 for(var t=0;t<tipBtns.length;t++){tipBtns[t].style.transform='scale('+grow+')';tipBtns[t].style.margin=noTipAttempts*2+'px'}
@@ -346,7 +357,7 @@ for(var i=0;i<5;i++){lbls[i].textContent=origLabels[i]}
 var tipBtns=document.querySelectorAll('.tip-btn');
 for(var t=0;t<tipBtns.length;t++){tipBtns[t].style.transform='';tipBtns[t].style.margin=''}
 var btn=document.getElementById('noTipBtn');
-btn.style.cssText='';btn.textContent='No tip';
+btn.style.cssText='';btn.innerHTML='&#9762;<br>NO TIP';
 document.getElementById('mainFrame').style='';
 document.getElementById('mainFrame').classList.remove('angry-frame');
 document.getElementById('promptText').textContent='How much would you like to tip?';
