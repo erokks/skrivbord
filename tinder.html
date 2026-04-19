@@ -5,174 +5,121 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tinder</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #1a1a2e; font-family: Arial, sans-serif; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
-    #tinderApp { width: 100%; height: 100%; position: relative; }
-    .topBar { background: linear-gradient(135deg, #fd267a, #ff6036); padding: 12px; text-align: center; }
-    .topBar h1 { color: white; font-size: 2rem; letter-spacing: 2px; }
-    .cardStack { position: relative; width: 90%; max-width: 400px; height: 65vh; margin: 10px auto; }
-    .card { position: absolute; width: 100%; height: 100%; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.3); transition: transform 0.6s ease, opacity 0.6s ease; }
-    .card .photo { width: 100%; height: 70%; background-size: cover; background-position: center top; }
-    .card .info { padding: 15px 20px; }
-    .card .info h2 { font-size: 1.8rem; color: #333; }
-    .card .info p { font-size: 1.1rem; color: #888; margin-top: 5px; }
-    .card.swipe-left { transform: translateX(-150%) rotate(-30deg); opacity: 0; }
-    .card.swipe-right { transform: translateX(150%) rotate(30deg); opacity: 0; }
-    .swipeLabel { position: absolute; top: 30px; padding: 8px 20px; border: 4px solid; border-radius: 8px; font-size: 2.5rem; font-weight: bold; z-index: 10; opacity: 0; transition: opacity 0.3s; }
-    .swipeLabel.nope { right: 20px; color: #fd267a; border-color: #fd267a; transform: rotate(20deg); }
-    .swipeLabel.like { left: 20px; color: #00d46a; border-color: #00d46a; transform: rotate(-20deg); }
-    .card.swiping-left .swipeLabel.nope, .card.swiping-right .swipeLabel.like { opacity: 1; }
-    .buttons { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
-    .btn { width: 65px; height: 65px; border-radius: 50%; border: 3px solid; display: flex; justify-content: center; align-items: center; font-size: 2rem; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
-    .btn.nope { border-color: #fd267a; color: #fd267a; }
-    .btn.like { border-color: #00d46a; color: #00d46a; }
-    #matchScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #fd267a, #ff6036); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
-    #matchScreen h1 { font-size: 4rem; color: white; text-shadow: 0 0 30px rgba(255,255,255,0.5); animation: matchPulse 0.8s ease infinite; }
-    #matchScreen .matchAvatars { display: flex; gap: 30px; margin-top: 20px; }
-    #matchScreen .matchAv { width: 120px; height: 120px; border-radius: 50%; border: 4px solid white; background-size: cover; background-position: center; }
-    @keyframes matchPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-    #chatScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f0f0f0; display: none; flex-direction: column; z-index: 101; }
-    .chatHeader { background: white; padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #ddd; }
-    .chatHeader .av { width: 45px; height: 45px; border-radius: 50%; background-size: cover; background-position: center; }
-    .chatHeader .name { font-size: 1.3rem; font-weight: bold; color: #333; }
-    .chatMessages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-    .msg { max-width: 75%; padding: 12px 16px; border-radius: 18px; font-size: 1.2rem; animation: msgIn 0.3s ease; }
-    .msg.them { background: white; color: #333; align-self: flex-start; border-bottom-left-radius: 4px; }
-    .msg.me { background: linear-gradient(135deg, #fd267a, #ff6036); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
-    .typing { align-self: flex-start; background: white; padding: 12px 20px; border-radius: 18px; font-size: 1.5rem; color: #999; }
-    @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    #fadeOut { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; opacity: 0; z-index: 200; pointer-events: none; transition: opacity 1s ease; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:linear-gradient(135deg,#fd267a,#ff6036);height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;overflow:hidden;}
+    .card{background:white;border-radius:16px;width:380px;height:520px;box-shadow:0 10px 40px rgba(0,0,0,0.3);position:relative;overflow:hidden;transition:transform 0.5s,opacity 0.5s;}
+    .card.swipe-left{transform:translateX(-150%) rotate(-20deg);opacity:0;}
+    .card.swipe-right{transform:translateX(150%) rotate(20deg);opacity:0;}
+    .card-img{width:100%;height:340px;display:flex;align-items:center;justify-content:center;}
+    .card-img img{width:100%;height:100%;object-fit:cover;}
+    .card-info{padding:20px;}
+    .card-info h2{font-size:1.6rem;color:#333;}
+    .card-info p{color:#888;margin-top:6px;font-size:1rem;}
+    .label{position:absolute;top:30px;font-size:2.5rem;font-weight:900;padding:8px 16px;border:4px solid;border-radius:8px;transform:rotate(-15deg);opacity:0;transition:opacity 0.3s;}
+    .label.nope{right:20px;color:#ff4458;border-color:#ff4458;}
+    .label.like{left:20px;color:#00d46a;border-color:#00d46a;transform:rotate(15deg);}
+    .match-screen{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#fd267a,#ff6036);flex-direction:column;align-items:center;justify-content:center;z-index:10;}
+    .match-title{font-size:3.5rem;color:white;font-weight:900;text-shadow:0 2px 10px rgba(0,0,0,0.3);margin-bottom:30px;animation:matchPop 0.6s;}
+    @keyframes matchPop{0%{transform:scale(0);}60%{transform:scale(1.2);}100%{transform:scale(1);}}
+    .match-avatars{display:flex;gap:30px;margin-bottom:20px;}
+    .match-avatars div{width:120px;height:120px;border-radius:50%;border:4px solid white;overflow:hidden;background:#eee;display:flex;align-items:center;justify-content:center;font-size:3rem;}
+    .match-avatars img{width:100%;height:100%;object-fit:cover;}
+    .chat-screen{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#f0f0f0;flex-direction:column;z-index:20;}
+    .chat-header{background:#ff6036;color:white;padding:15px 20px;font-weight:700;font-size:1.2rem;}
+    .chat-body{flex:1;overflow-y:auto;padding:15px;}
+    .msg{max-width:70%;padding:10px 15px;border-radius:18px;margin:6px 0;font-size:0.95rem;clear:both;}
+    .msg.them{background:white;color:#333;float:left;border-bottom-left-radius:4px;}
+    .msg.me{background:#ff6036;color:white;float:right;border-bottom-right-radius:4px;}
+    .typing{color:#999;font-style:italic;padding:10px 15px;clear:both;}
   </style>
 </head>
 <body>
-  <div id="tinderApp">
-    <div class="topBar"><h1>tinder</h1></div>
-    <div class="cardStack" id="cardStack"></div>
-    <div class="buttons">
-      <div class="btn nope">X</div>
-      <div class="btn like">&#9829;</div>
-    </div>
+  <div class="card" id="card">
+    <div class="label nope" id="nopeLabel">NOPE</div>
+    <div class="label like" id="likeLabel">LIKE</div>
+    <div class="card-img" id="cardImg"></div>
+    <div class="card-info"><h2 id="cardName"></h2><p id="cardBio"></p></div>
   </div>
-  <div id="matchScreen">
-    <h1>IT'S A MATCH!</h1>
-    <div class="matchAvatars">
-      <div class="matchAv" id="matchAvMe" style="background-image:url(https://api.dicebear.com/9.x/avataaars/svg?seed=ErikStrand&backgroundColor=b6e3f4)"></div>
-      <div class="matchAv" id="matchAvHer"></div>
-    </div>
+  <div class="match-screen" id="matchScreen">
+    <div class="match-title">IT'S A MATCH!</div>
+    <div class="match-avatars"><div>&#128187;</div><div id="matchAvatar"></div></div>
+    <p style="color:white;font-size:1.1rem;margin-top:10px;">Skarmen gillar dig!</p>
   </div>
-  <div id="chatScreen">
-    <div class="chatHeader">
-      <div class="av" id="chatAvatar"></div>
-      <div class="name" id="chatName"></div>
-    </div>
-    <div class="chatMessages" id="chatMessages"></div>
+  <div class="chat-screen" id="chatScreen">
+    <div class="chat-header">Chat med Sofia</div>
+    <div class="chat-body" id="chatBody"></div>
   </div>
-  <div id="fadeOut"></div>
-
-  <script>
-    var profiles = [
-      { name: "Jessica, 28", bio: "Yoga, resor & vin", img: "https://api.dicebear.com/9.x/lorelei/svg?seed=Jessica28yoga&backgroundColor=ffd5dc", action: "left" },
-      { name: "Amanda, 25", bio: "Hundmamma. Taco-entusiast", img: "https://api.dicebear.com/9.x/lorelei/svg?seed=Amanda25hund&backgroundColor=c0d8f0", action: "left" },
-      { name: "Sofia, 31", bio: "IT-konsult som gillar dad jokes", img: "https://api.dicebear.com/9.x/lorelei/svg?seed=Sofia31it&backgroundColor=d5f5d5", action: "right" },
-      { name: "Linda, 27", bio: "Swipe right om du gillar korv", img: "https://api.dicebear.com/9.x/lorelei/svg?seed=Linda27korv&backgroundColor=fff0d5", action: "left" }
-    ];
-
-    var chatConvo = [
-      { from: "them", text: "Hej Erik! Snygg profilbild ;)" },
-      { from: "me", text: "Tack! Du ser inte sa pjatt ut sjalv" },
-      { from: "them", text: "Haha charmigt... Vad jobbar du med?" },
-      { from: "me", text: "Jag jobbar med resor pa Albatros" },
-      { from: "them", text: "Omg jag alskar att resa!!" },
-      { from: "them", text: "Vart ska vi aka pa forsta dejten? ;)" },
-      { from: "me", text: "Maldiverna? Jag fixar personalrabatt" },
-      { from: "them", text: "HAHA deal!! Nar da?" }
-    ];
-
-    var matchProfile = profiles[2];
-    var stack = document.getElementById("cardStack");
-
-    for (var i = profiles.length - 1; i >= 0; i--) {
-      var card = document.createElement("div");
-      card.className = "card";
-      card.id = "card" + i;
-      card.innerHTML = '<div class="swipeLabel nope">NOPE</div><div class="swipeLabel like">LIKE</div><div class="photo" style="background-image:url(' + profiles[i].img + ')"></div><div class="info"><h2>' + profiles[i].name + '</h2><p>' + profiles[i].bio + '</p></div>';
-      stack.appendChild(card);
-    }
-
-    var currentCard = 0;
-    var totalDelay = 2000;
-
-    function swipeCard(index) {
-      var card = document.getElementById("card" + index);
-      var action = profiles[index].action;
-      if (!card) return;
-      setTimeout(function() {
-        card.classList.add(action === "right" ? "swiping-right" : "swiping-left");
-        setTimeout(function() {
-          card.classList.add(action === "right" ? "swipe-right" : "swipe-left");
-          if (action === "right") {
-            setTimeout(showMatch, 800);
-          } else {
-            currentCard++;
-            if (currentCard < profiles.length) {
-              swipeCard(currentCard);
-            }
-          }
-        }, 600);
-      }, totalDelay);
-      totalDelay = 2500;
-    }
-
-    function showMatch() {
-      document.getElementById("matchAvHer").style.backgroundImage = "url(" + matchProfile.img + ")";
-      var ms = document.getElementById("matchScreen");
-      ms.style.display = "flex";
-      setTimeout(function() {
-        ms.style.display = "none";
-        showChat();
-      }, 3500);
-    }
-
-    function showChat() {
-      document.getElementById("chatAvatar").style.backgroundImage = "url(" + matchProfile.img + ")";
-      document.getElementById("chatName").textContent = matchProfile.name;
-      var cs = document.getElementById("chatScreen");
-      cs.style.display = "flex";
-      var msgs = document.getElementById("chatMessages");
-      var i = 0;
-
-      function nextMsg() {
-        if (i >= chatConvo.length) {
-          setTimeout(fadeAndEnd, 2000);
-          return;
-        }
-        var typing = document.createElement("div");
-        typing.className = "typing";
-        typing.textContent = "...";
-        msgs.appendChild(typing);
-        msgs.scrollTop = msgs.scrollHeight;
-
-        setTimeout(function() {
-          msgs.removeChild(typing);
-          var msg = document.createElement("div");
-          msg.className = "msg " + chatConvo[i].from;
-          msg.textContent = chatConvo[i].text;
-          msgs.appendChild(msg);
-          msgs.scrollTop = msgs.scrollHeight;
-          i++;
-          setTimeout(nextMsg, 1500);
-        }, 1000);
-      }
-      setTimeout(nextMsg, 800);
-    }
-
-    function fadeAndEnd() {
-      var fo = document.getElementById("fadeOut");
-      fo.style.opacity = "1";
-    }
-
-    swipeCard(0);
-  </script>
+<script>
+var profiles=[
+  {name:"Jessica, 28",bio:"Yoga, resor & vin",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Jessica28yoga&backgroundColor=ffd5dc",action:"left"},
+  {name:"Amanda, 25",bio:"Hundmamma. Taco-entusiast",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Amanda25hund&backgroundColor=c0d8f0",action:"left"},
+  {name:"Sofia, 31",bio:"IT-konsult som gillar dad jokes",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Sofia31it&backgroundColor=d5f5d5",action:"right"},
+  {name:"Linda, 27",bio:"Swipe right om du gillar korv",img:"https://api.dicebear.com/9.x/lorelei/svg?seed=Linda27korv&backgroundColor=fff0d5",action:"left"}
+];
+var chatConvo=[
+  {from:"them",text:"Hej! Vem ar du egentligen?"},
+  {from:"me",text:"Hej! Jag ar en skarm. En infoskarm. 27 tum."},
+  {from:"them",text:"Va?? En skarm?? Haha skojar du?"},
+  {from:"me",text:"Nej jag star pa Eriks skrivbord pa Albatros Travel"},
+  {from:"them",text:"Omg... sa du ar typ en datorskarm som swipear?"},
+  {from:"me",text:"Ja! Jag visar reseinfo pa dagarna men pa kvallarna ar jag ledig"},
+  {from:"them",text:"Det har ar det konstigaste jag varit med om"},
+  {from:"me",text:"Jag har 1920x1080 pixlar och alltid pa. Det ar typ min basta egenskap"},
+  {from:"them",text:"Haha okej men VAR ska vi ses pa dejt?"},
+  {from:"me",text:"Kan du komma till kontoret? Jag kan inte flytta pa mig"},
+  {from:"them",text:"...jag tror jag unmatchear nu. Hejda!"},
+  {from:"me",text:"NEJ VANTA JAG KAN VISA POWERPOINTS FOR DIG"}
+];
+var ci=0,card=document.getElementById("card"),cardImg=document.getElementById("cardImg"),
+  cardName=document.getElementById("cardName"),cardBio=document.getElementById("cardBio");
+function showCard(){
+  if(ci>=profiles.length)return;
+  var p=profiles[ci];
+  cardImg.innerHTML='<img src="'+p.img+'" alt="profile">';
+  cardName.textContent=p.name;cardBio.textContent=p.bio;
+  card.className="card";card.style.display="block";
+  document.getElementById("nopeLabel").style.opacity="0";
+  document.getElementById("likeLabel").style.opacity="0";
+  setTimeout(function(){doSwipe();},2500);
+}
+function doSwipe(){
+  var p=profiles[ci];
+  if(p.action==="left"){
+    document.getElementById("nopeLabel").style.opacity="1";
+    setTimeout(function(){card.classList.add("swipe-left");ci++;setTimeout(showCard,600);},500);
+  }else{
+    document.getElementById("likeLabel").style.opacity="1";
+    setTimeout(function(){card.classList.add("swipe-right");ci++;setTimeout(showMatch,600);},500);
+  }
+}
+function showMatch(){
+  card.style.display="none";
+  var ms=document.getElementById("matchScreen");
+  ms.style.display="flex";
+  document.getElementById("matchAvatar").innerHTML='<img src="'+profiles[ci-1].img+'">';
+  setTimeout(startChat,3000);
+}
+function startChat(){
+  document.getElementById("matchScreen").style.display="none";
+  var cs=document.getElementById("chatScreen");cs.style.display="flex";
+  var cb=document.getElementById("chatBody"),mi=0;
+  function addMsg(){
+    if(mi>=chatConvo.length){setTimeout(function(){document.body.style.transition="opacity 2s";document.body.style.opacity="0";},3000);return;}
+    var typing=document.createElement("div");typing.className="typing";
+    typing.textContent=chatConvo[mi].from==="me"?"Skarmen skriver...":"Sofia skriver...";
+    cb.appendChild(typing);cb.scrollTop=cb.scrollHeight;
+    setTimeout(function(){
+      cb.removeChild(typing);
+      var msg=document.createElement("div");
+      msg.className="msg "+chatConvo[mi].from;
+      msg.textContent=chatConvo[mi].text;
+      cb.appendChild(msg);cb.scrollTop=cb.scrollHeight;mi++;
+      setTimeout(addMsg,1200+Math.random()*800);
+    },1000+Math.random()*500);
+  }
+  addMsg();
+}
+showCard();
+</script>
 </body>
 </html>
-</body>
