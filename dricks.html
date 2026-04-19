@@ -186,7 +186,7 @@ zone.style.display='flex';
 if(noTipAttempts>=3) zone.style.background='rgba(80,0,0,.95)';
 if(noTipAttempts>=5) zone.style.background='rgba(120,0,0,.97)';
 if(noTipAttempts>=7){document.getElementById('shameText').classList.add('glitch')}
-var shameDur=3500+noTipAttempts*500;
+var shameDur=7000+noTipAttempts*1000;
 setTimeout(function(){zone.style.display='none';document.getElementById('shameText').classList.remove('glitch');zone.style.background='rgba(0,0,0,.92)'},shameDur);
 }
 
