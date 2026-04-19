@@ -22,6 +22,7 @@
     #bsodOverlay{z-index:9994;}
     #matrixOverlay{z-index:9993;}
     #folksOverlay{z-index:9992;}
+    #terminatorOverlay{z-index:9991;}
   </style>
 </head>
 <body>
@@ -33,6 +34,7 @@
   <div id="bsodOverlay" class="ovl"></div>
   <div id="matrixOverlay" class="ovl"></div>
   <div id="folksOverlay" class="ovl"></div>
+  <div id="terminatorOverlay" class="ovl"></div>
   <iframe id="mainFrame" src=""></iframe>
 <script>
 function goFS(){
@@ -73,42 +75,35 @@ function checkLunch(){
 }
 setInterval(checkLunch,30000);checkLunch();
 
-// Thats All Folks - kl 16:00 maan-fre
+// Thats All Folks - 16:00 mon-fri
 function checkFolks(){
   var now=new Date(),day=now.getDay(),time=now.getHours()*60+now.getMinutes();
   var fo=document.getElementById("folksOverlay");
   if(day>=1&&day<=5&&time>=960&&time<965){
     if(fo.style.display!=="block"){
-      fo.innerHTML='<iframe src="folks.html"></iframe>';
-      fo.style.display="block";
+      fo.innerHTML='<iframe src="folks.html"></iframe>';fo.style.display="block";
     }
   }else{fo.style.display="none";fo.innerHTML="";}
 }
 setInterval(checkFolks,30000);checkFolks();
 
-var memes=["dQw4w9WgXcQ","djV11Xbc914","lDhAdMKrl9I","EE-xtCF3T94","y6120QOlsfU","2Z4m4lnjxkY"];
-function showOverlay(id,src,dur){
-  var el=document.getElementById(id);
-  el.innerHTML='<iframe src="'+src+'"></iframe>';el.style.display="block";
-  setTimeout(function(){el.style.display="none";el.innerHTML="";},dur);
+// Terminator boot - 08:30 mon-fri
+function checkTerminator(){
+  var now=new Date(),day=now.getDay(),time=now.getHours()*60+now.getMinutes();
+  var to=document.getElementById("terminatorOverlay");
+  if(day>=1&&day<=5&&time>=510&&time<512){
+    if(to.style.display!=="block"){
+      to.innerHTML='<iframe src="terminator.html"></iframe>';to.style.display="block";
+      setTimeout(function(){to.style.display="none";to.innerHTML="";},60000);
+    }
+  }
 }
-function showMeme(){
-  var mo=document.getElementById("memeOverlay");
-  var id=memes[Math.floor(Math.random()*memes.length)];
-  mo.innerHTML='<iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1&controls=0" allow="autoplay" allowfullscreen></iframe>';
-  mo.style.display="flex";
-  setTimeout(function(){mo.style.display="none";mo.innerHTML="";},10000+Math.random()*5000);
-}
+setInterval(checkTerminator,30000);checkTerminator();
 
-// Random overlays varannan minut
-setInterval(function(){
-  var r=Math.random();
-  if(r<0.02) showOverlay("tinderOverlay","tinder.html",55000);
-  else if(r<0.04) showOverlay("nyheterOverlay","nyheter.html",45000);
-  else if(r<0.06) showOverlay("bsodOverlay","bsod.html",35000);
-  else if(r<0.08) showOverlay("matrixOverlay","matrix.html",40000);
-  else if(r<0.15) showMeme();
-},120000);
+var memes=["https://i.imgflip.com/1bij.jpg","https://i.imgflip.com/26am.jpg","https://i.imgflip.com/9vct.jpg","https://i.imgflip.com/1otk96.jpg","https://i.imgflip.com/2fm6x.jpg","https://i.imgflip.com/3lmzyx.jpg","https://i.imgflip.com/4t0m5.jpg","https://i.imgflip.com/1ur9b0.jpg"];
+function showOverlay(id,src,dur){var el=document.getElementById(id);el.innerHTML='<iframe src="'+src+'" style="width:100%;height:100%;border:none"></iframe>';el.style.display="flex";setTimeout(function(){el.style.display="none";el.innerHTML=""},dur)}
+function showMeme(){var el=document.getElementById("memeOverlay");var img=memes[Math.floor(Math.random()*memes.length)];el.innerHTML='<img src="'+img+'" style="max-width:90%;max-height:90%;border-radius:12px;box-shadow:0 0 40px rgba(0,0,0,.7)">';el.style.display="flex";setTimeout(function(){el.style.display="none";el.innerHTML=""},8000)}
+setInterval(function(){var r=Math.random();if(r<0.02){showOverlay("tinderOverlay","tinder.html",30000)}else if(r<0.04){showOverlay("nyheterOverlay","nyheter.html",15000)}else if(r<0.06){showOverlay("bsodOverlay","bsod.html",18000)}else if(r<0.08){showOverlay("matrixOverlay","matrix.html",20000)}else if(r<0.15){showMeme()}},120000);
 </script>
 </body>
 </html>
