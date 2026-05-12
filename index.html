@@ -49,15 +49,15 @@ setInterval(function(){
     document.getElementById("fsOverlay").style.display="flex";
 },10000);
 
-function loadPage(){
+function easter(y){var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}function isHol(d){var y=d.getFullYear(),m=d.getMonth(),da=d.getDate(),fx=[[0,1],[1,14],[5,5],[5,23],[9,31],[10,10],[11,24],[11,25],[11,26],[11,31]];for(var i=0;i<fx.length;i++)if(fx[i][0]===m&&fx[i][1]===da)return true;var p=easter(y),off=[-49,-3,-2,0,1,39,49,50];for(var j=0;j<off.length;j++){var t=new Date(p);t.setDate(t.getDate()+off[j]);if(t.getMonth()===m&&t.getDate()===da)return true}return false}function loadPage(){
   var now=new Date(),day=now.getDay(),time=now.getHours()*60+now.getMinutes();
   var page="ai-erik.html";
   if(day===1)page="dricks.html";
   else if(day===2)page="dricks.html";
   else if(day===3)page="godis.html";
   else if(day===4)page=time<720?"ai-erik.html":"helpdesk.html";
-  else if(day===5)page=time<720?"dricks.html":"ai-erik.html";
-  document.getElementById("mainFrame").src=page;
+  else if(day===5)page="fredag.html";
+  if(isHol(now))page="helligdag.html";document.getElementById("mainFrame").src=page;
 }
 loadPage();setInterval(loadPage,300000);
 
