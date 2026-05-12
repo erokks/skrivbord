@@ -22,7 +22,7 @@
     #bsodOverlay{z-index:9994;}
     #matrixOverlay{z-index:9993;}
     #folksOverlay{z-index:9992;}
-    #terminatorOverlay{z-index:9991;}#julfestOverlay{z-index:9990;}#monologOverlay{z-index:9989;}#anxietyFloater{position:fixed;pointer-events:none;z-index:8000;color:#ff6b6b;font-family:'Share Tech Mono',monospace;font-size:1.6rem;text-shadow:0 0 12px rgba(255,107,107,.7);opacity:0;transition:opacity .8s;max-width:600px;line-height:1.3;padding:8px 14px;background:rgba(0,0,0,.6);border-radius:6px;}
+    #terminatorOverlay{z-index:9991;}#julfestOverlay{z-index:9990;}#monologOverlay{z-index:9989;}#sofieOverlay{z-index:9988;}#anxietyFloater{position:fixed;pointer-events:none;z-index:8000;color:#ff6b6b;font-family:'Share Tech Mono',monospace;font-size:1.6rem;text-shadow:0 0 12px rgba(255,107,107,.7);opacity:0;transition:opacity .8s;max-width:600px;line-height:1.3;padding:8px 14px;background:rgba(0,0,0,.6);border-radius:6px;}
   </style>
 </head>
 <body>
@@ -34,7 +34,7 @@
   <div id="bsodOverlay" class="ovl"></div>
   <div id="matrixOverlay" class="ovl"></div>
   <div id="folksOverlay" class="ovl"></div>
-  <div id="terminatorOverlay" class="ovl"></div><div id="julfestOverlay" class="ovl"></div><div id="monologOverlay" class="ovl"></div><div id="anxietyFloater"></div>
+  <div id="terminatorOverlay" class="ovl"></div><div id="julfestOverlay" class="ovl"></div><div id="monologOverlay" class="ovl"></div><div id="sofieOverlay" class="ovl"></div><div id="anxietyFloater"></div>
   <iframe id="mainFrame" src=""></iframe>
 <script>
 function goFS(){
@@ -103,7 +103,7 @@ setInterval(checkTerminator,30000);checkTerminator();
 var anxieties=["Marianne tittade konstigt 14:23","Var jag for ljus i fm?","Tror Jakob hatar mig","Det var jag som sjong Last Christmas","Sa jag fel pa slide 3?","Pratar de om mig vid kaffemaskinen?","Sandra fick 32 tum","Marlene flyttade min lampa","Hedda log inte idag","HR skickade ett email","Soffis sa suck igen","Karin sa hej till skrivaren forst","Marcus undvek oeghonkontakt","Tror Bjorn skrattade aat mig","Vivi har inte tittat paa mig sen tisdag","Aer jag for stor i hoernet?","De skickade mejl utan att CCa mig","Det dryper kaffe paa min bezel","Tror jag glommer av mig sjaelv"];function popAnxiety(){var el=document.getElementById("anxietyFloater");if(!el)return;el.textContent=anxieties[Math.floor(Math.random()*anxieties.length)];el.style.left=(Math.random()*60+10)+"%";el.style.top=(Math.random()*70+10)+"%";el.style.opacity="1";setTimeout(function(){el.style.opacity="0"},4500)}setInterval(popAnxiety,9000);var memes=["https://i.imgflip.com/1bij.jpg","https://i.imgflip.com/26am.jpg","https://i.imgflip.com/9vct.jpg","https://i.imgflip.com/1otk96.jpg","https://i.imgflip.com/2fm6x.jpg","https://i.imgflip.com/3lmzyx.jpg","https://i.imgflip.com/4t0m5.jpg","https://i.imgflip.com/1ur9b0.jpg"];
 function showOverlay(id,src,dur){var el=document.getElementById(id);el.innerHTML='<iframe src="'+src+'" style="width:100%;height:100%;border:none"></iframe>';el.style.display="flex";setTimeout(function(){el.style.display="none";el.innerHTML=""},dur)}
 function showMeme(){var el=document.getElementById("memeOverlay");var img=memes[Math.floor(Math.random()*memes.length)];el.innerHTML='<img src="'+img+'" style="max-width:90%;max-height:90%;border-radius:12px;box-shadow:0 0 40px rgba(0,0,0,.7)">';el.style.display="flex";setTimeout(function(){el.style.display="none";el.innerHTML=""},8000)}
-setInterval(function(){var r=Math.random();if(r<0.02){showOverlay("tinderOverlay","tinder.html",30000)}else if(r<0.04){showOverlay("nyheterOverlay","nyheter.html",15000)}else if(r<0.06){showOverlay("bsodOverlay","bsod.html",18000)}else if(r<0.08){showOverlay("matrixOverlay","matrix.html",20000)}else if(r<0.10){showOverlay("julfestOverlay","julfest.html",25000)}else if(r<0.14){showOverlay("monologOverlay","monolog.html",18000)}else if(r<0.28){showMeme()}},45000);
+setInterval(function(){var r=Math.random();if(r<0.02){showOverlay("tinderOverlay","tinder.html",30000)}else if(r<0.04){showOverlay("nyheterOverlay","nyheter.html",15000)}else if(r<0.06){showOverlay("bsodOverlay","bsod.html",18000)}else if(r<0.08){showOverlay("matrixOverlay","matrix.html",20000)}else if(r<0.10){showOverlay("julfestOverlay","julfest.html",25000)}else if(r<0.14){showOverlay("monologOverlay","monolog.html",18000)}else if(r<0.18){showOverlay("sofieOverlay","sofie.html",22000)}else if(r<0.28){showMeme()}},45000);
 </script>
 </body>
 </html>
