@@ -16,7 +16,14 @@
     @keyframes scrollLeft{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
     .ovl{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:none;}
     .ovl iframe{width:100%;height:100%;border:none;}
-    #memeOverlay{z-index:9997;justify-content:center;align-items:center;background:rgba(0,0,0,.85);}
+    #memeOverlay{z-index:9997;justify-content:center;align-items:center;background:#000;overflow:hidden;}
+    #memeOverlay .meme-bleed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.15) saturate(1.1);}
+    #memeOverlay .meme-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.12) 38%,rgba(0,0,0,.12) 62%,rgba(0,0,0,.62) 100%);}
+    #memeOverlay .meme-cap{position:absolute;left:3%;right:3%;font-family:Impact,'Arial Black',sans-serif;font-size:clamp(2.6rem,8.2vw,7.2rem);line-height:.92;text-transform:uppercase;text-align:center;color:#fff;letter-spacing:2px;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:0 6px 0 #000,0 0 18px #000;z-index:2;font-weight:900;}
+    #memeOverlay .meme-cap.top{top:3%;}
+    #memeOverlay .meme-cap.bot{bottom:4%;}
+    #memeOverlay .meme-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:4vw;font-family:Impact,'Arial Black',sans-serif;font-size:clamp(3.2rem,11vw,9rem);line-height:.9;text-transform:uppercase;text-align:center;letter-spacing:3px;font-weight:900;white-space:pre-line;}
+
     #tinderOverlay{z-index:9996;}
     #nyheterOverlay{z-index:9995;}
     #bsodOverlay{z-index:9994;}
@@ -30,19 +37,21 @@
     #skrivareOverlay{z-index:9986;}
     #teamsOverlay{z-index:9985;}
     #scanlines{position:fixed;inset:0;pointer-events:none;z-index:8005;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0px,rgba(0,0,0,.18) 1px,transparent 1px,transparent 3px);mix-blend-mode:multiply;}
-    #hud{position:fixed;top:8px;left:12px;z-index:8010;color:#00ff88;font-size:.85rem;letter-spacing:2px;text-shadow:0 0 8px #00ff88;opacity:.85;pointer-events:auto;cursor:pointer;}
+    #hud{position:fixed;top:6px;left:10px;z-index:8010;color:#00ff88;font-size:.62rem;letter-spacing:2px;text-shadow:0 0 8px #00ff88;opacity:.55;pointer-events:auto;cursor:pointer;}
     #hudMood{color:#ffcc00;}
-    #jokeFloater{position:fixed;pointer-events:none;z-index:8000;color:#111;font-family:Georgia,'Comic Sans MS',cursive;font-size:1.35rem;opacity:0;transition:opacity .5s;max-width:520px;line-height:1.35;padding:14px 18px 18px;background:#fff8b0;border:3px solid #111;border-radius:4px;box-shadow:6px 6px 0 #00ff88,0 0 0 4px #000;transform:rotate(-2deg);}
+    #jokeFloater{position:fixed;pointer-events:none;z-index:8000;color:#111;font-family:Georgia,'Comic Sans MS',cursive;font-size:1.35rem;opacity:0;transition:opacity .5s;max-width:520px;line-height:1.35;padding:14px 18px 18px;background:#fff8b0;border:3px solid #111;border-radius:4px;box-shadow:6px 6px 0 #00ff88,0 0 0 4px #000;transform:rotate(-2deg);display:none;}
     #jokeFloater:after{content:"";position:absolute;bottom:-16px;left:40px;border:10px solid transparent;border-top-color:#111;}
-    #toasts{position:fixed;right:16px;bottom:52px;z-index:8020;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;}
+    #toasts{position:fixed;right:16px;bottom:52px;z-index:8020;display:none;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;}
     .toast{background:#1b1b1b;color:#eee;border-left:5px solid #00ff88;padding:10px 14px;font-size:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.5);animation:toastIn .4s ease-out;}
     .toast b{color:#00ff88;display:block;font-size:.75rem;letter-spacing:1px;margin-bottom:3px;}
     @keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
-    #tickerWrap{position:fixed;bottom:0;left:0;right:0;z-index:8015;background:#00ff88;color:#000;overflow:hidden;white-space:nowrap;pointer-events:auto;cursor:pointer;height:28px;line-height:28px;font-weight:700;font-size:.95rem;}
+    #tickerWrap{position:fixed;bottom:0;left:0;right:0;z-index:8015;background:#00ff88;color:#000;overflow:hidden;white-space:nowrap;pointer-events:auto;cursor:pointer;height:20px;line-height:20px;font-weight:700;font-size:.72rem;opacity:.7;}
     #tickerWrap .t{display:inline-block;padding-left:100%;animation:tick 42s linear infinite;}
     @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
     #dvd{position:fixed;z-index:8008;pointer-events:none;display:none;font-weight:900;font-size:1.6rem;letter-spacing:3px;text-shadow:0 0 12px currentColor;white-space:nowrap;}
-    #flashGag{position:fixed;inset:0;z-index:9980;display:none;align-items:center;justify-content:center;background:#ff0;color:#000;font-size:4.5rem;font-weight:900;text-align:center;letter-spacing:4px;padding:40px;}
+    #flashGag{position:fixed;inset:0;z-index:9980;display:none;align-items:center;justify-content:center;background:#ff0;color:#000;font-size:6.4rem;font-weight:900;text-align:center;letter-spacing:4px;padding:36px;font-family:Impact,'Arial Black',sans-serif;line-height:.95;text-transform:uppercase;}
+    body.bigGag #hud,body.bigGag #tickerWrap,body.bigGag #jokeFloater,body.bigGag #toasts,body.bigGag .sticky,body.bigGag #dvd,body.bigGag #scanlines{opacity:0!important;visibility:hidden!important;pointer-events:none!important;}
+    .sticky{display:none!important;}
     .sticky{position:fixed;z-index:8002;pointer-events:none;width:180px;padding:14px 12px 22px;font-family:'Comic Sans MS',cursive;font-size:.95rem;color:#222;box-shadow:4px 4px 0 rgba(0,0,0,.4);transform:rotate(-4deg);opacity:0;transition:opacity .6s;}
 
     /* ===== GTA MODE ===== */
@@ -269,8 +278,9 @@ function checkLunch(){
         d.style.animationDelay=(i*0.35)+"s";
         lo.appendChild(d);
       }
+      setChrome(true);
     }
-  }else{lo.style.display="none";}
+  }else{if(lo.style.display==="block"){lo.style.display="none";if(!anyOvlOn())setChrome(false);}else lo.style.display="none";}
 }
 setInterval(checkLunch,30000);checkLunch();
 
@@ -280,8 +290,9 @@ function checkFolks(){
   if(day>=1&&day<=5&&time>=960&&time<965){
     if(fo.style.display!=="block"){
       fo.innerHTML='<iframe src="folks.html"></iframe>';fo.style.display="block";
+      setChrome(true);
     }
-  }else{fo.style.display="none";fo.innerHTML="";}
+  }else{if(fo.style.display==="block"){fo.style.display="none";fo.innerHTML="";if(!anyOvlOn())setChrome(false);}else{fo.style.display="none";fo.innerHTML="";}}
 }
 setInterval(checkFolks,30000);checkFolks();
 
@@ -291,7 +302,8 @@ function checkTerminator(){
   if(day>=1&&day<=5&&time>=510&&time<514){
     if(to.style.display!=="block"){
       to.innerHTML='<iframe src="terminator.html"></iframe>';to.style.display="block";
-      setTimeout(function(){to.style.display="none";to.innerHTML="";},120000);
+      setChrome(true);
+      setTimeout(function(){to.style.display="none";to.innerHTML="";if(!anyOvlOn())setChrome(false);},120000);
     }
   }
 }
@@ -315,7 +327,7 @@ var jokes=[
   "Ol-vagnen ar en myt. Fredagen ar beviset. Jag ar vittnet.",
   "Jag har sett onboarding 47 ganger. Jag ar fortfarande inte onboardad.",
   "Skrivaren skrev ut min sjal. Den kom ut som Comic Sans.",
-  "HR:s nya policy: skarmen far en (1) blink per kvartal.",
+  "Kalenderns nya policy: skarmen far en (1) blink per kvartal.",
   "Jag bokade konferensrummet. For mig. For att tanda.",
   "PowerPoint-overgangen svepa ar mitt Kardashian-ogonblick.",
   "Karamellskalen och jag har ett avtal. Jag tittar. Den forsvinner.",
@@ -330,6 +342,7 @@ var jokes=[
   "Jag röstade pa fika. Fika vann. Demokratin fungerar."
 ];
 function popJoke(){
+  return;
   var el=document.getElementById("jokeFloater");
   el.textContent=jokes[Math.floor(Math.random()*jokes.length)];
   el.style.left=(Math.random()*50+8)+"%";
@@ -376,37 +389,36 @@ var toasts=[
   ["Kalendern","Motet 'kort avstämning' ar nu 90 minuter."],
   ["Godisskalen","Strukturell integritet: 12%. Panik: tillaten."],
   ["WiFi","Signalen ar karlek. Latensen ar mandag."],
-  ["HR","Ny policy: skamt densitet minst 40 per timme."]
+  ["Kalendern","Ny policy: skamt densitet minst 40 per timme."]
 ];
-setInterval(function(){
-  if(Math.random()<0.55){
-    var x=toasts[Math.floor(Math.random()*toasts.length)];
-    toast(x[0],x[1]);
-  }
-},18000);
-setTimeout(function(){toast("Skarmen","Bootad. Skamtdensitet: illegal.")},4000);
 
 function flashGag(txt,bg,fg,ms){
+  if(seqBusy||anyOvlOn())return;
+  setChrome(true);
   var el=document.getElementById("flashGag");
   el.textContent=txt;el.style.background=bg||"#ff0";el.style.color=fg||"#000";
   el.style.display="flex";
-  setTimeout(function(){el.style.display="none"},ms||700);
+  setTimeout(function(){el.style.display="none";if(!anyOvlOn())setChrome(false);},ms||700);
 }
 var gags=[
-  ["SKARMEN BLINKADE","#000","#00ff88",500],
-  ["FIKA AR LAG","#ff0","#000",800],
-  ["DET HAR AR INTE EN DRILL","#f00","#fff",600],
-  ["COMIC SANS DETECTED","#fff","#f0f",700],
-  ["VLOOKUP? MER SOM VADLOOKUP","#00f","#fff",800],
-  ["27 TUM AV JA","#0f0","#000",600],
-  ["SKRIVAREN VANN IGEN","#111","#0f0",700]
+  ["SKARMEN BLINKADE","#000","#00ff88",700],
+  ["FIKA AR LAG","#ff0","#000",900],
+  ["DET HAR AR INTE EN DRILL","#f00","#fff",700],
+  ["COMIC SANS DETECTED","#fff","#f0f",800],
+  ["VADLOOKUP","#00f","#fff",800],
+  ["27 TUM AV JA","#0f0","#000",700],
+  ["SKRIVAREN VANN","#111","#0f0",800],
+  ["LUNCH?","#001a00","#00ff88",700],
+  ["HDMI FOREVER","#000","#0ff",800],
+  ["PIXLARNA STREJKAR","#000","#ff0",800]
 ];
 setInterval(function(){
-  if(Math.random()<0.35){
+  if(seqBusy||anyOvlOn())return;
+  if(Math.random()<0.40){
     var g=gags[Math.floor(Math.random()*gags.length)];
     flashGag(g[0],g[1],g[2],g[3]);
   }
-},28000);
+},32000);
 
 var dvd=document.getElementById("dvd"),dx=3,dy=2,dvx=3,dvy=2,dcols=["#00ff88","#ff0","#f0f","#0ff","#f80","#fff"];
 function bounceDvd(){
@@ -418,7 +430,8 @@ function bounceDvd(){
 }
 var dvdOn=false;
 function maybeDvd(){
-  if(!dvdOn && Math.random()<0.4){
+  if(seqBusy||anyOvlOn())return;
+  if(!dvdOn && Math.random()<0.25){
     dvdOn=true;dvd.style.display="block";dvd.style.color=dcols[0];
     var iv=setInterval(bounceDvd,16);
     setTimeout(function(){clearInterval(iv);dvd.style.display="none";dvdOn=false;},12000);
@@ -439,25 +452,127 @@ function spawnSticky(){
   setTimeout(function(){s.style.opacity="1"},30);
   setTimeout(function(){s.style.opacity="0";setTimeout(function(){s.remove()},700)},7000);
 }
-setInterval(function(){if(Math.random()<0.45)spawnSticky()},16000);
 
 var memes=["https://i.imgflip.com/1bij.jpg","https://i.imgflip.com/26am.jpg","https://i.imgflip.com/9vct.jpg","https://i.imgflip.com/1otk96.jpg","https://i.imgflip.com/2fm6x.jpg","https://i.imgflip.com/3lmzyx.jpg","https://i.imgflip.com/4t0m5.jpg","https://i.imgflip.com/1ur9b0.jpg","https://i.imgflip.com/1c1uej.jpg","https://i.imgflip.com/30b1gx.jpg"];
-function showOverlay(id,src,dur){var el=document.getElementById(id);el.innerHTML='<iframe src="'+src+'" style="width:100%;height:100%;border:none"></iframe>';el.style.display="flex";setTimeout(function(){el.style.display="none";el.innerHTML=""},dur)}
-function showMeme(){var el=document.getElementById("memeOverlay");var img=memes[Math.floor(Math.random()*memes.length)];el.innerHTML='<img src="'+img+'" style="max-width:90%;max-height:86%;border-radius:12px;box-shadow:0 0 40px rgba(0,255,136,.4);border:6px solid #00ff88">';el.style.display="flex";setTimeout(function(){el.style.display="none";el.innerHTML=""},8000)}
+var memeCaps=[
+  ["NAR MOTET","HAR 0 AGENDA"],
+  ["SKRIVAREN:","PC LOAD LETTER"],
+  ["KAFFEMASKINEN","DEFCON FIKA"],
+  ["JAG: 27 TUM","OCKSA: INGEN STOL"],
+  ["EXCEL: VLOOKUP","JAG: VADLOOKUP"],
+  ["KALENDERN SA","KORT AVSTAMNING"],
+  ["PIXLARNA","JOBBAR OVERTID"],
+  ["LUNCH?","SKARMEN VAKTAR"],
+  ["HDMI","THE MUSICAL"],
+  ["FINAL_V12","RIKTIG_DENNA"],
+  ["COMIC SANS","DETECTED"],
+  ["ALBATROS FLYGER","JAG SITTER FAST"],
+  ["FIKA AR LAG","PUNKT"],
+  ["SKARMEN (GAST)","REDAN I RUMMET"],
+  ["MANDAG","IGEN"],
+  ["BOKKLUBB","INGA BOCKER"],
+  ["POWERPOINT","NOLL POANG"],
+  ["TEAMS: MUTED","JAG HAR INGEN MIC"],
+  ["11:45","NATIONELL KRIS"],
+  ["SKRIVAREN VANN","IGEN"],
+  ["EN SLIDE","FYRTIO KOPIOR"],
+  ["WIFI: ANSLUTEN","SJAL: CACHAD"]
+];
+var textMemes=[
+  {t:"FIKA AR LAG",bg:"#ff0",fg:"#000"},
+  {t:"PC LOAD LETTER",bg:"#000",fg:"#00ff88"},
+  {t:"11:45 = KRIS",bg:"#ff0000",fg:"#fff"},
+  {t:"VADLOOKUP",bg:"#0033ff",fg:"#fff"},
+  {t:"27 TUM AV JA",bg:"#00ff66",fg:"#000"},
+  {t:"KAFFE DEFCON 2",bg:"#1a0c00",fg:"#ff6600"},
+  {t:"SKRIVAREN VANN",bg:"#111",fg:"#00ff88"},
+  {t:"HDMI FOREVER",bg:"#000",fg:"#00ffff"},
+  {t:"LUNCH LUNCH LUNCH",bg:"#001a00",fg:"#00ff88"},
+  {t:"JAG AR ZOOMEN",bg:"#ff0",fg:"#000"},
+  {t:"KALENDERN LJOG",bg:"#000",fg:"#ffee00"},
+  {t:"PIXLARNA STREJKAR",bg:"#000",fg:"#ff00ff"},
+  {t:"INGA MOTEN\nBARA PIXLAR",bg:"#ff0",fg:"#000"},
+  {t:"MALLORCA\nALDRIG VARIT DAR",bg:"#001133",fg:"#fff"},
+  {t:"SYNERGI\n= SYNERGI",bg:"#000",fg:"#00ff88"},
+  {t:"OL-VAGN HELIG",bg:"#3a2200",fg:"#ffd700"},
+  {t:"COMIC SANS NEJ",bg:"#fff",fg:"#ff00aa"},
+  {t:"EN SLIDE\nNOLL POANG",bg:"#000",fg:"#ffee00"},
+  {t:"SKARMEN BLINKADE",bg:"#000",fg:"#00ff88"},
+  {t:"FINAL_v12.xlsx",bg:"#111",fg:"#00ff88"},
+  {t:"KAFFE != LUNCH\n(TVIST)",bg:"#ff0",fg:"#000"},
+  {t:"2 073 600 PIXLAR",bg:"#000",fg:"#00ffff"},
+  {t:"MOTET HAR\n0 DELTAGARE",bg:"#1b1a19",fg:"#fff"},
+  {t:"PAPPERSSTOPP\nDET AR KONST",bg:"#cc0000",fg:"#fff"},
+  {t:"SKARMEN (GAST)",bg:"#000",fg:"#00ff88"},
+  {t:"FIKA + MAT\n= FYRA DIM",bg:"#ff0",fg:"#000"}
+];
+function ovlIds(){return ["memeOverlay","tinderOverlay","nyheterOverlay","bsodOverlay","matrixOverlay","folksOverlay","terminatorOverlay","julfestOverlay","monologOverlay","sofieOverlay","kaffeOverlay","skrivareOverlay","teamsOverlay","lunchOverlay"]}
+function anyOvlOn(){
+  if(seqBusy)return true;
+  var ids=ovlIds();
+  for(var i=0;i<ids.length;i++){
+    var el=document.getElementById(ids[i]);
+    if(!el)continue;
+    var d=el.style.display;
+    if(d==="flex"||d==="block")return true;
+  }
+  var fg=document.getElementById("flashGag");
+  if(fg&&fg.style.display==="flex")return true;
+  return false;
+}
+function setChrome(hide){
+  if(hide) document.body.classList.add("bigGag");
+  else if(!seqBusy) document.body.classList.remove("bigGag");
+}
+function endOvl(el){
+  if(el){el.style.display="none";el.innerHTML="";}
+  if(!anyOvlOn()) setChrome(false);
+}
+function showOverlay(id,src,dur){
+  if(seqBusy||anyOvlOn())return;
+  setChrome(true);
+  var el=document.getElementById(id);
+  el.innerHTML='<iframe src="'+src+'" style="width:100%;height:100%;border:none"></iframe>';
+  el.style.display="flex";
+  setTimeout(function(){endOvl(el)},dur);
+}
+function showMeme(){
+  if(seqBusy||anyOvlOn())return;
+  setChrome(true);
+  var el=document.getElementById("memeOverlay");
+  var html;
+  if(Math.random()<0.58){
+    var m=textMemes[Math.floor(Math.random()*textMemes.length)];
+    html='<div class="meme-text" style="background:'+m.bg+';color:'+m.fg+'">'+m.t+'</div>';
+  }else{
+    var img=memes[Math.floor(Math.random()*memes.length)];
+    var c=memeCaps[Math.floor(Math.random()*memeCaps.length)];
+    html='<img class="meme-bleed" src="'+img+'" alt=""><div class="meme-shade"></div><div class="meme-cap top">'+c[0]+'</div><div class="meme-cap bot">'+c[1]+'</div>';
+  }
+  el.innerHTML=html;
+  el.style.display="flex";
+  setTimeout(function(){endOvl(el)},7800);
+}
 setInterval(function(){
+  if(seqBusy||anyOvlOn())return;
   var r=Math.random();
-  if(r<0.06) showOverlay("tinderOverlay","tinder.html",30000);
-  else if(r<0.12) showOverlay("nyheterOverlay","nyheter.html",15000);
-  else if(r<0.18) showOverlay("bsodOverlay","bsod.html",18000);
-  else if(r<0.24) showOverlay("matrixOverlay","matrix.html",20000);
-  else if(r<0.30) showOverlay("julfestOverlay","julfest.html",25000);
-  else if(r<0.38) showOverlay("monologOverlay","monolog.html",18000);
-  else if(r<0.46) showOverlay("sofieOverlay","sofie.html",22000);
-  else if(r<0.54) showOverlay("kaffeOverlay","kaffe.html",16000);
-  else if(r<0.62) showOverlay("skrivareOverlay","skrivare.html",16000);
-  else if(r<0.70) showOverlay("teamsOverlay","teams.html",18000);
-  else if(r<0.88) showMeme();
-},28000);
+  if(r<0.55) showMeme();
+  else if(r<0.62) showOverlay("kaffeOverlay","kaffe.html",14000);
+  else if(r<0.69) showOverlay("skrivareOverlay","skrivare.html",14000);
+  else if(r<0.75) showOverlay("sofieOverlay","sofie.html",14000);
+  else if(r<0.80) showOverlay("teamsOverlay","teams.html",14000);
+  else if(r<0.84) showOverlay("nyheterOverlay","nyheter.html",12000);
+  else if(r<0.88) showOverlay("bsodOverlay","bsod.html",12000);
+  else if(r<0.91) showOverlay("monologOverlay","monolog.html",14000);
+  else if(r<0.94) showOverlay("matrixOverlay","matrix.html",14000);
+  else if(r<0.96) showOverlay("julfestOverlay","julfest.html",14000);
+  else showOverlay("tinderOverlay","tinder.html",18000);
+},20000);
+setInterval(function(){
+  if(seqBusy||anyOvlOn())return;
+  if(Math.random()<0.72) showMeme();
+},16000);
+setTimeout(function(){if(!seqBusy)showMeme();},5000);
 
 /* ===== GTA + VEGAS HIJACKS ===== */
 var kioskAC=null, seqBusy=false, seqTimers=[], seqRafs=[], gtaSirenNodes=[];
@@ -494,6 +609,7 @@ function smashCut(hideEl){
     document.getElementById("vegasLights").innerHTML="";
     w.style.display="none";
     seqBusy=false;
+    if(!anyOvlOn()) setChrome(false);
   },90);
 }
 function thud(){
@@ -587,9 +703,16 @@ function nearMissWah(){
   o.start(t);o.stop(t+.46);
 }
 
+function hideSideOvls(){
+  ovlIds().forEach(function(id){
+    var el=document.getElementById(id); if(!el)return;
+    el.style.display="none"; el.innerHTML="";
+  });
+  var fg=document.getElementById("flashGag"); if(fg) fg.style.display="none";
+}
 function startGta(){
   if(seqBusy)return;
-  seqBusy=true;seqClear();getAC();
+  seqBusy=true;seqClear();getAC();hideSideOvls();setChrome(true);
   var ov=document.getElementById("gtaOverlay");
   var holes=document.getElementById("gtaHoles");
   holes.innerHTML="";
@@ -731,7 +854,7 @@ function rainCoins(n){
 }
 function startVegas(){
   if(seqBusy)return;
-  seqBusy=true;seqClear();getAC();
+  seqBusy=true;seqClear();getAC();hideSideOvls();setChrome(true);
   var ov=document.getElementById("vegasOverlay");
   document.getElementById("vegasResult").className="";
   document.getElementById("vegasCoins").innerHTML="";
