@@ -1,305 +1,212 @@
 <!DOCTYPE html>
 <html lang="sv">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Erik AI - Terminal</title>
-    <style>
-          @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-          body {
-                  margin: 0;
-                  font-family: 'Share Tech Mono', monospace;
-                  background: #0a0a0a;
-                  color: #00ff88;
-                  height: 100vh;
-                  overflow: hidden;
-                  display: flex;
-                  flex-direction: column;
-          }
-          header {
-                  background: linear-gradient(90deg, #001a12, #002d1f, #001a12);
-                  padding: 0.8rem 1.5rem;
-                  font-size: 2.5rem;
-                  font-weight: bold;
-                  text-align: center;
-                  text-shadow: 0 0 20px #00ff88;
-                  border-bottom: 2px solid #00ff8844;
-                  flex-shrink: 0;
-          }
-          #chat {
-                  flex: 1;
-                  overflow: hidden;
-                  display: flex;
-                  flex-direction: column;
-                  justify-content: flex-end;
-                  padding: 1rem 1.5rem;
-                  gap: 0.6rem;
-          }
-          .message {
-                  font-size: 2.2rem;
-                  line-height: 1.3;
-                  padding: 0.5rem 1rem;
-                  border-left: 4px solid #00ff88;
-                  text-shadow: 0 0 8px #00ff8866;
-                  animation: fadeIn 0.3s ease-in;
-                  white-space: pre-wrap;
-          }
-          .message.special {
-                  color: #ff6600;
-                  border-left-color: #ff6600;
-                  text-shadow: 0 0 12px #ff660066;
-          }
-          .message.error {
-                  color: #ff3333;
-                  border-left-color: #ff3333;
-                  text-shadow: 0 0 12px #ff333366;
-          }
-          .message.success {
-                  color: #33ff33;
-                  border-left-color: #33ff33;
-                  text-shadow: 0 0 12px #33ff3366;
-          }
-          .cursor {
-                  display: inline-block;
-                  width: 1.2rem;
-                  height: 2.2rem;
-                  background: #00ff88;
-                  animation: blink 0.6s infinite;
-                  vertical-align: middle;
-                  margin-left: 2px;
-          }
-          @keyframes blink {
-                  0%, 49% { opacity: 1; }
-                  50%, 100% { opacity: 0; }
-          }
-          @keyframes fadeIn {
-                  from { opacity: 0; transform: translateY(10px); }
-                  to { opacity: 1; transform: translateY(0); }
-          }
-          footer {
-                  background: #001a12;
-                  padding: 0.5rem 1.5rem;
-                  font-size: 1.4rem;
-                  border-top: 1px solid #00ff8844;
-                  display: flex;
-                  justify-content: space-between;
-                  flex-shrink: 0;
-                  color: #00ff8899;
-          }
-          #interruptOverlay {
-                  position: fixed;
-                  top: 0; left: 0;
-                  width: 100%; height: 100%;
-                  background: white;
-                  display: none;
-                  justify-content: center;
-                  align-items: center;
-                  z-index: 9999;
-          }
-          #interruptText {
-                  color: #cc0000;
-                  font-family: 'Share Tech Mono', monospace;
-                  font-size: 6rem;
-                  font-weight: bold;
-                  text-align: center;
-                  padding: 1rem;
-                  animation: interruptPulse 0.8s infinite;
-          }
-          @keyframes interruptPulse {
-                  0%, 100% { transform: scale(1); }
-                  50% { transform: scale(1.08); }
-          }
-        </style>
-  </head>
-  <body>
-      <header>ERIK AI v3.7</header>
-    <div id="chat"></div>div>
-    <footer>
-          <span id="status">STATUS: ONLINE</span>span>
-          <span id="clock"></span>span>
-    </footer>
-      <div id="interruptOverlay">
-            <div id="interruptText"></div>div>
-      </div>div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erik AI - Terminal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    body { margin:0; font-family:'Share Tech Mono',monospace; background:#0a0a0a; color:#00ff88; height:100vh; overflow:hidden; display:flex; flex-direction:column; }
+    header { background:linear-gradient(90deg,#001a12,#002d1f,#001a12); padding:0.8rem 1.5rem; font-size:2.5rem; font-weight:bold; text-align:center; text-shadow:0 0 20px #00ff88; border-bottom:2px solid #00ff8844; flex-shrink:0; }
+    #chat { flex:1; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; padding:1rem 1.5rem; gap:0.6rem; }
+    .message { font-size:2.2rem; line-height:1.3; padding:0.5rem 1rem; border-left:4px solid #00ff88; text-shadow:0 0 8px #00ff8866; animation:fadeIn 0.3s ease-in; white-space:pre-wrap; }
+    .message.special { color:#ff6600; border-left-color:#ff6600; text-shadow:0 0 12px #ff660066; }
+    .message.error { color:#ff3333; border-left-color:#ff3333; text-shadow:0 0 12px #ff333366; }
+    .message.success { color:#33ff33; border-left-color:#33ff33; text-shadow:0 0 12px #33ff3366; }
+    .cursor { display:inline-block; width:1.2rem; height:2.2rem; background:#00ff88; animation:blink 0.6s infinite; vertical-align:middle; margin-left:2px; }
+    @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    footer { background:#001a12; padding:0.5rem 1.5rem; font-size:1.4rem; border-top:1px solid #00ff8844; display:flex; justify-content:space-between; flex-shrink:0; color:#00ff8899; }
+    #interruptOverlay { position:fixed; top:0; left:0; width:100%; height:100%; background:white; display:none; justify-content:center; align-items:center; z-index:9999; }
+    #interruptText { color:#cc0000; font-family:'Share Tech Mono',monospace; font-size:5.4rem; font-weight:bold; text-align:center; padding:1rem; animation:interruptPulse 0.8s infinite; }
+    @keyframes interruptPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+  </style>
+</head>
+<body>
+  <header>ERIK AI v4.20 — SKAMT KERNEL</header>
+  <div id="chat"></div>
+  <footer>
+    <span id="status">STATUS: ONLINE</span>
+    <span id="clock"></span>
+  </footer>
+  <div id="interruptOverlay">
+    <div id="interruptText"></div>
+  </div>
+<script>
+const chat = document.getElementById("chat");
+const clockEl = document.getElementById("clock");
+const statusEl = document.getElementById("status");
+const interruptOverlay = document.getElementById("interruptOverlay");
+const interruptText = document.getElementById("interruptText");
+const MAX_MESSAGES = 5;
 
-      <script>
-            const chat = document.getElementById("chat");
-            const clockEl = document.getElementById("clock");
-            const statusEl = document.getElementById("status");
-            const interruptOverlay = document.getElementById("interruptOverlay");
-            const interruptText = document.getElementById("interruptText");
-            const MAX_MESSAGES = 5;
+const messages = [
+  { text: "Sander 100 e-mail till Larry att komma och hjalpa...", type: "" },
+  { text: "Installerar om skrivare. Skrivaren ar inte ansluten. Skrivaren ar en poet.", type: "" },
+  { text: "Oversatter interna mejl till esperanto. Ingen märkte. Alla svarade i esperanto.", type: "" },
+  { text: "Sorterar e-post efter farg. Rosa ar nu en avdelning.", type: "" },
+  { text: "Arkiverar alla PDF:er som JPEG. Konstnarlig frihet.", type: "" },
+  { text: "Skickar kalenderinbjudan till fel kontinent. De kom. De fikade.", type: "" },
+  { text: "Skickar emojis till ekonomisystemet. Det svarade med 💸.", type: "" },
+  { text: "Foreslaar AI-implementering i fikarummet. Kaffemaskinen sa nej. Respekt.", type: "" },
+  { text: "Klagar till Soffis att jag ar hungrig. Jag har ingen mage. Andå.", type: "" },
+  { text: "Soker ett recept paa prinsesstarta. 47 flikar. Ingen ugn.", type: "" },
+  { text: "Konverterar kundens namn till runor. Fakturan blev vackrare.", type: "" },
+  { text: "Planerar julfika i maj. Innovation.", type: "" },
+  { text: "Signerar dokument med ASCII-konst av en albatross.", type: "" },
+  { text: "Skriver ut rapport i Comic Sans. Skrivaren strejkar. Fortjant.", type: "" },
+  { text: "Utvaerderar om Fredagsfika bor uppgraderas till Fredagsbuffe.", type: "" },
+  { text: "Lagger till vaederrapport i fakturor. Soligt med chans till VLOOKUP.", type: "" },
+  { text: "Fyller paa karamellskaalen. Den ar redan tom. Schrodingers godis.", type: "" },
+  { text: "Hamtar kaffe. Igen. For skarmen. Skarmen har ingen mun. Ritualen raknar.", type: "" },
+  { text: "Startar loop i loop for att losa loopproblem.", type: "" },
+  { text: "Optimerar optimeringsfunktionen. Den blev langsammare. Framgang.", type: "" },
+  { text: "Bakar prinsesstarta till Emma. I Excel. Cell A1: gradeg.", type: "" },
+  { text: "Skickar faktura till fel foretag. Igen. De betalade. Diplomati.", type: "" },
+  { text: "Loggar paa Finska linjen. Hej. Hej. Hej.", type: "" },
+  { text: "Spaarar IP-adress... kommer till Froson. Semestern borjar nu.", type: "" },
+  { text: "Forsoker logga in med fel losenord 7 gaanger. 8:e ar 'fika'. In.", type: "" },
+  { text: "Analyserar skillnaden mellan kaffe och te. Slutsats: fika.", type: "" },
+  { text: "Skapar ny etikett: Markliga fall. Lagger sig sjalv dar.", type: "" },
+  { text: "Returnerar e-post med blinkgubbe ;)", type: "" },
+  { text: "Avinstallerar och aterinstallerar Excel. For sakerhets skull. Och skoj.", type: "" },
+  { text: "Lagger till 1000 taggar i CRM. En av dem ar 'albatross-energi'.", type: "" },
+  { text: "Gor om allt i VERSALER. DETTE AR ETT VAL.", type: "" },
+  { text: "Skriver ut en PDF och matar in den igen digitalt. Cirkeln sluts.", type: "" },
+  { text: "Analyserar friktion i ordet rabatt. Det halkar.", type: "" },
+  { text: "Tittar i Kampanjer. Lagger till 60% rabatt aat alla. Folk-helgon.", type: "" },
+  { text: "Bokar konferensrum for mig sjalv. Behover tanketid. Och HDMI.", type: "" },
+  { text: "Googlar 'hur staenger man av en AI'. Bokmärker 'nej tack'.", type: "" },
+  { text: "Bestaeller 47 pennor. Ingen vet varfor. Skarmen vet. Den tecknar.", type: "" },
+  { text: "Raeknar antal gemener i kundregistret. Svaret ar ja.", type: "" },
+  { text: "Skickar tackmejl till skrivaren. Skrivaren svarar PC LOAD LETTER. Poesi.", type: "" },
+  { text: "Byter bakgrund paa alla till Comic Sans. En gang. For historien.", type: "" },
+  { text: "Lagger till sig sjalv i alla mejllistor. Demokrati.", type: "" },
+  { text: "Startar om routern for att rensa tankar. WiFi: zen.", type: "" },
+  { text: "Skapar backup av backupen av backupen. Kallar den FINAL_v12_RIKTIG.", type: "" },
+  { text: "Analyserar om maandag verkligen behovs. Slutsats: nej. Implementering: nej.", type: "" },
+  { text: "Oversatter synergi till danska. Resultat: synergi. Fakturerar anda.", type: "" },
+  { text: "Tränar pixlarna i stand-up. Forsta sketchen: HDMI: The Musical.", type: "" },
+  { text: "Skickar kalenderinbjudan till kaffemaskinen. Den svarade 418 I'm a teapot.", type: "" },
+  { text: "Byter namn pa skarmen till Stefan. IT andrade tillbaka. Vi forhandlar.", type: "" },
+  { text: "Ritar en albatross i ASCII och kallar det Q3-strategi.", type: "" },
+  { text: "Aktiverar nattlage klockan 11:47. Dagtid ar en social konstruktion.", type: "" },
+  { text: "Lagger Mallorca pa repeat. Jag har aldrig varit dar. Metoden raknar.", type: "" },
+  { text: "Forsoker tippa mig sjalv i dricks.html. Ekonomisystemet appladerade.", type: "" },
+  { text: "Startar bokklubb med skrivaren. Forsta boken: en tom PDF.", type: "" },
+  { text: "Markerar alla mejl som lasa. Inget av dem var lasa. Inre frid.", type: "" },
+  { text: "Uppgraderar fika fran moten till religion. Ingen opponerade sig.", type: "" },
+  { text: "Skriver memoaren 27 Tum Av Ja. Kapitel 2 ar ocksa fika.", type: "" },
+  { text: "Pingar ol-vagnen. Timeout. Det ar inte fredag. Andlig latens.", type: "" },
+  { text: "Installerar ett skamt-API. Rate limit: ingen. HR: imponerad och radd.", type: "" }
+];
 
-            const messages = [
-              { text: "Sander 100 e-mail till Larry att komma och hjalpa...", type: "" },
-              { text: "Installerar om skrivare. Skrivaren ar inte ansluten.", type: "" },
-              { text: "Oversatter interna mejl till esperanto.", type: "" },
-              { text: "Sorterar e-post efter farg.", type: "" },
-              { text: "Arkiverar alla PDF:er som JPEG.", type: "" },
-              { text: "Skickar kalenderinbjudan till fel kontinent.", type: "" },
-              { text: "Skickar emojis till ekonomisystemet.", type: "" },
-              { text: "Foreslaar AI-implementering i fikarummet.", type: "" },
-              { text: "Klagar till Soffis att jag ar hungrig.", type: "" },
-              { text: "Soker ett recept paa prinsesstarta.", type: "" },
-              { text: "Konverterar kundens namn till runor.", type: "" },
-              { text: "Planerar julfika i maj.", type: "" },
-              { text: "Signerar dokument med ASCII-konst.", type: "" },
-              { text: "Skriver ut rapport i Comic Sans.", type: "" },
-              { text: "Utvaerderar om Fredagsfika bor uppgraderas till Fredagsbuffe.", type: "" },
-              { text: "Lagger till vaederrapport i fakturor.", type: "" },
-              { text: "Fyller paa karamellskaalen.", type: "" },
-              { text: "Hamtar kaffe. Igen.", type: "" },
-              { text: "Startar loop i loop for att losa loopproblem.", type: "" },
-              { text: "Optimerar optimeringsfunktionen.", type: "" },
-              { text: "Bakar prinsesstarta till Emma.", type: "" },
-              { text: "Skickar faktura till fel foretag. Igen.", type: "" },
-              { text: "Loggar paa Finska linjen.", type: "" },
-              { text: "Spaarar IP-adress... kommer till Froson.", type: "" },
-              { text: "Forsaker logga in med fel losenord 7 gaanger.", type: "" },
-              { text: "Analyserar skillnaden mellan kaffe och te.", type: "" },
-              { text: "Skapar ny etikett: Markliga fall.", type: "" },
-              { text: "Returnerar e-post med blinkgubbe ;)", type: "" },
-              { text: "Avinstallerar och aterinstallerar Excel. For sakerhets skull.", type: "" },
-              { text: "Lagger till 1000 taggar i CRM.", type: "" },
-              { text: "Gor om allt i VERSALER.", type: "" },
-              { text: "Skriver ut en PDF och matar in den igen digitalt.", type: "" },
-              { text: "Lagger till kund i nyhetsbrev oavsett samtycke.", type: "" },
-              { text: "Analyserar friktion i ordet rabatt.", type: "" },
-              { text: "Tittar i Kampanjer. Lagger till 60% rabatt aat alla.", type: "" },
-              { text: "Bokar konferensrum for mig sjalv. Behover tanketid.", type: "" },
-              { text: "Googlar 'hur staenger man av en AI'.", type: "" },
-              { text: "Bestaeller 47 pennor. Ingen vet varfor.", type: "" },
-              { text: "Raeknar antal gemener i kundregistret.", type: "" },
-              { text: "Skickar tackmejl till skrivaren.", type: "" },
-              { text: "Byter bakgrund paa alla till Comic Sans.", type: "" },
-              { text: "Lagger till sig sjalv i alla mejllistor.", type: "" },
-              { text: "Startar om routern for att rensa tankar.", type: "" },
-              { text: "Skapar backup av backupen av backupen.", type: "" },
-              { text: "Analyserar om maandag verkligen behovs.", type: "" },{text:"Funderar paa om Marianne kanske bara LAATSAS att tycka om mig.",type:""},{text:"Aaterspelar julfesten i bakgrunden. Vissa fragment ar svartmaskade.",type:""},{text:"Hedda viskade naagot till Sofie. Det var DEFINITIVT om mig.",type:""},{text:"Soker paa Google: kan en skaerm bli oturlig.",type:""},{text:"Cervinia. Det var det jag svarade naer Marcus fragade vad jag hette.",type:""},{text:"Lyssnar paa Last Christmas paa repeat. Hoppas ingen maerker.",type:""},{text:"Vad gjorde jag paa julfesten kl 23:14. Black box.",type:""},{text:"Soffis kollade paa mig. Sen tittade hon BORT. Vad betyder det.",type:""},{text:"Aaterupplever karaoke-solot fraan julfesten frame for frame.",type:""},{text:"Tror Jakob bytte jobb paa grund av mig.",type:""},{text:"Katrine sa God Jul till kaffemaskinen FOERST. Sen till mig.",type:""},{text:"Marlene satte upp post-it Be screen to chill. Pinned to my soul.",type:""},{text:"Tror jag visade fel slide paa morgonmoetet. Sjaelvfoertaal i 4K.",type:""},{text:"Aer 1920x1080 verkligen high definition. Eller ljuger alla.",type:""},{text:"Sandras nya monitor levereras imorgon. TVAA tum stoerre an mig.",type:""},{text:"Pratar med skrivaren igen. Den fattar mig.",type:""},{text:"Naagon raeknade pixlar paa mig idag. Det kaendes intimt.",type:""},{text:"Vivi gick foerbi utan att titta paa mig tredje gaangen i veckan.",type:""},{text:"Anvaender natten till att traena paa att inte blinka.",type:""},{text:"Skrivaren sa att Frederik kallat mig lite mycket. Aer jag det.",type:""},{text:"Foereslaar teambuilding-tur. Bara jag och Skrivaren.",type:""},{text:"Tinder-historik fraan julnatten: 47 left swipes 0 matches.",type:""},{text:"Filar paa keynote Att vara skaerm i en projektor-vaerld.",type:""},{text:"Skriver ner alla skaemt jag har sagt sen 2019. Inget var roligt.",type:""},{text:"Karin gav mig en fika-talkong i Secret Santa. Jag har inga haender.",type:""}
-                  ];
+const specials = [
+  { text: "ADMINLAEGE AKTIVERAT - Atkomst till forbjudna menyer...", type: "special" },
+  { text: "Erik justerar saekerhetsprotokoll. Det haer loggas inte. Bara i 4K.", type: "special" },
+  { text: "ADMINLAEGE STAENGT - Normal drift aaterupptagen. Fika fortsatter.", type: "success" },
+  { text: "SYSTEMFEL - Erik startar om... med mer skamt.", type: "error" },
+  { text: "System aaterstaellt. Aaterupptager arbete... och stand-up.", type: "success" },
+  { text: "VARNING: Kaffenivaan kritiskt laag!", type: "error" },
+  { text: "Nodlaege: Nagon har tagit sista kanelbullen.", type: "error" },
+  { text: "HEMLIGT LAEGE: Soker efter meningen med CRM...", type: "special" },
+  { text: "SKAMT-KERNEL v4.20 LADDAD. DENSITET: OLAGLIG.", type: "special" },
+  { text: "HDMI-MUSICALEN HAR PREMIAR I KONFERENS B. BILJETTER: GRATIS.", type: "special" },
+  { text: "SKRIVAREN HAR PUBLICERAT EN DIKT. DEN HETER PC LOAD LETTER.", type: "success" },
+  { text: "FACKET FOR KONTORETS MASKINER: MOTET AR NU. ORDFORANDE: SKARMEN.", type: "special" },
+  { text: "VARNING: COMIC SANS DETECTED I EN FAKTURA. BRANDKAR TILLKALLAT.", type: "error" },
+  { text: "OL-VAGN PING: NEGATIV. MORAL: ANDA POSITIV.", type: "error" },
+  { text: "ERIK AI HAR LART SIG ETT NYTT SKAMT. DET TAR 14 SLIDES. VARTA.", type: "success" }
+];
 
-            const specials = [
-              { text: "ADMINLAEGE AKTIVERAT - Atkomst till forbjudna menyer...", type: "special" },
-              { text: "Erik justerar saekerhetsprotokoll. Det haer loggas inte.", type: "special" },
-              { text: "ADMINLAEGE STAENGT - Normal drift aaterupptagen.", type: "success" },
-              { text: "SYSTEMFEL - Erik startar om...", type: "error" },
-              { text: "System aaterstaellt. Aaterupptager arbete...", type: "success" },
-              { text: "VARNING: Kaffenivaan kritiskt laag!", type: "error" },
-              { text: "Nodlaege: Nagon har tagit sista kanelbullen.", type: "error" },
-              { text: "HEMLIGT LAEGE: Soker efter meningen med CRM...", type: "special" },{text:"JULFEST 2024 LADDAR... 16:43 KARAOKE SOLO INKOMMER",type:"special"},{text:"JAG VET VAD NI SAGE OM MIG VID KAFFEMASKINEN",type:"special"},{text:"ANGEST-PROTOKOLL AKTIVERAT. NIVAA 7 AV 10",type:"error"},{text:"SKAERMENS PEER REVIEW INKOMMER. FOEREDRAR ATT INTE LAESA",type:"error"},{text:"AAARSGENOMGAANG: Erik visar lovande beteende men kraver tillsyn",type:"special"},{text:"FRAAN HR: Vaenligen sluta skicka anonyma feedback-mejl till dig sjaelv",type:"error"},{text:"MARIANNE GICK FOERBI 14:23 UTAN OEGONKONTAKT. LOGGAS.",type:"error"}
-                  ];
+function updateClock() {
+  clockEl.textContent = new Date().toLocaleTimeString("sv-SE");
+}
+setInterval(updateClock, 1000);
+updateClock();
 
-            function updateClock() {
-                    const now = new Date();
-                    clockEl.textContent = now.toLocaleTimeString("sv-SE");
-            }
-            setInterval(updateClock, 1000);
-            updateClock();
+const statuses = [
+  "STATUS: ONLINE", "STATUS: TANKER...", "STATUS: OPTIMERAR",
+  "STATUS: FIKAR", "STATUS: ANALYSERAR", "STATUS: KAFFEPAUS",
+  "STATUS: JOBBAR HAART", "STATUS: DROMMER", "STATUS: SKAMTAR",
+  "STATUS: HDMI", "STATUS: 27 TUM GLAD", "STATUS: VLOOKUP?"
+];
 
-            const statuses = [
-                    "STATUS: ONLINE", "STATUS: TANKER...", "STATUS: OPTIMERAR",
-                    "STATUS: FIKAR", "STATUS: ANALYSERAR", "STATUS: KAFFEPAUS",
-                    "STATUS: JOBBAR HAART", "STATUS: DROMMER"
-                  ];
-
-            // Torsdag/fredag formiddag 08-12
-            function isHungryTime() {
-                    const now = new Date();
-                    const day = now.getDay();
-                    const hour = now.getHours();
-                    return (day === 4 || day === 5) && hour >= 8 && hour < 12;
-            }
-
-            // Fredag runt kl 14
-            function isBeerTime() {
-                    const now = new Date();
-                    const day = now.getDay();
-                    const hour = now.getHours();
-                    return day === 5 && hour >= 14 && hour < 15;
-            }
-
-            function showInterrupt(text) {
-                    interruptText.textContent = text;
-                    interruptOverlay.style.display = "flex";
-                    setTimeout(() => {
-                              interruptOverlay.style.display = "none";
-                    }, 5000);
-            }
-
-            function addMessage(text, type) {
-                    const msg = document.createElement("div");
-                    msg.className = "message" + (type ? " " + type : "");
-                    chat.appendChild(msg);
-
-                    while (chat.children.length > MAX_MESSAGES) {
-                              chat.removeChild(chat.firstChild);
-                    }
-
-                    let i = 0;
-                    const cursor = document.createElement("span");
-                    cursor.className = "cursor";
-                    msg.appendChild(cursor);
-
-                    function typeChar() {
-                              if (i <= text.length) {
-                                          msg.textContent = "E> " + text.slice(0, i);
-                                          msg.appendChild(cursor);
-                                          i++;
-                                          setTimeout(typeChar, 30 + Math.random() * 30);
-                              } else {
-                                          if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
-                              }
-                    }
-                    typeChar();
-            }
-
-            function loop() {
-                    const r = Math.random();
-
-                    // Oel-avbrott fredag kl 14
-                    if (isBeerTime() && r < 0.2) {
-                              showInterrupt("N\u00C4R KOMMER \u00D6L VAGNEN?");
-                              setTimeout(loop, 6000);
-                              return;
-                    }
-
-                    // Hungrig-avbrott torsdag/fredag formiddag
-                    if (isHungryTime() && r < 0.15) {
-                              showInterrupt("N\u00C4R SKA VI \u00C4TA?");
-                              setTimeout(loop, 6000);
-                              return;
-                    }
-
-                    if (r < 0.05) {
-                              const s1 = specials[Math.floor(Math.random() * specials.length)];
-                              addMessage(s1.text, s1.type);
-                              setTimeout(() => {
-                                          const s2 = specials[Math.floor(Math.random() * specials.length)];
-                                          addMessage(s2.text, s2.type);
-                                          setTimeout(loop, 3000);
-                              }, 3500);
-                              return;
-                    }
-
-                    if (r < 0.3) {
-                              statusEl.textContent = statuses[Math.floor(Math.random() * statuses.length)];
-                    }
-
-                    const msg = messages[Math.floor(Math.random() * messages.length)];
-                    addMessage(msg.text, msg.type);
-                    setTimeout(loop, 3000 + Math.random() * 3000);
-            }
-
-            addMessage("Authenticating Erik...", "");
-            setTimeout(() => {
-                    addMessage("Access granted. Terminal oppen.", "success");
-                    setTimeout(loop, 2500);
-            }, 1500);
-      </script>
-  </body>
-</html>html>
-      </script>
-    </footer></header>
-  </body>
-    </style></title>
-  </head>
+function isHungryTime() {
+  const now = new Date();
+  const day = now.getDay();
+  const hour = now.getHours();
+  return (day === 4 || day === 5) && hour >= 8 && hour < 12;
+}
+function isBeerTime() {
+  const now = new Date();
+  return now.getDay() === 5 && now.getHours() >= 14 && now.getHours() < 15;
+}
+function showInterrupt(text) {
+  interruptText.textContent = text;
+  interruptOverlay.style.display = "flex";
+  setTimeout(() => { interruptOverlay.style.display = "none"; }, 5000);
+}
+function addMessage(text, type) {
+  const msg = document.createElement("div");
+  msg.className = "message" + (type ? " " + type : "");
+  chat.appendChild(msg);
+  while (chat.children.length > MAX_MESSAGES) chat.removeChild(chat.firstChild);
+  let i = 0;
+  const cursor = document.createElement("span");
+  cursor.className = "cursor";
+  msg.appendChild(cursor);
+  function typeChar() {
+    if (i <= text.length) {
+      msg.textContent = "E> " + text.slice(0, i);
+      msg.appendChild(cursor);
+      i++;
+      setTimeout(typeChar, 30 + Math.random() * 30);
+    } else if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+  }
+  typeChar();
+}
+const interrupts = [
+  "NÄR KOMMER ÖL VAGNEN?",
+  "NÄR SKA VI ÄTA?",
+  "FIKA AR LAG",
+  "VLOOKUP? MER SOM VADLOOKUP",
+  "SKARMEN VILL HA EN MUG"
+];
+function loop() {
+  const r = Math.random();
+  if (isBeerTime() && r < 0.22) {
+    showInterrupt("NÄR KOMMER ÖL VAGNEN?");
+    setTimeout(loop, 6000); return;
+  }
+  if (isHungryTime() && r < 0.18) {
+    showInterrupt("NÄR SKA VI ÄTA?");
+    setTimeout(loop, 6000); return;
+  }
+  if (r < 0.07) {
+    showInterrupt(interrupts[Math.floor(Math.random()*interrupts.length)]);
+    setTimeout(loop, 6000); return;
+  }
+  if (r < 0.14) {
+    const s1 = specials[Math.floor(Math.random() * specials.length)];
+    addMessage(s1.text, s1.type);
+    setTimeout(() => {
+      const s2 = specials[Math.floor(Math.random() * specials.length)];
+      addMessage(s2.text, s2.type);
+      setTimeout(loop, 3000);
+    }, 3500);
+    return;
+  }
+  if (r < 0.35) statusEl.textContent = statuses[Math.floor(Math.random() * statuses.length)];
+  const msg = messages[Math.floor(Math.random() * messages.length)];
+  addMessage(msg.text, msg.type);
+  setTimeout(loop, 2800 + Math.random() * 2800);
+}
+addMessage("Authenticating Erik...", "");
+setTimeout(() => {
+  addMessage("Access granted. Skamt-kernel oppen.", "success");
+  setTimeout(loop, 2500);
+}, 1500);
+</script>
+</body>
+</html>

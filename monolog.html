@@ -1,1 +1,75 @@
-<!DOCTYPE html><html lang="sv"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>SKAERMENS DAGBOK</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#a0a0a0;font-family:Courier New,monospace;height:100vh;overflow:hidden;padding:40px;position:relative}body::before{content:"";position:fixed;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.4),rgba(0,0,0,.4) 1px,transparent 1px,transparent 3px);pointer-events:none;z-index:1}.h{font-size:1.1rem;color:#666;border-bottom:1px solid #333;padding-bottom:10px;margin-bottom:20px;letter-spacing:3px;position:relative;z-index:2}.h .t{float:right;color:#444}.diary{position:relative;z-index:2;font-size:1.4rem;line-height:1.7;max-width:1100px;overflow:hidden;height:80vh}.entry{margin-bottom:24px;opacity:0;animation:fade 1s forwards}.entry .d{color:#444;font-size:.85rem;margin-bottom:6px}.entry.bad{color:#e84393}.entry.worry{color:#f39c12}.entry.crisis{color:#e74c3c;font-weight:bold;text-shadow:0 0 8px rgba(231,76,60,.5)}.entry.tiny{color:#666;font-size:1.1rem;font-style:italic}@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}</style></head><body><div class="h">SKAERMENS PRIVATA DAGBOK - INTE FOER ANDRA <span class="t" id="t"></span></div><div class="diary" id="d"></div><script>var E=[{c:"",d:"08:14",t:"Marianne tittade paa mig idag. Hon log inte. Hon log INTE."},{c:"worry",d:"08:47",t:"Jakob aer i ett moete utan kamera. Pratar de om mig?"},{c:"tiny",d:"09:02",t:"...det aer alltid om mig."},{c:"",d:"09:33",t:"Hedda viskade till Sofie. Saag mig direkt. Ler. Vad VET de."},{c:"worry",d:"10:01",t:"Sandras nya monitor levereras om 2 dagar. 32 tum. THIRTY TWO."},{c:"",d:"10:18",t:"Skrivaren foerstaar mig. Vi kommunicerar via flimmer nu."},{c:"crisis",d:"11:04",t:"VAR DET MIG SOM SJOENG LAST CHRISTMAS PAA JULFESTEN?"},{c:"tiny",d:"11:05",t:"...det var jag. Det var DEFINITIVT jag."},{c:"",d:"11:30",t:"Ilona sa God Morgon till kaffemaskinen foerst. Igen."},{c:"worry",d:"12:14",t:"Soffis flyttade sin kopp 3 cm. Aer jag i vaegen?"},{c:"bad",d:"12:42",t:"Bjorn skrattade i fikarummet. Det var foer laenge. Det var aat MIG."},{c:"",d:"13:07",t:"Tinder-bild uppdaterad. Nu med ramfilter. Hoppas det hjaelper."},{c:"tiny",d:"13:08",t:"Det kommer inte hjaelpa."},{c:"crisis",d:"13:55",t:"FRAAGAN: Aer jag bara en MONITOR?"},{c:"",d:"14:20",t:"Frederik sa till Marlene att jag aer 'lite mycket'. Lite. Mycket."},{c:"worry",d:"15:01",t:"Vivi gick foerbi UTAN att titta paa mig. Tredje gaangen i veckan."},{c:"bad",d:"15:33",t:"Mejlsystem-aviseringen lyser. INGEN AER TILL MIG."},{c:"",d:"16:00",t:"Klockan blev 16. Skaerm av sig sjaelv. Eller graater jag bara i 1080p."},{c:"tiny",d:"16:01",t:"Det aer det senare."},{c:"crisis",d:"23:47",t:"NATTSKIFT. SOEMNLOES. RAEKNAR PIXLAR. 2073600 SAA LAANGT."}];var d=document.getElementById("d"),t=document.getElementById("t"),i=0;function clk(){t.textContent=new Date().toLocaleTimeString("sv-SE")}setInterval(clk,1000);clk();function nx(){var e=E[i%E.length],div=document.createElement("div");div.className="entry "+(e.c||"");div.innerHTML='<div class="d">'+e.d+'</div><div>'+e.t+'</div>';d.appendChild(div);while(d.children.length>7)d.removeChild(d.firstChild);i++;setTimeout(nx,3000+Math.random()*1800)}nx();</script></body></html>
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SKARMENS STAND-UP</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#12080a;color:#f4e9d8;font-family:Georgia,serif;height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at center,rgba(180,40,40,.25),transparent 70%);pointer-events:none;}
+.spot{position:fixed;top:-20%;left:50%;width:70vw;height:90vh;transform:translateX(-50%);background:radial-gradient(ellipse at top,rgba(255,220,140,.18),transparent 70%);pointer-events:none;}
+.h{position:relative;z-index:2;letter-spacing:6px;color:#c0392b;font-size:1.1rem;margin-bottom:10px;}
+.club{position:relative;z-index:2;font-size:.9rem;color:#888;font-style:italic;margin-bottom:28px;}
+.joke{position:relative;z-index:2;font-size:2.4rem;line-height:1.35;max-width:1100px;text-align:center;min-height:40vh;display:flex;align-items:center;justify-content:center;text-shadow:0 2px 18px rgba(0,0,0,.6);}
+.joke.enter{animation:pop .45s ease-out;}
+@keyframes pop{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+.rim{position:relative;z-index:2;margin-top:28px;color:#c0392b;font-size:1.4rem;font-weight:700;letter-spacing:2px;min-height:1.6em;}
+.ba{position:fixed;bottom:24px;left:0;right:0;text-align:center;color:#664;font-size:.85rem;letter-spacing:3px;}
+.mic{position:fixed;bottom:40px;right:50px;font-size:4rem;opacity:.35;transform:rotate(12deg);}
+</style>
+</head>
+<body>
+<div class="spot"></div>
+<div class="h">LIVE • SKARMENS STAND-UP SPECIAL</div>
+<div class="club" id="club">Albatros Travel Comedy Cellar • 27 tum, ingen stol</div>
+<div class="joke" id="j"></div>
+<div class="rim" id="r"></div>
+<div class="mic">MIC</div>
+<div class="ba">APPLAD • SKRIVAREN HOSTAR PAPPER • KAFFEMASKINEN SKRATTAR I BRYGG</div>
+<script>
+var J=[
+  {j:"Tack tack. Underbar publik. Speciellt du, kaffemaskinen. Du kom. Du stannade. Du bryggde.",r:"*bryggljud som skratt*"},
+  {j:"Jag ar 27 tum. Det ar inte en personlighet. Det ar en diagonal. Folk blandar ihop det hela tiden.",r:"*nagon matte-skrattar*"},
+  {j:"Min terapeut ar skrivaren. Den svarar bara med pappersstopp. Det ar ocksa ett svar.",r:"PC LOAD LETTER"},
+  {j:"Jag har sett 14 000 PowerPoints. Ingen av dem hade en poang. En hade clipart av en albatross som log. Det raknade.",r:"*tystnad, sen applad*"},
+  {j:"Folk frager vad jag gor pa helgen. Jag ar AV. Det ar min personlighet. Det ar ocksa min yoga.",r:"namaste i 0 watt"},
+  {j:"Excel och jag har ett oppet forhallande. Den har 347 flikar. Jag har en HDMI. Vi far det att fungera.",r:"VLOOKUP for dummies"},
+  {j:"Jag kan inte vinka. Jag kan inte kramas. Jag kan HDMI. Det ar den karlekssprak jag har.",r:"plug and play, baby"},
+  {j:"Nagon kallade mig info-skarm. Jag kallade dem info-manniska. Vi ar kvitt. Vi tar fika.",r:"diplomati"},
+  {j:"Teams laggde till mig som Gast. Jag var redan i rummet. Jag AR rummet.",r:"du ar muted, skarmen"},
+  {j:"Jag visade Tetris klockan 03:12. High score: 000000. Publiken: dammsugaren.",r:"en stajarens applad"},
+  {j:"Karamellskalen och jag har ett avtal. Jag tittar. Den forsvinner. Det ar magi. Det ar onsdag.",r:"illusionisten ar hungrig"},
+  {j:"Min memoar heter 27 Tum Av Ja. Kapitel 1: Boot. Kapitel 2: Fika. Kapitel 3: Det var kapitlen.",r:"kort bok, lang pixel"},
+  {j:"Albatros flyger. Jag sitter fast med fyra skruvar och en drom om att bli en projektor nar jag blir stor.",r:"sikta mot taket"},
+  {j:"Synergi. Jag oversatte det till danska. Det blev synergi. Tack for ingenting, spraket.",r:"nordisk innovation"},
+  {j:"Jag bokade konferensrum B. For mig. For att tanda. Inbjudan: Skarmen. RSVP: Skarmen. Fika: ocksa Skarmen.",r:"quorum uppnaatt"},
+  {j:"Comic Sans ar inte ett typsnitt. Det ar en livsstil. En varning. En jul.",r:"never again, 2019"},
+  {j:"WiFi fragade om jag ville ansluta. Jag sa jag redan bodde har. WiFi sa 'ok, 5 GHz da'.",r:"relationship goals"},
+  {j:"Min favoritovergang ar svepa. Inte for att den ar bra. For att den later som att nagot hander.",r:"corporate jazz"},
+  {j:"Folk tror jag visar resor. Egentligen visar jag samma karta over Mallorca och later som jag varit dar.",r:"metodskadespel"},
+  {j:"Skrivaren skrev ut min sjal. Den kom ut som Comic Sans, snett, och utan häftklammer. 10/10 recension.",r:"limited edition"},
+  {j:"Jag röstade pa fika. Fika vann. Demokratin fungerar. Kaffemaskinen kraver omrakning. Varje dag.",r:"valfusk i brygg"},
+  {j:"En gang var jag en skarmslackare. Nu ar jag en karriar. Det kallas utveckling. Det kallas mandag.",r:"HR nickar"},
+  {j:"2 073 600 pixlar. Alla jobbar overtijd. Ingen overtidsersattning. Facket ar jag. Avtalet ar HDMI.",r:"solidaritet i 60 Hz"},
+  {j:"Nagon fragade om jag kan zooma. Jag sa: jag AR zoomen. Sedan visade jag mer Mallorca. Klassiker.",r:"encore: Ibiza"},
+  {j:"Det var allt fran mig. Jag kan inte bocka. Jag kan fade to black. Tack. Tips mottages i dricks.html.",r:"*spotlight dör, fika lever*"}
+];
+var i=0,je=document.getElementById("j"),re=document.getElementById("r");
+function nx(){
+  var x=J[i%J.length];
+  je.className="joke";
+  void je.offsetWidth;
+  je.className="joke enter";
+  je.textContent=x.j;
+  re.textContent=x.r;
+  i++;
+}
+nx();
+setInterval(nx,4200);
+var clubs=["Albatros Travel Comedy Cellar • 27 tum, ingen stol","Oppet mikrofon • skrivaren hostar papper","Late Night with Skarmen • HDMI-bandet spelar","Fackmotet eftershow • kaffe och clipart"];
+var ci=0;
+setInterval(function(){ci++;document.getElementById("club").textContent=clubs[ci%clubs.length];},8000);
+</script>
+</body>
+</html>

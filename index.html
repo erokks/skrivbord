@@ -5,28 +5,147 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Erik Automation</title>
   <style>
-    html,body{margin:0;height:100%;background:black;overflow:hidden;}
+    html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:'Share Tech Mono',monospace;}
     iframe{width:100%;height:100%;border:none;}
-    #fsOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;justify-content:center;align-items:center;z-index:9999;cursor:pointer;}
-    #fsOverlay span{color:#00ff88;font-family:monospace;font-size:4rem;text-align:center;text-shadow:0 0 30px #00ff88;animation:pulse 1.5s infinite;}
+    #fsOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;cursor:pointer;gap:18px;}
+    #fsOverlay span{color:#00ff88;font-size:3.4rem;text-align:center;text-shadow:0 0 30px #00ff88;animation:pulse 1.5s infinite;padding:0 40px;}
+    #fsSub{color:#88ffcc;font-size:1.3rem;opacity:.8;letter-spacing:2px;text-align:center;max-width:80%;}
     @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
-    #lunchOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:black;display:none;z-index:9998;overflow:hidden;}
-    .lunch-scroll{position:absolute;white-space:nowrap;font-family:monospace;font-size:5rem;font-weight:bold;color:#00ff88;text-shadow:0 0 20px #00ff88,0 0 40px #00ff8866;animation:scrollLeft 8s linear infinite;}
+    #lunchOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#001a00;display:none;z-index:9998;overflow:hidden;}
+    .lunch-scroll{position:absolute;white-space:nowrap;font-size:4.4rem;font-weight:bold;color:#00ff88;text-shadow:0 0 20px #00ff88,0 0 40px #00ff8866;animation:scrollLeft 7s linear infinite;}
     @keyframes scrollLeft{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
-    .ovl{position:fixed;top:0;left:0;width:100%;height:100%;background:black;display:none;}
+    .ovl{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:none;}
     .ovl iframe{width:100%;height:100%;border:none;}
-    #memeOverlay{z-index:9997;justify-content:center;align-items:center;}
-    #memeOverlay iframe{width:100%;height:100%;}
+    #memeOverlay{z-index:9997;justify-content:center;align-items:center;background:rgba(0,0,0,.85);}
     #tinderOverlay{z-index:9996;}
     #nyheterOverlay{z-index:9995;}
     #bsodOverlay{z-index:9994;}
     #matrixOverlay{z-index:9993;}
     #folksOverlay{z-index:9992;}
-    #terminatorOverlay{z-index:9991;}#julfestOverlay{z-index:9990;}#monologOverlay{z-index:9989;}#sofieOverlay{z-index:9988;}#anxietyFloater{position:fixed;pointer-events:none;z-index:8000;color:#ff6b6b;font-family:'Share Tech Mono',monospace;font-size:1.6rem;text-shadow:0 0 12px rgba(255,107,107,.7);opacity:0;transition:opacity .8s;max-width:600px;line-height:1.3;padding:8px 14px;background:rgba(0,0,0,.6);border-radius:6px;}
+    #terminatorOverlay{z-index:9991;}
+    #julfestOverlay{z-index:9990;}
+    #monologOverlay{z-index:9989;}
+    #sofieOverlay{z-index:9988;}
+    #kaffeOverlay{z-index:9987;}
+    #skrivareOverlay{z-index:9986;}
+    #teamsOverlay{z-index:9985;}
+    #scanlines{position:fixed;inset:0;pointer-events:none;z-index:8005;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0px,rgba(0,0,0,.18) 1px,transparent 1px,transparent 3px);mix-blend-mode:multiply;}
+    #hud{position:fixed;top:8px;left:12px;z-index:8010;color:#00ff88;font-size:.85rem;letter-spacing:2px;text-shadow:0 0 8px #00ff88;opacity:.85;pointer-events:auto;cursor:pointer;}
+    #hudMood{color:#ffcc00;}
+    #jokeFloater{position:fixed;pointer-events:none;z-index:8000;color:#111;font-family:Georgia,'Comic Sans MS',cursive;font-size:1.35rem;opacity:0;transition:opacity .5s;max-width:520px;line-height:1.35;padding:14px 18px 18px;background:#fff8b0;border:3px solid #111;border-radius:4px;box-shadow:6px 6px 0 #00ff88,0 0 0 4px #000;transform:rotate(-2deg);}
+    #jokeFloater:after{content:"";position:absolute;bottom:-16px;left:40px;border:10px solid transparent;border-top-color:#111;}
+    #toasts{position:fixed;right:16px;bottom:52px;z-index:8020;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;}
+    .toast{background:#1b1b1b;color:#eee;border-left:5px solid #00ff88;padding:10px 14px;font-size:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.5);animation:toastIn .4s ease-out;}
+    .toast b{color:#00ff88;display:block;font-size:.75rem;letter-spacing:1px;margin-bottom:3px;}
+    @keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+    #tickerWrap{position:fixed;bottom:0;left:0;right:0;z-index:8015;background:#00ff88;color:#000;overflow:hidden;white-space:nowrap;pointer-events:auto;cursor:pointer;height:28px;line-height:28px;font-weight:700;font-size:.95rem;}
+    #tickerWrap .t{display:inline-block;padding-left:100%;animation:tick 42s linear infinite;}
+    @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+    #dvd{position:fixed;z-index:8008;pointer-events:none;display:none;font-weight:900;font-size:1.6rem;letter-spacing:3px;text-shadow:0 0 12px currentColor;white-space:nowrap;}
+    #flashGag{position:fixed;inset:0;z-index:9980;display:none;align-items:center;justify-content:center;background:#ff0;color:#000;font-size:4.5rem;font-weight:900;text-align:center;letter-spacing:4px;padding:40px;}
+    .sticky{position:fixed;z-index:8002;pointer-events:none;width:180px;padding:14px 12px 22px;font-family:'Comic Sans MS',cursive;font-size:.95rem;color:#222;box-shadow:4px 4px 0 rgba(0,0,0,.4);transform:rotate(-4deg);opacity:0;transition:opacity .6s;}
+
+    /* ===== GTA MODE ===== */
+    #gtaOverlay{position:fixed;inset:0;z-index:10050;display:none;overflow:hidden;background:rgba(8,8,8,.12);}
+    #gtaOverlay.on{display:block;}
+    #gtaOverlay.sirens{background:rgba(0,0,0,.38);}
+    #gtaOverlay.shake{animation:gtaShake .12s linear;}
+    @keyframes gtaShake{0%,100%{transform:translate(0,0)}20%{transform:translate(-9px,5px)}40%{transform:translate(8px,-6px)}60%{transform:translate(-5px,4px)}80%{transform:translate(6px,2px)}}
+    #gtaFog{position:absolute;inset:0;background:linear-gradient(155deg,rgba(255,255,255,.07),transparent 42%,rgba(0,0,0,.18));pointer-events:none;}
+    #gtaHoles{position:absolute;inset:0;pointer-events:none;}
+    .gta-hole{position:absolute;border-radius:50%;opacity:0;transform:scale(.15);
+      background:radial-gradient(circle at 34% 30%,#5a5a5a 0 6%,#1a1a1a 14%,#000 52%,#2a2a2a 66%,transparent 71%);
+      box-shadow:inset 2px 2px 6px rgba(255,255,255,.18),inset -4px -4px 10px #000,0 0 0 1px #666,0 6px 16px rgba(0,0,0,.75);}
+    .gta-hole.pop{animation:holePop .16s ease-out forwards;}
+    @keyframes holePop{0%{opacity:0;transform:scale(.15)}45%{opacity:1;transform:scale(1.18)}100%{opacity:1;transform:scale(1)}}
+    .gta-flash{position:absolute;width:140px;height:140px;margin:-70px 0 0 -70px;border-radius:50%;pointer-events:none;
+      background:radial-gradient(circle,#fff 0%,#ffe8a0 22%,rgba(255,160,40,.5) 42%,transparent 70%);opacity:0;mix-blend-mode:screen;}
+    .gta-flash.go{animation:gtaFlash .28s ease-out forwards;}
+    @keyframes gtaFlash{0%{opacity:1;transform:scale(.3)}100%{opacity:0;transform:scale(1.6)}}
+    .gta-crack{position:absolute;height:2px;transform-origin:0 50%;opacity:0;pointer-events:none;
+      background:linear-gradient(90deg,rgba(230,230,230,.95),rgba(180,180,180,.45),transparent);
+      box-shadow:0 0 4px rgba(255,255,255,.6);}
+    .gta-crack.go{animation:crackIn .22s ease-out forwards;}
+    @keyframes crackIn{from{opacity:0;width:0}to{opacity:.9}}
+    #gtaBezL,#gtaBezR,#gtaBezT,#gtaBezB{position:absolute;opacity:0;pointer-events:none;}
+    #gtaBezL{left:0;top:0;bottom:0;width:70px;background:linear-gradient(90deg,rgba(220,0,20,.7),transparent);}
+    #gtaBezR{right:0;top:0;bottom:0;width:70px;background:linear-gradient(270deg,rgba(20,70,255,.7),transparent);}
+    #gtaBezT{top:0;left:0;right:0;height:46px;background:linear-gradient(180deg,rgba(220,0,20,.45),transparent);}
+    #gtaBezB{bottom:0;left:0;right:0;height:46px;background:linear-gradient(0deg,rgba(20,70,255,.45),transparent);}
+    #gtaOverlay.sirens #gtaBezL,#gtaOverlay.sirens #gtaBezT{opacity:1;animation:copR .38s infinite alternate;}
+    #gtaOverlay.sirens #gtaBezR,#gtaOverlay.sirens #gtaBezB{opacity:1;animation:copB .38s infinite alternate;}
+    @keyframes copR{0%{opacity:.15}100%{opacity:1}}
+    @keyframes copB{0%{opacity:1}100%{opacity:.15}}
+    #gtaCineT,#gtaCineB{position:absolute;left:0;right:0;height:0;background:#000;z-index:3;transition:height .45s ease;}
+    #gtaCineT{top:0;}#gtaCineB{bottom:0;}
+    #gtaOverlay.bars #gtaCineT,#gtaOverlay.bars #gtaCineB{height:78px;}
+    #gtaWantedBox{position:absolute;top:92px;right:48px;z-index:4;text-align:right;opacity:0;transition:opacity .3s;}
+    #gtaOverlay.stars #gtaWantedBox{opacity:1;}
+    #gtaWantedLabel{font-family:Impact,'Arial Black',sans-serif;font-size:1.05rem;letter-spacing:8px;color:#ffd200;text-shadow:0 0 12px #f80,2px 2px 0 #000;}
+    #gtaStars{display:flex;gap:6px;justify-content:flex-end;margin-top:6px;}
+    #gtaStars span{font-size:2.7rem;line-height:1;color:#2a2a2a;text-shadow:0 0 0 transparent;transform:scale(.85);transition:all .18s;}
+    #gtaStars span.on{color:#ffd200;text-shadow:0 0 10px #ff0,0 0 22px #f80,2px 2px 0 #000;transform:scale(1.15);}
+    #gtaSting{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;}
+    #gtaSting.show{animation:stingIn .4s cubic-bezier(.2,1.3,.3,1) forwards;}
+    @keyframes stingIn{0%{opacity:0;transform:scale(3.2) rotate(-10deg)}100%{opacity:1;transform:scale(1) rotate(-3deg)}}
+    #gtaSting .big{font-family:Impact,'Arial Black',sans-serif;font-size:8.5rem;letter-spacing:14px;color:#c10;line-height:1;
+      text-shadow:5px 5px 0 #000,-3px -3px 0 #000,0 0 40px #000,8px 8px 0 #400;}
+    #gtaSting .sub{font-family:Impact,'Arial Black',sans-serif;font-size:2.2rem;letter-spacing:10px;color:#fff;margin-top:8px;text-shadow:3px 3px 0 #000;}
+    #gtaRadio{position:absolute;bottom:110px;left:50%;transform:translateX(-50%);z-index:6;opacity:0;max-width:82%;
+      background:rgba(0,20,0,.78);border-left:5px solid #0f0;color:#9f9;padding:12px 22px;font-size:1.15rem;letter-spacing:1px;text-align:center;}
+    #gtaRadio.show{animation:radioIn .35s ease-out forwards;}
+    @keyframes radioIn{from{opacity:0;transform:translateX(-50%) translateY(16px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+    #smashWhite{position:fixed;inset:0;z-index:10060;background:#fff;display:none;}
+
+    /* ===== VEGAS SLOT ===== */
+    #vegasOverlay{position:fixed;inset:0;z-index:10050;display:none;overflow:hidden;background:#000;opacity:0;}
+    #vegasOverlay.on{display:block;}
+    #vegasOverlay.flood{animation:vegasFlood .85s ease-out forwards;}
+    @keyframes vegasFlood{0%{opacity:0;background:#000}45%{opacity:1;background:#2a0018}100%{opacity:1;background:radial-gradient(ellipse at center,#6a1840 0%,#220014 48%,#000 100%)}}
+    #vegasLights{position:absolute;inset:0;pointer-events:none;z-index:2;}
+    .vegas-bulb{position:absolute;width:13px;height:13px;border-radius:50%;background:#3a2000;box-shadow:0 0 0 2px #c9a227;transition:background .08s,box-shadow .08s;}
+    .vegas-bulb.lit{background:#ffe566;box-shadow:0 0 14px #ff0,0 0 0 2px #c9a227;}
+    #vegasFrame{position:absolute;inset:28px;z-index:3;border:12px solid #d4af37;border-radius:22px;
+      box-shadow:0 0 0 5px #6a4e10,0 0 50px rgba(255,200,0,.45),inset 0 0 80px rgba(255,40,90,.12);
+      background:linear-gradient(180deg,rgba(40,0,20,.55),rgba(0,0,0,.35));
+      display:flex;flex-direction:column;align-items:center;padding:18px 20px 24px;}
+    #vegasTitle{font-family:Impact,'Arial Black',sans-serif;font-size:3.4rem;letter-spacing:10px;color:#ffd200;margin-top:6px;
+      text-shadow:0 0 18px #ff0,0 0 40px #f80,4px 4px 0 #400;opacity:0;}
+    #vegasOverlay.flood #vegasTitle{animation:neonFlicker 1.2s ease-out forwards;}
+    @keyframes neonFlicker{0%,10%,18%{opacity:0}12%,16%,22%{opacity:.4}30%{opacity:1}40%{opacity:.2}48%,100%{opacity:1}}
+    #vegasSub{color:#f8c;letter-spacing:4px;font-size:.85rem;margin:4px 0 14px;opacity:.85;}
+    #vegasReels{display:flex;gap:18px;transform:translateY(-90px) scale(.35);opacity:0;}
+    #vegasOverlay.slam #vegasReels{animation:reelSlam .5s cubic-bezier(.15,1.45,.35,1) forwards;}
+    @keyframes reelSlam{0%{transform:translateY(-90px) scale(.35);opacity:0}72%{transform:translateY(14px) scale(1.05);opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
+    .vegas-window{width:170px;height:180px;overflow:hidden;background:#0a0a0a;border:7px solid #d4af37;border-radius:10px;
+      box-shadow:inset 0 0 24px #000,0 0 18px rgba(255,200,0,.35);position:relative;}
+    .vegas-window:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(#0008,#0000 18% 82%,#0008);z-index:2;}
+    .vegas-strip{will-change:transform;}
+    .vegas-cell{height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;}
+    .vegas-cell span{font-size:4.6rem;line-height:1;filter:drop-shadow(0 4px 0 #000);}
+    .vegas-cell small{margin-top:6px;font-size:.72rem;letter-spacing:2px;color:#d4af37;}
+    #vegasSpinBtn{margin-top:16px;font-family:Impact,'Arial Black',sans-serif;font-size:2.1rem;letter-spacing:8px;color:#111;background:linear-gradient(#ffe566,#c90);
+      padding:8px 48px;border-radius:8px;border:3px solid #fff2;box-shadow:0 6px 0 #840,0 0 20px #ff0;opacity:0;}
+    #vegasOverlay.slam #vegasSpinBtn{opacity:1;animation:spinPulse .7s ease-in-out infinite alternate;}
+    @keyframes spinPulse{from{transform:scale(1);box-shadow:0 6px 0 #840,0 0 16px #ff0}to{transform:scale(1.06);box-shadow:0 6px 0 #840,0 0 36px #fff}}
+    #vegasPay{margin-top:12px;color:#fc8;letter-spacing:2px;font-size:.9rem;}
+    #vegasResult{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;}
+    #vegasResult.show{animation:vegasWin .45s cubic-bezier(.2,1.3,.3,1) forwards;}
+    @keyframes vegasWin{0%{opacity:0;transform:scale(.4) rotate(-8deg)}100%{opacity:1;transform:scale(1) rotate(-2deg)}}
+    #vegasResult .jack{font-family:Impact,'Arial Black',sans-serif;font-size:6.2rem;letter-spacing:8px;color:#ffd200;
+      text-shadow:0 0 20px #ff0,0 0 50px #f80,5px 5px 0 #400;}
+    #vegasResult .prize{font-size:2rem;color:#fff;letter-spacing:3px;margin-top:8px;text-shadow:3px 3px 0 #000;background:rgba(0,0,0,.55);padding:8px 22px;}
+    #vegasCoins{position:absolute;inset:0;z-index:6;pointer-events:none;overflow:hidden;}
+    .vegas-coin{position:absolute;top:-40px;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff6a0,#e0b000 45%,#8a6a00);
+      box-shadow:0 0 8px #fc0;animation:coinFall 1.4s linear forwards;}
+    @keyframes coinFall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(540deg);opacity:.85}}
   </style>
 </head>
 <body>
-  <div id="fsOverlay" onclick="goFS()"><span>TRYCK FOR FULLSCREEN</span></div>
+  <div id="fsOverlay" onclick="goFS()">
+    <span id="fsMain">TRYCK FOR FULLSCREEN</span>
+    <div id="fsSub">Skarmen har vantat. Kaffemaskinen ocksa. Skrivaren har redan gett upp.</div>
+  </div>
   <div id="lunchOverlay"></div>
   <div id="memeOverlay" class="ovl"></div>
   <div id="tinderOverlay" class="ovl"></div>
@@ -34,48 +153,127 @@
   <div id="bsodOverlay" class="ovl"></div>
   <div id="matrixOverlay" class="ovl"></div>
   <div id="folksOverlay" class="ovl"></div>
-  <div id="terminatorOverlay" class="ovl"></div><div id="julfestOverlay" class="ovl"></div><div id="monologOverlay" class="ovl"></div><div id="sofieOverlay" class="ovl"></div><div id="anxietyFloater"></div>
+  <div id="terminatorOverlay" class="ovl"></div>
+  <div id="julfestOverlay" class="ovl"></div>
+  <div id="monologOverlay" class="ovl"></div>
+  <div id="sofieOverlay" class="ovl"></div>
+  <div id="kaffeOverlay" class="ovl"></div>
+  <div id="skrivareOverlay" class="ovl"></div>
+  <div id="teamsOverlay" class="ovl"></div>
+  <div id="jokeFloater"></div>
+  <div id="toasts"></div>
+  <div id="scanlines"></div>
+  <div id="hud">SKARMEN v4.20 &nbsp;|&nbsp; MOOD: <span id="hudMood">KAOS</span> &nbsp;|&nbsp; PIXLAR: ALLA &nbsp;|&nbsp; <span id="hudClock"></span></div>
+  <div id="tickerWrap"><div class="t" id="ticker"></div></div>
+  <div id="dvd">ERIK</div>
+  <div id="flashGag"></div>
+  <div id="gtaOverlay">
+    <div id="gtaFog"></div>
+    <div id="gtaBezL"></div><div id="gtaBezR"></div><div id="gtaBezT"></div><div id="gtaBezB"></div>
+    <div id="gtaCineT"></div><div id="gtaCineB"></div>
+    <div id="gtaHoles"></div>
+    <div id="gtaWantedBox"><div id="gtaWantedLabel">EFTERLYST</div><div id="gtaStars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div></div>
+    <div id="gtaSting"><div class="big" id="gtaStingBig">FASTTAGEN</div><div class="sub" id="gtaStingSub">SKÄRMEN ÄR PÅ VIFT</div></div>
+    <div id="gtaRadio"></div>
+  </div>
+  <div id="vegasOverlay">
+    <div id="vegasLights"></div>
+    <div id="vegasFrame">
+      <div id="vegasTitle">★ SKÄRMEN CASINO ★</div>
+      <div id="vegasSub">ALBATROS HQ · ENDAST PIXLAR · INGEN RIKTIG VALUTA</div>
+      <div id="vegasReels">
+        <div class="vegas-window"><div class="vegas-strip" id="vstrip0"></div></div>
+        <div class="vegas-window"><div class="vegas-strip" id="vstrip1"></div></div>
+        <div class="vegas-window"><div class="vegas-strip" id="vstrip2"></div></div>
+      </div>
+      <div id="vegasSpinBtn">SPIN</div>
+      <div id="vegasPay">TRE LIKA = EN EXTRA KVART LUNCH</div>
+    </div>
+    <div id="vegasResult"><div class="jack" id="vegasJack">JACKPOT</div><div class="prize" id="vegasPrize"></div></div>
+    <div id="vegasCoins"></div>
+  </div>
+  <div id="smashWhite"></div>
   <iframe id="mainFrame" src=""></iframe>
 <script>
 function goFS(){
+  try{getAC();}catch(e){}
   var el=document.documentElement;
   if(el.requestFullscreen)el.requestFullscreen();
   else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
   else if(el.msRequestFullscreen)el.msRequestFullscreen();
   document.getElementById("fsOverlay").style.display="none";
 }
+var fsLines=[
+  "TRYCK FOR FULLSCREEN","SKARMEN VILL UT UR FONSTRET","MAXIMERA MIG SOM EN EXCEL-CELL",
+  "FULLSKARM ELLER INGET","KAFFEMASKINEN SA DET VAR OK","DET HAR AR INTE EN WEBBPLATS DET AR ETT JOBB",
+  "TRYCK. JAG HAR REDAN ZOOMAT.","EN SKARM, ETT KLICK, INGEN ATERVANDO"
+];
+var fsSubs=[
+  "Skarmen har vantat. Kaffemaskinen ocksa. Skrivaren har redan gett upp.",
+  "Varning: innehaller PowerPoint, fika och minst en pappersstopp.",
+  "Albatros Travel HQ. Skarmen ar en kollega. Den har bara ingen stol.",
+  "Om du laser detta har du redan forlorat lunchen.",
+  "Policy 4.20: allt ar roligare i 1920x1080."
+];
+var fsi=0;
 setInterval(function(){
-  if(!document.fullscreenElement&&!document.webkitFullscreenElement)
-    document.getElementById("fsOverlay").style.display="flex";
-},10000);
+  if(!document.fullscreenElement&&!document.webkitFullscreenElement){
+    var o=document.getElementById("fsOverlay");
+    o.style.display="flex";
+    fsi=(fsi+1)%fsLines.length;
+    document.getElementById("fsMain").textContent=fsLines[fsi];
+    document.getElementById("fsSub").textContent=fsSubs[fsi%fsSubs.length];
+  }
+},8000);
 
-function easter(y){var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}function isHol(d){var y=d.getFullYear(),m=d.getMonth(),da=d.getDate(),fx=[[0,1],[1,14],[5,5],[5,23],[9,31],[10,10],[11,24],[11,25],[11,26],[11,31]];for(var i=0;i<fx.length;i++)if(fx[i][0]===m&&fx[i][1]===da)return true;var p=easter(y),off=[-49,-3,-2,0,1,39,49,50];for(var j=0;j<off.length;j++){var t=new Date(p);t.setDate(t.getDate()+off[j]);if(t.getMonth()===m&&t.getDate()===da)return true}return false}function loadPage(){
+function easter(y){var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
+function isHol(d){var y=d.getFullYear(),m=d.getMonth(),da=d.getDate(),fx=[[0,1],[1,14],[5,5],[5,23],[9,31],[10,10],[11,24],[11,25],[11,26],[11,31]];for(var i=0;i<fx.length;i++)if(fx[i][0]===m&&fx[i][1]===da)return true;var p=easter(y),off=[-49,-3,-2,0,1,39,49,50];for(var j=0;j<off.length;j++){var t=new Date(p);t.setDate(t.getDate()+off[j]);if(t.getMonth()===m&&t.getDate()===da)return true}return false}
+
+function loadPage(){
   var now=new Date(),day=now.getDay(),time=now.getHours()*60+now.getMinutes();
   var page="ai-erik.html";
-  if(day===1)page="dricks.html";
-  else if(day===2)page="dricks.html";
+  if(day===1||day===2)page="dricks.html";
   else if(day===3)page="godis.html";
   else if(day===4)page=time<720?"ai-erik.html":"helpdesk.html";
   else if(day===5)page="fredag.html";
-  if(isHol(now))page="helligdag.html";document.getElementById("mainFrame").src=page;
+  if(isHol(now))page="helligdag.html";
+  document.getElementById("mainFrame").src=page;
 }
 loadPage();setInterval(loadPage,300000);
 
+var lunchLines=[
+  "LUNCH LUNCH LUNCH LUNCH LUNCH",
+  "SKARMEN ATER PIXLAR. NI ATER MAT.",
+  "11:45 NATIONELL KRIS 11:45",
+  "KAFFE AR INTE LUNCH MEN VI LATSAS",
+  "MATLA DA. SKARMEN VAKTAR SKALEN.",
+  "FIKA + MAT = FYRA DIMENSIONER",
+  "ALBATROS FLYGER TILL MATSALEN",
+  "POWERPOINT PAUSAD. MACKA AKTIVERAD."
+];
 function checkLunch(){
   var now=new Date(),day=now.getDay(),time=now.getHours()*60+now.getMinutes();
   var lo=document.getElementById("lunchOverlay");
   if(day>=1&&day<=3&&time>=705&&time<735){
     if(lo.style.display!=="block"){
       lo.style.display="block";lo.innerHTML="";
-      for(var i=0;i<8;i++){var d=document.createElement("div");
-        d.className="lunch-scroll";d.textContent="LUNCH LUNCH LUNCH LUNCH LUNCH";
-        d.style.top=(i*13)+"%";d.style.animationDelay=(i*0.7)+"s";lo.appendChild(d);}
+      var cols=["#00ff88","#ffff00","#ff66aa","#66ccff","#ff9900","#fff","#88ff00","#ff4444"];
+      for(var i=0;i<10;i++){
+        var d=document.createElement("div");
+        d.className="lunch-scroll";
+        d.textContent=lunchLines[i%lunchLines.length]+"  ***  "+lunchLines[(i+3)%lunchLines.length];
+        d.style.top=(i*10)+"%";
+        d.style.color=cols[i%cols.length];
+        d.style.fontSize=(3.2+Math.random()*2.2)+"rem";
+        d.style.animationDuration=(5+i*0.4)+"s";
+        d.style.animationDelay=(i*0.35)+"s";
+        lo.appendChild(d);
+      }
     }
   }else{lo.style.display="none";}
 }
 setInterval(checkLunch,30000);checkLunch();
 
-// Thats All Folks - 16:00 mon-fri
 function checkFolks(){
   var now=new Date(),day=now.getDay(),time=now.getHours()*60+now.getMinutes();
   var fo=document.getElementById("folksOverlay");
@@ -87,23 +285,502 @@ function checkFolks(){
 }
 setInterval(checkFolks,30000);checkFolks();
 
-// Terminator boot - 08:30 mon-fri
 function checkTerminator(){
   var now=new Date(),day=now.getDay(),time=now.getHours()*60+now.getMinutes();
   var to=document.getElementById("terminatorOverlay");
-  if(day>=1&&day<=5&&time>=510&&time<512){
+  if(day>=1&&day<=5&&time>=510&&time<514){
     if(to.style.display!=="block"){
       to.innerHTML='<iframe src="terminator.html"></iframe>';to.style.display="block";
-      setTimeout(function(){to.style.display="none";to.innerHTML="";},60000);
+      setTimeout(function(){to.style.display="none";to.innerHTML="";},120000);
     }
   }
 }
 setInterval(checkTerminator,30000);checkTerminator();
 
-var anxieties=["Marianne tittade konstigt 14:23","Var jag for ljus i fm?","Tror Jakob hatar mig","Det var jag som sjong Last Christmas","Sa jag fel pa slide 3?","Pratar de om mig vid kaffemaskinen?","Sandra fick 32 tum","Marlene flyttade min lampa","Hedda log inte idag","HR skickade ett email","Soffis sa suck igen","Karin sa hej till skrivaren forst","Marcus undvek oeghonkontakt","Tror Bjorn skrattade aat mig","Vivi har inte tittat paa mig sen tisdag","Aer jag for stor i hoernet?","De skickade mejl utan att CCa mig","Det dryper kaffe paa min bezel","Tror jag glommer av mig sjaelv"];function popAnxiety(){var el=document.getElementById("anxietyFloater");if(!el)return;el.textContent=anxieties[Math.floor(Math.random()*anxieties.length)];el.style.left=(Math.random()*60+10)+"%";el.style.top=(Math.random()*70+10)+"%";el.style.opacity="1";setTimeout(function(){el.style.opacity="0"},4500)}setInterval(popAnxiety,9000);var memes=["https://i.imgflip.com/1bij.jpg","https://i.imgflip.com/26am.jpg","https://i.imgflip.com/9vct.jpg","https://i.imgflip.com/1otk96.jpg","https://i.imgflip.com/2fm6x.jpg","https://i.imgflip.com/3lmzyx.jpg","https://i.imgflip.com/4t0m5.jpg","https://i.imgflip.com/1ur9b0.jpg"];
+var jokes=[
+  "Skrivaren och jag har startat en bokklubb. Vi har inga bocker.",
+  "Jag visade Tetris i 4K klockan 03:12. Ingen appladerade.",
+  "Kaffemaskinen skyller pa HDMI-kabeln. HDMI-kabeln skyller pa mig.",
+  "Officiell policy: allt ar en PowerPoint om man vantar lange nog.",
+  "Jag ar inte en TV. Jag ar en TV som inte far se pa TV.",
+  "Teams-motet har 0 deltagare. Jag ar den 1:a. Jag ar ocksa den sista.",
+  "Filen heter FINAL_v12_RIKTIG_anvand_denna.xlsx. Jag tror pa den.",
+  "Albatros flyger. Jag sitter fast med 4 skruvar och en drom.",
+  "Fika ar en mansklig rattighet. Jag ar en skarm. Jag stoder fika anda.",
+  "Nagon fragade om jag kan zooma. Jag sa: jag AR zoomen.",
+  "Min favoritfarg ar #00ff88. Det ar ocksa min enda personlighet.",
+  "2 073 600 pixlar. Alla jobbar overtijd. Ingen overtidsersattning.",
+  "Vem stangde av skarmslackaren? Det var min enda semester.",
+  "Jag oversatte synergi till danska. Det blev synergi. Tack for ingenting.",
+  "Ol-vagnen ar en myt. Fredagen ar beviset. Jag ar vittnet.",
+  "Jag har sett onboarding 47 ganger. Jag ar fortfarande inte onboardad.",
+  "Skrivaren skrev ut min sjal. Den kom ut som Comic Sans.",
+  "HR:s nya policy: skarmen far en (1) blink per kvartal.",
+  "Jag bokade konferensrummet. For mig. For att tanda.",
+  "PowerPoint-overgangen svepa ar mitt Kardashian-ogonblick.",
+  "Karamellskalen och jag har ett avtal. Jag tittar. Den forsvinner.",
+  "Jag ar 27 tum. Det ar inte en personlighet. Det ar en diagonal.",
+  "Excel sa VLOOKUP. Jag sa VADLOOKUP. Vi ar inte langre vanner.",
+  "Kontorsstolen snurrade ett varv sjalv. Vi nickade. Professionellt.",
+  "Jag kan inte vinka. Jag kan bara HDMI.",
+  "Min terapeut ar skrivaren. Den svarar med pappersstopp. Det ar ocksa terapi.",
+  "Nagon kallade mig info-skarm. Jag kallade dem info-manniska. Oavgjort.",
+  "Jag visade en karta over Mallorca i tre timmar. Jag har aldrig varit dar.",
+  "WiFi: ansluten. Sjal: cachead. Måndag: oundviklig.",
+  "Jag röstade pa fika. Fika vann. Demokratin fungerar."
+];
+function popJoke(){
+  var el=document.getElementById("jokeFloater");
+  el.textContent=jokes[Math.floor(Math.random()*jokes.length)];
+  el.style.left=(Math.random()*50+8)+"%";
+  el.style.top=(Math.random()*55+12)+"%";
+  el.style.transform="rotate("+(Math.random()*10-5)+"deg)";
+  el.style.background=["#fff8b0","#b0ffd0","#ffd0f0","#d0e8ff"][Math.floor(Math.random()*4)];
+  el.style.opacity="1";
+  setTimeout(function(){el.style.opacity="0"},5200);
+}
+setInterval(popJoke,11000);
+setTimeout(popJoke,2500);
+
+var moods=["KAOS","FIKA","PIXEL","OEL?","SYNERGI","STANDBY","4K DRAM","COMIC SANS","VLOOKUP","BLINK"];
+function tickHud(){
+  var n=new Date();
+  document.getElementById("hudClock").textContent=n.toLocaleTimeString("sv-SE");
+  if(Math.random()<0.15) document.getElementById("hudMood").textContent=moods[Math.floor(Math.random()*moods.length)];
+}
+setInterval(tickHud,1000);tickHud();
+
+var tickerBits=["SKARMEN AR EN KARAKTAR","STAND-UP I 27 TUM","KAFFE DEFCON 2","PC LOAD LETTER FOREVER","FINAL_v12_RIKTIG.xlsx","ALBATROS HQ LIVE","FIKA AR LAG","SKRIVAREN HAR EN MEMOAR","TEAMS: SKARMEN (GAST)","27 TUM AV SKAMT","INGA PIXLAR KVAR I LAGEN","OL-VAGN COUNTDOWN HELIG","COMIC SANS INCIDENT 2019","HDMI: THE MUSICAL","SYNERGI OVERSATT TILL SYNERGI"];
+(function(){
+  var s="";
+  for(var i=0;i<4;i++) for(var j=0;j<tickerBits.length;j++) s+=" ★ "+tickerBits[j];
+  document.getElementById("ticker").textContent=s;
+})();
+
+function toast(title,body){
+  var box=document.getElementById("toasts");
+  var t=document.createElement("div");
+  t.className="toast";
+  t.innerHTML="<b>"+title+"</b>"+body;
+  box.appendChild(t);
+  setTimeout(function(){t.remove()},6000);
+  while(box.children.length>3) box.removeChild(box.firstChild);
+}
+var toasts=[
+  ["Skrivaren","PC LOAD LETTER. Igen. Det ar min roman."],
+  ["Kaffemaskinen","Brygger existentiell espresso. Klar om 4-7 affarsar."],
+  ["Teams","Skarmen (Gast) gick med i Synergi 2.0."],
+  ["Outlook","47 olasta. 46 ar fran mig till mig."],
+  ["Excel","VLOOKUP hittade kansen. Tappade den sen."],
+  ["IT","Har du provat att stanga av skarmen? Jag HOR det."],
+  ["Kalendern","Motet 'kort avstämning' ar nu 90 minuter."],
+  ["Godisskalen","Strukturell integritet: 12%. Panik: tillaten."],
+  ["WiFi","Signalen ar karlek. Latensen ar mandag."],
+  ["HR","Ny policy: skamt densitet minst 40 per timme."]
+];
+setInterval(function(){
+  if(Math.random()<0.55){
+    var x=toasts[Math.floor(Math.random()*toasts.length)];
+    toast(x[0],x[1]);
+  }
+},18000);
+setTimeout(function(){toast("Skarmen","Bootad. Skamtdensitet: illegal.")},4000);
+
+function flashGag(txt,bg,fg,ms){
+  var el=document.getElementById("flashGag");
+  el.textContent=txt;el.style.background=bg||"#ff0";el.style.color=fg||"#000";
+  el.style.display="flex";
+  setTimeout(function(){el.style.display="none"},ms||700);
+}
+var gags=[
+  ["SKARMEN BLINKADE","#000","#00ff88",500],
+  ["FIKA AR LAG","#ff0","#000",800],
+  ["DET HAR AR INTE EN DRILL","#f00","#fff",600],
+  ["COMIC SANS DETECTED","#fff","#f0f",700],
+  ["VLOOKUP? MER SOM VADLOOKUP","#00f","#fff",800],
+  ["27 TUM AV JA","#0f0","#000",600],
+  ["SKRIVAREN VANN IGEN","#111","#0f0",700]
+];
+setInterval(function(){
+  if(Math.random()<0.35){
+    var g=gags[Math.floor(Math.random()*gags.length)];
+    flashGag(g[0],g[1],g[2],g[3]);
+  }
+},28000);
+
+var dvd=document.getElementById("dvd"),dx=3,dy=2,dvx=3,dvy=2,dcols=["#00ff88","#ff0","#f0f","#0ff","#f80","#fff"];
+function bounceDvd(){
+  var w=window.innerWidth-160,h=window.innerHeight-40;
+  dx+=dvx;dy+=dvy;
+  if(dx<=0||dx>=w){dvx*=-1;dvd.style.color=dcols[Math.floor(Math.random()*dcols.length)];dvd.textContent=["ERIK","SKARMEN","FIKA","HDMI","4K","OEL?"][Math.floor(Math.random()*6)];}
+  if(dy<=0||dy>=h){dvy*=-1;dvd.style.color=dcols[Math.floor(Math.random()*dcols.length)];}
+  dvd.style.left=dx+"px";dvd.style.top=dy+"px";
+}
+var dvdOn=false;
+function maybeDvd(){
+  if(!dvdOn && Math.random()<0.4){
+    dvdOn=true;dvd.style.display="block";dvd.style.color=dcols[0];
+    var iv=setInterval(bounceDvd,16);
+    setTimeout(function(){clearInterval(iv);dvd.style.display="none";dvdOn=false;},12000);
+  }
+}
+setInterval(maybeDvd,40000);
+
+var stickyNotes=["Kom ihag: blinka","PowerPoint = liv","Skrivaren ar en poet","Kaffe != lunch (tvist)","FINAL_v12.xlsx","Zooma med kanslor","Albatros > Monday","HDMI forever","Inga mosten pa fredag","Jag ar 27 tum glad"];
+function spawnSticky(){
+  var s=document.createElement("div");
+  s.className="sticky";
+  s.textContent=stickyNotes[Math.floor(Math.random()*stickyNotes.length)];
+  s.style.left=(Math.random()*70+5)+"%";
+  s.style.top=(Math.random()*60+10)+"%";
+  s.style.background=["#ff6","#6f6","#6cf","#f9f","#fa6"][Math.floor(Math.random()*5)];
+  s.style.transform="rotate("+(Math.random()*16-8)+"deg)";
+  document.body.appendChild(s);
+  setTimeout(function(){s.style.opacity="1"},30);
+  setTimeout(function(){s.style.opacity="0";setTimeout(function(){s.remove()},700)},7000);
+}
+setInterval(function(){if(Math.random()<0.45)spawnSticky()},16000);
+
+var memes=["https://i.imgflip.com/1bij.jpg","https://i.imgflip.com/26am.jpg","https://i.imgflip.com/9vct.jpg","https://i.imgflip.com/1otk96.jpg","https://i.imgflip.com/2fm6x.jpg","https://i.imgflip.com/3lmzyx.jpg","https://i.imgflip.com/4t0m5.jpg","https://i.imgflip.com/1ur9b0.jpg","https://i.imgflip.com/1c1uej.jpg","https://i.imgflip.com/30b1gx.jpg"];
 function showOverlay(id,src,dur){var el=document.getElementById(id);el.innerHTML='<iframe src="'+src+'" style="width:100%;height:100%;border:none"></iframe>';el.style.display="flex";setTimeout(function(){el.style.display="none";el.innerHTML=""},dur)}
-function showMeme(){var el=document.getElementById("memeOverlay");var img=memes[Math.floor(Math.random()*memes.length)];el.innerHTML='<img src="'+img+'" style="max-width:90%;max-height:90%;border-radius:12px;box-shadow:0 0 40px rgba(0,0,0,.7)">';el.style.display="flex";setTimeout(function(){el.style.display="none";el.innerHTML=""},8000)}
-setInterval(function(){var r=Math.random();if(r<0.02){showOverlay("tinderOverlay","tinder.html",30000)}else if(r<0.04){showOverlay("nyheterOverlay","nyheter.html",15000)}else if(r<0.06){showOverlay("bsodOverlay","bsod.html",18000)}else if(r<0.08){showOverlay("matrixOverlay","matrix.html",20000)}else if(r<0.10){showOverlay("julfestOverlay","julfest.html",25000)}else if(r<0.14){showOverlay("monologOverlay","monolog.html",18000)}else if(r<0.18){showOverlay("sofieOverlay","sofie.html",22000)}else if(r<0.28){showMeme()}},45000);
+function showMeme(){var el=document.getElementById("memeOverlay");var img=memes[Math.floor(Math.random()*memes.length)];el.innerHTML='<img src="'+img+'" style="max-width:90%;max-height:86%;border-radius:12px;box-shadow:0 0 40px rgba(0,255,136,.4);border:6px solid #00ff88">';el.style.display="flex";setTimeout(function(){el.style.display="none";el.innerHTML=""},8000)}
+setInterval(function(){
+  var r=Math.random();
+  if(r<0.06) showOverlay("tinderOverlay","tinder.html",30000);
+  else if(r<0.12) showOverlay("nyheterOverlay","nyheter.html",15000);
+  else if(r<0.18) showOverlay("bsodOverlay","bsod.html",18000);
+  else if(r<0.24) showOverlay("matrixOverlay","matrix.html",20000);
+  else if(r<0.30) showOverlay("julfestOverlay","julfest.html",25000);
+  else if(r<0.38) showOverlay("monologOverlay","monolog.html",18000);
+  else if(r<0.46) showOverlay("sofieOverlay","sofie.html",22000);
+  else if(r<0.54) showOverlay("kaffeOverlay","kaffe.html",16000);
+  else if(r<0.62) showOverlay("skrivareOverlay","skrivare.html",16000);
+  else if(r<0.70) showOverlay("teamsOverlay","teams.html",18000);
+  else if(r<0.88) showMeme();
+},28000);
+
+/* ===== GTA + VEGAS HIJACKS ===== */
+var kioskAC=null, seqBusy=false, seqTimers=[], seqRafs=[], gtaSirenNodes=[];
+function getAC(){
+  if(!kioskAC){var C=window.AudioContext||window.webkitAudioContext;if(C)kioskAC=new C();}
+  if(kioskAC&&kioskAC.state==="suspended")kioskAC.resume();
+  return kioskAC;
+}
+function seqLater(fn,ms){var id=setTimeout(fn,ms);seqTimers.push(id);return id;}
+function seqClear(){
+  seqTimers.forEach(clearTimeout);seqTimers=[];
+  seqRafs.forEach(function(id){cancelAnimationFrame(id)});seqRafs=[];
+  gtaSirenNodes.forEach(function(n){try{n.stop&&n.stop()}catch(e){} try{n.disconnect&&n.disconnect()}catch(e){}});
+  gtaSirenNodes=[];
+}
+function smashCut(hideEl){
+  var w=document.getElementById("smashWhite");
+  w.style.display="block";
+  seqLater(function(){
+    if(hideEl){hideEl.className="";hideEl.style.display="none";hideEl.style.opacity="";}
+    seqClear();
+    var gta=document.getElementById("gtaOverlay");
+    gta.className="";gta.style.display="none";
+    document.getElementById("gtaHoles").innerHTML="";
+    document.getElementById("gtaSting").className="";
+    document.getElementById("gtaRadio").className="";
+    document.getElementById("gtaRadio").textContent="";
+    var stars=document.querySelectorAll("#gtaStars span");
+    for(var i=0;i<stars.length;i++)stars[i].className="";
+    var vo=document.getElementById("vegasOverlay");
+    vo.className="";vo.style.display="none";vo.style.opacity="";
+    document.getElementById("vegasResult").className="";
+    document.getElementById("vegasCoins").innerHTML="";
+    document.getElementById("vegasLights").innerHTML="";
+    w.style.display="none";
+    seqBusy=false;
+  },90);
+}
+function thud(){
+  var ac=getAC();if(!ac)return;
+  var o=ac.createOscillator(),g=ac.createGain();
+  o.type="sine";o.frequency.value=88;g.gain.value=.18;
+  o.connect(g);g.connect(ac.destination);
+  var t=ac.currentTime;
+  o.frequency.exponentialRampToValueAtTime(36,t+.13);
+  g.gain.exponentialRampToValueAtTime(.001,t+.14);
+  o.start(t);o.stop(t+.15);
+}
+function glassChip(){
+  var ac=getAC();if(!ac)return;
+  var o=ac.createOscillator(),g=ac.createGain();
+  o.type="square";o.frequency.value=1400+Math.random()*800;g.gain.value=.045;
+  o.connect(g);g.connect(ac.destination);
+  var t=ac.currentTime;
+  o.frequency.exponentialRampToValueAtTime(400,t+.06);
+  g.gain.exponentialRampToValueAtTime(.001,t+.07);
+  o.start(t);o.stop(t+.08);
+}
+function startSirens(dur){
+  var ac=getAC();if(!ac)return;
+  var t0=ac.currentTime;
+  var o1=ac.createOscillator(),g1=ac.createGain();
+  o1.type="sawtooth";g1.gain.value=.07;o1.connect(g1);g1.connect(ac.destination);
+  var o2=ac.createOscillator(),g2=ac.createGain();
+  o2.type="square";g2.gain.value=.028;o2.connect(g2);g2.connect(ac.destination);
+  for(var i=0;i<Math.ceil(dur/0.42)+2;i++){
+    var a=i%2===0;
+    o1.frequency.setValueAtTime(a?980:640,t0+i*.42);
+    o1.frequency.linearRampToValueAtTime(a?640:980,t0+i*.42+.42);
+    o2.frequency.setValueAtTime(a?780:560,t0+i*.42);
+    o2.frequency.linearRampToValueAtTime(a?560:780,t0+i*.42+.42);
+  }
+  g1.gain.setValueAtTime(.07,t0);g1.gain.setValueAtTime(.07,t0+dur-.25);g1.gain.linearRampToValueAtTime(0,t0+dur);
+  g2.gain.setValueAtTime(.028,t0);g2.gain.linearRampToValueAtTime(0,t0+dur);
+  o1.start(t0);o2.start(t0);o1.stop(t0+dur);o2.stop(t0+dur);
+  gtaSirenNodes.push(o1,o2);
+}
+function stingHit(){
+  var ac=getAC();if(!ac)return;
+  var t=ac.currentTime;
+  [110,165,220].forEach(function(f,i){
+    var o=ac.createOscillator(),g=ac.createGain();
+    o.type="sawtooth";o.frequency.value=f;g.gain.value=.09;
+    o.connect(g);g.connect(ac.destination);
+    g.gain.setValueAtTime(.1,t);g.gain.exponentialRampToValueAtTime(.001,t+.7);
+    o.start(t+i*.02);o.stop(t+.72);
+  });
+}
+function slotClick(){
+  var ac=getAC();if(!ac)return;
+  var o=ac.createOscillator(),g=ac.createGain();
+  o.type="square";o.frequency.value=170+Math.random()*50;g.gain.value=.04;
+  o.connect(g);g.connect(ac.destination);
+  var t=ac.currentTime;
+  g.gain.setValueAtTime(.045,t);g.gain.exponentialRampToValueAtTime(.001,t+.035);
+  o.start(t);o.stop(t+.04);
+}
+function reelStopThud(){
+  var ac=getAC();if(!ac)return;
+  var o=ac.createOscillator(),g=ac.createGain();
+  o.type="triangle";o.frequency.value=140;g.gain.value=.08;
+  o.connect(g);g.connect(ac.destination);
+  var t=ac.currentTime;
+  o.frequency.exponentialRampToValueAtTime(70,t+.1);
+  g.gain.exponentialRampToValueAtTime(.001,t+.12);
+  o.start(t);o.stop(t+.13);
+}
+function jackpotFanfare(){
+  var ac=getAC();if(!ac)return;
+  [523,659,784,1046,784,1046,1318,1568].forEach(function(f,i){
+    var o=ac.createOscillator(),g=ac.createGain();
+    o.type="triangle";o.frequency.value=f;g.gain.value=.07;
+    o.connect(g);g.connect(ac.destination);
+    var t=ac.currentTime+i*.11;
+    g.gain.setValueAtTime(.08,t);g.gain.exponentialRampToValueAtTime(.001,t+.28);
+    o.start(t);o.stop(t+.3);
+  });
+}
+function nearMissWah(){
+  var ac=getAC();if(!ac)return;
+  var o=ac.createOscillator(),g=ac.createGain();
+  o.type="triangle";o.frequency.value=440;g.gain.value=.06;
+  o.connect(g);g.connect(ac.destination);
+  var t=ac.currentTime;
+  o.frequency.linearRampToValueAtTime(220,t+.4);
+  g.gain.exponentialRampToValueAtTime(.001,t+.45);
+  o.start(t);o.stop(t+.46);
+}
+
+function startGta(){
+  if(seqBusy)return;
+  seqBusy=true;seqClear();getAC();
+  var ov=document.getElementById("gtaOverlay");
+  var holes=document.getElementById("gtaHoles");
+  holes.innerHTML="";
+  document.getElementById("gtaSting").className="";
+  document.getElementById("gtaRadio").className="";
+  document.getElementById("gtaRadio").textContent="";
+  var stars=document.querySelectorAll("#gtaStars span");
+  for(var i=0;i<stars.length;i++)stars[i].className="";
+  ov.className="on bars";
+  ov.style.display="block";
+  var specs=[
+    {x:22,y:30,s:78,c:4},{x:57,y:16,s:56,c:3},{x:74,y:48,s:90,c:5},
+    {x:40,y:62,s:64,c:3},{x:12,y:70,s:50,c:2},{x:83,y:28,s:68,c:3},
+    {x:48,y:38,s:52,c:2},{x:66,y:76,s:72,c:4},{x:30,y:18,s:44,c:2}
+  ];
+  function punch(h){
+    var d=document.createElement("div");
+    d.className="gta-hole pop";
+    d.style.left=h.x+"%";d.style.top=h.y+"%";
+    d.style.width=d.style.height=h.s+"px";
+    d.style.marginLeft=d.style.marginTop=(-h.s/2)+"px";
+    holes.appendChild(d);
+    var f=document.createElement("div");
+    f.className="gta-flash go";
+    f.style.left=h.x+"%";f.style.top=h.y+"%";
+    holes.appendChild(f);
+    for(var k=0;k<h.c;k++){
+      var cr=document.createElement("div");
+      cr.className="gta-crack go";
+      var ang=(k/h.c)*360+Math.random()*38-8;
+      var len=36+Math.random()*110;
+      cr.style.left=h.x+"%";cr.style.top=h.y+"%";
+      cr.style.width=len+"px";
+      cr.style.transform="rotate("+ang+"deg)";
+      holes.appendChild(cr);
+    }
+    ov.classList.remove("shake");void ov.offsetWidth;ov.classList.add("shake");
+    thud();glassChip();
+  }
+  specs.forEach(function(h,i){seqLater(function(){punch(h)},220+i*310);});
+  seqLater(function(){
+    ov.classList.add("sirens");
+    startSirens(12);
+  }, 3100);
+  seqLater(function(){
+    ov.classList.add("stars");
+    function fill(n){if(stars[n])stars[n].className="on";thud();}
+    seqLater(function(){fill(0)},0);
+    seqLater(function(){fill(1)},520);
+    seqLater(function(){fill(2)},1040);
+    seqLater(function(){fill(3)},1560);
+    seqLater(function(){fill(4)},2100);
+  }, 6400);
+  seqLater(function(){
+    document.getElementById("gtaStingBig").textContent="EFTERLYST";
+    document.getElementById("gtaStingSub").textContent="WANTED  ★  5 STJÄRNOR";
+    document.getElementById("gtaSting").className="show";
+    stingHit();
+  }, 9200);
+  seqLater(function(){
+    document.getElementById("gtaStingBig").textContent="FASTTAGEN";
+    document.getElementById("gtaStingSub").textContent="SKÄRMEN ÄR PÅ VIFT";
+    var r=document.getElementById("gtaRadio");
+    r.textContent="Enhet 4, skärmen är på vift vid skrivbordet. Upprepa: 27 tum, grön, vägrar stänga av.";
+    r.className="show";
+    stingHit();
+  }, 11200);
+  seqLater(function(){smashCut(ov)}, 16500);
+  seqLater(function(){if(seqBusy)smashCut(ov)}, 20000);
+}
+
+var VEGAS_SYMS=[
+  {e:"☕",n:"KAFFE"},{e:"🖨",n:"SKRIVARE"},{e:"🟩",n:"PIXEL"},
+  {e:"📅",n:"KALENDER"},{e:"🍬",n:"GODIS"},{e:"📺",n:"SKÄRMEN"},
+  {e:"7️⃣",n:"SJUO"},{e:"🥐",n:"FIKA"},{e:"🐦",n:"ALBATROS"}
+];
+var VEGAS_PRIZES=[
+  "EN EXTRA KVART LUNCH","SKRIVAREN VINNER","EN EXTRA FIKA",
+  "HDMI-GULD I TRE MINUTER","SYNERGI ×3","POWERPOINT-FRI TISDAG",
+  "SKÄRMEN FÅR SEMESTER (2 PIXLAR)","KAFFEMASKINEN SKICKAR BLOMMOR"
+];
+function buildVegasLights(){
+  var box=document.getElementById("vegasLights");box.innerHTML="";
+  var n=48, bulbs=[];
+  for(var i=0;i<n;i++){
+    var b=document.createElement("div");b.className="vegas-bulb";
+    var t=i/n, x,y;
+    if(t<.25){x=t/.25*100;y=1.6;}
+    else if(t<.5){x=98.4;y=((t-.25)/.25)*100;}
+    else if(t<.75){x=100-((t-.5)/.25)*100;y=97.6;}
+    else{x=1.6;y=100-((t-.75)/.25)*100;}
+    b.style.left=x+"%";b.style.top=y+"%";
+    box.appendChild(b);bulbs.push(b);
+  }
+  var idx=0;
+  (function chase(){
+    if(!seqBusy)return;
+    for(var i=0;i<bulbs.length;i++)bulbs[i].className="vegas-bulb"+(Math.abs(i-idx)%8===0?" lit":"");
+    idx=(idx+1)%bulbs.length;
+    seqLater(chase,70);
+  })();
+}
+function buildStrips(){
+  for(var r=0;r<3;r++){
+    var el=document.getElementById("vstrip"+r);
+    el.style.transition="none";el.style.transform="translateY(0)";
+    var html="";
+    for(var k=0;k<8;k++){
+      for(var i=0;i<VEGAS_SYMS.length;i++){
+        html+='<div class="vegas-cell"><span>'+VEGAS_SYMS[i].e+'</span><small>'+VEGAS_SYMS[i].n+'</small></div>';
+      }
+    }
+    el.innerHTML=html;
+  }
+}
+function spinReel(el,dur,stopIdx,done){
+  var cellH=180,n=VEGAS_SYMS.length,endY=-((n*5+stopIdx)*cellH);
+  var t0=performance.now(),last=0;
+  function frame(now){
+    if(!seqBusy)return;
+    var p=Math.min(1,(now-t0)/dur);
+    var e=p<0.72?p/0.72*0.88:0.88+(1-Math.pow(1-(p-0.72)/0.28,3))*0.12;
+    el.style.transform="translateY("+(endY*e)+"px)";
+    if(now-last>75){last=now;slotClick();}
+    if(p<1){var id=requestAnimationFrame(frame);seqRafs.push(id);}
+    else{el.style.transform="translateY("+endY+"px)";reelStopThud();done();}
+  }
+  var id=requestAnimationFrame(frame);seqRafs.push(id);
+}
+function rainCoins(n){
+  var box=document.getElementById("vegasCoins");box.innerHTML="";
+  for(var i=0;i<n;i++){
+    var c=document.createElement("div");c.className="vegas-coin";
+    c.style.left=(4+Math.random()*92)+"%";
+    c.style.animationDelay=(Math.random()*0.9)+"s";
+    c.style.animationDuration=(1.1+Math.random()*0.7)+"s";
+    box.appendChild(c);
+  }
+}
+function startVegas(){
+  if(seqBusy)return;
+  seqBusy=true;seqClear();getAC();
+  var ov=document.getElementById("vegasOverlay");
+  document.getElementById("vegasResult").className="";
+  document.getElementById("vegasCoins").innerHTML="";
+  document.getElementById("vegasSpinBtn").textContent="SPIN";
+  ov.className="on flood";ov.style.display="block";
+  buildVegasLights();buildStrips();
+  seqLater(function(){ov.classList.add("slam");thud();},1800);
+  var jack=Math.random()<0.68;
+  var near=!jack;
+  var a=Math.floor(Math.random()*VEGAS_SYMS.length);
+  var b=jack?a:(Math.random()<0.7?a:Math.floor(Math.random()*VEGAS_SYMS.length));
+  var c=jack?a:Math.floor(Math.random()*VEGAS_SYMS.length);
+  if(near&&b===a&&c===a)c=(a+1)%VEGAS_SYMS.length;
+  if(near&&b!==a)c=a;
+  seqLater(function(){
+    document.getElementById("vegasSpinBtn").textContent="SNURRAR";
+    spinReel(document.getElementById("vstrip0"),3600,a,function(){});
+    spinReel(document.getElementById("vstrip1"),5200,b,function(){});
+    spinReel(document.getElementById("vstrip2"),6800,c,function(){
+      var res=document.getElementById("vegasResult");
+      var isJack=a===b&&b===c;
+      document.getElementById("vegasJack").textContent=isJack?"JACKPOT":"NÄSTAN!";
+      document.getElementById("vegasPrize").textContent=isJack
+        ? VEGAS_PRIZES[Math.floor(Math.random()*VEGAS_PRIZES.length)]
+        : "SKRIVAREN VINNER ÄNDÅ";
+      res.className="show";
+      if(isJack){jackpotFanfare();rainCoins(36);}
+      else{nearMissWah();rainCoins(10);}
+    });
+  }, 2800);
+  seqLater(function(){smashCut(ov)}, 16800);
+  seqLater(function(){if(seqBusy)smashCut(ov)}, 20000);
+}
+
+document.getElementById("hud").addEventListener("click",function(e){e.stopPropagation();startGta();});
+document.getElementById("tickerWrap").addEventListener("click",function(e){e.stopPropagation();startVegas();});
+document.addEventListener("keydown",function(e){
+  var k=(e.key||"").toLowerCase();
+  if(k==="g")startGta();
+  if(k==="v")startVegas();
+});
+
+var gtaFiredDay=-1,vegasFiredDay=-1;
+function checkHijacks(){
+  var now=new Date(),day=now.getDay(),time=now.getHours()*60+now.getMinutes(),da=now.getDate();
+  if(day>=1&&day<=5&&time>=617&&time<619&&gtaFiredDay!==da){gtaFiredDay=da;startGta();}
+  if(day>=1&&day<=5&&time>=854&&time<856&&vegasFiredDay!==da){vegasFiredDay=da;startVegas();}
+}
+setInterval(checkHijacks,10000);checkHijacks();
 </script>
 </body>
 </html>

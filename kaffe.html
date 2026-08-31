@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KAFFE DEFCON</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a0c00;color:#ffcc88;font-family:'Courier New',monospace;height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+h1{font-size:3.4rem;color:#ff6600;letter-spacing:8px;text-shadow:0 0 24px #ff6600;animation:pulse 1s infinite;}
+@keyframes pulse{50%{opacity:.55}}
+.def{font-size:6rem;font-weight:900;color:#ff2200;text-shadow:0 0 40px #ff2200;margin:10px 0;}
+.msg{font-size:1.8rem;text-align:center;max-width:90%;margin:12px 0;min-height:2.4em;}
+.bar{width:70vw;height:22px;border:2px solid #ff6600;margin:18px 0;}
+.fill{height:100%;background:linear-gradient(90deg,#ff2200,#ffcc00);width:8%;transition:width .4s;}
+.steam{position:absolute;top:8%;font-size:2rem;opacity:.4;animation:up 3s linear infinite;}
+@keyframes up{from{transform:translateY(40px);opacity:.6}to{transform:translateY(-80px);opacity:0}}
+.log{position:absolute;bottom:24px;left:8%;right:8%;font-size:.95rem;color:#aa7744;height:22vh;overflow:hidden;}
+</style>
+</head>
+<body>
+<div class="steam" style="left:20%">~</div><div class="steam" style="left:50%;animation-delay:.8s">~~</div><div class="steam" style="left:78%;animation-delay:1.4s">~</div>
+<h1>KAFFE-SYSTEMET</h1>
+<div class="def" id="def">DEFCON 2</div>
+<div class="msg" id="msg">Brygg-niva: existentiell</div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+<div class="log" id="log"></div>
+<script>
+var msgs=[
+  "Brygg-niva: existentiell",
+  "Bönorna har bildat fack. Krav: mer fika, mindre mandag.",
+  "Espresso forhandlar med kopp. Kopp har inga armar. Dodlage.",
+  "Varning: nagon tog sista kanelbullen. Kaffet sörjer i ml.",
+  "Decaf upptackt i sektorn. Evakuering rekommenderas.",
+  "Skarmen har 0 ml kaffe. Skarmen har ocksa 0 mun. Andå törstig.",
+  "Bryggprotokoll 4.20: allt smakar mandag tills kopp 3.",
+  "Kaffemaskinen och skrivaren dejtade. Det blev bara vatten och papper.",
+  "STATISTIK: 14 koppar, 0 insikter, 1 PowerPoint.",
+  "Albatros flyger battre efter kopp tva. Vetenskap."
+];
+var defs=["DEFCON 3","DEFCON 2","DEFCON 1","DEFCON FIKA","DEFCON OEL?","DEFCON 2"];
+var logs=["BOOT: kaffe.sys ... OK","SENSOR: lukt av mandag","ALERT: mjolk-skum pa flykt","INFO: kanel i ventilationen","WARN: kopp utan underlag","OK: fika-policy handhavd","NOTE: skarmen vill ha en mugg. Avslag: inga hander.","PING: kaffemaskinen svarar 418 I'm a teapot"];
+var i=0,p=12;
+function nx(){
+  document.getElementById("msg").textContent=msgs[i%msgs.length];
+  document.getElementById("def").textContent=defs[i%defs.length];
+  p=Math.min(100,p+8+Math.random()*10);
+  document.getElementById("fill").style.width=p+"%";
+  var L=document.getElementById("log");
+  var d=document.createElement("div");
+  d.textContent="> "+logs[i%logs.length];
+  L.appendChild(d);
+  while(L.children.length>7)L.removeChild(L.firstChild);
+  i++;
+}
+nx();setInterval(nx,1800);
+</script>
+</body>
+</html>

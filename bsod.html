@@ -41,7 +41,12 @@ var errors = [
   {stop:"EXCEL_SKILLS_NOT_FOUND",detail:"Windows kan inte hitta VLOOKUP.DLL. ERIK_STRAND.EXE forsokte anvanda Excel men kraschade vid rad 3. Filen Budget_Final_FINAL_v7_RIKTIG.xlsx ar korrupt."},
   {stop:"DAD_JOKE_BUFFER_OVERFLOW",detail:"Systemminnet ar fullt av ordvitsar. ERIK_HUMOR.DLL har skrivit over kritiska systemfiler med kalenderbitsar. Senaste joke: Vad sa dansen? JAG KAN INTE WALTZ MER!"},
   {stop:"FRIDAY_ANTICIPATION_FAULT",detail:"VECKODAG.SYS rapporterar att det ar tisdag men ERIK_STRAND.EXE beter sig som det ar fredag. Felkod: 0xF4IDAG. Rekommendation: Starta om veckan."},
-  {stop:"ALBATROS_TRAVEL_EXCEPTION",detail:"Kritiskt fel: ERIK har bokat en resa till Maldiverna pa personalrabatten IGEN. BUDGET.DLL returnerar NaN. Kontorsratten ar inte imponerad."}
+  {stop:"ALBATROS_TRAVEL_EXCEPTION",detail:"Kritiskt fel: ERIK har bokat en resa till Maldiverna pa personalrabatten IGEN. BUDGET.DLL returnerar NaN. Kontorsratten ar inte imponerad."},
+  {stop:"FIKA_STACK_OVERFLOW",detail:"For manga kanelbullar i anropstacken. KAFFE.SYS vantar pa kopp. SKARMEN.EXE har ingen mun men star i kon anda."},
+  {stop:"COMIC_SANS_DETECTED",detail:"Typsnittet vaknade. Brandkar tillkallat. Skrivaren strejkar. HDMI skriker i 60 Hz."},
+  {stop:"HDMI_HANDSHAKE_TIMEOUT",detail:"Skarmen forsokte kyssa kaffemaskinen under misteln. Handshake misslyckades. Charmigt. Prova DisplayPort."},
+  {stop:"VLOOKUP_NOT_FOUND",detail:"Excel hittade inte kansen. Hittade Mallorca. Alla ar nojda. Fortsätt inte."},
+  {stop:"OL_VAGN_NOT_READY",detail:"Det ar inte fredag. Moral.dll returnerar E_NEED_BEER. Rekommendation: later som det ar fredag."}
 ];
 var err = errors[Math.floor(Math.random()*errors.length)];
 document.getElementById("stopcode").textContent = "Stoppkod: "+err.stop;
