@@ -40,10 +40,10 @@
   </div>
   <div class="center">
     <div class="thats-all" id="ta">That's All Folks!</div>
-    <div class="folks" id="fo">Erik har gaatt for idag</div>
-    <div class="subtitle" id="sub">Albatros Travel - Vi ses imorgon!</div>
+    <div class="folks" id="fo">Kalendern har gaatt for idag. Aentligen.</div>
+    <div class="subtitle" id="sub">Albatros Travel - skicka mejlet imorgon</div>
   </div>
-  <div class="porky" id="pk">Th-th-th-that's all, fika.</div>
+  <div class="porky" id="pk">Th-th-th-that's all, mejl.</div>
   <div class="wb">LOONEY TUNES • SKARMEN PICTURES</div>
   <script>
     var rings = document.querySelectorAll(".ring");
@@ -54,16 +54,16 @@
     var style = document.createElement("style");
     style.textContent = "@keyframes wobble{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.03);}}";
     document.head.appendChild(style);
-    var lines=["Erik har gaatt for idag","Skarmen gar i stand-by men drommer i 4K","Skrivaren tar kvallspasset. Den har redan fastnat.","Kaffemaskinen stanger. Den oppnar igen i sjalen.","That's all, fika. That's all, HDMI.","Albatros har landat. Pixeln har landat.","Ingen PowerPoint overlever klockan 16."];
-    var subs=["Albatros Travel - Vi ses imorgon!","Tips mottages i dricks.html (skarmen minns)","Ol-vagnen har parkerat i hjartat","Comic Sans ar stangd for dagen. Amen.","Imorgon: mer skamt, samma 27 tum","Skrivaren viskar: PC LOAD LETTER... good night"];
-    var pk=["Th-th-th-that's all, fika.","Th-th-that's all, folks. And pixels.","That's all, HDMI.","End of reel. Start of fika-drom."];
+    var lines=["Kalendern har gaatt for idag. Aentligen.","Inget mote overlever klockan 16. Policy.","Skrivaren tar kvallspasset. Den har redan sagt nej.","That's all, mejl. That's all, HDMI.","Albatros har landat. Motet har inte.","Agenda 404 stanger for dagen. Amen.","Skarmen gar i stand-by. Rec ar aentligen av."];
+    var subs=["Albatros Travel - skicka mejlet imorgon","Inga 90-minuter overlever kvallen","Ol-vagnen har parkerat. Kalendern har inte.","Comic Sans ar stangd for dagen. Brottsplatsen stangd.","Imorgon: samma inbox. Faerre slides.","Skrivaren viskar: PC LOAD LETTER. God natt."];
+    var pk=["Th-th-th-that's all, mejl.","Th-th-that's all, folks. And moten.","That's all, HDMI. Rec off.","End of reel. Start of inbox."];
     var i=0;
     setInterval(function(){
       i++;
       document.getElementById("fo").textContent=lines[i%lines.length];
       document.getElementById("sub").textContent=subs[i%subs.length];
       document.getElementById("pk").textContent=pk[i%pk.length];
-      if(i%2===0) document.getElementById("ta").textContent=["That's All Folks!","Det var alltihopa!","SLUT PÅ RULLEN","CUT. PRINT. FIKA."][i%4];
+      if(i%2===0) document.getElementById("ta").textContent=["That's All Folks!","Det var alltihopa!","SLUT PÅ MÖTET","CUT. PRINT. MEJL."][i%4];
     },2200);
     var em=["★","✦","🎬","🦆","☕","★"];
     setInterval(function(){

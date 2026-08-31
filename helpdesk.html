@@ -19,13 +19,13 @@
   </style>
 </head>
 <body>
-  <div class="ticker"><span>NU BETJÄNAS • FIKA HAR FÖRETRÄDE • VLOOKUP I LUCKA 3 • SKÄRMEN TAR NUMMER 000 • PC LOAD LETTER ÄR OCKSÅ ETT NUMMER • </span></div>
+  <div class="ticker"><span>NU BETJÄNAS • DETTA KUNDE VARIT ETT MEJL • KORT AVSTÄMNING I LUCKA 90 • PC LOAD LETTER = NEJ • AGENDA 404 • </span></div>
   <h1 id="headline">Eriks Helpdesk – Nu betjänas nummer</h1>
-  <div class="sub" id="sub">Vänligen vänta. Eller fika. Fika är också att vänta.</div>
+  <div class="sub" id="sub">Vänligen vänta. Eller skicka mejlet. Mejlet är också hjälp.</div>
   <div class="display" id="numberDisplay">001</div>
-  <div class="error" id="errorBox">Systemfel. Vänligen ta ny nummerlapp. Eller en kanelbulle.</div>
+  <div class="error" id="errorBox">Systemfel. Vänligen ta ny lapp. Eller skicka mejlet.</div>
   <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://eriks-helpdesk.se/lapp" alt="QR" style="margin-top: 36px;">
-  <div class="footer" id="footer">Vänligen vänta på din tur. Skärmen har redan tur. Den är HDMI.</div>
+  <div class="footer" id="footer">Vänligen vänta. Eller: detta kunde varit ett mejl.</div>
 <script>
 const display = document.getElementById("numberDisplay");
 const errorBox = document.getElementById("errorBox");
@@ -34,25 +34,25 @@ const footer = document.getElementById("footer");
 let currentNumber = 1;
 const wild = ["FIKA","∞","π","HDMI","000","KAFFE","NEJ","JA","VLOOKUP","PC LOAD","4.20","OEL?","???"];
 const subs = [
-  "Vänligen vänta. Eller fika. Fika är också att vänta.",
-  "Nummer 000 är skärmen. Den är redan inne.",
-  "Skrivaren har nummer PC LOAD LETTER. Den väntar sedan 2019.",
-  "Lucka 3 är en myt. Lucka 4 är fika.",
-  "Din tur kommer. Precis efter synergin.",
-  "Helpdesk har gått på lunch. Helpdesk ÄR lunchen."
+  "Vänligen vänta. Eller skicka mejlet. Mejlet är också hjälp.",
+  "Nummer 000 är mötet. Det kunde varit ett mejl.",
+  "Skrivaren har nummer PC LOAD LETTER. Översättning: nej.",
+  "Lucka 3 är en myt. Lucka 90 är kort avstämning.",
+  "Din tur kommer. Precis efter beslutet. Så: aldrig.",
+  "Helpdesk har gått på lunch. Kalendern åt den."
 ];
 const errs = [
-  "Systemfel. Vänligen ta ny nummerlapp. Eller en kanelbulle.",
-  "Kösystemet har bildat fack. Krav: mer fika.",
-  "Numret du väntar på är i ett annat slott.",
-  "VLOOKUP hittade inte din lapp. Den hittade Mallorca.",
-  "Skärmen tog din tur. Skärmen kan inte sitta. Andå."
+  "Systemfel. Vänligen ta ny lapp. Eller skicka mejlet.",
+  "Kösystemet har bildat fack. Krav: inga 90-minuters.",
+  "Numret du väntar på är i ett annat möte. Optional, men kom.",
+  "VLOOKUP hittade inte din lapp. Den hittade ingen agenda.",
+  "Kalendern tog din tur och kallade det alignment."
 ];
 const foots = [
-  "Vänligen vänta på din tur. Skärmen har redan tur. Den är HDMI.",
-  "Beräknad väntetid: en PowerPoint.",
-  "Om din lapp är Comic Sans: börja om.",
-  "Albatros Travel HQ • lucka: överallt • stol: nej"
+  "Vänligen vänta. Eller: detta kunde varit ett mejl.",
+  "Beräknad väntetid: 40 slides. 0 poäng.",
+  "Om din lapp är Comic Sans: brottsplats. Börja om.",
+  "Albatros HQ • lucka 90: kort avstämning • agenda: 404"
 ];
 function formatNumber(num) { return num.toString().padStart(3, "0"); }
 function updateNumber() {
@@ -81,7 +81,7 @@ function updateNumber() {
   if (Math.random() < 0.06) {
     document.body.style.backgroundColor = "#002647";
     document.body.style.color = "#ffcc00";
-    document.getElementById("headline").textContent = "PAUS FÖR FIKA. ALLA NUMMER ÄR NU FIKA.";
+    document.getElementById("headline").textContent = "PAUS. ALLA NUMMER ÄR NU ETT MEJL.";
     setTimeout(() => {
       document.body.style.backgroundColor = "#f4f4f4";
       document.body.style.color = "#002647";

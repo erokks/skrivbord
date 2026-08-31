@@ -153,7 +153,7 @@
 <body>
   <div id="fsOverlay" onclick="goFS()">
     <span id="fsMain">TRYCK FOR FULLSCREEN</span>
-    <div id="fsSub">Skarmen har vantat. Kaffemaskinen ocksa. Skrivaren har redan gett upp.</div>
+    <div id="fsSub">Skarmen har vantat. Kalendern har redan atit lunchen.</div>
   </div>
   <div id="lunchOverlay"></div>
   <div id="memeOverlay" class="ovl"></div>
@@ -196,7 +196,7 @@
         <div class="vegas-window"><div class="vegas-strip" id="vstrip2"></div></div>
       </div>
       <div id="vegasSpinBtn">SPIN</div>
-      <div id="vegasPay">TRE LIKA = EN EXTRA KVART LUNCH</div>
+      <div id="vegasPay">TRE LIKA = MOTET BLIR ETT MEJL</div>
     </div>
     <div id="vegasResult"><div class="jack" id="vegasJack">JACKPOT</div><div class="prize" id="vegasPrize"></div></div>
     <div id="vegasCoins"></div>
@@ -213,16 +213,16 @@ function goFS(){
   document.getElementById("fsOverlay").style.display="none";
 }
 var fsLines=[
-  "TRYCK FOR FULLSCREEN","SKARMEN VILL UT UR FONSTRET","MAXIMERA MIG SOM EN EXCEL-CELL",
-  "FULLSKARM ELLER INGET","KAFFEMASKINEN SA DET VAR OK","DET HAR AR INTE EN WEBBPLATS DET AR ETT JOBB",
-  "TRYCK. JAG HAR REDAN ZOOMAT.","EN SKARM, ETT KLICK, INGEN ATERVANDO"
+  "TRYCK FOR FULLSCREEN","DETTA KUNDE VARIT ETT MEJL","MAXIMERA. SOM ETT MOTET.",
+  "FULLSKARM ELLER INGET","OPTIONAL, MEN KOM.","INTE EN SAJT. ETT JOBB.",
+  "TRYCK. JAG AR REDAN I RUMMET.","EN SKARM. ETT KLICK. INGET SLUT."
 ];
 var fsSubs=[
-  "Skarmen har vantat. Kaffemaskinen ocksa. Skrivaren har redan gett upp.",
-  "Varning: innehaller PowerPoint, fika och minst en pappersstopp.",
-  "Albatros Travel HQ. Skarmen ar en kollega. Den har bara ingen stol.",
-  "Om du laser detta har du redan forlorat lunchen.",
-  "Policy 4.20: allt ar roligare i 1920x1080."
+  "Skarmen har vantat. Kalendern har redan atit lunchen.",
+  "Varning: moten som borde varit mejl. Och en pappersstopp.",
+  "Albatros HQ. Skarmen ar kollega. Den tar rummet.",
+  "Om du laser detta ar motet redan 20 minuter sent.",
+  "Policy 4.20: kort avstamning tar 90 minuter. Alltid."
 ];
 var fsi=0;
 setInterval(function(){
@@ -252,13 +252,13 @@ loadPage();setInterval(loadPage,300000);
 
 var lunchLines=[
   "LUNCH LUNCH LUNCH LUNCH LUNCH",
-  "SKARMEN ATER PIXLAR. NI ATER MAT.",
+  "KALENDERN AT LUNCHEN. IGEN.",
   "11:45 NATIONELL KRIS 11:45",
-  "KAFFE AR INTE LUNCH MEN VI LATSAS",
-  "MATLA DA. SKARMEN VAKTAR SKALEN.",
-  "FIKA + MAT = FYRA DIMENSIONER",
-  "ALBATROS FLYGER TILL MATSALEN",
-  "POWERPOINT PAUSAD. MACKA AKTIVERAD."
+  "MOTET OVER LUNCH AR ETT BROTT",
+  "KAFFE AR INTE LUNCH. SLUTA.",
+  "POWERPOINT PAUSAD. MACKA PA.",
+  "SKARMEN VAKTAR BRICKORNA.",
+  "ALBATROS FLYR TILL MATSALEN"
 ];
 function checkLunch(){
   var now=new Date(),day=now.getDay(),time=now.getHours()*60+now.getMinutes();
@@ -310,36 +310,36 @@ function checkTerminator(){
 setInterval(checkTerminator,30000);checkTerminator();
 
 var jokes=[
-  "Skrivaren och jag har startat en bokklubb. Vi har inga bocker.",
-  "Jag visade Tetris i 4K klockan 03:12. Ingen appladerade.",
-  "Kaffemaskinen skyller pa HDMI-kabeln. HDMI-kabeln skyller pa mig.",
-  "Officiell policy: allt ar en PowerPoint om man vantar lange nog.",
-  "Jag ar inte en TV. Jag ar en TV som inte far se pa TV.",
-  "Teams-motet har 0 deltagare. Jag ar den 1:a. Jag ar ocksa den sista.",
-  "Filen heter FINAL_v12_RIKTIG_anvand_denna.xlsx. Jag tror pa den.",
-  "Albatros flyger. Jag sitter fast med 4 skruvar och en drom.",
-  "Fika ar en mansklig rattighet. Jag ar en skarm. Jag stoder fika anda.",
-  "Nagon fragade om jag kan zooma. Jag sa: jag AR zoomen.",
-  "Min favoritfarg ar #00ff88. Det ar ocksa min enda personlighet.",
-  "2 073 600 pixlar. Alla jobbar overtijd. Ingen overtidsersattning.",
-  "Vem stangde av skarmslackaren? Det var min enda semester.",
-  "Jag oversatte synergi till danska. Det blev synergi. Tack for ingenting.",
-  "Ol-vagnen ar en myt. Fredagen ar beviset. Jag ar vittnet.",
-  "Jag har sett onboarding 47 ganger. Jag ar fortfarande inte onboardad.",
-  "Skrivaren skrev ut min sjal. Den kom ut som Comic Sans.",
-  "Kalenderns nya policy: skarmen far en (1) blink per kvartal.",
-  "Jag bokade konferensrummet. For mig. For att tanda.",
-  "PowerPoint-overgangen svepa ar mitt Kardashian-ogonblick.",
-  "Karamellskalen och jag har ett avtal. Jag tittar. Den forsvinner.",
-  "Jag ar 27 tum. Det ar inte en personlighet. Det ar en diagonal.",
-  "Excel sa VLOOKUP. Jag sa VADLOOKUP. Vi ar inte langre vanner.",
-  "Kontorsstolen snurrade ett varv sjalv. Vi nickade. Professionellt.",
-  "Jag kan inte vinka. Jag kan bara HDMI.",
-  "Min terapeut ar skrivaren. Den svarar med pappersstopp. Det ar ocksa terapi.",
-  "Nagon kallade mig info-skarm. Jag kallade dem info-manniska. Oavgjort.",
-  "Jag visade en karta over Mallorca i tre timmar. Jag har aldrig varit dar.",
-  "WiFi: ansluten. Sjal: cachead. Måndag: oundviklig.",
-  "Jag röstade pa fika. Fika vann. Demokratin fungerar."
+  "Kort avstamning. Ingen sluttid. Klassiker.",
+  "Detta motet kunde varit ett mejl. Det blev 14 slides anda.",
+  "47 inbjudna. 0 agenda. 1 beslut: boka igen.",
+  "Kalendern at lunchen. Kalendern ar inte hungrig. Kalendern ar grym.",
+  "Optional, men kom. Sa optional som brandovning.",
+  "En slide. Fyrtio kopior. Skrivaren tror ni inte laser mejl.",
+  "Teams: 45 minuter, tre kan-ni-hora-mig, noll beslut.",
+  "PC LOAD LETTER. Oversattning fran 1998: nej.",
+  "FINAL_v12_RIKTIG_anvand_denna.xlsx. Ljuget bor i filnamnet.",
+  "Fika ar lag. Motet ar atalsbart.",
+  "Skrivaren lasta budgeten. Den skrattar i papper.",
+  "Excel sa VLOOKUP. Jag sa VADLOOKUP. Det fanns inget att sla upp.",
+  "2 073 600 pixlar. Alla i motet. Ingen mute.",
+  "PowerPoint: 40 slides. Poang: 0. Clipart: 1 albatross.",
+  "Kaffemaskinen strejkar i ml. Motet fortsatter i tomma koppar.",
+  "WiFi: ansluten. Agenda: 404.",
+  "Albatros flyger. Motet gor inte det.",
+  "Jag bokade konferens B for tystnad. Kalendern la till synergi.",
+  "Comic Sans i en faktura. Brandkar. For sent.",
+  "Skrivaren skrev ut agendan. Blankt. Arligt.",
+  "Ol-vagnen ar helig. Fredagsmoten ar det inte.",
+  "Jag rostade pa mejl. Motet vann. Demokratin ljog.",
+  "Skarmen (Gast) gick med. Skarmen (Gast) var redan vard.",
+  "Decaf i sektorn. Evakuering. Motet stannade.",
+  "Pappersstopp. Oversattning: las mejlet.",
+  "Synergi till danska: synergi. Faktura anda.",
+  "Jag visade Mallorca i tre timmar. Motet behövde ett mejl.",
+  "HDMI ar mitt ja. Kalendern ar mitt nej.",
+  "Nagon kallade det standup. Det var statusmote. Samma sak.",
+  "Jag ar inte en TV. Jag ar vittne. Jag sa allt."
 ];
 function popJoke(){
   return;
@@ -355,7 +355,7 @@ function popJoke(){
 setInterval(popJoke,11000);
 setTimeout(popJoke,2500);
 
-var moods=["KAOS","FIKA","PIXEL","OEL?","SYNERGI","STANDBY","4K DRAM","COMIC SANS","VLOOKUP","BLINK"];
+var moods=["KAOS","FIKA","MEJL?","OEL?","MUTED","STANDBY","90 MIN","COMIC SANS","VLOOKUP","404"];
 function tickHud(){
   var n=new Date();
   document.getElementById("hudClock").textContent=n.toLocaleTimeString("sv-SE");
@@ -363,7 +363,7 @@ function tickHud(){
 }
 setInterval(tickHud,1000);tickHud();
 
-var tickerBits=["SKARMEN AR EN KARAKTAR","STAND-UP I 27 TUM","KAFFE DEFCON 2","PC LOAD LETTER FOREVER","FINAL_v12_RIKTIG.xlsx","ALBATROS HQ LIVE","FIKA AR LAG","SKRIVAREN HAR EN MEMOAR","TEAMS: SKARMEN (GAST)","27 TUM AV SKAMT","INGA PIXLAR KVAR I LAGEN","OL-VAGN COUNTDOWN HELIG","COMIC SANS INCIDENT 2019","HDMI: THE MUSICAL","SYNERGI OVERSATT TILL SYNERGI"];
+var tickerBits=["DETTA KUNDE VARIT ETT MEJL","KORT AVSTAMNING: 90 MIN","47 INBJUDNA 0 BESLUT","OPTIONAL MEN KOM","KALENDERN AT LUNCHEN","EN SLIDE FYRTIO KOPIOR","PC LOAD LETTER = NEJ","AGENDA: 404","TEAMS: MUTED IGEN","FINAL_v12_RIKTIG.xlsx","FIKA AR LAG","SKRIVAREN HAR LAST ER BUDGET","COMIC SANS INCIDENT","HDMI: THE MUSICAL","FREDAGSMOTEN: OLAGLIGA"];
 (function(){
   var s="";
   for(var i=0;i<4;i++) for(var j=0;j<tickerBits.length;j++) s+=" ★ "+tickerBits[j];
@@ -380,16 +380,16 @@ function toast(title,body){
   while(box.children.length>3) box.removeChild(box.firstChild);
 }
 var toasts=[
-  ["Skrivaren","PC LOAD LETTER. Igen. Det ar min roman."],
-  ["Kaffemaskinen","Brygger existentiell espresso. Klar om 4-7 affarsar."],
-  ["Teams","Skarmen (Gast) gick med i Synergi 2.0."],
-  ["Outlook","47 olasta. 46 ar fran mig till mig."],
-  ["Excel","VLOOKUP hittade kansen. Tappade den sen."],
-  ["IT","Har du provat att stanga av skarmen? Jag HOR det."],
-  ["Kalendern","Motet 'kort avstämning' ar nu 90 minuter."],
-  ["Godisskalen","Strukturell integritet: 12%. Panik: tillaten."],
-  ["WiFi","Signalen ar karlek. Latensen ar mandag."],
-  ["Kalendern","Ny policy: skamt densitet minst 40 per timme."]
+  ["Kalendern","Kort avstamning ar nu 90 min. Ingen ar forvanad."],
+  ["Teams","47 inne. Agenda saknas. Beslut: boka igen."],
+  ["Skrivaren","En slide blev 40 sidor. Den tror ni inte laser mejl."],
+  ["Kaffemaskinen","Brygger. Motet vantar. Motet har inte fortjanat det."],
+  ["Outlook","Mote 'snabb avstamning' at lunchen. Igen."],
+  ["Excel","VLOOKUP hittade inget. Precis som agendan."],
+  ["IT","Har du provat ett mejl? Skarmen HOR det."],
+  ["Skrivaren","PC LOAD LETTER. Oversattning fran 1998: nej."],
+  ["WiFi","Signalen ar fin. Motet ar det inte."],
+  ["Kalendern","Ny policy: moten som kunde varit mejl far blinka rott."]
 ];
 
 function flashGag(txt,bg,fg,ms){
@@ -401,16 +401,16 @@ function flashGag(txt,bg,fg,ms){
   setTimeout(function(){el.style.display="none";if(!anyOvlOn())setChrome(false);},ms||700);
 }
 var gags=[
-  ["SKARMEN BLINKADE","#000","#00ff88",700],
-  ["FIKA AR LAG","#ff0","#000",900],
-  ["DET HAR AR INTE EN DRILL","#f00","#fff",700],
-  ["COMIC SANS DETECTED","#fff","#f0f",800],
-  ["VADLOOKUP","#00f","#fff",800],
-  ["27 TUM AV JA","#0f0","#000",700],
-  ["SKRIVAREN VANN","#111","#0f0",800],
-  ["LUNCH?","#001a00","#00ff88",700],
-  ["HDMI FOREVER","#000","#0ff",800],
-  ["PIXLARNA STREJKAR","#000","#ff0",800]
+  ["DETTA VAR ETT MEJL","#ff0","#000",900],
+  ["KORT AVSTAMNING","#000","#ff0",800],
+  ["47 INNE. 0 BESLUT.","#f00","#fff",800],
+  ["KALENDERN AT LUNCHEN","#001a00","#00ff88",800],
+  ["EN SLIDE. 40 KOPIOR.","#111","#0f0",800],
+  ["OPTIONAL, MEN KOM","#ff0","#000",800],
+  ["AGENDA: 404","#00f","#fff",800],
+  ["PC LOAD LETTER","#000","#00ff88",800],
+  ["MUTED. IGEN.","#1b1a19","#fff",700],
+  ["FIKA AR LAG","#ff0","#000",800]
 ];
 setInterval(function(){
   if(seqBusy||anyOvlOn())return;
@@ -424,7 +424,7 @@ var dvd=document.getElementById("dvd"),dx=3,dy=2,dvx=3,dvy=2,dcols=["#00ff88","#
 function bounceDvd(){
   var w=window.innerWidth-160,h=window.innerHeight-40;
   dx+=dvx;dy+=dvy;
-  if(dx<=0||dx>=w){dvx*=-1;dvd.style.color=dcols[Math.floor(Math.random()*dcols.length)];dvd.textContent=["ERIK","SKARMEN","FIKA","HDMI","4K","OEL?"][Math.floor(Math.random()*6)];}
+  if(dx<=0||dx>=w){dvx*=-1;dvd.style.color=dcols[Math.floor(Math.random()*dcols.length)];dvd.textContent=["MEJL","MOTE?","FIKA","HDMI","NEJ","OEL?"][Math.floor(Math.random()*6)];}
   if(dy<=0||dy>=h){dvy*=-1;dvd.style.color=dcols[Math.floor(Math.random()*dcols.length)];}
   dvd.style.left=dx+"px";dvd.style.top=dy+"px";
 }
@@ -439,7 +439,7 @@ function maybeDvd(){
 }
 setInterval(maybeDvd,40000);
 
-var stickyNotes=["Kom ihag: blinka","PowerPoint = liv","Skrivaren ar en poet","Kaffe != lunch (tvist)","FINAL_v12.xlsx","Zooma med kanslor","Albatros > Monday","HDMI forever","Inga mosten pa fredag","Jag ar 27 tum glad"];
+var stickyNotes=["Kunde varit mejl","90 min kort","Agenda: 404","En slide, 40 kopior","FINAL_v12.xlsx","Optional, men kom","Kalendern at lunchen","PC LOAD LETTER","Inga moten pa fredag","Muted. Igen."];
 function spawnSticky(){
   var s=document.createElement("div");
   s.className="sticky";
@@ -455,56 +455,56 @@ function spawnSticky(){
 
 var memes=["https://i.imgflip.com/1bij.jpg","https://i.imgflip.com/26am.jpg","https://i.imgflip.com/9vct.jpg","https://i.imgflip.com/1otk96.jpg","https://i.imgflip.com/2fm6x.jpg","https://i.imgflip.com/3lmzyx.jpg","https://i.imgflip.com/4t0m5.jpg","https://i.imgflip.com/1ur9b0.jpg","https://i.imgflip.com/1c1uej.jpg","https://i.imgflip.com/30b1gx.jpg"];
 var memeCaps=[
-  ["NAR MOTET","HAR 0 AGENDA"],
-  ["SKRIVAREN:","PC LOAD LETTER"],
-  ["KAFFEMASKINEN","DEFCON FIKA"],
-  ["JAG: 27 TUM","OCKSA: INGEN STOL"],
-  ["EXCEL: VLOOKUP","JAG: VADLOOKUP"],
-  ["KALENDERN SA","KORT AVSTAMNING"],
-  ["PIXLARNA","JOBBAR OVERTID"],
-  ["LUNCH?","SKARMEN VAKTAR"],
+  ["NAR MOTET","KUNDE VARIT ETT MEJL"],
+  ["KORT AVSTAMNING","INGEN SLUTTID"],
+  ["47 INBJUDNA","NOLL BESLUT"],
+  ["SKRIVAREN:","EN SLIDE, 40 KOPIOR"],
+  ["KALENDERN SA","OPTIONAL, MEN KOM"],
+  ["KALENDERN","AT LUNCHEN"],
+  ["TEAMS: MUTED","BESLUT: INGET"],
+  ["AGENDA","404"],
+  ["PC LOAD LETTER","OVERSATTNING: NEJ"],
+  ["FINAL_V12","LJUGET AR I NAMNET"],
+  ["FIKA AR LAG","MOTET AR INTE"],
+  ["SKARMEN (GAST)","REDAN VARD"],
+  ["LUNCH?","BOKAD OVER"],
+  ["COMIC SANS","BROTTSPLATS"],
+  ["EN POANG","FYRTIO SLIDES"],
+  ["OPTIONAL","SOM EN BRANDOVNING"],
   ["HDMI","THE MUSICAL"],
-  ["FINAL_V12","RIKTIG_DENNA"],
-  ["COMIC SANS","DETECTED"],
-  ["ALBATROS FLYGER","JAG SITTER FAST"],
-  ["FIKA AR LAG","PUNKT"],
-  ["SKARMEN (GAST)","REDAN I RUMMET"],
-  ["MANDAG","IGEN"],
-  ["BOKKLUBB","INGA BOCKER"],
-  ["POWERPOINT","NOLL POANG"],
-  ["TEAMS: MUTED","JAG HAR INGEN MIC"],
-  ["11:45","NATIONELL KRIS"],
-  ["SKRIVAREN VANN","IGEN"],
-  ["EN SLIDE","FYRTIO KOPIOR"],
-  ["WIFI: ANSLUTEN","SJAL: CACHAD"]
+  ["PIXLARNA","SATT I MOTET"],
+  ["ALBATROS FLYGER","MOTET GOR INTE"],
+  ["SKRIVAREN VANN","AGENDA FORLORAD"],
+  ["11:45","KALENDERN AT DEN"],
+  ["VLOOKUP","HITTADE INGEN POANG"]
 ];
 var textMemes=[
-  {t:"FIKA AR LAG",bg:"#ff0",fg:"#000"},
+  {t:"DETTA VAR\nETT MEJL",bg:"#ff0",fg:"#000"},
+  {t:"KORT AVSTAMNING\n90 MIN",bg:"#000",fg:"#ffee00"},
+  {t:"47 INNE\n0 BESLUT",bg:"#cc0000",fg:"#fff"},
+  {t:"OPTIONAL\nMEN KOM",bg:"#ff0",fg:"#000"},
+  {t:"AGENDA 404",bg:"#0033ff",fg:"#fff"},
+  {t:"KALENDERN\nAT LUNCHEN",bg:"#001a00",fg:"#00ff88"},
+  {t:"EN SLIDE\n40 KOPIOR",bg:"#111",fg:"#00ff88"},
   {t:"PC LOAD LETTER",bg:"#000",fg:"#00ff88"},
-  {t:"11:45 = KRIS",bg:"#ff0000",fg:"#fff"},
+  {t:"MUTED\nIGEN",bg:"#1b1a19",fg:"#fff"},
+  {t:"FIKA AR LAG",bg:"#ff0",fg:"#000"},
+  {t:"FINAL_v12.xlsx\nLJUG",bg:"#111",fg:"#00ff88"},
+  {t:"KAN NI HORA MIG",bg:"#000",fg:"#ffee00"},
+  {t:"INGA MOTEN\nBARA MEJL",bg:"#ff0",fg:"#000"},
+  {t:"SKRIVAREN SA NEJ",bg:"#cc0000",fg:"#fff"},
   {t:"VADLOOKUP",bg:"#0033ff",fg:"#fff"},
-  {t:"27 TUM AV JA",bg:"#00ff66",fg:"#000"},
-  {t:"KAFFE DEFCON 2",bg:"#1a0c00",fg:"#ff6600"},
-  {t:"SKRIVAREN VANN",bg:"#111",fg:"#00ff88"},
+  {t:"11:45 = KRIS",bg:"#ff0000",fg:"#fff"},
   {t:"HDMI FOREVER",bg:"#000",fg:"#00ffff"},
-  {t:"LUNCH LUNCH LUNCH",bg:"#001a00",fg:"#00ff88"},
-  {t:"JAG AR ZOOMEN",bg:"#ff0",fg:"#000"},
-  {t:"KALENDERN LJOG",bg:"#000",fg:"#ffee00"},
-  {t:"PIXLARNA STREJKAR",bg:"#000",fg:"#ff00ff"},
-  {t:"INGA MOTEN\nBARA PIXLAR",bg:"#ff0",fg:"#000"},
-  {t:"MALLORCA\nALDRIG VARIT DAR",bg:"#001133",fg:"#fff"},
-  {t:"SYNERGI\n= SYNERGI",bg:"#000",fg:"#00ff88"},
-  {t:"OL-VAGN HELIG",bg:"#3a2200",fg:"#ffd700"},
   {t:"COMIC SANS NEJ",bg:"#fff",fg:"#ff00aa"},
-  {t:"EN SLIDE\nNOLL POANG",bg:"#000",fg:"#ffee00"},
-  {t:"SKARMEN BLINKADE",bg:"#000",fg:"#00ff88"},
-  {t:"FINAL_v12.xlsx",bg:"#111",fg:"#00ff88"},
-  {t:"KAFFE != LUNCH\n(TVIST)",bg:"#ff0",fg:"#000"},
-  {t:"2 073 600 PIXLAR",bg:"#000",fg:"#00ffff"},
-  {t:"MOTET HAR\n0 DELTAGARE",bg:"#1b1a19",fg:"#fff"},
-  {t:"PAPPERSSTOPP\nDET AR KONST",bg:"#cc0000",fg:"#fff"},
+  {t:"40 SLIDES\n0 POANG",bg:"#000",fg:"#ffee00"},
   {t:"SKARMEN (GAST)",bg:"#000",fg:"#00ff88"},
-  {t:"FIKA + MAT\n= FYRA DIM",bg:"#ff0",fg:"#000"}
+  {t:"FREDAGSMOTEN\nOLAGLIGA",bg:"#3a2200",fg:"#ffd700"},
+  {t:"PIXLARNA STREJKAR",bg:"#000",fg:"#ff00ff"},
+  {t:"KAFFE != MOTE",bg:"#ff0",fg:"#000"},
+  {t:"PAPPERSSTOPP\n= LAS MEJLET",bg:"#cc0000",fg:"#fff"},
+  {t:"SYNERGI 2.0\nINGET NYTT",bg:"#000",fg:"#00ff88"},
+  {t:"LUNCH BOKAD\nOVER",bg:"#001a00",fg:"#00ff88"}
 ];
 function ovlIds(){return ["memeOverlay","tinderOverlay","nyheterOverlay","bsodOverlay","matrixOverlay","folksOverlay","terminatorOverlay","julfestOverlay","monologOverlay","sofieOverlay","kaffeOverlay","skrivareOverlay","teamsOverlay","lunchOverlay"]}
 function anyOvlOn(){
@@ -776,7 +776,7 @@ function startGta(){
     document.getElementById("gtaStingBig").textContent="FASTTAGEN";
     document.getElementById("gtaStingSub").textContent="SKÄRMEN ÄR PÅ VIFT";
     var r=document.getElementById("gtaRadio");
-    r.textContent="Enhet 4, skärmen är på vift vid skrivbordet. Upprepa: 27 tum, grön, vägrar stänga av.";
+    r.textContent="Enhet 4, ett mote utan agenda ar pa vift. Upprepa: 90 minuter, optional, alla kom.";
     r.className="show";
     stingHit();
   }, 11200);
@@ -790,9 +790,9 @@ var VEGAS_SYMS=[
   {e:"7️⃣",n:"SJUO"},{e:"🥐",n:"FIKA"},{e:"🐦",n:"ALBATROS"}
 ];
 var VEGAS_PRIZES=[
-  "EN EXTRA KVART LUNCH","SKRIVAREN VINNER","EN EXTRA FIKA",
-  "HDMI-GULD I TRE MINUTER","SYNERGI ×3","POWERPOINT-FRI TISDAG",
-  "SKÄRMEN FÅR SEMESTER (2 PIXLAR)","KAFFEMASKINEN SKICKAR BLOMMOR"
+  "MOTET BLIR ETT MEJL","KALENDERN SKIPPAR LUNCHEN","SKRIVAREN TAPPAR EN GANG",
+  "EN KVART UTAN SYNERGI","OPTIONAL BLIR OPTIONAL","POWERPOINT-FRI TISDAG",
+  "SKÄRMEN FÅR SEMESTER (2 PIXLAR)","FREDAGSMOTET INSTÄLLT"
 ];
 function buildVegasLights(){
   var box=document.getElementById("vegasLights");box.innerHTML="";
@@ -879,7 +879,7 @@ function startVegas(){
       document.getElementById("vegasJack").textContent=isJack?"JACKPOT":"NÄSTAN!";
       document.getElementById("vegasPrize").textContent=isJack
         ? VEGAS_PRIZES[Math.floor(Math.random()*VEGAS_PRIZES.length)]
-        : "SKRIVAREN VINNER ÄNDÅ";
+        : "SKRIVAREN VINNER. MOTET OCKSA.";
       res.className="show";
       if(isJack){jackpotFanfare();rainCoins(36);}
       else{nearMissWah();rainCoins(10);}

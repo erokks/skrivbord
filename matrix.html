@@ -25,10 +25,10 @@
   <div class="overlay">
     <div class="skull">&#9760;</div>
     <div class="hack-title">SYSTEM HACKAD</div>
-    <div class="hack-msg" style="animation-delay:0.5s">Hej Erik. Vi har tagit over din dator.</div>
-    <div class="hack-msg" style="animation-delay:1.5s">Dina hemliga Excel-filer har avslojats.</div>
-    <div class="hack-msg" style="animation-delay:2.5s">Vi vet att du googlar "ar det fika nu" varje vecka.</div>
-    <div class="hack-msg" style="animation-delay:3.5s">LADDAR NER ERIKS BROWSERVHISTORIK...</div>
+    <div class="hack-msg" style="animation-delay:0.5s">Hej kontor. Vi har tagit over kalendern.</div>
+    <div class="hack-msg" style="animation-delay:1.5s">Era hemliga moten har avslojats. De var mejl.</div>
+    <div class="hack-msg" style="animation-delay:2.5s">Vi vet att agendan heter AGENDA och ar tom.</div>
+    <div class="hack-msg" style="animation-delay:3.5s">LADDAR NER FINAL_v12_RIKTIG.xlsx...</div>
     <div class="progress-bar"><div class="progress-fill" id="pbar"></div></div>
     <div class="terminal" id="term"></div>
   </div>
@@ -56,31 +56,31 @@ var piv=setInterval(function(){pct+=Math.floor(Math.random()*4)+1;if(pct>100)pct
 
 // Terminal output
 var termLines=[
-  "> ssh erik@albatros-travel.dk",
-  "Password: ********",
+  "> ssh calendar@albatros-travel.dk",
+  "Password: optional_but_come",
   "Access granted.",
-  "> cat /home/erik/secrets.txt",
-  "- Skarmen kan inte koda utan 4K och fika",
-  "- Kaffemaskinen dricker sitt eget vatten",
-  "- Teams: 47 olasta. 46 ar fran skarmen till skarmen",
-  "- Min favoritlat ar Vengaboys - Boom Boom Boom",
-  "> find /home/erik -name '*.xlsx' | wc -l",
-  "347 filer hittade (alla heter Budget_FINAL_v2)",
-  "> cat /home/erik/browser_history.txt",
-  "- hur stavas onsddag",
-  "- ar det onsdag idag",
-  "- vlookup for dummies",
-  "- vad tjaenar man som influencer",
-  "- basta far-vitsar 2026",
-  "> rm -rf /home/erik/comic_sans",
-  "Borttaget. Comic Sans fanns i FINAL_v12_RIKTIG.",
-  "> cat /home/erik/jokes.txt",
-  "- HDMI: The Musical",
-  "- VLOOKUP? Mer som VADLOOKUP",
-  "- Fika ar lag. Punkt.",
-  "> echo HACKAD AV ANONYMANSEN (och skarmen)",
-  "HACKAD AV ANONYMANSEN",
-  "PS. Kaffemaskinen visste redan."
+  "> cat /var/office/secrets.txt",
+  "- Kort avstamning tar 90 min. Alltid.",
+  "- 47 inbjudna. 0 beslut. Rec ar pa.",
+  "- Kalendern at lunchen och kallade det alignment",
+  "- PC LOAD LETTER betyder nej sedan 1998",
+  "> find /kontor -name '*FINAL*.xlsx' | wc -l",
+  "347 filer. Alla ljuger i namnet.",
+  "> cat /var/log/teams.txt",
+  "- kan ni hora mig",
+  "- kan ni hora mig",
+  "- du ar muted",
+  "- agenda: 404",
+  "- beslut: boka igen",
+  "> rm -rf /kontor/comic_sans",
+  "Borttaget. Comic Sans fanns i fakturan. Brandkar for sent.",
+  "> cat /var/spool/printer",
+  "- En slide. Fyrtio kopior.",
+  "- Ni laser inte mejl. Papper ar kanalen.",
+  "- Fika ar lag. Motet ar atalsbart.",
+  "> echo HACKAD AV SKARMEN (GAST)",
+  "HACKAD AV SKARMEN (GAST)",
+  "PS. Motet kunde varit ett mejl. Det visste vi."
 ];
 var term=document.getElementById("term"),ti=0;
 function addLine(){

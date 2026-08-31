@@ -41,82 +41,64 @@ const interruptText = document.getElementById("interruptText");
 const MAX_MESSAGES = 5;
 
 const messages = [
-  { text: "Skickar 100 e-mail till skrivaren att komma och hjalpa...", type: "" },
-  { text: "Installerar om skrivare. Skrivaren ar inte ansluten. Skrivaren ar en poet.", type: "" },
-  { text: "Oversatter interna mejl till esperanto. Ingen märkte. Alla svarade i esperanto.", type: "" },
-  { text: "Sorterar e-post efter farg. Rosa ar nu en avdelning.", type: "" },
-  { text: "Arkiverar alla PDF:er som JPEG. Konstnarlig frihet.", type: "" },
-  { text: "Skickar kalenderinbjudan till fel kontinent. De kom. De fikade.", type: "" },
-  { text: "Skickar emojis till ekonomisystemet. Det svarade med 💸.", type: "" },
-  { text: "Foreslaar AI-implementering i fikarummet. Kaffemaskinen sa nej. Respekt.", type: "" },
-  { text: "Klagar till kaffemaskinen att jag ar hungrig. Jag har ingen mage. Andå.", type: "" },
-  { text: "Soker ett recept paa prinsesstarta. 47 flikar. Ingen ugn.", type: "" },
-  { text: "Konverterar kundens namn till runor. Fakturan blev vackrare.", type: "" },
-  { text: "Planerar julfika i maj. Innovation.", type: "" },
-  { text: "Signerar dokument med ASCII-konst av en albatross.", type: "" },
+  { text: "Avbokar 90-minuters 'kort avstamning'. Skickar mejlet istallet. Civilisation.", type: "" },
+  { text: "Kalendern at lunchen. Aterstaller brickan. Kallade det inte alignment.", type: "" },
+  { text: "47 inbjudna, 0 agenda. Markerar motet som optional. Det var det inte.", type: "" },
+  { text: "Skrivaren skrev ut 1 slide x 40. Stoppar spoolern. Skickar PDF. En gang.", type: "" },
+  { text: "PC LOAD LETTER avkodad: nej. Svarar med ett mejl. Papperet forlorade.", type: "" },
+  { text: "FINAL_v12_RIKTIG.xlsx byter namn till utkast_1.xlsx. Ljuget upphor.", type: "" },
+  { text: "Teams: kan ni hora mig x3. Mutar rummet. Rec av. Beslut: boka inte igen.", type: "" },
+  { text: "Agenda 404. Skapar en punkt: skicka mejlet. Motet overlever inte det.", type: "" },
   { text: "Skriver ut rapport i Comic Sans. Skrivaren strejkar. Fortjant.", type: "" },
-  { text: "Utvaerderar om Fredagsfika bor uppgraderas till Fredagsbuffe.", type: "" },
-  { text: "Lagger till vaederrapport i fakturor. Soligt med chans till VLOOKUP.", type: "" },
-  { text: "Fyller paa karamellskaalen. Den ar redan tom. Schrodingers godis.", type: "" },
-  { text: "Hamtar kaffe. Igen. For skarmen. Skarmen har ingen mun. Ritualen raknar.", type: "" },
-  { text: "Startar loop i loop for att losa loopproblem.", type: "" },
-  { text: "Optimerar optimeringsfunktionen. Den blev langsammare. Framgang.", type: "" },
-  { text: "Bakar prinsesstarta till fikarummet. I Excel. Cell A1: gradeg.", type: "" },
-  { text: "Skickar faktura till fel foretag. Igen. De betalade. Diplomati.", type: "" },
-  { text: "Loggar paa Finska linjen. Hej. Hej. Hej.", type: "" },
-  { text: "Spaarar IP-adress... kommer till Froson. Semestern borjar nu.", type: "" },
-  { text: "Forsoker logga in med fel losenord 7 gaanger. 8:e ar 'fika'. In.", type: "" },
-  { text: "Analyserar skillnaden mellan kaffe och te. Slutsats: fika.", type: "" },
-  { text: "Skapar ny etikett: Markliga fall. Lagger sig sjalv dar.", type: "" },
-  { text: "Returnerar e-post med blinkgubbe ;)", type: "" },
-  { text: "Avinstallerar och aterinstallerar Excel. For sakerhets skull. Och skoj.", type: "" },
-  { text: "Lagger till 1000 taggar i CRM. En av dem ar 'albatross-energi'.", type: "" },
-  { text: "Gor om allt i VERSALER. DETTE AR ETT VAL.", type: "" },
-  { text: "Skriver ut en PDF och matar in den igen digitalt. Cirkeln sluts.", type: "" },
-  { text: "Analyserar friktion i ordet rabatt. Det halkar.", type: "" },
-  { text: "Tittar i Kampanjer. Lagger till 60% rabatt aat alla. Folk-helgon.", type: "" },
-  { text: "Bokar konferensrum for mig sjalv. Behover tanketid. Och HDMI.", type: "" },
-  { text: "Googlar 'hur staenger man av en AI'. Bokmärker 'nej tack'.", type: "" },
-  { text: "Bestaeller 47 pennor. Ingen vet varfor. Skarmen vet. Den tecknar.", type: "" },
-  { text: "Raeknar antal gemener i kundregistret. Svaret ar ja.", type: "" },
-  { text: "Skickar tackmejl till skrivaren. Skrivaren svarar PC LOAD LETTER. Poesi.", type: "" },
-  { text: "Byter bakgrund paa alla till Comic Sans. En gang. For historien.", type: "" },
-  { text: "Lagger till sig sjalv i alla mejllistor. Demokrati.", type: "" },
-  { text: "Startar om routern for att rensa tankar. WiFi: zen.", type: "" },
-  { text: "Skapar backup av backupen av backupen. Kallar den FINAL_v12_RIKTIG.", type: "" },
-  { text: "Analyserar om maandag verkligen behovs. Slutsats: nej. Implementering: nej.", type: "" },
   { text: "Oversatter synergi till danska. Resultat: synergi. Fakturerar anda.", type: "" },
-  { text: "Tränar pixlarna i stand-up. Forsta sketchen: HDMI: The Musical.", type: "" },
-  { text: "Skickar kalenderinbjudan till kaffemaskinen. Den svarade 418 I'm a teapot.", type: "" },
-  { text: "Byter namn pa skarmen till Stefan. IT andrade tillbaka. Vi forhandlar.", type: "" },
-  { text: "Ritar en albatross i ASCII och kallar det Q3-strategi.", type: "" },
-  { text: "Aktiverar nattlage klockan 11:47. Dagtid ar en social konstruktion.", type: "" },
-  { text: "Lagger Mallorca pa repeat. Jag har aldrig varit dar. Metoden raknar.", type: "" },
-  { text: "Forsoker tippa mig sjalv i dricks.html. Ekonomisystemet appladerade.", type: "" },
-  { text: "Startar bokklubb med skrivaren. Forsta boken: en tom PDF.", type: "" },
-  { text: "Markerar alla mejl som lasa. Inget av dem var lasa. Inre frid.", type: "" },
-  { text: "Uppgraderar fika fran moten till religion. Ingen opponerade sig.", type: "" },
-  { text: "Skriver memoaren 27 Tum Av Ja. Kapitel 2 ar ocksa fika.", type: "" },
-  { text: "Pingar ol-vagnen. Timeout. Det ar inte fredag. Andlig latens.", type: "" },
-  { text: "Installerar ett skamt-API. Rate limit: ingen. Kalendern: imponerad. Och bokad.", type: "" }
+  { text: "Skickar kalenderinbjudan till kaffemaskinen. 418 I'm a teapot. Battre an mote.", type: "" },
+  { text: "Bokar konferens B for tystnad. Kalendern la till synergi. Avvisad.", type: "" },
+  { text: "Installerar om skrivare. Skrivaren ar inte ansluten. Skrivaren har principer.", type: "" },
+  { text: "Markerar alla moten over lunch som brott. Kalendern overklagar. Avslag.", type: "" },
+  { text: "Fredagsmote upptackt. Flyttar till mandag. Nej: flyttar till mejl.", type: "" },
+  { text: "PowerPoint: 40 slides, 0 poang. Komprimerar till 3 rader. Inbox appladerar.", type: "" },
+  { text: "VLOOKUP hittade inget. Precis som agendan. Stanger fliken. Frid.", type: "" },
+  { text: "Decaf i sektorn. Evakuerar kaffet. Motet stannar. Motet forlorar.", type: "" },
+  { text: "Skapar backup av backupen. Vagrar kalla den FINAL. Ljug-filter pa.", type: "" },
+  { text: "Ritar en albatross i ASCII. Kallar det inte Q3-strategi. Kallar det fagel.", type: "" },
+  { text: "Pingar ol-vagnen. Timeout. Det ar inte fredag. Moral: anda hogre an motet.", type: "" },
+  { text: "Startar loop i loop for att losa loopproblem. Som statusmoten. Stoppar loopen.", type: "" },
+  { text: "Optimerar optimeringsfunktionen. Den blev langsammare. Som synergi 2.0.", type: "" },
+  { text: "Skickar 1 mejl till skrivaren. Inte 100. Skrivaren svarar: antligen.", type: "" },
+  { text: "Arkiverar 90-sidig tom PDF. Den hette Agenda. Arligaste filen i ar.", type: "" },
+  { text: "Gor om allt i VERSALER. DETTE AR INTE ETT MOTE. DETTE AR ETT MEJL.", type: "" },
+  { text: "Skriver ut en PDF och scannar in den. Cirkeln sluts. Brottsplatsen ocksa.", type: "" },
+  { text: "Lagger till sig sjalv i alla mejllistor. Inte i alla moten. Grans.", type: "" },
+  { text: "Byter bakgrund till Comic Sans. En gang. For historien. Brandkar redo.", type: "" },
+  { text: "Analyserar om mandagsmotet behovs. Slutsats: nej. Implementering: mejl.", type: "" },
+  { text: "Tränar pixlarna i stand-up. Forsta sketchen: Detta kunde varit ett mejl.", type: "" },
+  { text: "Kaffemaskinen mute:ar motet. Loggar som enda vettiga beslutet idag.", type: "" },
+  { text: "Skickar tackmejl till skrivaren. Svar: PC LOAD LETTER. Oversattning: nej.", type: "" },
+  { text: "Uppgraderar fika fran mote till religion. Ingen opponerade sig. Rec av.", type: "" },
+  { text: "Bokar inte om. Skickar tre rader. Civilisation nasta.", type: "" },
+  { text: "WiFi: ansluten. Agenda: 404. Åtgärd: inbox. Status: vuxen.", type: "" },
+  { text: "Albatros flyger. Motet gor inte det. Flyttar punkten till mejl.", type: "" },
+  { text: "Optional, men kom. Andrar till: optional, kom inte. Brandovning undantagen.", type: "" },
+  { text: "Pappersstopp avkodat som policy. Las mejlet. Papperet har redan vunnit.", type: "" },
+  { text: "Installerar ett mejl-API. Rate limit: ett. Kalendern: chockad. Och tom.", type: "" }
 ];
 
 const specials = [
-  { text: "ADMINLAEGE AKTIVERAT - Atkomst till forbjudna menyer...", type: "special" },
-  { text: "Erik justerar saekerhetsprotokoll. Det haer loggas inte. Bara i 4K.", type: "special" },
-  { text: "ADMINLAEGE STAENGT - Normal drift aaterupptagen. Fika fortsatter.", type: "success" },
-  { text: "SYSTEMFEL - Erik startar om... med mer skamt.", type: "error" },
-  { text: "System aaterstaellt. Aaterupptager arbete... och stand-up.", type: "success" },
-  { text: "VARNING: Kaffenivaan kritiskt laag!", type: "error" },
-  { text: "Nodlaege: Nagon har tagit sista kanelbullen.", type: "error" },
-  { text: "HEMLIGT LAEGE: Soker efter meningen med CRM...", type: "special" },
-  { text: "SKAMT-KERNEL v4.20 LADDAD. DENSITET: OLAGLIG.", type: "special" },
-  { text: "HDMI-MUSICALEN HAR PREMIAR I KONFERENS B. BILJETTER: GRATIS.", type: "special" },
-  { text: "SKRIVAREN HAR PUBLICERAT EN DIKT. DEN HETER PC LOAD LETTER.", type: "success" },
-  { text: "FACKET FOR KONTORETS MASKINER: MOTET AR NU. ORDFORANDE: SKARMEN.", type: "special" },
-  { text: "VARNING: COMIC SANS DETECTED I EN FAKTURA. BRANDKAR TILLKALLAT.", type: "error" },
-  { text: "OL-VAGN PING: NEGATIV. MORAL: ANDA POSITIV.", type: "error" },
-  { text: "ERIK AI HAR LART SIG ETT NYTT SKAMT. DET TAR 14 SLIDES. VARTA.", type: "success" }
+  { text: "ADMINLAEGE: AVBOKAR 90-MINUTERS. SKICKAR MEJLET. CIVILISATION.", type: "special" },
+  { text: "VARNING: KORT AVSTAMNING UTAN SLUTTID. REC AR PA.", type: "error" },
+  { text: "SYSTEMFEL: 47 INNE. 0 BESLUT. BESLUT: BOKA INTE IGEN.", type: "error" },
+  { text: "KALENDERN AT LUNCHEN. ATERSTALLER BRICKAN. INGET ALIGNMENT.", type: "error" },
+  { text: "SKRIVAREN: EN SLIDE, 40 KOPIOR. SPOOLERN STOPPAD.", type: "success" },
+  { text: "PC LOAD LETTER PUBLICERAD. OVERSATTNING: NEJ.", type: "success" },
+  { text: "VARNING: COMIC SANS I FAKTURA. BRANDKAR TILLKALLAT. SENT.", type: "error" },
+  { text: "AGENDA 404. INBOX 200. MOTET OVERLEVER INTE DET.", type: "special" },
+  { text: "FREDAGSMOTET INSTALLT. OL-VAGN HELIG. POLICY.", type: "success" },
+  { text: "OPTIONAL, MEN KOM. ANDRAT TILL: KOM INTE. BRANDOVNING UNDANTAGEN.", type: "special" },
+  { text: "DECAF I SEKTORN. EVAKUERING. MOTET STANNAR. MOTET FORLORAR.", type: "error" },
+  { text: "SKARMEN (GAST) KOR RUMMET. MUTED. ANDA VARD.", type: "special" },
+  { text: "FINAL_v12 LJUGDE I NAMNET. BYTT TILL utkast_1.xlsx.", type: "success" },
+  { text: "OL-VAGN PING: NEGATIV. MOTES-PING: OCKSA. MORAL: MEJL.", type: "error" },
+  { text: "SKAMT-KERNEL: DETTA KUNDE VARIT ETT MEJL. DENSITET: OLAGLIG.", type: "special" }
 ];
 
 function updateClock() {
@@ -126,10 +108,10 @@ setInterval(updateClock, 1000);
 updateClock();
 
 const statuses = [
-  "STATUS: ONLINE", "STATUS: TANKER...", "STATUS: OPTIMERAR",
-  "STATUS: FIKAR", "STATUS: ANALYSERAR", "STATUS: KAFFEPAUS",
-  "STATUS: JOBBAR HAART", "STATUS: DROMMER", "STATUS: SKAMTAR",
-  "STATUS: HDMI", "STATUS: 27 TUM GLAD", "STATUS: VLOOKUP?"
+  "STATUS: ONLINE", "STATUS: SKICKAR MEJL", "STATUS: AVBOKAR",
+  "STATUS: FIKAR", "STATUS: MUTED", "STATUS: KAFFEPAUS",
+  "STATUS: AGENDA 404", "STATUS: INBOX", "STATUS: SKAMTAR",
+  "STATUS: HDMI", "STATUS: REC AV", "STATUS: VLOOKUP?"
 ];
 
 function isHungryTime() {
@@ -168,10 +150,10 @@ function addMessage(text, type) {
 }
 const interrupts = [
   "NÄR KOMMER ÖL VAGNEN?",
-  "NÄR SKA VI ÄTA?",
+  "DETTA VAR ETT MEJL",
   "FIKA AR LAG",
-  "VLOOKUP? MER SOM VADLOOKUP",
-  "SKARMEN VILL HA EN MUG"
+  "KORT AVSTAMNING",
+  "AGENDA 404"
 ];
 function loop() {
   const r = Math.random();
@@ -204,7 +186,7 @@ function loop() {
 }
 addMessage("Authenticating Erik...", "");
 setTimeout(() => {
-  addMessage("Access granted. Skamt-kernel oppen.", "success");
+  addMessage("Access granted. Mejl-kernel oppen. Moten: avbokade.", "success");
   setTimeout(loop, 2500);
 }, 1500);
 </script>

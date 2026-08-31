@@ -36,17 +36,17 @@
   </div>
 <script>
 var errors = [
-  {stop:"ERIK_COFFEE_OVERFLOW",detail:"Felaktig minnesallokering i KAFFE.DLL. Kaffemaskinen har bryggt 14 koppar idag. Stacken ar full av koffein. Kontakta skrivaren eller ge skarmen en mugg."},
-  {stop:"SNACK_THEFT_DETECTED",detail:"Kritiskt fel i KONTOR.SYS - obehoring aatkomst av snackslaadan. Fingeravtryck matchar GODISSKALEN.EXE (PID: 1337). Alla chips ar pixlar nu."},
-  {stop:"EXCEL_SKILLS_NOT_FOUND",detail:"Windows kan inte hitta VLOOKUP.DLL. SKARMEN.EXE forsokte anvanda Excel men kraschade vid rad 3. Filen Budget_Final_FINAL_v7_RIKTIG.xlsx ar korrupt."},
-  {stop:"DAD_JOKE_BUFFER_OVERFLOW",detail:"Systemminnet ar fullt av ordvitsar. ERIK_HUMOR.DLL har skrivit over kritiska systemfiler med kalenderbitsar. Senaste joke: Vad sa dansen? JAG KAN INTE WALTZ MER!"},
-  {stop:"FRIDAY_ANTICIPATION_FAULT",detail:"VECKODAG.SYS rapporterar att det ar tisdag men SKARMEN.EXE beter sig som det ar fredag. Felkod: 0xF4IDAG. Rekommendation: Starta om veckan."},
-  {stop:"ALBATROS_TRAVEL_EXCEPTION",detail:"Kritiskt fel: SKARMEN har bokat en resa till Mallorca pa pixelrabatten IGEN. BUDGET.DLL returnerar NaN. Skrivaren ar inte imponerad."},
-  {stop:"FIKA_STACK_OVERFLOW",detail:"For manga kanelbullar i anropstacken. KAFFE.SYS vantar pa kopp. SKARMEN.EXE har ingen mun men star i kon anda."},
-  {stop:"COMIC_SANS_DETECTED",detail:"Typsnittet vaknade. Brandkar tillkallat. Skrivaren strejkar. HDMI skriker i 60 Hz."},
-  {stop:"HDMI_HANDSHAKE_TIMEOUT",detail:"Skarmen forsokte kyssa kaffemaskinen under misteln. Handshake misslyckades. Charmigt. Prova DisplayPort."},
-  {stop:"VLOOKUP_NOT_FOUND",detail:"Excel hittade inte kansen. Hittade Mallorca. Alla ar nojda. Fortsätt inte."},
-  {stop:"OL_VAGN_NOT_READY",detail:"Det ar inte fredag. Moral.dll returnerar E_NEED_BEER. Rekommendation: later som det ar fredag."}
+  {stop:"MEETING_SHOULD_BE_EMAIL",detail:"KALENDER.SYS bokade 90 min 'kort avstamning'. AGENDA.DLL returnerar 404. Rekommendation: skicka mejlet. Fortsatt inte."},
+  {stop:"OPTIONAL_BUT_COME",detail:"Mote flaggat optional. 47 anslöt. REC.EXE ar pa. Sa optional som en brandovning."},
+  {stop:"CALENDAR_ATE_LUNCH",detail:"LUNCH.SYS saknas. KALENDER.EXE at den och kallade det alignment. Koksrapport: brickor obevaktade."},
+  {stop:"SLIDE_X40_PRINTED",detail:"En (1) slide i SPOOLER. 40 kopior ute. SKRIVAREN.SYS: ni laser inte mejl. Papper ar min kanal."},
+  {stop:"AGENDA_404",detail:"Windows kan inte hitta AGENDA.DLL. PowerPoint har 40 slides och 0 poang. Clipart: 1 albatross."},
+  {stop:"PC_LOAD_LETTER",detail:"Skrivaren oversatte 1998 till svenska: NEJ. Pappersstopp ar officiell policy. Las mejlet."},
+  {stop:"FINAL_V12_LIE",detail:"Filen Budget_FINAL_v12_RIKTIG.xlsx ljuger i namnet. VLOOKUP hittade inget. Precis som agendan."},
+  {stop:"COMIC_SANS_DETECTED",detail:"Typsnittet vaknade i en faktura. Brandkar tillkallat. Skrivaren strejkar. HDMI skriker i 60 Hz."},
+  {stop:"MUTED_AGAIN",detail:"TEAMS.EXE: kan ni hora mig x3. 47 inne. 0 beslut. REC pa. Skarmen (Gast) kor rummet anda."},
+  {stop:"FRIDAY_MEETING_FAULT",detail:"VECKODAG.SYS vagrar moten pa fredag. OL_VAGN.DLL ar helig. Felkod: 0xF4IDAG."},
+  {stop:"DECAF_IN_SECTOR",detail:"KAFFE.SYS larm. Evakuering rekommenderas. Motet stannade. Motet forlorade."}
 ];
 var err = errors[Math.floor(Math.random()*errors.length)];
 document.getElementById("stopcode").textContent = "Stoppkod: "+err.stop;
