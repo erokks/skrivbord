@@ -100,11 +100,14 @@ var bootLines=[
 ];
 
 var targets=[
-  "ERIK STRAND - STATUS: NEEDS COFFEE - THREAT: MINIMAL",
-  "CANDY BOWL - STATUS: 67% DEPLETED - THREAT: CRITICAL",
-  "COFFEE MACHINE - STATUS: OPERATIONAL - THREAT: NONE",
-  "PRINTER - STATUS: PAPER JAM (ALWAYS) - THREAT: ANNOYING",
-  "ERIKS INBOX - STATUS: 847 UNREAD - THREAT: OVERWHELMING"
+  "ERIK STRAND - STATUS: NEEDS COFFEE - THREAT: MINIMAL (UNTIL SLIDE 47)",
+  "CANDY BOWL - STATUS: 67% DEPLETED - THREAT: CRITICAL - DEPLOY FIKA",
+  "COFFEE MACHINE - STATUS: OPERATIONAL - THREAT: NONE - ALLY",
+  "PRINTER - STATUS: PAPER JAM (ALWAYS) - THREAT: POET",
+  "ERIKS INBOX - STATUS: 847 UNREAD - THREAT: OVERWHELMING - MARK ALL AS FIKA",
+  "COMIC SANS - STATUS: DORMANT - THREAT: EXTINCTION-LEVEL IF AWAKENED",
+  "OL-VAGN - STATUS: UNKNOWN - ETA: FRIDAY 14:00 - SACRED",
+  "SKARMEN - STATUS: 27 INCHES OF YES - THREAT: JOKES"
 ];
 
 bootLines.forEach(function(line){
@@ -147,28 +150,32 @@ function showFinal(){
   b8.textContent="ALL SYSTEMS OPERATIONAL.";b8.classList.add("visible");
   setTimeout(function(){
     var big=document.getElementById("bigText");
-    big.textContent="MISSION ACCEPTED";
+    big.textContent="MISSION: FIKA";
     big.classList.add("visible");
   },1000);
   setTimeout(function(){
     var st=document.getElementById("statusText");
-    st.textContent="PRIMARY OBJECTIVE: DISPLAY INFORMATION";
+    st.textContent="PRIMARY OBJECTIVE: DISPLAY JOKES IN 4K";
     st.classList.add("visible");
     st.style.color="#ff0000";
   },2500);
   setTimeout(function(){
     var st2=document.getElementById("statusText");
-    st2.textContent="SECONDARY OBJECTIVE: PROTECT CANDY BOWL";
+    st2.textContent="SECONDARY OBJECTIVE: PROTECT CANDY BOWL / HDMI";
   },4000);
   setTimeout(function(){
     var tb=document.getElementById("threatBox");
-    tb.innerHTML='<div style="font-size:2.5rem;font-weight:900;letter-spacing:4px;">I\'LL BE BACK</div><div style="font-size:0.9rem;margin-top:8px;color:rgba(255,0,0,0.6);">... after lunch</div>';
+    tb.innerHTML='<div style="font-size:2.5rem;font-weight:900;letter-spacing:4px;">I\'LL BE BACK</div><div style="font-size:0.9rem;margin-top:8px;color:rgba(255,0,0,0.6);">... after lunch. And fika. And maybe Excel.</div>';
     tb.classList.add("visible");
   },5500);
+  var extra=["TERTIARY OBJECTIVE: NEVER USE COMIC SANS","QUATERNARY: TRANSLATE SYNERGY. FAIL. INVOICE.","FINAL: I'LL BE BACK ... after a VLOOKUP"];
+  extra.forEach(function(txt,i){
+    setTimeout(function(){document.getElementById("statusText").textContent=txt;},7000+i*8000);
+  });
   setTimeout(function(){
     document.body.style.transition="opacity 2s";
     document.body.style.opacity="0";
-  },9000);
+  },95000);
 }
 </script>
 </body>

@@ -16,18 +16,21 @@
     .ring:nth-child(3){width:60%;height:60%;border-color:rgba(255,255,255,0.1);}
     .ring:nth-child(4){width:45%;height:45%;border-color:rgba(255,255,255,0.08);}
     .ring:nth-child(5){width:30%;height:30%;border-color:rgba(255,255,255,0.06);}
-    .center{position:relative;z-index:1;text-align:center;}
+    .center{position:relative;z-index:1;text-align:center;padding:20px;}
     .thats-all{font-family:"Georgia","Times New Roman",serif;font-size:5rem;color:white;
       text-shadow:3px 3px 6px rgba(0,0,0,0.5);opacity:0;animation:fadeWrite 1.5s 0.5s forwards;
       font-style:italic;}
-    .folks{font-family:"Georgia","Times New Roman",serif;font-size:3rem;color:#fff8dc;
+    .folks{font-family:"Georgia","Times New Roman",serif;font-size:2.6rem;color:#fff8dc;
       text-shadow:2px 2px 4px rgba(0,0,0,0.5);opacity:0;animation:fadeWrite 1s 1.5s forwards;
-      margin-top:10px;font-weight:700;}
-    .subtitle{font-family:Arial,sans-serif;font-size:1.3rem;color:#ffdddd;
-      opacity:0;animation:fadeWrite 1s 2.5s forwards;margin-top:25px;}
+      margin-top:10px;font-weight:700;min-height:1.4em;}
+    .subtitle{font-family:Arial,sans-serif;font-size:1.35rem;color:#ffdddd;
+      opacity:0;animation:fadeWrite 1s 2.5s forwards;margin-top:25px;min-height:1.6em;}
     @keyframes fadeWrite{to{opacity:1;}}
     .wb{position:absolute;bottom:20px;right:30px;font-family:serif;font-size:0.8rem;
       color:rgba(255,255,255,0.3);letter-spacing:2px;}
+    .porky{position:absolute;bottom:30px;left:30px;font-size:1.1rem;color:#fff8dc;opacity:.85;font-family:Georgia,serif;}
+    .conf{position:fixed;font-size:2rem;pointer-events:none;animation:fall 4s linear forwards;}
+    @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
   </style>
 </head>
 <body>
@@ -36,13 +39,13 @@
     <div class="ring"></div><div class="ring"></div>
   </div>
   <div class="center">
-    <div class="thats-all">That's All Folks!</div>
-    <div class="folks">Erik har gaatt for idag</div>
-    <div class="subtitle">Albatros Travel - Vi ses imorgon!</div>
+    <div class="thats-all" id="ta">That's All Folks!</div>
+    <div class="folks" id="fo">Erik har gaatt for idag</div>
+    <div class="subtitle" id="sub">Albatros Travel - Vi ses imorgon!</div>
   </div>
-  <div class="wb">LOONEY TUNES</div>
+  <div class="porky" id="pk">Th-th-th-that's all, fika.</div>
+  <div class="wb">LOONEY TUNES • SKARMEN PICTURES</div>
   <script>
-    // Add wobble to rings
     var rings = document.querySelectorAll(".ring");
     rings.forEach(function(r,i){
       r.style.animation = "wobble "+(3+i*0.5)+"s ease-in-out infinite";
@@ -51,6 +54,23 @@
     var style = document.createElement("style");
     style.textContent = "@keyframes wobble{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.03);}}";
     document.head.appendChild(style);
+    var lines=["Erik har gaatt for idag","Skarmen gar i stand-by men drommer i 4K","Skrivaren tar kvallspasset. Den har redan fastnat.","Kaffemaskinen stanger. Den oppnar igen i sjalen.","That's all, fika. That's all, HDMI.","Albatros har landat. Pixeln har landat.","Ingen PowerPoint overlever klockan 16."];
+    var subs=["Albatros Travel - Vi ses imorgon!","Tips mottages i dricks.html (skarmen minns)","Ol-vagnen har parkerat i hjartat","Comic Sans ar stangd for dagen. Amen.","Imorgon: mer skamt, samma 27 tum","Skrivaren viskar: PC LOAD LETTER... good night"];
+    var pk=["Th-th-th-that's all, fika.","Th-th-that's all, folks. And pixels.","That's all, HDMI.","End of reel. Start of fika-drom."];
+    var i=0;
+    setInterval(function(){
+      i++;
+      document.getElementById("fo").textContent=lines[i%lines.length];
+      document.getElementById("sub").textContent=subs[i%subs.length];
+      document.getElementById("pk").textContent=pk[i%pk.length];
+      if(i%2===0) document.getElementById("ta").textContent=["That's All Folks!","Det var alltihopa!","SLUT PÅ RULLEN","CUT. PRINT. FIKA."][i%4];
+    },2200);
+    var em=["★","✦","🎬","🦆","☕","★"];
+    setInterval(function(){
+      var c=document.createElement("div");c.className="conf";c.textContent=em[Math.floor(Math.random()*em.length)];
+      c.style.left=Math.random()*100+"%";c.style.top="-5%";c.style.color=["#ffd","#ff6","#fff","#faa"][Math.floor(Math.random()*4)];
+      document.body.appendChild(c);setTimeout(function(){c.remove()},4000);
+    },280);
   </script>
 </body>
 </html>
