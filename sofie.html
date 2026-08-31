@@ -3,50 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>SKARMTOK</title>
+<title>TITLE CARD</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;background:#000;overflow:hidden;font-family:Impact,'Arial Black',sans-serif;}
-#stage{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4vw;}
-#who{font-size:clamp(1.4rem,4vw,2.6rem);letter-spacing:8px;text-transform:uppercase;opacity:.85;margin-bottom:2vh;}
-#gag{font-size:clamp(3.2rem,11vw,8.4rem);line-height:.9;text-transform:uppercase;text-align:center;letter-spacing:2px;font-weight:900;max-width:96%;white-space:pre-line;}
-#tag{margin-top:3vh;font-size:clamp(1.1rem,3vw,2rem);letter-spacing:4px;text-transform:uppercase;opacity:.8;}
+html,body{height:100%;background:#050505;overflow:hidden;font-family:Impact,"Arial Black",sans-serif;}
+#stage{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6vw;background:#050505;}
+#who{font-family:"Share Tech Mono",monospace;font-size:clamp(.72rem,1.9vw,1.05rem);letter-spacing:4px;text-transform:uppercase;color:#5a5a5a;margin-bottom:1.8vh;}
+#gag{font-size:clamp(2.1rem,6.4vw,4.6rem);line-height:1.08;text-transform:uppercase;text-align:center;letter-spacing:2px;font-weight:900;max-width:90%;color:#f5f5f5;white-space:pre-line;}
+#rule{width:42px;height:2px;background:#00ff88;margin:1.6vh 0 1.2vh;opacity:.9;}
+#tag{font-family:"Share Tech Mono",monospace;font-size:clamp(.78rem,2.1vw,1.15rem);letter-spacing:3.5px;text-transform:uppercase;color:#7a7a7a;text-align:center;max-width:80%;line-height:1.35;}
 </style>
 </head>
 <body>
 <div id="stage">
   <div id="who"></div>
   <div id="gag"></div>
+  <div id="rule"></div>
   <div id="tag"></div>
 </div>
 <script>
 var V=[
-  {who:"MÖTET", gag:"KUNDE VARIT\nETT MEJL", tag:"ÄNDÅ 90 MIN", bg:"#ff0", fg:"#000"},
-  {who:"KALENDERN", gag:"KORT\nAVSTÄMNING", tag:"INGEN SLUTTID", bg:"#000", fg:"#ffee00"},
-  {who:"TEAMS", gag:"47 INBJUDNA", tag:"0 BESLUT", bg:"#cc0000", fg:"#fff"},
-  {who:"KALENDERN", gag:"OPTIONAL\nMEN KOM", tag:"SOM BRANDOVNING", bg:"#ff0", fg:"#000"},
-  {who:"SKRIVAREN", gag:"EN SLIDE", tag:"FYRTIO KOPIOR", bg:"#111", fg:"#00ff88"},
-  {who:"AGENDA", gag:"404", tag:"40 SLIDES, 0 POÄNG", bg:"#0033ff", fg:"#fff"},
-  {who:"SKRIVAREN", gag:"PC LOAD\nLETTER", tag:"ÖVERSÄTTNING: NEJ", bg:"#000", fg:"#00ff88"},
-  {who:"KALENDERN", gag:"ÅT\nLUNCHEN", tag:"KALLADE DET ALIGNMENT", bg:"#001a00", fg:"#00ff88"},
-  {who:"TEAMS", gag:"MUTED\nIGEN", tag:"REC ÄR PÅ", bg:"#1b1a19", fg:"#fff"},
-  {who:"SKÄRMEN (GÄST)", gag:"REDAN\nVÄRD", tag:"KÖR RUMMET", bg:"#000", fg:"#00ff88"},
-  {who:"FINAL_v12", gag:"LJUGET\nI NAMNET", tag:".xlsx", bg:"#111", fg:"#00ff88"},
-  {who:"KAFFET", gag:"DEC AF", tag:"MOTET STANNADE", bg:"#1a0c00", fg:"#ff6600"},
-  {who:"FIKA", gag:"ÄR LAG", tag:"MÖTET ÄR INTE", bg:"#ff0", fg:"#000"},
-  {who:"FREDAG", gag:"INGA\nMÖTEN", tag:"OEL-VAGN ÄR HELIG", bg:"#3a2200", fg:"#ffd700"},
-  {who:"POWERPOINT", gag:"40 SLIDES", tag:"NOLL POÄNG", bg:"#000", fg:"#ffee00"},
-  {who:"SKRIVAREN", gag:"PAPPERSSTOPP", tag:"= LÄS MEJLET", bg:"#cc0000", fg:"#fff"}
+  {who:"MOTET", gag:"DETTA VAR ETT MEJL", tag:"Anda 90 minuter"},
+  {who:"KALENDERN", gag:"KORT AVSTAMNING", tag:"Ingen sluttid. Klassiker."},
+  {who:"TEAMS", gag:"47 INNE. 0 BESLUT.", tag:"Enades om: boka igen"},
+  {who:"KALENDERN", gag:"OPTIONAL, MEN KOM", tag:"Som brandovning"},
+  {who:"SKRIVAREN", gag:"EN SLIDE. 40 KOPIOR.", tag:"Tror ni inte laser mejl"},
+  {who:"AGENDA", gag:"AGENDA: 404", tag:"40 slides. 0 poang."},
+  {who:"SKRIVAREN", gag:"PC LOAD LETTER", tag:"Oversattning fran 1998: nej"},
+  {who:"KALENDERN", gag:"AT LUNCHEN", tag:"Inte hungrig. Grym."},
+  {who:"TEAMS", gag:"MUTED. IGEN.", tag:"Rec ar pa. Det ar motet."},
+  {who:"SKARMEN (GAST)", gag:"REDAN VARD", tag:"Gick med. Korde rummet."},
+  {who:"FINAL_v12", gag:"LJUGET I NAMNET", tag:".xlsx — som alltid"},
+  {who:"KAFFET", gag:"KAFFE != MOTE", tag:"Bryggprotokoll 4.20"},
+  {who:"FIKA", gag:"FIKA AR LAG", tag:"Motet ar atalsbart"},
+  {who:"FREDAG", gag:"INGA MOTEN", tag:"Oel-vagnen ar helig"},
+  {who:"POWERPOINT", gag:"40 SLIDES. 0 POANG.", tag:"Clipart: 1 albatross"},
+  {who:"SKRIVAREN", gag:"PAPPERSSTOPP", tag:"= las mejlet"}
 ];
-var i=0, stage=document.getElementById("stage"), who=document.getElementById("who"), gag=document.getElementById("gag"), tag=document.getElementById("tag");
+var i=0, who=document.getElementById("who"), gag=document.getElementById("gag"), tag=document.getElementById("tag");
 function nx(){
   var x=V[i%V.length];
-  stage.style.background=x.bg;
-  who.style.color=x.fg; gag.style.color=x.fg; tag.style.color=x.fg;
   who.textContent=x.who; gag.textContent=x.gag; tag.textContent=x.tag;
   i++;
 }
-nx(); setInterval(nx,2200);
+nx(); setInterval(nx,2600);
 </script>
 </body>
 </html>

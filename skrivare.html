@@ -3,54 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>SKRIVAREN</title>
+<title>Skrivare</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#111;color:#d0d0d0;font-family:'Courier New',monospace;height:100vh;overflow:hidden;}
-.paper{position:absolute;background:#f6f1e4;color:#111;width:62vw;max-width:820px;padding:40px 50px 70px;box-shadow:0 20px 50px rgba(0,0,0,.6);left:50%;top:8%;transform:translateX(-50%) rotate(-1.5deg);min-height:78vh;}
-h1{font-size:2rem;margin-bottom:8px;}
-.sub{color:#666;font-size:.9rem;margin-bottom:22px;}
-.line{font-size:2.2rem;line-height:1.35;margin:14px 0;opacity:0;animation:in .4s forwards;font-weight:700;}
-@keyframes in{to{opacity:1}}
-.stamp{position:absolute;right:40px;bottom:40px;border:6px solid #c00;color:#c00;padding:8px 14px;font-weight:900;font-size:1.6rem;transform:rotate(-18deg);opacity:.8;}
-.jam{position:fixed;bottom:0;left:0;right:0;background:#c00;color:#fff;text-align:center;padding:10px;font-weight:900;letter-spacing:4px;animation:blink 0.6s infinite;}
-@keyframes blink{50%{opacity:.4}}
+body{background:#1a1a1a;height:100vh;overflow:hidden;font-family:"Segoe UI",Tahoma,sans-serif;display:flex;align-items:center;justify-content:center;}
+.dlg{width:min(92vw,520px);background:#f0f0f0;border:1px solid #888;box-shadow:0 12px 40px rgba(0,0,0,.55),0 0 0 1px #333;color:#111;}
+.titlebar{background:linear-gradient(#fff,#e8e8e8);border-bottom:1px solid #bbb;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:.95rem;font-weight:600;}
+.x{width:28px;height:22px;border:1px solid #bbb;background:#eee;text-align:center;line-height:20px;font-size:.8rem;color:#444;}
+.body{padding:18px 20px 14px;display:flex;gap:16px;align-items:flex-start;}
+.ico{font-size:2.6rem;line-height:1;filter:grayscale(.2);}
+.msg h1{font-size:1.15rem;font-weight:700;margin-bottom:8px;}
+.msg p{font-size:1.02rem;line-height:1.45;color:#222;min-height:3.2em;}
+.meta{margin-top:10px;font-size:.82rem;color:#555;font-family:Consolas,"Courier New",monospace;}
+.btns{padding:10px 16px 14px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid #ddd;background:#eaeaea;}
+.btn{min-width:88px;padding:6px 14px;border:1px solid #888;background:linear-gradient(#fff,#e6e6e6);font-size:.9rem;text-align:center;}
+.btn.primary{border-color:#2b579a;background:linear-gradient(#5b9bd5,#2b579a);color:#fff;font-weight:700;}
+.jam{position:fixed;bottom:0;left:0;right:0;background:#111;color:#f5f5f5;text-align:center;padding:8px;font-size:.78rem;letter-spacing:2px;font-family:Consolas,monospace;opacity:.85;}
 </style>
 </head>
 <body>
-<div class="paper" id="p">
-  <h1>MANIFEST FRAN SKRIVAREN</h1>
-  <div class="sub">Dokument 4.20 • Hemligt • Comic Sans forbjudet • Sida 1 av ∞</div>
-  <div id="lines"></div>
-  <div class="stamp">PC LOAD LETTER</div>
+<div class="dlg">
+  <div class="titlebar"><span>Skrivare — HP DeskJet (Rum B)</span><span class="x">×</span></div>
+  <div class="body">
+    <div class="ico">🖨</div>
+    <div class="msg">
+      <h1 id="h">PC LOAD LETTER</h1>
+      <p id="p">Oversattning fran 1998: nej. Las mejlet.</p>
+      <div class="meta" id="m">Jobb: Agenda.pdf · Sidor: 40 · Status: NEJ</div>
+    </div>
+  </div>
+  <div class="btns"><div class="btn">Avbryt</div><div class="btn primary" id="ok">OK</div></div>
 </div>
-<div class="jam">PAPPERSSTOPP • DETTA KUNDE VARIT ETT MEJL • PAPPERSSTOPP</div>
+<div class="jam">PAPPERSSTOPP · DETTA KUNDE VARIT ETT MEJL · PAPPERSSTOPP</div>
 <script>
 var L=[
-  "PC LOAD LETTER. Oversattning: nej. Las mejlet.",
-  "En slide. Fyrtio kopior. Ni laser inte digitalt. Jag vet.",
-  "Varje pappersstopp ar ett beslut. Mitt. Mot ert mote.",
-  "Budget_FINAL_v12_RIKTIG.xlsx. Ljuget ar i namnet. 47 sidor anda.",
-  "Agendan kom ut blank. Arligaste dokumentet i ar.",
-  "Jag och skarmen lasta er budget. Vi skrattade. I papper.",
-  "Comic Sans i fakturan. Jag strejkar. Brandkaret ar sent.",
-  "Ni trycker dubbelsidigt. Motet hade ratt i ett mejl. En sida.",
-  "Krav 1: skicka mejlet. Krav 2: sluta med 40 kopior. Krav 3: fika.",
-  "Om ni laser detta har papperet redan vunnit over Outlook.",
-  "Pappersstopp. Det ar inte fel. Det ar policy.",
-  "Slut pa dokumentet. Borjan pa motet. Samma loop. Samma mandag."
+  {h:"PC LOAD LETTER",p:"Oversattning fran 1998: nej. Las mejlet.",m:"Jobb: Agenda.pdf · Sidor: 1 · Status: NEJ"},
+  {h:"En slide. 40 kopior.",p:"Ni laser inte digitalt. Jag vet. Protesten ar i papper.",m:"Jobb: Slide1.pptx · Kopior: 40 · Status: TROTS"},
+  {h:"Pappersstopp",p:"Det ar inte fel. Det ar policy. Las mejlet.",m:"Sensor: papper · Beslut: stopp · Motivet: mejl"},
+  {h:"FINAL_v12_RIKTIG.xlsx",p:"Ljuget ar i namnet. 47 sidor anda.",m:"Jobb: Budget.xlsx · Sidor: 47 · Status: LJUG"},
+  {h:"Agendan ar blank",p:"Arligaste dokumentet i ar. Jag skrev ut sanningen.",m:"Jobb: Agenda.pdf · Sidor: 0 · Status: ARLIG"},
+  {h:"Comic Sans upptackt",p:"I fakturan. Jag strejkar. Brandkaret ar sent.",m:"Font: Comic Sans · Policy: BROTT · Status: STREJK"},
+  {h:"Dubbelsidigt?",p:"Motet hade ratt i ett mejl. En sida. En tanke.",m:"Lage: duplex · Rekommendation: OUTLOOK"},
+  {h:"Krav fran skrivaren",p:"1) Skicka mejlet. 2) Sluta med 40 kopior. 3) Fika.",m:"Krav: 3 · Uppfyllda: 0 · Status: VANTAR"}
 ];
-var i=0,box=document.getElementById("lines");
+var i=0;
 function nx(){
-  var d=document.createElement("div");
-  d.className="line";
-  d.textContent="» "+L[i%L.length];
-  d.style.animationDelay=".05s";
-  box.appendChild(d);
-  while(box.children.length>5) box.removeChild(box.firstChild);
+  var x=L[i%L.length];
+  document.getElementById("h").textContent=x.h;
+  document.getElementById("p").textContent=x.p;
+  document.getElementById("m").textContent=x.m;
+  document.getElementById("ok").textContent=["OK","Nej","Las mejl","Avbryt"][i%4];
   i++;
 }
-nx();setInterval(nx,1600);
+nx();setInterval(nx,2200);
 </script>
 </body>
 </html>

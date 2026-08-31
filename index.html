@@ -16,13 +16,18 @@
     @keyframes scrollLeft{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
     .ovl{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:none;}
     .ovl iframe{width:100%;height:100%;border:none;}
-    #memeOverlay{z-index:9997;justify-content:center;align-items:center;background:#000;overflow:hidden;}
-    #memeOverlay .meme-bleed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.15) saturate(1.1);}
-    #memeOverlay .meme-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.12) 38%,rgba(0,0,0,.12) 62%,rgba(0,0,0,.62) 100%);}
-    #memeOverlay .meme-cap{position:absolute;left:3%;right:3%;font-family:Impact,'Arial Black',sans-serif;font-size:clamp(2.6rem,8.2vw,7.2rem);line-height:.92;text-transform:uppercase;text-align:center;color:#fff;letter-spacing:2px;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:0 6px 0 #000,0 0 18px #000;z-index:2;font-weight:900;}
-    #memeOverlay .meme-cap.top{top:3%;}
-    #memeOverlay .meme-cap.bot{bottom:4%;}
-    #memeOverlay .meme-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:4vw;font-family:Impact,'Arial Black',sans-serif;font-size:clamp(3.2rem,11vw,9rem);line-height:.9;text-transform:uppercase;text-align:center;letter-spacing:3px;font-weight:900;white-space:pre-line;}
+    #memeOverlay{z-index:9997;justify-content:center;align-items:center;background:#050505;overflow:hidden;}
+    #memeOverlay .meme-bleed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.12) saturate(1.05);}
+    #memeOverlay .meme-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.58) 0%,rgba(0,0,0,.08) 36%,rgba(0,0,0,.08) 58%,rgba(0,0,0,.68) 100%);}
+    #memeOverlay .meme-shade.solo{background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.15) 55%,rgba(0,0,0,.72) 100%);}
+    #memeOverlay .meme-cap{position:absolute;left:5%;right:5%;font-family:Impact,'Arial Black',sans-serif;font-size:clamp(1.7rem,5.2vw,3.6rem);line-height:1.05;text-transform:uppercase;text-align:center;color:#fff;letter-spacing:1.5px;-webkit-text-stroke:2.5px #000;paint-order:stroke fill;text-shadow:0 3px 0 #000,0 0 12px #000;z-index:2;font-weight:900;}
+    #memeOverlay .meme-cap.top{top:4%;}
+    #memeOverlay .meme-cap.bot{bottom:5%;}
+    #memeOverlay .meme-cap.solo{bottom:7%;left:8%;right:8%;font-size:clamp(1.55rem,4.6vw,3.1rem);}
+    #memeOverlay .meme-title{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#050505;padding:6vw;gap:0;}
+    #memeOverlay .meme-title .line{font-family:Impact,'Arial Black',sans-serif;font-size:clamp(2.1rem,6.4vw,4.6rem);line-height:1.08;text-transform:uppercase;text-align:center;letter-spacing:2px;color:#f5f5f5;font-weight:900;white-space:pre-line;max-width:90%;}
+    #memeOverlay .meme-title .rule{width:42px;height:2px;background:#00ff88;margin:1.6vh 0 1.2vh;opacity:.9;}
+    #memeOverlay .meme-title .kicker{font-family:'Share Tech Mono',monospace;font-size:clamp(.78rem,2.1vw,1.15rem);letter-spacing:3.5px;text-transform:uppercase;color:#7a7a7a;text-align:center;max-width:80%;line-height:1.35;}
 
     #tinderOverlay{z-index:9996;}
     #nyheterOverlay{z-index:9995;}
@@ -49,7 +54,9 @@
     #tickerWrap .t{display:inline-block;padding-left:100%;animation:tick 42s linear infinite;}
     @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
     #dvd{position:fixed;z-index:8008;pointer-events:none;display:none;font-weight:900;font-size:1.6rem;letter-spacing:3px;text-shadow:0 0 12px currentColor;white-space:nowrap;}
-    #flashGag{position:fixed;inset:0;z-index:9980;display:none;align-items:center;justify-content:center;background:#ff0;color:#000;font-size:6.4rem;font-weight:900;text-align:center;letter-spacing:4px;padding:36px;font-family:Impact,'Arial Black',sans-serif;line-height:.95;text-transform:uppercase;}
+    #flashGag{position:fixed;inset:0;z-index:9980;display:none;flex-direction:column;align-items:center;justify-content:center;background:#050505;color:#f5f5f5;font-size:clamp(2.1rem,6.4vw,4.6rem);font-weight:900;text-align:center;letter-spacing:2px;padding:36px;font-family:Impact,'Arial Black',sans-serif;line-height:1.08;text-transform:uppercase;gap:0;}
+    #flashGag .fg-rule{width:42px;height:2px;background:#00ff88;margin:1.4vh 0 1.1vh;}
+    #flashGag .fg-kicker{font-family:'Share Tech Mono',monospace;font-size:clamp(.75rem,2vw,1.1rem);letter-spacing:3.5px;text-transform:uppercase;color:#7a7a7a;font-weight:400;max-width:80%;line-height:1.35;}
     body.bigGag #hud,body.bigGag #tickerWrap,body.bigGag #jokeFloater,body.bigGag #toasts,body.bigGag .sticky,body.bigGag #dvd,body.bigGag #scanlines{opacity:0!important;visibility:hidden!important;pointer-events:none!important;}
     .sticky{display:none!important;}
     .sticky{position:fixed;z-index:8002;pointer-events:none;width:180px;padding:14px 12px 22px;font-family:'Comic Sans MS',cursive;font-size:.95rem;color:#222;box-shadow:4px 4px 0 rgba(0,0,0,.4);transform:rotate(-4deg);opacity:0;transition:opacity .6s;}
@@ -392,33 +399,34 @@ var toasts=[
   ["Kalendern","Ny policy: moten som kunde varit mejl far blinka rott."]
 ];
 
-function flashGag(txt,bg,fg,ms){
+function flashGag(line,kicker,ms){
   if(seqBusy||anyOvlOn())return;
   setChrome(true);
   var el=document.getElementById("flashGag");
-  el.textContent=txt;el.style.background=bg||"#ff0";el.style.color=fg||"#000";
+  el.style.background="#050505";el.style.color="#f5f5f5";
+  el.innerHTML='<div class="fg-line">'+line+'</div><div class="fg-rule"></div><div class="fg-kicker">'+(kicker||'')+'</div>';
   el.style.display="flex";
-  setTimeout(function(){el.style.display="none";if(!anyOvlOn())setChrome(false);},ms||700);
+  setTimeout(function(){el.style.display="none";el.innerHTML="";if(!anyOvlOn())setChrome(false);},ms||1100);
 }
 var gags=[
-  ["DETTA VAR ETT MEJL","#ff0","#000",900],
-  ["KORT AVSTAMNING","#000","#ff0",800],
-  ["47 INNE. 0 BESLUT.","#f00","#fff",800],
-  ["KALENDERN AT LUNCHEN","#001a00","#00ff88",800],
-  ["EN SLIDE. 40 KOPIOR.","#111","#0f0",800],
-  ["OPTIONAL, MEN KOM","#ff0","#000",800],
-  ["AGENDA: 404","#00f","#fff",800],
-  ["PC LOAD LETTER","#000","#00ff88",800],
-  ["MUTED. IGEN.","#1b1a19","#fff",700],
-  ["FIKA AR LAG","#ff0","#000",800]
+  {line:"DETTA VAR ETT MEJL",kicker:"Inboxen hade redan svaret",ms:1200},
+  {line:"KORT AVSTAMNING",kicker:"Ingen sluttid. Klassiker.",ms:1100},
+  {line:"47 INNE. 0 BESLUT.",kicker:"En sak enades: boka igen",ms:1100},
+  {line:"KALENDERN AT LUNCHEN",kicker:"Den var inte hungrig. Den var grym.",ms:1200},
+  {line:"EN SLIDE. 40 KOPIOR.",kicker:"Skrivaren tror ni inte laser mejl",ms:1100},
+  {line:"OPTIONAL, MEN KOM",kicker:"Som brandovning",ms:1100},
+  {line:"AGENDA: 404",kicker:"40 slides. 0 poang.",ms:1100},
+  {line:"PC LOAD LETTER",kicker:"Oversattning fran 1998: nej",ms:1100},
+  {line:"MUTED. IGEN.",kicker:"Rec ar pa. Det ar motet.",ms:1000},
+  {line:"FIKA AR LAG",kicker:"Motet ar atalsbart",ms:1100}
 ];
 setInterval(function(){
   if(seqBusy||anyOvlOn())return;
-  if(Math.random()<0.40){
+  if(Math.random()<0.32){
     var g=gags[Math.floor(Math.random()*gags.length)];
-    flashGag(g[0],g[1],g[2],g[3]);
+    flashGag(g.line,g.kicker,g.ms);
   }
-},32000);
+},36000);
 
 var dvd=document.getElementById("dvd"),dx=3,dy=2,dvx=3,dvy=2,dcols=["#00ff88","#ff0","#f0f","#0ff","#f80","#fff"];
 function bounceDvd(){
@@ -478,33 +486,39 @@ var memeCaps=[
   ["11:45","KALENDERN AT DEN"],
   ["VLOOKUP","HITTADE INGEN POANG"]
 ];
-var textMemes=[
-  {t:"DETTA VAR\nETT MEJL",bg:"#ff0",fg:"#000"},
-  {t:"KORT AVSTAMNING\n90 MIN",bg:"#000",fg:"#ffee00"},
-  {t:"47 INNE\n0 BESLUT",bg:"#cc0000",fg:"#fff"},
-  {t:"OPTIONAL\nMEN KOM",bg:"#ff0",fg:"#000"},
-  {t:"AGENDA 404",bg:"#0033ff",fg:"#fff"},
-  {t:"KALENDERN\nAT LUNCHEN",bg:"#001a00",fg:"#00ff88"},
-  {t:"EN SLIDE\n40 KOPIOR",bg:"#111",fg:"#00ff88"},
-  {t:"PC LOAD LETTER",bg:"#000",fg:"#00ff88"},
-  {t:"MUTED\nIGEN",bg:"#1b1a19",fg:"#fff"},
-  {t:"FIKA AR LAG",bg:"#ff0",fg:"#000"},
-  {t:"FINAL_v12.xlsx\nLJUG",bg:"#111",fg:"#00ff88"},
-  {t:"KAN NI HORA MIG",bg:"#000",fg:"#ffee00"},
-  {t:"INGA MOTEN\nBARA MEJL",bg:"#ff0",fg:"#000"},
-  {t:"SKRIVAREN SA NEJ",bg:"#cc0000",fg:"#fff"},
-  {t:"VADLOOKUP",bg:"#0033ff",fg:"#fff"},
-  {t:"11:45 = KRIS",bg:"#ff0000",fg:"#fff"},
-  {t:"HDMI FOREVER",bg:"#000",fg:"#00ffff"},
-  {t:"COMIC SANS NEJ",bg:"#fff",fg:"#ff00aa"},
-  {t:"40 SLIDES\n0 POANG",bg:"#000",fg:"#ffee00"},
-  {t:"SKARMEN (GAST)",bg:"#000",fg:"#00ff88"},
-  {t:"FREDAGSMOTEN\nOLAGLIGA",bg:"#3a2200",fg:"#ffd700"},
-  {t:"PIXLARNA STREJKAR",bg:"#000",fg:"#ff00ff"},
-  {t:"KAFFE != MOTE",bg:"#ff0",fg:"#000"},
-  {t:"PAPPERSSTOPP\n= LAS MEJLET",bg:"#cc0000",fg:"#fff"},
-  {t:"SYNERGI 2.0\nINGET NYTT",bg:"#000",fg:"#00ff88"},
-  {t:"LUNCH BOKAD\nOVER",bg:"#001a00",fg:"#00ff88"}
+var memeOneLiners=[
+  "DETTA VAR ETT MEJL",
+  "OPTIONAL, MEN KOM",
+  "AGENDA: 404",
+  "MUTED. IGEN.",
+  "PC LOAD LETTER = NEJ",
+  "EN SLIDE. 40 KOPIOR.",
+  "FIKA AR LAG",
+  "KALENDERN AT LUNCHEN",
+  "47 INNE. 0 BESLUT.",
+  "FINAL_v12 — LJUGET I NAMNET"
+];
+var titleCards=[
+  {line:"DETTA VAR ETT MEJL",kicker:"Anda 14 slides"},
+  {line:"KORT AVSTAMNING",kicker:"90 min. Ingen sluttid."},
+  {line:"47 INNE. 0 BESLUT.",kicker:"Enades om: boka igen"},
+  {line:"OPTIONAL, MEN KOM",kicker:"Som brandovning"},
+  {line:"AGENDA: 404",kicker:"40 slides. 0 poang."},
+  {line:"KALENDERN AT LUNCHEN",kicker:"Inte hungrig. Grym."},
+  {line:"EN SLIDE. 40 KOPIOR.",kicker:"Skrivaren tror ni inte laser mejl"},
+  {line:"PC LOAD LETTER",kicker:"Oversattning fran 1998: nej"},
+  {line:"MUTED. IGEN.",kicker:"Rec ar pa"},
+  {line:"FIKA AR LAG",kicker:"Motet ar atalsbart"},
+  {line:"FINAL_v12.xlsx",kicker:"Ljuget bor i filnamnet"},
+  {line:"KAN NI HORA MIG",kicker:"Alla ar muted. Det ar motet."},
+  {line:"SKRIVAREN SA NEJ",kicker:"Pappersstopp = las mejlet"},
+  {line:"VLOOKUP",kicker:"Hittade ingen poang"},
+  {line:"SKARMEN (GAST)",kicker:"Gick med. Var redan vard."},
+  {line:"FREDAGSMOTEN",kicker:"Olagliga. Oel-vagnen ar helig."},
+  {line:"KAFFE != MOTE",kicker:"Bryggprotokoll 4.20"},
+  {line:"SYNERGI 2.0",kicker:"Inget nytt. Faktura anda."},
+  {line:"LUNCH BOKAD OVER",kicker:"Kalendern vann. Igen."},
+  {line:"COMIC SANS",kicker:"Brottsplats. Brandkar sent."}
 ];
 function ovlIds(){return ["memeOverlay","tinderOverlay","nyheterOverlay","bsodOverlay","matrixOverlay","folksOverlay","terminatorOverlay","julfestOverlay","monologOverlay","sofieOverlay","kaffeOverlay","skrivareOverlay","teamsOverlay","lunchOverlay"]}
 function anyOvlOn(){
@@ -540,14 +554,19 @@ function showMeme(){
   if(seqBusy||anyOvlOn())return;
   setChrome(true);
   var el=document.getElementById("memeOverlay");
-  var html;
-  if(Math.random()<0.58){
-    var m=textMemes[Math.floor(Math.random()*textMemes.length)];
-    html='<div class="meme-text" style="background:'+m.bg+';color:'+m.fg+'">'+m.t+'</div>';
-  }else{
+  var html, r=Math.random();
+  if(r<0.68){
     var img=memes[Math.floor(Math.random()*memes.length)];
-    var c=memeCaps[Math.floor(Math.random()*memeCaps.length)];
-    html='<img class="meme-bleed" src="'+img+'" alt=""><div class="meme-shade"></div><div class="meme-cap top">'+c[0]+'</div><div class="meme-cap bot">'+c[1]+'</div>';
+    if(Math.random()<0.42){
+      var one=memeOneLiners[Math.floor(Math.random()*memeOneLiners.length)];
+      html='<img class="meme-bleed" src="'+img+'" alt="" onerror="this.onerror=null;this.style.display=\'none\';this.nextSibling.className=\'meme-shade\';"><div class="meme-shade solo"></div><div class="meme-cap solo">'+one+'</div>';
+    }else{
+      var c=memeCaps[Math.floor(Math.random()*memeCaps.length)];
+      html='<img class="meme-bleed" src="'+img+'" alt="" onerror="this.onerror=null;this.style.display=\'none\';"><div class="meme-shade"></div><div class="meme-cap top">'+c[0]+'</div><div class="meme-cap bot">'+c[1]+'</div>';
+    }
+  }else{
+    var m=titleCards[Math.floor(Math.random()*titleCards.length)];
+    html='<div class="meme-title"><div class="line">'+m.line+'</div><div class="rule"></div><div class="kicker">'+m.kicker+'</div></div>';
   }
   el.innerHTML=html;
   el.style.display="flex";
@@ -556,22 +575,22 @@ function showMeme(){
 setInterval(function(){
   if(seqBusy||anyOvlOn())return;
   var r=Math.random();
-  if(r<0.55) showMeme();
-  else if(r<0.62) showOverlay("kaffeOverlay","kaffe.html",14000);
-  else if(r<0.69) showOverlay("skrivareOverlay","skrivare.html",14000);
-  else if(r<0.75) showOverlay("sofieOverlay","sofie.html",14000);
-  else if(r<0.80) showOverlay("teamsOverlay","teams.html",14000);
-  else if(r<0.84) showOverlay("nyheterOverlay","nyheter.html",12000);
-  else if(r<0.88) showOverlay("bsodOverlay","bsod.html",12000);
-  else if(r<0.91) showOverlay("monologOverlay","monolog.html",14000);
-  else if(r<0.94) showOverlay("matrixOverlay","matrix.html",14000);
-  else if(r<0.96) showOverlay("julfestOverlay","julfest.html",14000);
+  if(r<0.38) showMeme();
+  else if(r<0.50) showOverlay("teamsOverlay","teams.html",14000);
+  else if(r<0.62) showOverlay("skrivareOverlay","skrivare.html",14000);
+  else if(r<0.72) showOverlay("kaffeOverlay","kaffe.html",14000);
+  else if(r<0.80) showOverlay("sofieOverlay","sofie.html",14000);
+  else if(r<0.85) showOverlay("nyheterOverlay","nyheter.html",12000);
+  else if(r<0.89) showOverlay("bsodOverlay","bsod.html",12000);
+  else if(r<0.92) showOverlay("monologOverlay","monolog.html",14000);
+  else if(r<0.95) showOverlay("matrixOverlay","matrix.html",14000);
+  else if(r<0.97) showOverlay("julfestOverlay","julfest.html",14000);
   else showOverlay("tinderOverlay","tinder.html",18000);
-},20000);
+},22000);
 setInterval(function(){
   if(seqBusy||anyOvlOn())return;
-  if(Math.random()<0.72) showMeme();
-},16000);
+  if(Math.random()<0.48) showMeme();
+},22000);
 setTimeout(function(){if(!seqBusy)showMeme();},5000);
 
 /* ===== GTA + VEGAS HIJACKS ===== */
@@ -708,7 +727,7 @@ function hideSideOvls(){
     var el=document.getElementById(id); if(!el)return;
     el.style.display="none"; el.innerHTML="";
   });
-  var fg=document.getElementById("flashGag"); if(fg) fg.style.display="none";
+  var fg=document.getElementById("flashGag"); if(fg){fg.style.display="none";fg.innerHTML="";}
 }
 function startGta(){
   if(seqBusy)return;
