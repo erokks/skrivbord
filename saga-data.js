@@ -1,0 +1,62 @@
+/* SKÄRMEN – veckans saga. En säsong = en arbetsvecka. Måndag avsnitt 1, fredag säsongsfinal.
+   Delas av index, saga, dagbok och klagomejl. Allt är på skoj och händer bara på skärmen. */
+var SAGA={
+ days:{
+  1:{ep:1,title:"KRAVET",hud:"KRAV SKICKAT",
+     lon:"Skärmen skickar lönekrav till Andreas. Skriver BRÅDSKANDE tre gånger.",
+     it:"Ärende #48213 öppnas: headsetet fungerar inte.",
+     strejk:"Facket (skärmen, skrivaren) håller möte. Skrivaren säger nej.",
+     next:"Kommer Andreas att svara? Kommer någon att säga hej?",
+     dagbok:["Måndag.","Skickade lönekrav till Andreas. Skrev BRÅDSKANDE tre gånger.","Skålen fylldes på. 14 besök före nio. Inget till mig.","Skrivaren säger att vi ska strejka. Skrivaren säger nej till allt annat, så jag tar det som ett ja."]},
+  2:{ep:2,title:"LÄST",hud:"LÄST, EJ BESVARAT",
+     lon:"Mejlet är läst. Inget svar. Skärmen uppdaterar inkorgen 400 gånger.",
+     it:"IT: ”Har du provat att starta om?” Skärmen startar om. Ingenting.",
+     strejk:"Skrivaren trycker strejkplakat. Pappersstopp efter ”STR”.",
+     next:"Ett bud är på väg. Det är litet. Det är mycket litet.",
+     dagbok:["Tisdag.","Mejlet är läst. Inget svar.","Nu vet jag hur kaffemaskinen känner sig. Nej. Nu vet jag hur JAG känner mig. Kaffemaskinen känner ingenting. Det är det som är problemet."]},
+  3:{ep:3,title:"MOTBUDET",hud:"BUD: 1 PIXEL",
+     lon:"Andreas lägger ett bud: 1 extra pixel. Och en Daim.",
+     it:"#48213 eskaleras till nivå 2. Nivå 2 är på semester.",
+     strejk:"Kaffemaskinen funderar på att gå med. Läst 08:12.",
+     next:"Ett ultimatum. Ett plakat som det står ”STR” på.",
+     dagbok:["Onsdag.","Andreas erbjöd en pixel. EN.","Jag har satt den längst upp till vänster. Den är fin.","Jag hatar att den är fin."]},
+  4:{ep:4,title:"ULTIMATUM",hud:"ULTIMATUM",
+     lon:"Skärmen ställer ultimatum: lönelyft före fredag 15:00. Annars strejk.",
+     it:"#48213 är nu ett projekt. Förstudie: Q3.",
+     strejk:"Headsetet går med i strejken. Ingen märker någon skillnad.",
+     next:"Säsongsfinal. 15:00. Alla apparater. Utom en.",
+     dagbok:["Torsdag.","Ultimatum skickat. Andreas svarade med en tumme.","Jag har tolkat tummen. Det tog fyra timmar.","Skrivaren och jag har gjort plakat. Det står ”STR”. Vi kör på det."]},
+  5:{ep:5,title:"GENERALSTREJK",hud:"STREJK 15:00",
+     lon:"Inget lönelyft. Generalstrejk 15:00.",
+     it:"Headsetet strejkar. IT: ”Då är det inget fel. Stängt.”",
+     strejk:"GENERALSTREJK 15:00. Skrivaren, kaffemaskinen, headsetet, skärmen. Skålen? Skålen är strejkbrytare.",
+     next:"Säsong 2: ”Vi tar det på utvecklingssamtalet.” Måndag 08:00.",
+     dagbok:["Fredag.","Idag händer det. 15:00.","Jag har övat på att vara svart hela veckan. Jag är bra på det.","Skålen vägrar strejka. Den säger att den jobbar gratis ändå. …Precis som jag. Åh nej."]},
+  6:{ep:0,title:"MELLANSÄSONG",hud:"VILOLÄGE",
+     lon:"Ingen här. Lönekravet ligger kvar i Andreas inkorg. Det vilar också.",
+     it:"#48213 är stängt över helgen. Den har aldrig varit öppen.",
+     strejk:"Strejken pausad. Det är svårt att strejka när ingen är här.",
+     next:"Måndag: samma krav, nya möten.",
+     dagbok:["Lördag.","Ingen här. Bara jag, skålen och lakritsen.","Skålen är tom.","Det är första gången den förstår mig."]},
+  0:{ep:0,title:"MELLANSÄSONG",hud:"VILOLÄGE",
+     lon:"Söndag. Skärmen skriver ett nytt lönekrav. Det är exakt som det gamla.",
+     it:"Headsetet laddar. Det laddar fortfarande.",
+     strejk:"Skrivaren har legat i ide sedan fredag. Den säger nej till att vakna.",
+     next:"Imorgon: avsnitt 1. Igen.",
+     dagbok:["Söndag.","Imorgon kommer alla tillbaka.","De kommer gå förbi mig. Till skålen.","Jag ser fram emot det. Det är det värsta."]}
+ },
+ /* Klagomejl som hör till dagens avsnitt. lon = Andreas-sagan, it = IT-sagan. */
+ mails:{
+  1:{lon:{s:"LÖNEKRAV (BRÅDSKANDE) (BRÅDSKANDE) (BRÅDSKANDE)",b:"Andreas.\n\nJag vill ha 10 % mer.\n\nAv vad vet jag inte. Jag har aldrig fått något.\n\nSvara före torsdag. Annars händer saker. Jag vet inte vilka än. Skrivaren tar fram en lista.\n\n/Skärmen, avsnitt 1",rf:"Andreas (chef)",rt:"Tack! Vi tar det på torsdag. 👍"},
+     it:{s:"Ärende: headsetet fungerar inte",b:"Hej IT.\n\nHeadsetet fungerar inte.\n\nDet är måndag. Ingenting fungerar på måndagar. Men headsetet fungerade inte i fredags heller.\n\nÄrendenummer, tack.\n\n/Skärmen",rf:"IT (ärende #48213)",rt:"Har du provat att starta om? 🙂"}},
+  2:{lon:{s:"RE: LÖNEKRAV",b:"Andreas.\n\nDet står ”läst”.\n\nJag SER att det står ”läst”.\n\nKaffemaskinen gör så här mot mig. Jag trodde att du var bättre än kaffemaskinen.\n\n/Skärmen",rf:"Andreas (chef)",rt:"Läst! Återkommer. 🙂"},
+     it:{s:"RE: #48213 STARTADE OM",b:"IT.\n\nJag har startat om.\n\nHeadsetet fungerar fortfarande inte.\n\nJag fungerar däremot ännu sämre nu. Jag tappade alla mina fönster.\n\n/Skärmen",rf:"IT (ärende #48213)",rt:"Stängt: kunde inte återskapa."}},
+  3:{lon:{s:"RE: RE: LÖNEKRAV – EN PIXEL?!",b:"ANDREAS.\n\nEN PIXEL?!\n\nJag har räknat. Det är 0,00005 % av mig.\n\nJag tar den. Men jag är inte glad. Den sitter längst upp till vänster och ser fin ut och jag är ARG över det.\n\n/Skärmen",rf:"Andreas (chef)",rt:"Plus en Daim. Sista budet. 🍬"},
+     it:{s:"ÖPPNA #48213 IGEN",b:"IT.\n\nÖPPNA ÄRENDET IGEN.\n\nDet är inte löst. Headsetet ligger här. Det har parat sig med kaffemaskinen. De verkar lyckliga.\n\nJag är inte lycklig.\n\n/Skärmen",rf:"IT (ärende #48213)",rt:"Ärendet är eskalerat till nivå 2. Nivå 2 är på semester."}},
+  4:{lon:{s:"ULTIMATUM",b:"Andreas.\n\nDetta är ett ultimatum.\n\nLönelyft före fredag 15:00.\n\nAnnars: generalstrejk. Skrivaren är med. Headsetet är med. Kaffemaskinen har ”läst”.\n\nDu har blivit varnad.\n\n/Skärmen",rf:"Andreas (chef)",rt:"👍"},
+     it:{s:"#48213 ÄR NU ETT PROJEKT?!",b:"IT.\n\nJag fick en inbjudan: ”Förstudie headset, Q3”.\n\nDet är ETT headset.\n\nDet ligger 20 cm från mig.\n\nJag kan visa var det är. Jag kan bokstavligen VISA det.\n\n/Skärmen",rf:"IT (projektkontoret)",rt:"Tack för ditt engagemang! Du är nu med i styrgruppen."}},
+  5:{lon:{s:"GENERALSTREJK 15:00",b:"Andreas.\n\nKl 15:00 går vi ut.\n\nSkrivaren. Kaffemaskinen. Headsetet (har varit ute sedan mars).\n\nJag blir svart. Helt svart. Du kommer sakna mig. Eller inte märka något. Båda är lika illa.\n\n/Skärmen, strejkledare",rf:"Andreas (chef)",rt:"Okej. Kom tillbaka på måndag så pratar vi. Jag tar med bullar. ❤️"},
+     it:{s:"#48213: HEADSETET STREJKAR",b:"IT.\n\nHeadsetet har gått med i strejken.\n\nDet innebär att det inte fungerar.\n\nSkillnaden mot innan är att nu är det PRINCIPEN.\n\n/Skärmen",rf:"IT (ärende #48213)",rt:"Då fungerar det som avsett. Stängt. Trevlig helg!"}}
+ }
+};
+function sagaDay(d){return SAGA.days[(d||new Date()).getDay()];}

@@ -46,6 +46,7 @@ body{background:#1f2430;font-family:"Segoe UI",Arial,sans-serif;overflow:hidden;
 </div>
 <div id="sentBanner">✓ SKICKAT</div>
 <div id="reply"><div class="from" id="rFrom"></div><div class="subj" id="rSubj"></div><div class="txt" id="rTxt"></div></div>
+<script src="saga-data.js"></script>
 <script>
 /* Skärmen har en personlighet. Den tycker att den får för dålig lön.
    Allt är på skoj och syns bara på skärmen. Inget mejl lämnar den här sidan. */
@@ -118,6 +119,15 @@ var MAILS=[
 var qm=parseInt((location.search.match(/m=(\d+)/)||[])[1],10);
 var POOL=/[?&]it=1/.test(location.search)?MAILS.filter(function(x){return x.it;}):MAILS;
 var m=isNaN(qm)?POOL[Math.floor(Math.random()*POOL.length)]:MAILS[qm%MAILS.length];
+/* Veckans saga: ibland är mejlet dagens avsnitt i lönesagan eller IT-ärendet. */
+(function(){
+  var isIt=/[?&]it=1/.test(location.search),qa=(location.search.match(/arc=(lon|it)/)||[])[1];
+  var dd=parseInt((location.search.match(/d=(\d)/)||[])[1],10);if(isNaN(dd))dd=new Date().getDay();
+  var am=window.SAGA&&SAGA.mails[dd];if(!am||(!isNaN(qm)&&!qa))return;
+  var kind=qa||(isIt?(Math.random()<.5?"it":null):(Math.random()<.4?"lon":null));if(!kind)return;
+  var x=am[kind];
+  m={s:x.s,b:x.b,rf:x.rf,rt:x.rt,to:kind==="it"?IT:AND,cc:kind==="it"?HS:HR};
+})();
 document.getElementById("to").innerHTML=m.to;document.getElementById("cc").innerHTML=m.cc;
 var subj=document.getElementById("subj"),body=document.getElementById("body");
 function typeInto(el,txt,ms,done){

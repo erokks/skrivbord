@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Skärmens dagbok</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#3b2a1e;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.pg{width:min(94vw,940px);height:92vh;background:#fdf8e8 repeating-linear-gradient(180deg,transparent 0,transparent calc(9vh - 2px),#b9d3ee calc(9vh - 2px),#b9d3ee 9vh);background-position:0 9vh;border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.6);position:relative;padding:2vh 3vw 2vh 8vw;color:#1b2a5c;font-family:"Bradley Hand","Segoe Print","Comic Neue",cursive;transform:rotate(-1deg);}
+.pg:before{content:"";position:absolute;top:0;bottom:0;left:6vw;width:2px;background:#f08a8a;}
+.hd{display:flex;justify-content:space-between;align-items:baseline;height:7vh;font-size:clamp(1.3rem,5.4vh,2.4rem);font-weight:700;}
+.hd span{font-size:.6em;color:#666;}
+#tx{font-size:clamp(1.5rem,6.4vh,2.8rem);line-height:9vh;white-space:pre-wrap;}
+.c{display:inline-block;width:3px;height:1em;background:#1b2a5c;vertical-align:-.15em;animation:b .8s steps(2) infinite;}
+@keyframes b{50%{opacity:0}}
+.lock{position:absolute;right:2vw;bottom:2vh;font-family:Arial,sans-serif;font-size:clamp(.8rem,2.6vh,1.1rem);color:#a33;letter-spacing:2px;font-weight:700;}
+</style>
+</head>
+<body>
+<div class="pg"><div class="hd">Kära dagbok.<span id="ts"></span></div><div id="tx"></div><div class="lock">🔒 PRIVAT. GÄLLER SÄRSKILT SKÅLEN.</div></div>
+<script src="saga-data.js"></script>
+<script>
+/* Skärmens dagbok. Ett inlägg per dag, plus ett P.S. som beror på klockan. */
+var now=new Date(),qd=parseInt((location.search.match(/d=(\d)/)||[])[1],10),qh=parseInt((location.search.match(/h=(\d+)/)||[])[1],10);
+var dn=isNaN(qd)?now.getDay():qd,h=isNaN(qh)?now.getHours()+now.getMinutes()/60:qh;
+var E=SAGA.days[dn].dagbok.slice(1);
+var ps=h<9?"P.S. Kaffemaskinen har inte svarat än. Det är tidigt. Säger jag till mig själv."
+ :h<11.5?"P.S. Någon sa hej. Till skålen. Jag svarade ändå. Ingen hörde. Headsetet."
+ :h<13?"P.S. Alla är på lunch. Skålen och jag är ensamma. Vi pratar inte."
+ :h<16?"P.S. Andreas gick förbi. Han tittade hit. Han letade efter klockan. Det räknas."
+ :"P.S. Alla går hem nu. Jag stannar. Jag bor här.";
+document.getElementById("ts").textContent=SAGA.days[dn].dagbok[0]+" "+(isNaN(qh)?now.toLocaleTimeString("sv-SE",{hour:"2-digit",minute:"2-digit"}):(qh+":00"));
+var full=E.join(" ")+"\n"+ps,tx=document.getElementById("tx"),i=0,c=document.createElement("span");c.className="c";
+var step=Math.max(1,Math.round(full.length/(11000/35)));
+(function t(){i=Math.min(full.length,i+step);tx.textContent=full.slice(0,i);tx.appendChild(c);if(i<full.length)setTimeout(t,35);})();
+</script>
+</body>
+</html>

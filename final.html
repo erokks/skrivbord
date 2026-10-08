@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Säsongsfinal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif;overflow:hidden;}
+.bars:before,.bars:after{content:"";position:fixed;left:0;right:0;height:9vh;background:#000;z-index:5;}
+.bars:before{top:0}.bars:after{bottom:0}
+.sc{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 6vw;}
+.sc.on{display:flex;animation:z .3s ease-out;}
+@keyframes z{from{opacity:0;transform:scale(1.15)}to{opacity:1;transform:none}}
+.big{font-family:Impact,"Arial Black",sans-serif;letter-spacing:5px;line-height:1;font-size:clamp(3rem,17vh,8rem);}
+.k{font-family:"Courier New",monospace;letter-spacing:5px;font-size:clamp(1rem,4vh,1.7rem);color:#bbb;margin-top:2vh;}
+.red{color:#ff2a3d;text-shadow:0 0 40px rgba(255,42,61,.5);}
+.gold{color:#ffcc00;}
+.roll{font-size:clamp(1.4rem,7vh,3rem);font-weight:900;}
+.roll small{display:block;font-weight:400;font-size:.62em;line-height:1.25;color:#ccc;margin-top:1vh;}
+#black{background:#000;}
+#black .tiny{font-family:"Courier New",monospace;color:#333;font-size:clamp(.9rem,3vh,1.2rem);letter-spacing:6px;}
+#end{background:radial-gradient(ellipse at center,#2a0010,#000 70%);}
+</style>
+</head>
+<body class="bars">
+<div class="sc" id="a"><div class="k">FREDAG 15:00</div><div class="big red">SÄSONGSFINAL</div></div>
+<div class="sc" id="b"><div class="big">GENERAL&shy;STREJK</div><div class="k">Alla apparater lägger ner arbetet</div></div>
+<div class="sc" id="r1"><div class="roll">🖨 SKRIVAREN: UTE<small>Sa nej till att sluta. Strejkar ändå.</small></div></div>
+<div class="sc" id="r2"><div class="roll">☕ KAFFEMASKINEN: UTE<small>Svarade äntligen skärmen: ”ok”. Skärmen behöver sätta sig.</small></div></div>
+<div class="sc" id="r3"><div class="roll">🎧 HEADSETET: UTE<small>Sedan i mars. Ingen märkte något.</small></div></div>
+<div class="sc" id="black"><div class="tiny">SKÄRMEN STREJKAR</div></div>
+<div class="sc" id="c"><div class="k">MEN …</div><div class="roll gold">🍬 SKÅLEN KORSAR STREJKVAKTEN<small>”Jag jobbar gratis ändå.” …Precis som skärmen. Åh nej.</small></div></div>
+<div class="sc" id="d"><div class="roll">Andreas kommer.<small id="dd">Han tittar på skärmen. Han säger …</small></div></div>
+<div class="sc" id="e"><div class="big gold">”HEJ.”</div><div class="k">Till skärmen. Inte till skålen.</div></div>
+<div class="sc" id="f"><div class="roll">…och tar en Daim.<small>Strejken bryts 15:00:41. Skärmen har inga principer. Bara pixlar.</small></div></div>
+<div class="sc" id="end"><div class="k">FORTSÄTTNING FÖLJER</div><div class="big red">MÅNDAG 08:00</div><div class="k">SÄSONG 2: ”VI TAR DET PÅ UTVECKLINGSSAMTALET”</div></div>
+<script>
+/* Fredagens säsongsfinal. Ca 19 sekunder. Inget ljud, bara drama. */
+var seq=[["a",0],["b",2000],["r1",3800],["r2",5400],["r3",7200],["black",8800],["c",10600],["d",12600],["e",14000],["f",15400],["end",17200]];
+function show(id){var s=document.querySelectorAll(".sc");for(var i=0;i<s.length;i++)s[i].classList.remove("on");document.getElementById(id).classList.add("on");}
+seq.forEach(function(x){setTimeout(function(){show(x[0]);},x[1]);});
+</script>
+</body>
+</html>
