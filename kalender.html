@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mötestetris</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#0b0f19;color:#e8ecf4;font-family:"Segoe UI",Arial,sans-serif;overflow:hidden;display:flex;flex-direction:column;}
+.top{display:flex;align-items:center;justify-content:space-between;padding:1vh 1.6vw;background:#141b2d;border-bottom:2px solid #2b3550;gap:2vw;}
+.logo{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(1.5rem,6vh,2.8rem);letter-spacing:4px;color:#fff;text-shadow:3px 3px 0 #4f6bed;}
+.stats{display:flex;gap:2.4vw;font-family:Consolas,"Courier New",monospace;font-weight:700;font-size:clamp(.85rem,3vh,1.35rem);letter-spacing:1px;}
+.stats b{color:#7fd1ff}
+.stats .zero{color:#ff6b6b}
+.next{font-size:clamp(.7rem,2.3vh,1rem);color:#9aa6c4;letter-spacing:2px;text-transform:uppercase;text-align:right;max-width:30vw;}
+.next b{display:block;color:#fff;letter-spacing:1px;font-size:1.15em;}
+.cal{flex:1;display:grid;grid-template-columns:clamp(34px,6vw,64px) 1fr;grid-template-rows:auto 1fr;min-height:0;}
+.days{grid-column:2;display:grid;grid-template-columns:repeat(5,1fr);}
+.days div{text-align:center;padding:.6vh 0;font-weight:800;letter-spacing:3px;font-size:clamp(.8rem,2.8vh,1.2rem);color:#9aa6c4;border-left:1px solid #222b40;}
+.hours{grid-row:2;display:grid;grid-template-rows:repeat(9,1fr);}
+.hours div{font-family:Consolas,monospace;font-size:clamp(.7rem,2.3vh,1rem);color:#6c7896;text-align:right;padding:.2vh .6vw 0 0;border-top:1px solid #222b40;}
+#board{grid-row:2;grid-column:2;position:relative;overflow:hidden;
+  background-image:linear-gradient(#222b40 1px,transparent 1px),linear-gradient(90deg,#222b40 1px,transparent 1px);
+  background-size:20% calc(100%/9);}
+.lunch{position:absolute;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:3vw;color:#2f3b58;font-weight:900;letter-spacing:6px;font-size:clamp(.8rem,3vh,1.4rem);border:2px dashed #2a3654;}
+.c{position:absolute;padding:.5vh .5vw;border-radius:4px;border-left:5px solid rgba(0,0,0,.35);color:#fff;font-weight:800;text-transform:uppercase;
+  font-size:clamp(.62rem,2.2vh,.95rem);line-height:1.12;letter-spacing:.3px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);}
+.c.clear{animation:clr .45s steps(2) 3;}
+@keyframes clr{50%{background:#fff;color:#000}}
+.c.stuck{outline:3px solid #ff6b6b;outline-offset:-3px;}
+#pop{position:fixed;left:50%;top:46%;transform:translate(-50%,-50%) scale(.6);opacity:0;pointer-events:none;text-align:center;
+  font-family:Impact,"Arial Black",sans-serif;font-size:clamp(2.2rem,11vh,5.2rem);letter-spacing:3px;color:#fff;text-transform:uppercase;line-height:1;
+  -webkit-text-stroke:2px #000;paint-order:stroke fill;text-shadow:0 4px 0 #000;}
+#pop small{display:block;font-family:Consolas,monospace;-webkit-text-stroke:0;font-size:clamp(.85rem,3vh,1.3rem);letter-spacing:2px;color:#ffe066;margin-top:1vh;text-shadow:0 2px 0 #000;}
+#pop.go{animation:pop 1.6s cubic-bezier(.2,1.3,.3,1) forwards;}
+@keyframes pop{0%{opacity:0;transform:translate(-50%,-50%) scale(.5) rotate(-6deg)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.05) rotate(-2deg)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1) rotate(-2deg)}}
+#over{position:fixed;inset:0;background:#050505;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6vw;}
+#over .l{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(2.6rem,13vh,6rem);letter-spacing:4px;line-height:1.05;color:#f5f5f5;}
+#over .r{width:42px;height:2px;background:#00ff88;margin:2vh 0 1.6vh;}
+#over .k{font-family:Consolas,monospace;font-size:clamp(.9rem,3.2vh,1.4rem);letter-spacing:3px;text-transform:uppercase;color:#8a8a8a;max-width:80%;line-height:1.4;}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="logo">MÖTESTETRIS</div>
+  <div class="stats"><span>VECKA <b id="wk">41</b></span><span>MÖTEN <b id="cnt">0</b></span><span>BESLUT <b class="zero">0</b></span></div>
+  <div class="next">Nästa<b id="nxt">…</b></div>
+</div>
+<div class="cal">
+  <div class="days"><div>MÅN</div><div>TIS</div><div>ONS</div><div>TOR</div><div>FRE</div></div>
+  <div class="hours"><div>08</div><div>09</div><div>10</div><div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div></div>
+  <div id="board"></div>
+</div>
+<div id="pop"></div>
+<div id="over"><div class="l" id="ovL">GAME OVER</div><div class="r"></div><div class="k" id="ovK"></div></div>
+<script>
+/* Mötestetris: veckan fylls av möten tills kalendern vinner. Spelar sig själv. */
+var COLS=5,ROWS=9,LUNCH_ROW=4,TICK=50;
+var PIECES=[
+  {n:"Kort avstämning (90 min)",s:[[0,0],[0,1]],c:"#4f6bed"},
+  {n:"Förmöte inför mötet",s:[[0,0]],c:"#8764b8"},
+  {n:"Synk om synken",s:[[0,0]],c:"#038387"},
+  {n:"Workshop: Synergi",s:[[0,0],[0,1],[0,2]],c:"#ca5010"},
+  {n:"Kick-off (3 dagar)",s:[[0,0],[1,0],[2,0]],c:"#c239b3"},
+  {n:"Strategidag",s:[[0,0],[0,1],[1,1]],c:"#498205"},
+  {n:"Offsite i rum B",s:[[0,0],[1,0],[0,1],[1,1]],c:"#986f0b"},
+  {n:"Lunch & learn (ingen lunch)",s:[[0,0],[1,0]],c:"#d13438"},
+  {n:"Eftermöte",s:[[0,0]],c:"#5c2e91"},
+  {n:"Status på statusen",s:[[0,0],[1,0]],c:"#0078d4"},
+  {n:"Möte om mötesfri fredag",s:[[0,0]],c:"#005b70"}
+];
+var CLEAR_LINES=[
+  ["AVBOKAT!","+1 MEJL. CIVILISATION."],
+  ["RAD KLAR!","HELA TIMMEN BLEV ETT MEJL"],
+  ["OMBOKAT","KALENDERN VÄGRAR AVBOKA MER"]
+];
+var OVERS=[
+  ["GAME OVER","Kalendern är full. Lunchen också."],
+  ["GAME OVER","Veckan tog slut. Mötena gjorde inte det."],
+  ["KALENDERN VANN","Insert coin = skicka ett mejl"]
+];
+var board,count,clears,cur,next,timer;
+var B=document.getElementById("board");
+function wk(){var d=new Date(),t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));var dn=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-dn);var y=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil(((t-y)/864e5+1)/7);}
+document.getElementById("wk").textContent=wk();
+function rnd(a){return a[Math.floor(Math.random()*a.length)]}
+function w(p){var m=0;p.s.forEach(function(q){m=Math.max(m,q[0])});return m+1}
+function h(p){var m=0;p.s.forEach(function(q){m=Math.max(m,q[1])});return m+1}
+function fits(p,x,y){
+  for(var i=0;i<p.s.length;i++){
+    var cx=x+p.s[i][0],cy=y+p.s[i][1];
+    if(cx<0||cx>=COLS||cy>=ROWS)return false;
+    if(cy>=0&&board[cy][cx])return false;
+  }
+  return true;
+}
+function landY(p,x){var y=-h(p);if(!fits(p,x,y))return null;while(fits(p,x,y+1))y++;return y;}
+function chooseX(p){
+  /* Girig men panikslagen: ju fler möten, desto mer slumpmässigt. */
+  var opts=[];
+  for(var x=0;x<=COLS-w(p);x++){var y=landY(p,x);if(y!==null)opts.push({x:x,y:y});}
+  if(!opts.length)return null;
+  var panic=Math.min(.75,count*0.05);
+  if(Math.random()<panic)return rnd(opts).x;
+  opts.sort(function(a,b){return b.y-a.y||Math.random()-.5});
+  return opts[0].x;
+}
+function render(){
+  var html='<div class="lunch" style="top:'+(LUNCH_ROW/ROWS*100)+'%;height:'+(100/ROWS)+'%"><span>LUNCH</span><span>LUNCH</span><span>LUNCH</span></div>';
+  function cell(x,y,c,label,cls){
+    return '<div class="c'+(cls?' '+cls:'')+'" style="left:calc('+(x*20)+'% + 3px);top:calc('+(y/ROWS*100)+'% + 3px);width:calc(20% - 6px);height:calc('+(100/ROWS)+'% - 6px);background:'+c+'">'+(label||'')+'</div>';
+  }
+  for(var y=0;y<ROWS;y++)for(var x=0;x<COLS;x++){var b=board[y][x];if(b)html+=cell(x,y,b.c,b.l,b.cls);}
+  if(cur)cur.p.s.forEach(function(q,i){var cy=cur.y+q[1];if(cy>=0)html+=cell(cur.x+q[0],cy,cur.p.c,i===0?cur.p.n:'');});
+  B.innerHTML=html;
+}
+function pop(a,b){var el=document.getElementById("pop");el.innerHTML=a+'<small>'+b+'</small>';el.classList.remove("go");void el.offsetWidth;el.classList.add("go");}
+function spawn(){
+  cur={p:next,x:Math.min(2,COLS-w(next)),y:-h(next)-3,tx:null};
+  next=rnd(PIECES);
+  document.getElementById("nxt").textContent=next.n;
+  cur.tx=chooseX(cur.p);
+  if(cur.tx===null){cur=null;gameOver();return false;}
+  return true;
+}
+function lock(){
+  cur.p.s.forEach(function(q,i){var cy=cur.y+q[1];if(cy>=0)board[cy][cur.x+q[0]]={c:cur.p.c,l:i===0?cur.p.n:''};});
+  var spill=cur.p.s.some(function(q){return cur.y+q[1]<0});
+  count++;document.getElementById("cnt").textContent=count;
+  cur=null;
+  if(spill){render();gameOver();return;}
+  var full=[];
+  for(var y=0;y<ROWS;y++)if(board[y].every(function(b){return b}))full.push(y);
+  if(full.length){
+    var line=CLEAR_LINES[Math.min(clears,CLEAR_LINES.length-1)];
+    pop(line[0],line[1]);
+    full.forEach(function(y){board[y].forEach(function(b){b.cls=clears<2?"clear":"stuck";})});
+    render();
+    if(clears<2){
+      clears++;
+      clearInterval(timer);
+      setTimeout(function(){
+        full.forEach(function(y){board.splice(y,1);board.unshift([null,null,null,null,null]);});
+        if(spawn()){render();timer=setInterval(step,TICK);}
+      },1400);
+      return;
+    }
+    clears++;
+  }
+  spawn();
+}
+function step(){
+  if(!cur)return;
+  if(cur.x!==cur.tx&&cur.y<0){cur.x+=cur.x<cur.tx?1:-1;}
+  else if(fits(cur.p,cur.x,cur.y+1))cur.y++;
+  else{lock();}
+  render();
+}
+function gameOver(){
+  clearInterval(timer);
+  var o=rnd(OVERS);
+  setTimeout(function(){
+    document.getElementById("ovL").textContent=o[0];
+    document.getElementById("ovK").textContent=o[1]+" · "+count+" möten · 0 beslut";
+    document.getElementById("over").style.display="flex";
+    setTimeout(start,4500);
+  },700);
+}
+function start(){
+  board=[];for(var y=0;y<ROWS;y++)board.push([null,null,null,null,null]);
+  count=0;clears=0;cur=null;next=rnd(PIECES);
+  document.getElementById("cnt").textContent=0;
+  document.getElementById("over").style.display="none";
+  spawn();render();
+  clearInterval(timer);timer=setInterval(step,TICK);
+}
+start();
+</script>
+</body>
+</html>

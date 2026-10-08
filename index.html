@@ -41,9 +41,12 @@
     #kaffeOverlay{z-index:9987;}
     #skrivareOverlay{z-index:9986;}
     #teamsOverlay{z-index:9985;}
+    #bossOverlay{z-index:9984;}
+    #kalenderOverlay{z-index:9983;}
     #scanlines{position:fixed;inset:0;pointer-events:none;z-index:8005;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0px,rgba(0,0,0,.18) 1px,transparent 1px,transparent 3px);mix-blend-mode:multiply;}
     #hud{position:fixed;top:6px;left:10px;z-index:8010;color:#00ff88;font-size:.62rem;letter-spacing:2px;text-shadow:0 0 8px #00ff88;opacity:.55;pointer-events:auto;cursor:pointer;}
     #hudMood{color:#ffcc00;}
+    #hudKaos{color:#ff5577;letter-spacing:1px;}
     #jokeFloater{position:fixed;pointer-events:none;z-index:8000;color:#111;font-family:Georgia,'Comic Sans MS',cursive;font-size:1.35rem;opacity:0;transition:opacity .5s;max-width:520px;line-height:1.35;padding:14px 18px 18px;background:#fff8b0;border:3px solid #111;border-radius:4px;box-shadow:6px 6px 0 #00ff88,0 0 0 4px #000;transform:rotate(-2deg);display:none;}
     #jokeFloater:after{content:"";position:absolute;bottom:-16px;left:40px;border:10px solid transparent;border-top-color:#111;}
     #toasts{position:fixed;right:16px;bottom:52px;z-index:8020;display:none;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;}
@@ -56,6 +59,8 @@
     #dvd{position:fixed;z-index:8008;pointer-events:none;display:none;font-weight:900;font-size:1.6rem;letter-spacing:3px;text-shadow:0 0 12px currentColor;white-space:nowrap;}
     #flashGag{position:fixed;inset:0;z-index:9980;display:none;flex-direction:column;align-items:center;justify-content:center;background:#050505;color:#f5f5f5;font-size:clamp(2.1rem,6.4vw,4.6rem);font-weight:900;text-align:center;letter-spacing:2px;padding:36px;font-family:Impact,'Arial Black',sans-serif;line-height:1.08;text-transform:uppercase;gap:0;}
     #flashGag .fg-rule{width:42px;height:2px;background:#00ff88;margin:1.4vh 0 1.1vh;}
+    #flashGag.punch .fg-line{animation:fgPunch .22s cubic-bezier(.2,1.4,.4,1);}
+    @keyframes fgPunch{0%{transform:scale(1.6);opacity:0}100%{transform:scale(1);opacity:1}}
     #flashGag .fg-kicker{font-family:'Share Tech Mono',monospace;font-size:clamp(.75rem,2vw,1.1rem);letter-spacing:3.5px;text-transform:uppercase;color:#7a7a7a;font-weight:400;max-width:80%;line-height:1.35;}
     body.bigGag #hud,body.bigGag #tickerWrap,body.bigGag #jokeFloater,body.bigGag #toasts,body.bigGag .sticky,body.bigGag #dvd,body.bigGag #scanlines{opacity:0!important;visibility:hidden!important;pointer-events:none!important;}
     .sticky{display:none!important;}
@@ -155,6 +160,35 @@
     .vegas-coin{position:absolute;top:-40px;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff6a0,#e0b000 45%,#8a6a00);
       box-shadow:0 0 8px #fc0;animation:coinFall 1.4s linear forwards;}
     @keyframes coinFall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(540deg);opacity:.85}}
+
+    /* ===== SVARA ALLA-STORM ===== */
+    #inboxOverlay{position:fixed;inset:0;z-index:10050;display:none;overflow:hidden;background:#0b1220;font-family:'Segoe UI',Arial,sans-serif;}
+    #inboxOverlay.on{display:block;}
+    #inboxOverlay.shake{animation:gtaShake .12s linear 3;}
+    #ibTop{position:absolute;top:0;left:0;right:0;height:64px;background:#0f6cbd;display:flex;align-items:center;justify-content:space-between;padding:0 26px;z-index:3;box-shadow:0 4px 18px rgba(0,0,0,.5);}
+    #ibTop .ttl{color:#fff;font-size:1.5rem;font-weight:700;letter-spacing:1px;}
+    #ibCount{font-family:Impact,'Arial Black',sans-serif;font-size:2.6rem;color:#fff;background:#c4314b;border-radius:30px;padding:0 22px;line-height:52px;min-width:90px;text-align:center;box-shadow:0 0 0 3px #fff;}
+    #ibRain{position:absolute;inset:0;pointer-events:none;z-index:1;}
+    .ib-env{position:absolute;top:-80px;line-height:1;animation:ibFall linear forwards;filter:drop-shadow(0 4px 0 rgba(0,0,0,.4));}
+    @keyframes ibFall{0%{transform:translateY(0) rotate(-20deg)}100%{transform:translateY(calc(100vh + 120px)) rotate(25deg)}}
+    #ibStack{position:absolute;top:84px;left:50%;transform:translateX(-50%);width:min(88vw,720px);display:flex;flex-direction:column;gap:10px;z-index:2;}
+    .ib-card{background:#fff;color:#111;border-left:8px solid #0f6cbd;border-radius:6px;padding:10px 16px;box-shadow:0 10px 30px rgba(0,0,0,.55);animation:ibIn .28s cubic-bezier(.2,1.3,.4,1);}
+    .ib-card.ra{border-left-color:#c4314b;}
+    .ib-card .from{font-size:.95rem;font-weight:700;color:#0f6cbd;letter-spacing:.5px;}
+    .ib-card.ra .from{color:#c4314b;}
+    .ib-card .subj{font-size:1.15rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .ib-card .body{font-size:1.55rem;font-weight:800;line-height:1.15;margin-top:2px;}
+    @keyframes ibIn{from{opacity:0;transform:translateY(-30px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+    #ibSting{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;background:rgba(0,0,0,.35);}
+    #ibSting.show{animation:stingIn .4s cubic-bezier(.2,1.3,.3,1) forwards;}
+    #ibSting .big{font-family:Impact,'Arial Black',sans-serif;font-size:clamp(3.4rem,11vw,7.5rem);letter-spacing:6px;color:#ff3355;line-height:1;text-align:center;
+      text-shadow:5px 5px 0 #000,-3px -3px 0 #000,0 0 40px #000;}
+    #ibSting .sub{font-family:Impact,'Arial Black',sans-serif;font-size:clamp(1.3rem,3.6vw,2.2rem);letter-spacing:6px;color:#fff;margin-top:10px;text-shadow:3px 3px 0 #000;text-align:center;}
+    #ibZero{position:absolute;inset:0;z-index:6;display:none;flex-direction:column;align-items:center;justify-content:center;background:#050505;padding:6vw;}
+    #ibZero.show{display:flex;}
+    #ibZero .line{font-family:Impact,'Arial Black',sans-serif;font-size:clamp(2.6rem,9vw,6rem);letter-spacing:4px;color:#f5f5f5;text-align:center;line-height:1.05;}
+    #ibZero .rule{width:42px;height:2px;background:#00ff88;margin:1.8vh 0 1.4vh;}
+    #ibZero .kicker{font-family:'Share Tech Mono',monospace;font-size:clamp(.85rem,2.3vw,1.25rem);letter-spacing:3.5px;text-transform:uppercase;color:#8a8a8a;text-align:center;max-width:80%;line-height:1.35;}
   </style>
 </head>
 <body>
@@ -176,10 +210,12 @@
   <div id="kaffeOverlay" class="ovl"></div>
   <div id="skrivareOverlay" class="ovl"></div>
   <div id="teamsOverlay" class="ovl"></div>
+  <div id="bossOverlay" class="ovl"></div>
+  <div id="kalenderOverlay" class="ovl"></div>
   <div id="jokeFloater"></div>
   <div id="toasts"></div>
   <div id="scanlines"></div>
-  <div id="hud">SKARMEN v4.20 &nbsp;|&nbsp; MOOD: <span id="hudMood">KAOS</span> &nbsp;|&nbsp; PIXLAR: ALLA &nbsp;|&nbsp; <span id="hudClock"></span></div>
+  <div id="hud">SKARMEN v4.20 &nbsp;|&nbsp; MOOD: <span id="hudMood">KAOS</span> &nbsp;|&nbsp; PIXLAR: ALLA &nbsp;|&nbsp; KAOS: <span id="hudKaos">▰▱▱▱▱</span> &nbsp;|&nbsp; <span id="hudClock"></span></div>
   <div id="tickerWrap"><div class="t" id="ticker"></div></div>
   <div id="dvd">ERIK</div>
   <div id="flashGag"></div>
@@ -207,6 +243,13 @@
     </div>
     <div id="vegasResult"><div class="jack" id="vegasJack">JACKPOT</div><div class="prize" id="vegasPrize"></div></div>
     <div id="vegasCoins"></div>
+  </div>
+  <div id="inboxOverlay">
+    <div id="ibTop"><span class="ttl">📥 Inkorgen</span><span id="ibCount">0</span></div>
+    <div id="ibRain"></div>
+    <div id="ibStack"></div>
+    <div id="ibSting"><div class="big">SVARA ALLA-<br>STORM</div><div class="sub">INKORGEN HAR KAPITULERAT</div></div>
+    <div id="ibZero"><div class="line">INBOX ZERO</div><div class="rule"></div><div class="kicker">Allt markerat som läst. Inget lästes.</div></div>
   </div>
   <div id="smashWhite"></div>
   <iframe id="mainFrame" src=""></iframe>
@@ -362,15 +405,28 @@ function popJoke(){
 setInterval(popJoke,11000);
 setTimeout(popJoke,2500);
 
-var moods=["KAOS","FIKA","MEJL?","OEL?","MUTED","STANDBY","90 MIN","COMIC SANS","VLOOKUP","404"];
+var moods=["KAOS","FIKA","MEJL?","OEL?","MUTED","STANDBY","90 MIN","COMIC SANS","VLOOKUP","404","SVARA ALLA","+1","OFFLINE","TONER SLUT"];
 function tickHud(){
   var n=new Date();
   document.getElementById("hudClock").textContent=n.toLocaleTimeString("sv-SE");
   if(Math.random()<0.15) document.getElementById("hudMood").textContent=moods[Math.floor(Math.random()*moods.length)];
+  var k=kaosLevel(),bar="";for(var i=1;i<=5;i++)bar+=i<=k?"▰":"▱";
+  document.getElementById("hudKaos").textContent=bar;
 }
+/* KAOSNIVÅ 1-5: stiger under dagen. Måndag lite lugnare, torsdag värre, varje hijack ger +1 i tio minuter. */
+var kaosBoostUntil=0;
+function kaosLevel(){
+  var n=new Date(),h=n.getHours()+n.getMinutes()/60,d=n.getDay();
+  var l=h<9?1:h<10.5?2:h<12?3:h<14.5?4:5;
+  if(d===1&&l>1)l--;
+  if(d===4)l++;
+  if(Date.now()<kaosBoostUntil)l++;
+  return Math.max(1,Math.min(5,l));
+}
+function kaosBump(){kaosBoostUntil=Date.now()+600000;}
 setInterval(tickHud,1000);tickHud();
 
-var tickerBits=["DETTA KUNDE VARIT ETT MEJL","KORT AVSTAMNING: 90 MIN","47 INBJUDNA 0 BESLUT","OPTIONAL MEN KOM","KALENDERN AT LUNCHEN","EN SLIDE FYRTIO KOPIOR","PC LOAD LETTER = NEJ","AGENDA: 404","TEAMS: MUTED IGEN","FINAL_v12_RIKTIG.xlsx","FIKA AR LAG","SKRIVAREN HAR LAST ER BUDGET","COMIC SANS INCIDENT","HDMI: THE MUSICAL","FREDAGSMOTEN: OLAGLIGA"];
+var tickerBits=["DETTA KUNDE VARIT ETT MEJL","KORT AVSTAMNING: 90 MIN","47 INBJUDNA 0 BESLUT","OPTIONAL MEN KOM","KALENDERN AT LUNCHEN","EN SLIDE FYRTIO KOPIOR","PC LOAD LETTER = NEJ","AGENDA: 404","TEAMS: MUTED IGEN","FINAL_v12_RIKTIG.xlsx","FIKA AR LAG","SKRIVAREN HAR LAST ER BUDGET","COMIC SANS INCIDENT","HDMI: THE MUSICAL","FREDAGSMOTEN: OLAGLIGA","SVARA ALLA: +1","FÖRMÖTE INFÖR MÖTET INFÖR EFTERMÖTET","VI TAR DET OFFLINE (FÖR ALLTID)","TONER SLUT SEDAN 2019","MÖTESFRI FREDAG: BOKAD","LÅT OSS CIRKLA TILLBAKA. CIRKELN HAR INGEN UTGÅNG"];
 (function(){
   var s="";
   for(var i=0;i<4;i++) for(var j=0;j<tickerBits.length;j++) s+=" ★ "+tickerBits[j];
@@ -418,11 +474,40 @@ var gags=[
   {line:"AGENDA: 404",kicker:"40 slides. 0 poang.",ms:1100},
   {line:"PC LOAD LETTER",kicker:"Oversattning fran 1998: nej",ms:1100},
   {line:"MUTED. IGEN.",kicker:"Rec ar pa. Det ar motet.",ms:1000},
-  {line:"FIKA AR LAG",kicker:"Motet ar atalsbart",ms:1100}
+  {line:"FIKA AR LAG",kicker:"Motet ar atalsbart",ms:1100},
+  {line:"SVARA ALLA",kicker:"312 personer vet nu att du sa +1",ms:1300},
+  {line:"VI TAR DET OFFLINE",kicker:"Det kom aldrig online igen",ms:1200},
+  {line:"TONER SLUT",kicker:"Den var aldrig full",ms:1100},
+  {line:"MÖTESFRI FREDAG",kicker:"Bokad av ett möte om mötesfri fredag",ms:1400},
+  {line:"JAG SER EN TUMME",kicker:"Det var hela beslutet",ms:1200}
 ];
+/* Kedjor: snabba title cards i rad när kaosnivån är hög. */
+var gagChains=[
+  [["BOKA.","Kalendern"],["OMBOKA.","Kalendern"],["AVBOKA.","Kalendern"],["BOKA IGEN.","Kalendern har ingen botten"]],
+  [["SVARA.","Inkorgen"],["SVARA ALLA.","Inkorgen"],["ÅTERKALLA.","Misslyckades"]],
+  [["SKRIV UT.","Skrivaren"],["PAPPERSSTOPP.","Skrivaren"],["STÄNG AV OCH PÅ.","Skrivaren"],["PAPPERSSTOPP.","Skrivaren vann"]],
+  [["KAN NI HÖRA MIG?","Teams"],["KAN NI SE MIN SKÄRM?","Teams"],["DU ÄR MUTED.","Teams"],["VI TAR DET OFFLINE.","Det kom aldrig tillbaka"]],
+  [["FÖRMÖTE.","09:00"],["MÖTE.","10:00"],["EFTERMÖTE.","11:00"],["MÖTE OM MÖTET.","Lunch: inställd"]]
+];
+function flashChain(chain){
+  if(seqBusy||anyOvlOn())return;
+  setChrome(true);
+  var el=document.getElementById("flashGag"),step=850;
+  el.style.background="#050505";el.style.color="#f5f5f5";el.style.display="flex";
+  chain.forEach(function(c,i){
+    setTimeout(function(){
+      if(seqBusy)return;
+      el.className="";void el.offsetWidth;el.className="punch";
+      el.innerHTML='<div class="fg-line">'+c[0]+'</div><div class="fg-rule"></div><div class="fg-kicker">'+c[1]+'</div>';
+    },i*step);
+  });
+  setTimeout(function(){el.className="";if(seqBusy)return;el.style.display="none";el.innerHTML="";if(!anyOvlOn())setChrome(false);},chain.length*step+500);
+}
 setInterval(function(){
   if(seqBusy||anyOvlOn())return;
-  if(Math.random()<0.32){
+  var lvl=kaosLevel();
+  if(lvl>=4&&Math.random()<0.14*(lvl-3)){flashChain(gagChains[Math.floor(Math.random()*gagChains.length)]);return;}
+  if(Math.random()<0.2+0.07*lvl){
     var g=gags[Math.floor(Math.random()*gags.length)];
     flashGag(g.line,g.kicker,g.ms);
   }
@@ -484,7 +569,11 @@ var memeCaps=[
   ["ALBATROS FLYGER","MOTET GOR INTE"],
   ["SKRIVAREN VANN","AGENDA FORLORAD"],
   ["11:45","KALENDERN AT DEN"],
-  ["VLOOKUP","HITTADE INGEN POANG"]
+  ["VLOOKUP","HITTADE INGEN POANG"],
+  ["SVARA ALLA","+1"],
+  ["FÖRMÖTE","INFÖR MÖTET"],
+  ["VI TAR DET OFFLINE","FÖR ALLTID"],
+  ["DELA SKÄRM","FEL FÖNSTER"]
 ];
 var memeOneLiners=[
   "DETTA VAR ETT MEJL",
@@ -518,9 +607,15 @@ var titleCards=[
   {line:"KAFFE != MOTE",kicker:"Bryggprotokoll 4.20"},
   {line:"SYNERGI 2.0",kicker:"Inget nytt. Faktura anda."},
   {line:"LUNCH BOKAD OVER",kicker:"Kalendern vann. Igen."},
-  {line:"COMIC SANS",kicker:"Brottsplats. Brandkar sent."}
+  {line:"COMIC SANS",kicker:"Brottsplats. Brandkar sent."},
+  {line:"SVARA ALLA",kicker:"312 mottagare. 0 behövde veta."},
+  {line:"FÖRMÖTE INFÖR MÖTET",kicker:"Följs av eftermöte och uppföljning"},
+  {line:"VI TAR DET OFFLINE",kicker:"Det kom aldrig online igen"},
+  {line:"DU DELAR FEL FÖNSTER",kicker:"Alla såg kundvagnen"},
+  {line:"LÅT OSS CIRKLA TILLBAKA",kicker:"Cirkeln har ingen utgång"},
+  {line:"AUTOSVAR: SEMESTER",kicker:"Sedan 2019"}
 ];
-function ovlIds(){return ["memeOverlay","tinderOverlay","nyheterOverlay","bsodOverlay","matrixOverlay","folksOverlay","terminatorOverlay","julfestOverlay","monologOverlay","sofieOverlay","kaffeOverlay","skrivareOverlay","teamsOverlay","lunchOverlay"]}
+function ovlIds(){return ["memeOverlay","tinderOverlay","nyheterOverlay","bsodOverlay","matrixOverlay","folksOverlay","terminatorOverlay","julfestOverlay","monologOverlay","sofieOverlay","kaffeOverlay","skrivareOverlay","teamsOverlay","bossOverlay","kalenderOverlay","lunchOverlay"]}
 function anyOvlOn(){
   if(seqBusy)return true;
   var ids=ovlIds();
@@ -575,16 +670,18 @@ function showMeme(){
 setInterval(function(){
   if(seqBusy||anyOvlOn())return;
   var r=Math.random();
-  if(r<0.38) showMeme();
-  else if(r<0.50) showOverlay("teamsOverlay","teams.html",14000);
-  else if(r<0.62) showOverlay("skrivareOverlay","skrivare.html",14000);
-  else if(r<0.72) showOverlay("kaffeOverlay","kaffe.html",14000);
-  else if(r<0.80) showOverlay("sofieOverlay","sofie.html",14000);
-  else if(r<0.85) showOverlay("nyheterOverlay","nyheter.html",12000);
-  else if(r<0.89) showOverlay("bsodOverlay","bsod.html",12000);
-  else if(r<0.92) showOverlay("monologOverlay","monolog.html",14000);
-  else if(r<0.95) showOverlay("matrixOverlay","matrix.html",14000);
-  else if(r<0.97) showOverlay("julfestOverlay","julfest.html",14000);
+  if(r<0.33) showMeme();
+  else if(r<0.43) showOverlay("bossOverlay","boss.html",23000);
+  else if(r<0.52) showOverlay("kalenderOverlay","kalender.html",22000);
+  else if(r<0.61) showOverlay("teamsOverlay","teams.html",14000);
+  else if(r<0.70) showOverlay("skrivareOverlay","skrivare.html",14000);
+  else if(r<0.78) showOverlay("kaffeOverlay","kaffe.html",14000);
+  else if(r<0.84) showOverlay("sofieOverlay","sofie.html",14000);
+  else if(r<0.88) showOverlay("nyheterOverlay","nyheter.html",12000);
+  else if(r<0.91) showOverlay("bsodOverlay","bsod.html",12000);
+  else if(r<0.94) showOverlay("monologOverlay","monolog.html",14000);
+  else if(r<0.96) showOverlay("matrixOverlay","matrix.html",14000);
+  else if(r<0.98) showOverlay("julfestOverlay","julfest.html",14000);
   else showOverlay("tinderOverlay","tinder.html",18000);
 },22000);
 setInterval(function(){
@@ -626,6 +723,13 @@ function smashCut(hideEl){
     document.getElementById("vegasResult").className="";
     document.getElementById("vegasCoins").innerHTML="";
     document.getElementById("vegasLights").innerHTML="";
+    var io=document.getElementById("inboxOverlay");
+    io.className="";io.style.display="none";
+    document.getElementById("ibRain").innerHTML="";
+    document.getElementById("ibStack").innerHTML="";
+    document.getElementById("ibSting").className="";
+    document.getElementById("ibZero").className="";
+    document.getElementById("ibCount").textContent="0";
     w.style.display="none";
     seqBusy=false;
     if(!anyOvlOn()) setChrome(false);
@@ -731,6 +835,7 @@ function hideSideOvls(){
 }
 function startGta(){
   if(seqBusy)return;
+  kaosBump();
   seqBusy=true;seqClear();getAC();hideSideOvls();setChrome(true);
   var ov=document.getElementById("gtaOverlay");
   var holes=document.getElementById("gtaHoles");
@@ -873,6 +978,7 @@ function rainCoins(n){
 }
 function startVegas(){
   if(seqBusy)return;
+  kaosBump();
   seqBusy=true;seqClear();getAC();hideSideOvls();setChrome(true);
   var ov=document.getElementById("vegasOverlay");
   document.getElementById("vegasResult").className="";
@@ -908,19 +1014,106 @@ function startVegas(){
   seqLater(function(){if(seqBusy)smashCut(ov)}, 20000);
 }
 
+/* ===== SVARA ALLA-STORM ===== */
+var IB_MAILS=[
+  ["Kalendern","Kort avstämning (90 min)","Optional, men kom",0],
+  ["Svara alla","RE: Kort avstämning","+1",1],
+  ["Svara alla","RE: RE: Kort avstämning","+1 från mig också",1],
+  ["Svara alla","RE: RE: RE: Kort avstämning","Ta bort mig från listan",1],
+  ["Svara alla","RE: RE: RE: RE: Kort avstämning","Ta bort MIG från listan",1],
+  ["Autosvar","Frånvarande: RE: RE: RE: RE: Kort avstämning","Jag är på semester. Sedan 2019.",0],
+  ["Svara alla","SV: RE: RE: RE: RE: Kort avstämning","SLUTA SVARA ALLA",1],
+  ["Svara alla","RE: SLUTA SVARA ALLA","Håller med! (svarade alla)",1],
+  ["Outlook","Återkallning misslyckades","\"+1\" kunde inte återkallas",0],
+  ["Skrivaren","FW: SLUTA SVARA ALLA","Skriver ut tråden. 312 sidor.",0],
+  ["IT-avdelningen","VIKTIGT: Sluta svara alla","Skickat till: Alla",0],
+  ["Svara alla","RE: VIKTIGT: Sluta svara alla","+1",1]
+];
+function mailDing(){
+  var ac=getAC();if(!ac)return;
+  [880,1320].forEach(function(f,i){
+    var o=ac.createOscillator(),g=ac.createGain();
+    o.type="sine";o.frequency.value=f;o.connect(g);g.connect(ac.destination);
+    var t=ac.currentTime+i*.07;
+    g.gain.setValueAtTime(.06,t);g.gain.exponentialRampToValueAtTime(.001,t+.18);
+    o.start(t);o.stop(t+.2);
+  });
+}
+function zeroChime(){
+  var ac=getAC();if(!ac)return;
+  [392,523,659,784].forEach(function(f,i){
+    var o=ac.createOscillator(),g=ac.createGain();
+    o.type="triangle";o.frequency.value=f;o.connect(g);g.connect(ac.destination);
+    var t=ac.currentTime+i*.09;
+    g.gain.setValueAtTime(.07,t);g.gain.exponentialRampToValueAtTime(.001,t+.6);
+    o.start(t);o.stop(t+.62);
+  });
+}
+function startInbox(){
+  if(seqBusy)return;
+  kaosBump();
+  seqBusy=true;seqClear();getAC();hideSideOvls();setChrome(true);
+  var ov=document.getElementById("inboxOverlay"),rain=document.getElementById("ibRain"),
+      stack=document.getElementById("ibStack"),cnt=document.getElementById("ibCount");
+  rain.innerHTML="";stack.innerHTML="";cnt.textContent="0";
+  document.getElementById("ibSting").className="";document.getElementById("ibZero").className="";
+  ov.className="on";ov.style.display="block";
+  var t0=performance.now(),storm=true;
+  (function drop(){
+    if(!seqBusy||!storm)return;
+    var el=(performance.now()-t0)/1000;
+    var e=document.createElement("div");e.className="ib-env";e.textContent=Math.random()<.85?"✉️":"📧";
+    e.style.left=(Math.random()*96)+"%";
+    e.style.fontSize=(1.6+Math.random()*2.6)+"rem";
+    e.style.animationDuration=(1.6+Math.random()*1.6)+"s";
+    e.addEventListener("animationend",function(){e.remove();});
+    rain.appendChild(e);
+    if(el<9.6)cnt.textContent=Math.min(9999,Math.floor(Math.exp(el*0.96)));
+    else cnt.textContent="9 999+";
+    seqLater(drop,Math.max(35,260-el*26));
+  })();
+  var tm=700;
+  IB_MAILS.forEach(function(m,i){
+    seqLater(function(){
+      var c=document.createElement("div");c.className="ib-card"+(m[3]?" ra":"");
+      c.innerHTML='<div class="from">'+m[0]+'</div><div class="subj">'+m[1]+'</div><div class="body">'+m[2]+'</div>';
+      stack.insertBefore(c,stack.firstChild);
+      while(stack.children.length>4)stack.removeChild(stack.lastChild);
+      mailDing();
+    },tm);
+    tm+=Math.max(380,900-i*60);
+  });
+  seqLater(function(){
+    document.getElementById("ibSting").className="show";
+    ov.classList.remove("shake");void ov.offsetWidth;ov.classList.add("shake");
+    stingHit();
+  },9800);
+  seqLater(function(){
+    storm=false;rain.innerHTML="";stack.innerHTML="";cnt.textContent="0";
+    document.getElementById("ibSting").className="";
+    document.getElementById("ibZero").className="show";
+    zeroChime();
+  },12800);
+  seqLater(function(){smashCut(ov)},16500);
+  seqLater(function(){if(seqBusy)smashCut(ov)},20000);
+}
+
+document.getElementById("hudMood").addEventListener("click",function(e){e.stopPropagation();startInbox();});
 document.getElementById("hud").addEventListener("click",function(e){e.stopPropagation();startGta();});
 document.getElementById("tickerWrap").addEventListener("click",function(e){e.stopPropagation();startVegas();});
 document.addEventListener("keydown",function(e){
   var k=(e.key||"").toLowerCase();
   if(k==="g")startGta();
   if(k==="v")startVegas();
+  if(k==="i"||k==="m")startInbox();
 });
 
-var gtaFiredDay=-1,vegasFiredDay=-1;
+var gtaFiredDay=-1,vegasFiredDay=-1,inboxFiredDay=-1;
 function checkHijacks(){
   var now=new Date(),day=now.getDay(),time=now.getHours()*60+now.getMinutes(),da=now.getDate();
   if(day>=1&&day<=5&&time>=617&&time<619&&gtaFiredDay!==da){gtaFiredDay=da;startGta();}
   if(day>=1&&day<=5&&time>=854&&time<856&&vegasFiredDay!==da){vegasFiredDay=da;startVegas();}
+  if(day>=1&&day<=5&&time>=930&&time<932&&inboxFiredDay!==da){inboxFiredDay=da;startInbox();}
 }
 setInterval(checkHijacks,10000);checkHijacks();
 </script>
