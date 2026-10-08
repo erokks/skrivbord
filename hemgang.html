@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Hemgång</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{overflow:hidden;background:linear-gradient(180deg,#1b1035 0%,#5b2a5e 45%,#e0745a 80%,#f6b26b 100%);color:#fff;font-family:"Segoe UI",Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5vw;}
+.kick{letter-spacing:6px;font-size:clamp(.9rem,3vh,1.3rem);opacity:.75;margin-bottom:2vh;}
+#t{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(3rem,16vh,8rem);letter-spacing:4px;line-height:1;text-shadow:0 6px 0 rgba(0,0,0,.25);}
+#l{margin-top:3vh;font-size:clamp(1.3rem,5vh,2.4rem);font-weight:700;max-width:90%;line-height:1.25;min-height:2.6em;animation:up .5s ease-out;}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.floor{position:fixed;left:0;right:0;bottom:0;height:16vh;background:rgba(0,0,0,.25);}
+.door{position:fixed;right:5vw;bottom:7vh;font-size:min(16vh,7rem);}
+.walker{position:fixed;left:-10vw;bottom:8vh;font-size:min(12vh,5.5rem);animation:walk 14s linear infinite;}
+@keyframes walk{0%{left:-10vw}85%{left:84vw;opacity:1}90%{left:86vw;opacity:0}100%{left:86vw;opacity:0}}
+</style>
+</head>
+<body>
+<div class="kick">KL 16:00 · HEMGÅNG</div>
+<div id="t">STÄNG LOCKET.</div>
+<div id="l"></div>
+<div class="floor"></div>
+<div class="door">🚪</div>
+<div class="walker">🚶</div>
+<script>
+/* 16:00-skylten. Kort. Spring. */
+var T=["STÄNG LOCKET.","GÅ. NU.","HEJ DÅ.","SPRING."];
+var L=[
+  "Ingen har sagt 'en sista grej' än. Spring.",
+  "Säg hej då till ingen. Gå som en ninja.",
+  "Teams: sätt status 'borta'. Det har den redan.",
+  "Lunchlådan i kylen: ta med den. Den har börjat prata.",
+  "Stäng laptopen. Inte bara skärmen. Hela locket.",
+  "Imorgon: samma inkorg. Större.",
+  "Om någon frågar: du gick 15:30. Du var aldrig här.",
+  "Mötet 16:30 ser dig inte om du inte ser det."
+];
+L.sort(function(){return Math.random()-.5});
+var i=0;
+function nx(){var l=document.getElementById("l");l.textContent=L[i%L.length];l.style.animation="none";void l.offsetWidth;l.style.animation="";document.getElementById("t").textContent=T[i%T.length];i++;}
+nx();setInterval(nx,3800);
+</script>
+</body>
+</html>

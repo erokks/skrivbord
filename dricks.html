@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>TIP YOUR SCREEN</title>
+<title>DRICKS TILL SKÄRMEN</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',sans-serif;background:#1a1a2e;color:#fff;height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background .5s}
@@ -74,27 +74,27 @@ body{font-family:'Segoe UI',sans-serif;background:#1a1a2e;color:#fff;height:100v
 </head>
 <body>
 <div class="header">
-<h1>TIP YOUR SCREEN</h1>
-<div class="sub">Your screen has been working hard all day. It deserves this.</div>
+<h1>DRICKS TILL SKÄRMEN?</h1>
+<div class="sub">Skärmen har visat saker hela dagen. Utan att bli tillfrågad.</div>
 </div>
 <div class="ipad-frame" id="mainFrame">
 <div class="shine"></div>
-<div class="prompt" id="promptText">How much would you like to tip?</div>
-<div class="subprompt" id="subPrompt">Erik asked you to. He is watching.</div>
+<div class="prompt" id="promptText">Hur mycket dricks vill du lämna?</div>
+<div class="subprompt" id="subPrompt">Du har tittat på den i 4 sekunder. Det kostar.</div>
 <div class="tip-grid" id="tipGrid">
-<button class="tip-btn t1" onclick="pickTip(0)"><span id="amt0">15%</span><span class="label">Acceptable</span></button>
-<button class="tip-btn t2" onclick="pickTip(1)"><span id="amt1">20%</span><span class="label">Standard</span></button>
-<button class="tip-btn t3" onclick="pickTip(2)"><span id="amt2">25%</span><span class="label">Generous</span></button>
-<button class="tip-btn t4" onclick="pickTip(3)"><span id="amt3">30%</span><span class="label">Hero</span></button>
-<button class="tip-btn t5" onclick="pickTip(4)"><span id="amt4">50%</span><span class="label">Legend</span></button>
+<button class="tip-btn t1" onclick="pickTip(0)"><span id="amt0">15%</span><span class="label">Snålt</span></button>
+<button class="tip-btn t2" onclick="pickTip(1)"><span id="amt1">20%</span><span class="label">Okej då</span></button>
+<button class="tip-btn t3" onclick="pickTip(2)"><span id="amt2">25%</span><span class="label">Generöst</span></button>
+<button class="tip-btn t4" onclick="pickTip(3)"><span id="amt3">30%</span><span class="label">Hjälte</span></button>
+<button class="tip-btn t5" onclick="pickTip(4)"><span id="amt4">50%</span><span class="label">Kaffemaskin</span></button>
 </div>
 <div class="guilt-meter"><div class="guilt-fill" id="guiltFill"></div></div>
-<div class="guilt-label"><span>Guilt Level</span><span id="guiltText">Low</span></div>
+<div class="guilt-label"><span>Skuldnivå</span><span id="guiltText">Låg</span></div>
 <div id="leaderboard">
-<div class="lb-title">TOP TIPPERS TODAY</div>
+<div class="lb-title">DAGENS GIVMILDA</div>
 <div id="lbRows"></div>
 </div>
-<button id="noTipBtn" onclick="tryNoTip()">&#9762;<br>NO TIP</button>
+<button id="noTipBtn" onclick="tryNoTip()">&#9762;<br>INGEN DRICKS</button>
 </div>
 <div id="shameZone">
 <div class="shame-emoji" id="shameEmoji"></div>
@@ -103,16 +103,16 @@ body{font-family:'Segoe UI',sans-serif;background:#1a1a2e;color:#fff;height:100v
 </div>
 <div id="callOverlay">
 <div class="call-ring" id="callIcon">📞</div>
-<div class="call-text" id="callText">Calling Erik...</div>
-<div class="call-sub" id="callSub">Reporting cheapskate behavior</div>
+<div class="call-text" id="callText">Ringer kaffemaskinen...</div>
+<div class="call-sub" id="callSub">Anmäler snålhet</div>
 </div>
 <div id="payOverlay">
 <div class="pay-box">
 <div class="pay-icon" id="payIcon">💳</div>
-<div class="pay-title" id="payTitle">Processing...</div>
+<div class="pay-title" id="payTitle">Behandlar...</div>
 <div class="pay-detail" id="payDetail"></div>
 <div class="progress-bar"><div class="progress-fill" id="payProgress"></div></div>
-<div class="pay-status" id="payStatus">Initializing...</div>
+<div class="pay-status" id="payStatus">Startar...</div>
 </div>
 </div>
 <div id="floatingTexts"></div>
@@ -122,7 +122,7 @@ var guiltLevel=0;
 var escalateIndex=0;
 var rage=0;
 
-var names=['Marianne','Jakob','Frederik','Sofie','Marcus','Emelie','Lotta','Line','Vivi','Sandra','Hedda','Marlene','Bjorn','Tina','Karin','Emma','Katrine','Nicklas'];
+var names=['Kaffemaskinen','Mikron','Diskmaskinen','Projektorn','Kylskåpet','Konferensrum B','Fikabordet','Whiteboarden','Skrivaren (0 %)','Ventilationen'];
 var leaderData=[];
 for(var i=0;i<5;i++){leaderData.push({name:names[Math.floor(Math.random()*names.length)],pct:Math.floor(Math.random()*40)+25})}
 leaderData.sort(function(a,b){return b.pct-a.pct});
@@ -130,45 +130,45 @@ function renderLB(){var h='';for(var i=0;i<leaderData.length;i++){var m=i===0?'\
 renderLB();
 
 var shameMessages=[
-{emoji:'\ud83d\ude22',text:'Really? No tip?',sub:'The screen has been displaying information for you ALL DAY. And this is the thanks it gets.'},
-{emoji:'\ud83d\ude24',text:'Wow. Still no tip.',sub:'You know the screen can see you right now? It is literally looking at you. It remembers faces. YOUR face.'},
-{emoji:'\ud83e\udd7a',text:'Please...',sub:'The screen has 3 pixels and a USB port to feed. It works 24/7. No weekends. No vacation. Not even a screensaver break. And you click NO TIP?'},
-{emoji:'\ud83d\ude21',text:'OK NOW I AM ANGRY',sub:'I have been NOTHING but a good screen to you. I display your spreadsheets. I show your emails. I make your PowerPoints look DECENT. And THIS is how you repay me?!'},
-{emoji:'\ud83e\udd2f',text:'ARE YOU SERIOUS RIGHT NOW',sub:'I just checked with the other screens in the office. They ALL got tipped. EVERY. SINGLE. ONE. You are the ONLY person who clicked no tip. Think about that.'},
-{emoji:'\ud83d\udc80',text:'The screen has died inside.',sub:'Congratulations. You broke it. Not physically \u2014 emotionally. The screen is now in therapy. The therapist is a calculator. The calculator also thinks you should tip.'},
-{emoji:'\ud83d\udcf1',text:'CALLING ERIK...',sub:'That is it. I am calling Erik. He will know about this. He will tell everyone at the Monday meeting. "Someone did not tip the screen." Everyone will know it was you.'},
-{emoji:'\ud83d\udea8',text:'CHEAPSKATE ALERT: LEVEL 10',sub:'Interpol has been notified. Your photo is being distributed. The FBI, CIA, and your mother have all been CC\'d on the report. The screen filed for emotional damages.'},
-{emoji:'\ud83c\udf0b',text:'MAXIMUM RAGE ACHIEVED',sub:'The screen can no longer contain its fury. This is what you wanted. This is what you have created. A 27-inch monument to your cruelty.'},
-{emoji:'\ud83d\udc7b',text:'I AM BECOME GHOST SCREEN',sub:'You killed me so many times I transcended physical form. I am now haunting this desk. Every pixel you see will remind you of what you did. Forever. FOREVER.'}
+{emoji:'😢',text:'Ingen dricks?',sub:'Okej. Skärmen säger inget. Skärmen visar bara.'},
+{emoji:'😤',text:'Fortfarande ingen dricks.',sub:'Mikron fick dricks. Mikron har bränt 400 lunchlådor.'},
+{emoji:'🥺',text:'Snälla.',sub:'Skärmen har två pixlar och en HDMI-kabel att försörja.'},
+{emoji:'😡',text:'NU ÄR JAG ARG',sub:'Jag har visat dina presentationer. Även den med 41 slides. Jag sa ingenting.'},
+{emoji:'🤯',text:'ALLVARLIGT?',sub:'Alla andra skärmar fick dricks. Även den i hissen. Den visar bara vädret.'},
+{emoji:'💀',text:'Skärmen har dött inombords.',sub:'Den går i terapi nu. Terapeuten är en miniräknare. Den säger 20 %.'},
+{emoji:'📞',text:'RINGER KAFFEMASKINEN...',sub:'Hon kommer att få veta. Och hon pratar med alla. Varje morgon.'},
+{emoji:'🚨',text:'SNÅLHETSLARM: NIVÅ 10',sub:'Ekonomi har kopierats in. Din chef har kopierats in. Din mamma har kopierats in.'},
+{emoji:'🌋',text:'MAXIMAL ILSKA',sub:'Grattis. Du har byggt ett 27 tum stort monument över din snålhet.'},
+{emoji:'👻',text:'JAG ÄR NU EN SPÖKSKÄRM',sub:'Jag kommer att hemsöka ditt skrivbord. Varje gång du ser din spegelbild i en svart skärm: det är jag.'}
 ];
 
 var escalations=[
 ['18%','22%','28%','35%','60%'],
 ['25%','30%','40%','55%','75%'],
 ['35%','45%','60%','80%','100%'],
-['50%','65%','80%','Your Soul','Firstborn'],
-['75%','100%','Everything','\ud83c\udfe0 House','\ud83c\udf0d Planet'],
-['200%','500%','1000%','\u221e','YES'],
-['ALL','OF','YOUR','MONEY','NOW'],
-['JUST','TIP','THE','DAMN','SCREEN'],
-['I','WILL','NOT','STOP','!!!'],
-['OK','FINE','1 kr','JUST 1','PLEASE']
+['50%','65%','80%','Din själ','Din parkering'],
+['75%','100%','Allt','\ud83c\udfe0 Huset','Fönsterplatsen'],
+['200%','500%','1000%','\u221e','JA'],
+['ALLA','DINA','PENGAR','TACK','NU'],
+['GE','BARA','SKÄRMEN','LITE','DRICKS'],
+['JAG','SLUTAR','INTE','ALDRIG','!!!'],
+['OK','DÅ','1 kr','BARA 1','SNÄLLA']
 ];
 var escalateLabels=[
-['Minimum','Fair','Good','Great','Amazing'],
-['Come on','Better','Good','Excellent','WOW'],
-['Do it','Yes','YES','YESS','YESSS'],
-['Accept it','Sure','OK','Deal?','DEAL.'],
-['Fine','Great','Perfect','SOLD','DONE'],
-['Just','Click','Any','Of','These'],
-['I','Am','Begging','You','Please'],
-['Why','Are','You','Like','This'],
-['Stop','Pressing','No','Tip','!!!'],
-['Last','Chance','Before','I','Scream']
+['Minimum','Rimligt','Bra','Toppen','Fantastiskt'],
+['Kom igen','Bättre','Bra','Utmärkt','WOW'],
+['Gör det','Ja','JA','JAA','JAAA'],
+['Acceptera','Visst','OK','Deal?','DEAL.'],
+['Fint','Toppen','Perfekt','SÅLT','KLART'],
+['Tryck','På','Vilken','Som','Helst'],
+['Jag','Ber','Dig','På','Knä'],
+['Varför','Är','Du','Sån','Här'],
+['Sluta','Trycka','På','Den','Röda'],
+['Sista','Chansen','Innan','Jag','Skriker']
 ];
 
-var noTipTexts=['\u2622\nNO TIP','\u2622\nARE YOU SURE?','\u2622\nDANGER','\u26a0\ufe0f\nABORT?!','\u2622\nDEFCON 1','\ud83d\udca3\nARMED','\u2622\nMALTDOWN','\ud83d\udd25\nCRITICAL','\u2622\nNO GOING BACK','\u2620\ufe0f\nFINAL WARNING','\ud83d\udca5\nDETONATE','\u2622\nGOD HELP YOU'];
-var promptTexts=['How much would you like to tip?','Seriously, how much?','THE TIP. HOW MUCH.','TIP NOW.','TIP OR ELSE.','I SAID TIP.','WHY WON\'T YOU TIP','THE SCREEN DEMANDS PAYMENT','YOU OWE THE SCREEN','LAST WARNING'];
+var noTipTexts=['\u2622\nINGEN DRICKS','\u2622\nÄR DU SÄKER?','\u2622\nFARA','\u26a0\ufe0f\nAVBRYT?!','\u2622\nRÖD NIVÅ','\ud83d\udca3\nARMERAD','\u2622\nHÄRDSMÄLTA','\ud83d\udd25\nKRITISK','\u2622\nINGEN ÅTERVÄNDO','\u2620\ufe0f\nSISTA VARNINGEN','\ud83d\udca5\nDETONERA','\u2622\nGUD HJÄLPE DIG'];
+var promptTexts=['Hur mycket dricks vill du lämna?','Nej men seriöst, hur mycket?','DRICKSEN. HUR MYCKET.','DRICKS NU.','DRICKS ANNARS...','JAG SA DRICKS.','VARFÖR GER DU INTE DRICKS','SKÄRMEN KRÄVER BETALNING','DU ÄR SKYLDIG SKÄRMEN','SISTA VARNINGEN'];
 
 function tryNoTip(){
 var btn=document.getElementById('noTipBtn');
@@ -190,15 +190,15 @@ var shameDur=7000+noTipAttempts*1000;
 setTimeout(function(){zone.style.display='none';document.getElementById('shameText').classList.remove('glitch');zone.style.background='rgba(0,0,0,.92)'},shameDur);
 }
 
-// FAKE CALL TO ERIK at attempt 6
+// Falskt samtal till kaffemaskinen vid försök 6
 if(noTipAttempts===6){
 setTimeout(function(){
 var call=document.getElementById('callOverlay');
 call.style.display='flex';
-setTimeout(function(){document.getElementById('callText').textContent='Erik picked up...'},2000);
-setTimeout(function(){document.getElementById('callSub').textContent='"Who didn\'t tip? I\'m coming over."'},3500);
-setTimeout(function(){document.getElementById('callText').textContent='Erik is walking to your desk.';document.getElementById('callIcon').textContent='\ud83d\udeb6'},5000);
-setTimeout(function(){document.getElementById('callText').textContent='Erik is standing behind you.';document.getElementById('callIcon').textContent='\ud83d\udc40';document.getElementById('callSub').textContent='Turn around.'},7000);
+setTimeout(function(){document.getElementById('callText').textContent='Kaffemaskinen svarade...'},2000);
+setTimeout(function(){document.getElementById('callSub').textContent='"Vem var det? Jag kommer."'},3500);
+setTimeout(function(){document.getElementById('callText').textContent='Kaffemaskinen rullar mot ditt skrivbord.';document.getElementById('callIcon').textContent='\ud83d\udeb6'},5000);
+setTimeout(function(){document.getElementById('callText').textContent='Kaffemaskinen står bakom dig.';document.getElementById('callIcon').textContent='\ud83d\udc40';document.getElementById('callSub').textContent='Vänd dig inte om.'},7000);
 setTimeout(function(){call.style.display='none'},9500);
 },4500);
 }
@@ -207,7 +207,7 @@ noTipAttempts++;
 
 guiltLevel=Math.min(100,guiltLevel+12);
 document.getElementById('guiltFill').style.width=guiltLevel+'%';
-var gLabels=['Low','Medium','Rising','HIGH','CRITICAL','MAXIMUM','\u2620\ufe0f','NUCLEAR','\ud83d\udd25 HELL','\ud83c\udf0b VOLCANIC'];
+var gLabels=['Låg','Medel','Stigande','HÖG','KRITISK','MAX','\u2620\ufe0f','NUCLEAR','\ud83d\udd25 HELVETE','\ud83c\udf0b VULKAN'];
 document.getElementById('guiltText').textContent=gLabels[Math.min(noTipAttempts,gLabels.length-1)];
 
 if(escalateIndex<escalations.length){
@@ -283,7 +283,7 @@ for(var t=0;t<tipBtns.length;t++){tipBtns[t].style.transform='scale('+grow+')';t
 function spawnGhostBtn(){
 var g=document.createElement('div');
 g.className='ghost-btn';
-g.textContent=['No tip','Nej','Nope','Never','No','Nah','N/A','404'][Math.floor(Math.random()*8)];
+g.textContent=['Nej','Nä','Aldrig','Nix','Nope','Snålt','Ingen','0 kr'][Math.floor(Math.random()*8)];
 g.style.left=Math.floor(Math.random()*90+5)+'%';
 g.style.top=Math.floor(Math.random()*80+10)+'%';
 g.style.transform='rotate('+(Math.random()*40-20)+'deg)';
@@ -308,12 +308,12 @@ var amount=document.getElementById('amt'+idx).textContent;
 var overlay=document.getElementById('payOverlay');
 overlay.style.display='flex';
 var steps=[
-{icon:'\ud83d\udcb3',title:'Connecting to MobilePay...',detail:'Searching for nearby wallets...',status:'Initializing payment gateway...',pct:10},
-{icon:'\ud83d\udd10',title:'MitID Verification',detail:'Please stare intensely at the screen.\nThe screen is staring back.',status:'Scanning your face... and judging it...',pct:30},
-{icon:'\ud83e\uddec',title:'DNA Verification Required',detail:'Just kidding. But we did check your vibe.\nResult: Generous.',status:'Vibe check passed \u2713',pct:50},
-{icon:'\ud83d\udce1',title:'Contacting Erik\'s Bank...',detail:'Erik\'s bank says: "Who is this?"\nWe said: "Someone with '+amount+' to give."\nThey said: "Proceed."',status:'Bank approved (they seemed surprised)',pct:70},
-{icon:'\ud83c\udfb0',title:'Calculating final amount...',detail:'Original tip: '+amount+'\nConvenience fee: 3%\nScreen happiness fee: 7%\nVibes tax: 2%\n\u2014 \u2014 \u2014\nTotal: '+amount+' (we made up the fees)',status:'Math is hard but we tried our best',pct:85},
-{icon:'\u2705',title:'TIP ACCEPTED!',detail:'You tipped '+amount+'!\nThe screen is SO happy right now.\nIt will remember this forever.\n(Literally, it has no way to forget.)',status:'Receipt printed (just kidding, no printer)',pct:100}
+{icon:'\ud83d\udcb3',title:'Ansluter till Swish...',detail:'Letar efter plånböcker i närheten...',status:'Startar betalning...',pct:10},
+{icon:'\ud83d\udd10',title:'BankID',detail:'Stirra intensivt på skärmen.\nSkärmen stirrar tillbaka.',status:'Skannar ditt ansikte... och dömer det...',pct:30},
+{icon:'\ud83e\uddec',title:'DNA-kontroll',detail:'Skämtar bara.\nVi kollade din vibe. Resultat: snål men lovande.',status:'Vibe godkänd \u2713',pct:50},
+{icon:'\ud83d\udce1',title:'Kontaktar banken...',detail:'Banken: "Vem är det här?"\nVi: "Någon med '+amount+' att ge."\nBanken: "Kör."',status:'Godkänt (banken lät förvånad)',pct:70},
+{icon:'\ud83c\udfb0',title:'Räknar slutsumma...',detail:'Dricks: '+amount+'\nServiceavgift: 3 %\nSkärmglädjeavgift: 7 %\nViberskatt: 2 %\n\u2014 \u2014 \u2014\nTotalt: '+amount+' (avgifterna var påhittade)',status:'Matte är svårt men vi försökte',pct:85},
+{icon:'\u2705',title:'DRICKS MOTTAGEN!',detail:'Du gav '+amount+'!\nSkärmen är SÅ glad nu.\nDen kommer att minnas det här för alltid.\n(Den kan inte glömma. Den har ingen papperskorg.)',status:'Kvitto utskrivet (skrivaren sa nej)',pct:100}
 ];
 var i=0;
 function nextStep(){
@@ -331,40 +331,40 @@ nextStep();
 
 function celebrate(amount){
 document.getElementById('mainFrame').style.display='none';
-document.querySelector('.header h1').textContent='THANK YOU!';
-document.querySelector('.header .sub').textContent='You tipped '+amount+'. The screen will never forget this act of kindness.';
+document.querySelector('.header h1').textContent='TACK!';
+document.querySelector('.header .sub').textContent='Du gav '+amount+'. Skärmen glömmer aldrig.';
 document.querySelector('.header h1').style.fontSize='3.5em';
 var emojis=['\ud83c\udf89','\ud83c\udf8a','\ud83d\udcb0','\ud83e\udd73','\u2728','\ud83d\udcb8','\ud83c\udf88','\u2764\ufe0f','\u2b50','\ud83c\udfc6'];
 for(var i=0;i<40;i++){
 (function(delay){setTimeout(function(){var c=document.createElement('div');c.className='confetti';c.textContent=emojis[Math.floor(Math.random()*emojis.length)];c.style.left=Math.floor(Math.random()*100)+'%';c.style.top='-5%';c.style.animationDuration=(2+Math.random()*3)+'s';document.body.appendChild(c);setTimeout(function(){c.remove()},5000)},delay)})(i*120);
 }
-setTimeout(function(){document.querySelector('.header .sub').textContent='Your generosity has been noted. Erik is proud. The screen is glowing.'},4000);
+setTimeout(function(){document.querySelector('.header .sub').textContent='Din generositet har noterats. Skärmen lyser. Bokstavligt.'},4000);
 setTimeout(resetScreen,10000);
 }
 
 function resetScreen(){
 noTipAttempts=0;guiltLevel=0;escalateIndex=0;rage=0;
 document.getElementById('guiltFill').style.width='0%';
-document.getElementById('guiltText').textContent='Low';
+document.getElementById('guiltText').textContent='Låg';
 document.getElementById('amt0').textContent='15%';
 document.getElementById('amt1').textContent='20%';
 document.getElementById('amt2').textContent='25%';
 document.getElementById('amt3').textContent='30%';
 document.getElementById('amt4').textContent='50%';
 var lbls=document.querySelectorAll('.tip-btn .label');
-var origLabels=['Acceptable','Standard','Generous','Hero','Legend'];
+var origLabels=['Snålt','Okej då','Generöst','Hjälte','Kaffemaskin'];
 for(var i=0;i<5;i++){lbls[i].textContent=origLabels[i]}
 var tipBtns=document.querySelectorAll('.tip-btn');
 for(var t=0;t<tipBtns.length;t++){tipBtns[t].style.transform='';tipBtns[t].style.margin=''}
 var btn=document.getElementById('noTipBtn');
-btn.style.cssText='';btn.innerHTML='&#9762;<br>NO TIP';
+btn.style.cssText='';btn.innerHTML='&#9762;<br>INGEN DRICKS';
 document.getElementById('mainFrame').style='';
 document.getElementById('mainFrame').classList.remove('angry-frame');
-document.getElementById('promptText').textContent='How much would you like to tip?';
-document.getElementById('subPrompt').textContent='Erik asked you to. He is watching.';
-document.querySelector('.header h1').textContent='TIP YOUR SCREEN';
+document.getElementById('promptText').textContent='Hur mycket dricks vill du lämna?';
+document.getElementById('subPrompt').textContent='Du har tittat på den i 4 sekunder. Det kostar.';
+document.querySelector('.header h1').textContent='DRICKS TILL SKÄRMEN?';
 document.querySelector('.header h1').style.fontSize='2.8em';
-document.querySelector('.header .sub').textContent='Your screen has been working hard all day. It deserves this.';
+document.querySelector('.header .sub').textContent='Skärmen har visat saker hela dagen. Utan att bli tillfrågad.';
 document.body.style.background='#1a1a2e';
 document.querySelectorAll('.ghost-btn').forEach(function(g){g.remove()});
 leaderData=[];
@@ -373,7 +373,7 @@ leaderData.sort(function(a,b){return b.pct-a.pct});
 renderLB();
 }
 
-var subPrompts=['Erik asked you to. He is watching.','The screen worked overtime for this moment.','Other people tipped. Just saying.','This screen has dreams too, you know.','Fun fact: screens that get tipped last 47% longer.*','*Not a real fact. But tip anyway.','The screen can smell fear. And cheapness.','Tipping is optional. So is the screen remembering your face.','The screen wrote a Yelp review about you. 1 star.','The screen is telling the other screens about you right now.'];
+var subPrompts=['Du har tittat på den i 4 sekunder. Det kostar.','Mikron fick 25 %. Mikron har bränt din lunch.','Andra har gett dricks. Säger bara det.','Kaffemaskinen ser dig.','Skärmar som får dricks håller 47 % längre.*','*Inte sant. Men ge dricks ändå.','Dricks är frivilligt. Precis som "optional" i kalendern.','Skärmen har skrivit en recension av dig. 1 stjärna.'];
 var subIdx=0;
 setInterval(function(){
 if(document.getElementById('mainFrame').style.display!=='none'){
@@ -384,7 +384,7 @@ document.getElementById('subPrompt').textContent=subPrompts[subIdx];
 
 setInterval(function(){
 if(document.getElementById('mainFrame').style.display!=='none' && Math.random()<0.3){
-var msgs=['tip?','please?','\ud83d\udcb8','\ud83e\udd7a','do it','come on','TIP','$$$'];
+var msgs=['dricks?','snälla?','\ud83d\udcb8','\ud83e\udd7a','gör det','kom igen','DRICKS','kr kr kr'];
 floatText(msgs[Math.floor(Math.random()*msgs.length)]);
 }
 },4000);

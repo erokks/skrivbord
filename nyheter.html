@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BREAKING NEWS</title>
+  <title>EXTRA</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:Arial,Helvetica,sans-serif;background:#0a1628;overflow:hidden;height:100vh;display:flex;flex-direction:column;}
@@ -28,59 +28,39 @@
   </style>
 </head>
 <body>
-  <div class="breakingBar"><h1>BREAKING NEWS</h1></div>
+  <div class="breakingBar"><h1>EXTRA EXTRA</h1></div>
   <div class="mainContent">
     <div class="liveTag">LIVE</div>
     <div class="timestamp" id="clock"></div>
     <div class="headline" id="headline"></div>
     <div class="subtitle" id="subtitle"></div>
-    <div class="stationLogo">SCREEN NEWS NETWORK</div>
+    <div class="stationLogo">KONTORSNYTT</div>
   </div>
   <div class="tickerWrap"><div class="ticker" id="ticker"></div></div>
 <script>
 var headlines=[
-  {h:"BREAKING: <span class=\"name\">90-MIN 'QUICK SYNC'</span> COULD HAVE BEEN AN EMAIL",s:"Calendar denies everything. Lunch is missing. Again."},
-  {h:"<span class=\"name\">47 INVITED. 0 DECISIONS.</span> TEAMS DECLARES SUCCESS",s:"Follow-up booked. Optional, but come."},
-  {h:"SHOCK: <span class=\"name\">THE CALENDAR ATE LUNCH</span> AND CALLED IT ALIGNMENT",s:"Kitchen reports: bricks unguarded. Screen on patrol."},
-  {h:"<span class=\"name\">PRINTER</span> PRINTS ONE SLIDE FORTY TIMES",s:"Statement: \"You don't read email. I make paper.\""},
-  {h:"LIVE: <span class=\"name\">AGENDA 404</span> IN CONFERENCE B",s:"PowerPoint has 40 slides and one point: none"},
-  {h:"<span class=\"name\">OPTIONAL MEETING</span> ATTENDED BY EVERYONE",s:"As optional as a fire drill. Rec is on."},
-  {h:"BREAKING: <span class=\"name\">PC LOAD LETTER</span> TRANSLATED: NO",s:"Printer union: paper jam is official policy"},
-  {h:"<span class=\"name\">FINAL_v12_RIKTIG.xlsx</span> CAUGHT LYING IN THE FILENAME",s:"Excel VLOOKUP found nothing. Same as the agenda."},
-  {h:"<span class=\"name\">THE SCREEN (GUEST)</span> WAS ALREADY THE HOST",s:"Muted. Still running the room. 60 Hz of judgment."},
-  {h:"BREAKING: <span class=\"name\">THIS MEETING</span> PREMIERES HDMI: THE MUSICAL",s:"Act 1: a cable. Act 2: still a cable. Coffee machine walks out."},
-  {h:"<span class=\"name\">FRIDAY MEETINGS</span> DECLARED A FELONY",s:"Ol-vagn is sacred. Calendar is not the law."},
-  {h:"SHOCK: <span class=\"name\">COMIC SANS</span> FOUND IN AN INVOICE",s:"Fire department called. Too late. Printer on strike."},
-  {h:"<span class=\"name\">SCREEN + PRINTER</span> BOOK CLUB READS THE BUDGET",s:"First book: empty 90-page PDF named PDF. Reviews: five jams"},
-  {h:"WEATHER: 100% CHANCE OF <span class=\"name\">FIKA</span>, SCATTERED POWERPOINTS",s:"Meetings over lunch: criminal. Bring a mug, not a slide."},
-  {h:"SPORTS: <span class=\"name\">OL-VAGN</span> UNDEFEATED. FRIDAY STANDUPS: 0-14",s:"The screen is mascot. The mascot can HDMI. The mascot cannot clap."},
-  {h:"CULTURE: <span class=\"name\">SYNERGY</span> TRANSLATED TO DANISH",s:"Result: synergy. Invoice anyway. Paid in kanelbullar."},
-  {h:"<span class=\"name\">DECAF</span> DETECTED IN THE SECTOR",s:"Evacuation recommended. Meeting stayed. Meeting lost."},
-  {h:"SCIENCE: OFFICE 14% FASTER WHEN <span class=\"name\">MEETINGS ARE EMAIL</span>",s:"Peer review by the candy bowl. Candy bowl ate the minutes."},
-  {h:"POLICE: <span class=\"name\">CAN YOU HEAR ME</span> SAID FOR THE THIRD TIME",s:"Everyone is muted. Nobody has a decision. Rec is still on."},
-  {h:"<span class=\"name\">INFO SCREEN</span> ELECTED MAYOR OF ROOM B",s:"Law 1: fika. Law 2: Comic Sans is a felony. Law 3: send the email."}
+  {h:"MÖTE SLUTADE I TID",s:"Deltagarna i chock. Krisstöd finns i fikarummet."},
+  {h:"<span class=\"name\">'SNABB FRÅGA'</span> INNE PÅ TIMME TRE",s:"Frågeställaren: 'Bara en till grej.'"},
+  {h:"KVINNA HITTAR <span class=\"name\">LEDIG TID</span> I KALENDERN",s:"07:12–07:14. Bokad inom 40 sekunder."},
+  {h:"<span class=\"name\">YOGHURT</span> I KYLEN FYLLER FEM",s:"Har överlevt tre omorganisationer och en flytt."},
+  {h:"SKRIVAREN VÄGRAR <span class=\"name\">IGEN</span>",s:"Talesperson: 'Fack 2 har aldrig funnits.'"},
+  {h:"MAN DELADE <span class=\"name\">FEL FÖNSTER</span>",s:"Kundvagnen innehöll tre kuddar och en bok om att byta jobb."},
+  {h:"<span class=\"name\">SVARA ALLA</span>: 312 DRABBADE",s:"Experter: 'Sluta svara alla' gjorde det värre."},
+  {h:"NÅGON SORTERADE <span class=\"name\">BARA EN KOLUMN</span>",s:"Budgeten är nu officiellt skönlitteratur."},
+  {h:"<span class=\"name\">KAFFEKANNA</span> MED 2 CM KVAR",s:"Juridiskt inte tom. Ingen brygger."},
+  {h:"VÄDER: <span class=\"name\">KRAFTIGA MÖTEN</span> UNDER EFTERMIDDAGEN",s:"15:59: risk för 'en sista grej'. Ta skydd."},
+  {h:"<span class=\"name\">MÖTESFRI FREDAG</span> BOKAD AV MÖTE",s:"Mötet handlade om mötesfri fredag."},
+  {h:"<span class=\"name\">RUM B</span> BOKAT AV 'TEST' TILL 2031",s:"Ingen vet vem Test är. Test svarar inte."}
 ];
 var tickerItems=[
-  "BREAKING: 90-min quick sync could have been an email - calendar eating lunch again",
-  "LIVE: 47 invited, 0 decisions, follow-up already booked",
-  "Printer printed one slide forty times. Quote: you don't read email",
-  "Agenda 404 in conference B. PowerPoint: 40 slides, 0 points",
-  "Optional meeting attended by everyone. Rec is on. Of course it is",
-  "PC LOAD LETTER officially translated: no",
-  "FINAL_v12_RIKTIG.xlsx caught lying in the filename",
-  "Screen (Guest) was already the host. Muted. Running the room anyway",
-  "Friday meetings declared a felony. Ol-vagn still undefeated",
-  "Comic Sans found in an invoice. Fire department too late",
-  "Screen and printer book club: the budget. Reviews: five paper jams",
-  "Synergy translated to Danish: synergy. Invoice anyway",
-  "Decaf detected. Evacuation recommended. Meeting stayed",
-  "Can you hear me said three times. Nobody has a decision",
-  "Calendar ate lunch and called it alignment",
-  "HDMI The Musical in room B. Coffee machine walked out",
-  "Fika is law. Meetings over lunch are not",
-  "Excel VLOOKUP found nothing. Same as the agenda",
-  "Weather: 100% fika, scattered PowerPoints, isolated paper jams",
-  "Info screen elected mayor of room B. First law: send the email"
+  "Mikron: kö på 14 personer. Fisklåda i täten",
+  "Diskmaskinen: ren eller smutsig? Ingen vet",
+  "Ventilationen: för kallt (alla) och för varmt (alla)",
+  "Teams-status: gul. Fortfarande gul. Alltid gul",
+  "Lösenord gick ut. Höst2026! upptaget",
+  "Någon tog sista Daim. Utredning pågår",
+  "AI-sammanfattning: mötet handlade om ett möte",
+  "Kameran av 'av tekniska skäl'. Skälet: pyjamas"
 ];
 
 var tickerEl=document.getElementById("ticker"),tickerHTML="";
