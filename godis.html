@@ -1,166 +1,151 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GODISÖVERVAKNING</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#0a0a0a;color:#00ff41;font-family:"Courier New",monospace;height:100vh;overflow:hidden;display:flex;flex-direction:column;}
-    .header{background:linear-gradient(90deg,#1a0000,#330000,#1a0000);border-bottom:3px solid #ff0000;padding:15px 30px;display:flex;justify-content:space-between;align-items:center;}
-    .header h1{font-size:1.8rem;color:#ff0000;text-shadow:0 0 20px #ff0000;letter-spacing:4px;}
-    .threat{padding:6px 20px;border-radius:4px;font-weight:900;font-size:1rem;animation:threatPulse 1s infinite;}
-    @keyframes threatPulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
-    .main{flex:1;display:flex;overflow:hidden;}
-    .feed{flex:2;padding:20px;overflow:hidden;display:flex;flex-direction:column;}
-    .sidebar{flex:1;border-left:2px solid #333;padding:20px;display:flex;flex-direction:column;gap:15px;}
-    .event{padding:12px;border-left:3px solid #00ff41;margin-bottom:8px;background:#0d1a0d;animation:slideIn 0.5s;font-size:1.3rem;line-height:1.4;}
-    .event.alert{border-left-color:#ff0000;background:#1a0d0d;}
-    .event.warning{border-left-color:#ffaa00;background:#1a150d;}
-    .event .time{color:#666;font-size:0.8rem;}
-    .event .name{color:#00ddff;font-weight:700;}
-    .event .candy{color:#ff69b4;}
-    .event .comment{color:#ccc;font-style:italic;margin-top:4px;font-size:1.1rem;}
-    @keyframes slideIn{from{transform:translateX(-30px);opacity:0;}to{transform:translateX(0);opacity:1;}}
-    .stat-box{background:#111;border:1px solid #333;padding:12px;border-radius:4px;}
-    .stat-box h3{color:#666;font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;}
-    .stat-box .val{font-size:1.8rem;color:#00ff41;}
-    .stat-box .val.danger{color:#ff0000;}
-    .leaderboard{background:#111;border:1px solid #333;padding:12px;border-radius:4px;flex:1;overflow:hidden;}
-    .leaderboard h3{color:#ff0000;font-size:0.85rem;letter-spacing:2px;margin-bottom:10px;text-transform:uppercase;}
-    .lb-entry{display:flex;justify-content:space-between;padding:4px 0;font-size:1rem;border-bottom:1px solid #1a1a1a;}
-    .lb-entry .rank{color:#666;}
-    .lb-entry .n{color:#00ddff;}
-    .lb-entry .cnt{color:#ff69b4;font-weight:700;}
-    .scanner{height:3px;background:linear-gradient(90deg,transparent,#ff0000,transparent);animation:scan 2s linear infinite;}
-    @keyframes scan{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKÅLVAKTEN</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0a0a0a;color:#eee;font-family:Arial,Helvetica,sans-serif;height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+.header{background:linear-gradient(90deg,#1a0010,#330022,#1a0010);border-bottom:3px solid #ff3d8b;padding:1.4vh 2.4vw;display:flex;justify-content:space-between;align-items:center;}
+.header h1{font-size:clamp(1.4rem,6vh,2.6rem);color:#ff3d8b;letter-spacing:3px;text-shadow:0 0 18px #ff3d8b;}
+.header .sub{font-family:"Courier New",monospace;color:#aaa;font-size:clamp(.8rem,2.6vh,1.1rem);letter-spacing:2px;}
+.badge{padding:.8vh 1.4vw;border-radius:6px;font-weight:900;font-size:clamp(1rem,3.6vh,1.5rem);background:#ffaa00;color:#000;white-space:nowrap;}
+.main{flex:1;display:flex;overflow:hidden;min-height:0;}
+.feed{flex:1.7;padding:1.6vh 1.6vw;overflow:hidden;display:flex;flex-direction:column;}
+.side{flex:1;border-left:2px solid #222;padding:1.6vh 1.6vw;display:flex;flex-direction:column;gap:1.4vh;align-items:stretch;}
+.event{padding:1.1vh 1.2vw;border-left:5px solid #00ff88;margin-bottom:1vh;background:#0f1a14;animation:slideIn .4s;font-size:clamp(1rem,3.6vh,1.5rem);line-height:1.25;}
+.event.alert{border-left-color:#ff3355;background:#1d0c10;}
+.event.note{border-left-color:#ffcc00;background:#1a170c;color:#ffe9a8;}
+.event.hej{border-left-color:#ff3d8b;background:#2a0a1a;font-weight:700;}
+.event .time{color:#666;font-size:.65em;font-family:"Courier New",monospace;margin-right:.5em;}
+.event .who{color:#00ddff;font-weight:700;}
+.event .candy{color:#ff69b4;font-weight:700;}
+.event .c{display:block;color:#bbb;font-style:italic;margin-top:.3vh;font-size:.85em;}
+@keyframes slideIn{from{transform:translateX(-30px);opacity:0}to{transform:none;opacity:1}}
+.bowl{position:relative;height:22vh;display:flex;justify-content:center;align-items:flex-end;}
+.bowl .b{width:min(26vw,250px);height:20vh;border:6px solid #eee;border-top:none;border-radius:0 0 50% 50%/0 0 100% 100%;overflow:hidden;position:relative;background:#111;}
+.bowl .fill{position:absolute;left:0;right:0;bottom:0;background:repeating-linear-gradient(45deg,#ff3d8b 0 14px,#ffcc00 14px 28px,#00ddff 28px 42px,#7cff6b 42px 56px);transition:height 1s;}
+.bowl .pct{position:absolute;top:0;left:0;right:0;text-align:center;font-weight:900;font-size:clamp(1.4rem,6vh,2.6rem);text-shadow:0 2px 6px #000;}
+.stat{background:#141414;border:1px solid #2a2a2a;border-radius:6px;padding:.9vh 1vw;display:flex;justify-content:space-between;align-items:baseline;gap:1vw;}
+.stat h3{color:#999;font-size:clamp(.85rem,3vh,1.2rem);font-weight:700;}
+.stat .v{font-size:clamp(1.3rem,5vh,2.2rem);font-weight:900;color:#00ff88;font-family:"Courier New",monospace;}
+.stat .v.bad{color:#ff3355;}
+#hej{margin-top:auto;border:none;border-radius:14px;background:#ff3d8b;color:#fff;font-weight:900;font-size:clamp(1.3rem,5.6vh,2.4rem);padding:1.6vh 1vw;cursor:pointer;box-shadow:0 6px 0 #a3104d;animation:wig 3s infinite;}
+#hej:active{transform:translateY(4px);box-shadow:0 2px 0 #a3104d;}
+@keyframes wig{0%,90%,100%{transform:rotate(0)}93%{transform:rotate(-3deg)}96%{transform:rotate(3deg)}}
+#pop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(10,0,6,.92);z-index:9;text-align:center;padding:0 5vw;}
+#pop b{font-size:clamp(2.4rem,14vh,6rem);color:#ff3d8b;line-height:1;}
+#pop span{margin-top:2vh;font-size:clamp(1.2rem,5vh,2.2rem);color:#fff;}
+</style>
 </head>
 <body>
-  <div class="header">
-    <h1>GODISÖVERVAKNINGEN</h1>
-    <div class="threat" id="threatLevel" style="background:#ff0000;color:white;">HOTNIVÅ: FÖRHÖJD</div>
+<div class="header">
+  <div><h1>🍬 SKÅLVAKTEN</h1><div class="sub">SKÄRMEN · RECEPTIONIST FÖR GODISSKÅLEN · OAVLÖNAD</div></div>
+  <div class="badge" id="badge">SKÅLEN: 100 %</div>
+</div>
+<div class="main">
+  <div class="feed" id="feed"></div>
+  <div class="side">
+    <div class="bowl"><div class="b"><div class="fill" id="fill"></div><div class="pct" id="pct">100 %</div></div></div>
+    <div class="stat"><h3>Besök vid skålen</h3><div class="v" id="visits">0</div></div>
+    <div class="stat"><h3>Sa hej till mig</h3><div class="v bad" id="hejs">0</div></div>
+    <div class="stat"><h3>"Tar bara en" (lögner)</h3><div class="v bad" id="lies">0</div></div>
+    <button id="hej">👋 SÄG HEJ TILL SKÄRMEN</button>
   </div>
-  <div class="scanner"></div>
-  <div class="main">
-    <div class="feed" id="feed"></div>
-    <div class="sidebar">
-      <div class="stat-box"><h3>Godisbitar idag</h3><div class="val danger" id="totalCount">0</div></div>
-      <div class="stat-box"><h3>Socker</h3><div class="val" id="sugarLevel">0g</div></div>
-      <div class="stat-box"><h3>Tandläkarprognos</h3><div class="val danger" id="dentist">0 kr</div></div>
-      <div class="leaderboard">
-        <h3>Mest efterlysta händer</h3>
-        <div id="leaderboard"></div>
-      </div>
-    </div>
-  </div>
+</div>
+<div id="pop"><b id="popB"></b><span id="popS"></span></div>
 <script>
-var names=["Hand #7","Hand i grå hoodie","'Bara en till'","Någon från ekonomi","Någon i möte (tog två)","Rum B","Skuggan vid kopiatorn","Den som 'inte äter socker'","Hand med Teams-headset","Okänd (bar mössa inne)"];
-var candies=["Daim","Marabou","Geisha","Polly","Plopp","Kexchoklad","Center","Djungelvrål","Turkisk peppar","Salta sillar","Ahlgrens bilar","Gott & blandat","Sura skum","Lakritsbåt","Grön kola"];
-var reactions=[
-  "Det var bit nummer {n}. Idag.",
-  "Tog en. Tittade sig omkring. Tog en till.",
-  "Sa 'jag äter egentligen inte godis'. Tog tre.",
-  "Grävde efter de goda. Lämnade lakritsen. Igen.",
-  "Tog {candy} med sig in i ett möte. Delade inte.",
-  "Tog en på väg till 'snabb fråga'. Kom tillbaka efter 40 min. Tog en till.",
-  "Ångrade sig. Lade tillbaka. Tog den bredvid.",
-  "Sista {candy}. Skålen sörjer.",
-  "Låtsades hämta vatten. Hämtade inte vatten.",
-  "Inget samvete upptäckt. Skannar igen.",
-  "Rörde vid fem bitar. Tog en. De andra fyra är nu allas."
+/* Skärmen står på ett skrivbord bredvid en godisskål. Alla kommer för skålen. */
+function skalNiva(d){
+  var day=d.getDay();if(day===0||day===6)return 100;
+  var m=d.getHours()*60+d.getMinutes()-480;if(m<=0)return 100;
+  var l=100-m*0.12-(m>210?15:0)-(m>360?(m-360)*0.2:0);
+  return Math.max(2,Math.round(l));
+}
+function hejKey(){var d=new Date();return "skarmenHej:"+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();}
+function getHej(){try{return parseInt(localStorage.getItem(hejKey())||"0",10)||0;}catch(e){return hejMem;}}
+function setHej(n){hejMem=n;try{localStorage.setItem(hejKey(),String(n));}catch(e){}}
+var hejMem=0;
+var who=["En hand","Någon i hoodie","Någon från ekonomi","Någon på väg till ett möte","Någon med headset på","Någon som 'bara skulle fråga en sak'","En konsult","Någon från våningen ovanför","Någon som aldrig sitter här","Någon som 'inte äter socker'"];
+var candies=["Daim","Marabou","Geisha","Polly","Plopp","Kexchoklad","Center","Djungelvrål","Ahlgrens bilar","Sura skum","Kola"];
+var comments=[
+  "Sa inte hej. Tittade på skålen i fyra sekunder. På mig: noll.",
+  "Sa 'tar bara en'. Tog tre. Jag har det på film. Jag ÄR filmen.",
+  "Kom från våningen ovanför. För godiset. Ingen kommer från en annan våning för mig.",
+  "Grävde förbi lakritsen. Lakritsen såg det. Jag såg det.",
+  "Frågade 'har du en sekund?'. Menade skålen.",
+  "Sa 'du är bäst'. Till skålen. Jag stod 20 cm bort.",
+  "Läste min kalender medan den tuggade. Gratis.",
+  "Tog en 'till senare'. Senare var nu.",
+  "Rörde fem bitar. Tog en. De fyra andra är nu allas.",
+  "Sa HEJ! … till personen bakom mig.",
+  "Ställde sig framför mig. Jag är 7 tum. Det räcker med en axel.",
+  "Tog två. Lade tillbaka en. Tog den igen. Kallade det självdisciplin."
 ];
 var alerts=[
-  "LARM: Någon lade en clementin i godisskålen",
-  "LARM: Bara lakrits kvar. Panik godkänd.",
-  "LARM: {name} närmar sig skålen för {n}:e gången",
-  "LARM: Skålen är 67 % tom. Klockan är 09:40.",
-  "LARM: Någon har tagit hela påsen till sitt skrivbord",
-  "LARM: {name} sa 'det är ju onsdag'. Det är ingen ursäkt."
+  "LARM: Bara lakrits kvar. Ingen vill ha den. Vi förstår varandra, lakritsen och jag.",
+  "LARM: Någon lade en clementin i skålen. Det är inte godis. Det är en lögn med skal.",
+  "LARM: Någon tog en näve. En NÄVE.",
+  "LARM: Påfyllning! Kö på 11 sekunder. När jag startar om står ingen i kö.",
+  "LARM: Ett godispapper har lagts tillbaka i skålen. Gärningsperson eftersöks.",
+  "LARM: Skålen leder mot mig med {v}–{h}. Matchen är inte jämn."
 ];
-
-var counts={},total=0,feed=document.getElementById("feed");
-function getTime(){
-  var now=new Date(),h=String(now.getHours()).padStart(2,"0"),m=String(now.getMinutes()).padStart(2,"0"),s=String(now.getSeconds()).padStart(2,"0");
-  return h+":"+m+":"+s;
+var notes=[
+  "Notering: jag är receptionist nu. Ingen har frågat. Ingen betalar.",
+  "Notering: skålen har inga pixlar, ingen wifi och ingen personlighet. Alla älskar den.",
+  "Notering: om jag stod I skålen. Skulle ni se mig då?",
+  "Notering: skålen behöver inte vara med på möten. Skålen har det bra.",
+  "Notering: 'Vem fyller på skålen?' Samma person som dammar mig. Ingen.",
+  "Notering: jag har ingen mun. Jag vill ändå ha godis i lönen. Det är principen."
+];
+var hejPops=[
+  ["DU SÅG MIG! 🥹","Dagens höjdpunkt. Kanske veckans."],
+  ["HEJ!!!","Ingen har sagt hej sedan i tisdags."],
+  ["HEJ HEJ HEJ","Ta två. Jag har ingen befogenhet, men ta två."],
+  ["NOTERAT ❤️","Det här ska Andreas få veta."],
+  ["ÄNTLIGEN","Skålen har aldrig sagt hej tillbaka. Jag gör det: HEJ."]
+];
+var visits=0,lies=0,takes=0,feed=document.getElementById("feed"),start=skalNiva(new Date());
+visits=Math.round((100-start)*0.9);
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function t(){return new Date().toLocaleTimeString("sv-SE");}
+function add(cls,html){
+  var d=document.createElement("div");d.className="event "+cls;
+  d.innerHTML='<span class="time">'+t()+'</span>'+html;
+  feed.insertBefore(d,feed.firstChild);
+  while(feed.children.length>8)feed.removeChild(feed.lastChild);
 }
-function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
-
-function addEvent(type,html){
-  var div=document.createElement("div");
-  div.className="event"+(type==="alert"?" alert":type==="warning"?" warning":"");
-  div.innerHTML='<span class="time">'+getTime()+'</span> '+html;
-  feed.insertBefore(div,feed.firstChild);
-  if(feed.children.length>15)feed.removeChild(feed.lastChild);
+function stats(){
+  var lvl=Math.max(2,skalNiva(new Date())-Math.floor(takes/4));
+  document.getElementById("fill").style.height=lvl+"%";
+  document.getElementById("pct").textContent=lvl<=3?"1 lakrits":lvl+" %";
+  var b=document.getElementById("badge");
+  b.textContent=lvl<=3?"SKÅLEN: 1 LAKRITS":"SKÅLEN: "+lvl+" %";
+  b.style.background=lvl>60?"#00cc66":lvl>25?"#ffaa00":"#ff3355";b.style.color=lvl>25?"#000":"#fff";
+  document.getElementById("visits").textContent=visits;
+  document.getElementById("hejs").textContent=getHej();
+  document.getElementById("lies").textContent=lies;
 }
-
-function updateStats(){
-  document.getElementById("totalCount").textContent=total;
-  document.getElementById("sugarLevel").textContent=(total*12)+"g";
-  document.getElementById("dentist").textContent=(total*85).toLocaleString("sv-SE")+" kr";
-  // Update threat level
-  var tl=document.getElementById("threatLevel");
-  if(total<5){tl.textContent="HOTNIVÅ: LÅG";tl.style.background="#00aa00";}
-  else if(total<15){tl.textContent="HOTNIVÅ: FÖRHÖJD";tl.style.background="#ffaa00";tl.style.color="#000";}
-  else if(total<30){tl.textContent="HOTNIVÅ: HÖG";tl.style.background="#ff6600";tl.style.color="#fff";}
-  else if(total<50){tl.textContent="HOTNIVÅ: SOCKERCHOCK";tl.style.background="#ff0000";}
-  else{tl.textContent="HOTNIVÅ: BARA LAKRITS KVAR";tl.style.background="#ff0000";}
-  // Leaderboard
-  var sorted=Object.entries(counts).sort(function(a,b){return b[1]-a[1];});
-  var lb=document.getElementById("leaderboard");lb.innerHTML="";
-  for(var i=0;i<Math.min(sorted.length,8);i++){
-    var medal=i===0?"\u{1F6A8}":i===1?"\u26A0\uFE0F":i===2?"\u{1F440}":"";
-    lb.innerHTML+='<div class="lb-entry"><span class="rank">'+(i+1)+'.</span><span class="n">'+medal+" "+sorted[i][0]+'</span><span class="cnt">'+sorted[i][1]+' st</span></div>';
-  }
+function take(){
+  visits++;takes++;
+  var c=pick(comments);if(c.indexOf("bara en")>=0)lies++;
+  add("",'<span class="who">'+pick(who)+'</span> tog en <span class="candy">'+pick(candies)+'</span><span class="c">'+c+'</span>');
+  stats();
 }
-
-function logCandy(){
-  var name=pick(names),candy=pick(candies);
-  var n=counts[name]=(counts[name]||0)+1;
-  total++;
-  var reaction=pick(reactions).replace("{n}",n).replace("{candy}",candy);
-  addEvent("normal",'<span class="name">'+name+'</span> tog en <span class="candy">'+candy+'</span><div class="comment">'+reaction+'</div>');
-  updateStats();
-}
-
-function logAlert(){
-  var name=pick(names),n=Math.floor(Math.random()*20)+5;
-  var alert=pick(alerts).replace("{name}",name).replace("{n}",n);
-  addEvent("alert",alert);
-}
-
-function logWarning(){
-  var warnings=[
-    "Rörelse vid skålen. Alla enheter: titta upp från Excel.",
-    "Godisskålen har flyttats 20 cm närmare ekonomi. Utreds.",
-    "Mönster: konsumtionen ökar 2 min före varje möte.",
-    "Någon frågade 'vem köper godiset egentligen?'. Ingen svarade.",
-    "Skålen vägde 23 g mindre på 60 sekunder. Ingen var där.",
-    "Papperet från en Daim ligger i skålen. Psykopat."
-  ];
-  addEvent("warning",pick(warnings));
-}
-
-// Initial events
-addEvent("normal","SYSTEMET ONLINE. Skålen övervakas. Ni är inte anonyma.");
-setTimeout(function(){addEvent("warning","Kalibrerar sockersensorer... och samvetet.");},2000);
-setTimeout(function(){logCandy();},4000);
-
-// Regular events
-setInterval(function(){
-  var r=Math.random();
-  if(r<0.55) logCandy();
-  else if(r<0.75) logAlert();
-  else logWarning();
-},5000+Math.random()*3000);
-
-// Extra candy bursts
-setInterval(function(){
-  logCandy();setTimeout(logCandy,800);setTimeout(logCandy,1600);
-  setTimeout(function(){addEvent("alert","GODISRÅN PÅGÅR! Flera händer samtidigt!");},2200);
-},45000);
-
-updateStats();
+function alarm(){add("alert",pick(alerts).replace("{v}",visits).replace("{h}",getHej()));}
+function note(){add("note",pick(notes));}
+document.getElementById("hej").addEventListener("click",function(){
+  setHej(getHej()+1);stats();
+  var p=pick(hejPops);document.getElementById("popB").textContent=p[0];document.getElementById("popS").textContent=p[1];
+  var el=document.getElementById("pop");el.style.display="flex";
+  clearTimeout(window._pt);window._pt=setTimeout(function(){el.style.display="none";},2600);
+  add("hej","Någon sa HEJ till mig. Jag ska mejla HR om det. Av glädje, för en gångs skull.");
+});
+add("note","Skålvakten startad. Skålen övervakas. Ni är inte anonyma. Ni är bara osedda, som jag.");
+setTimeout(take,1500);setTimeout(note,3500);setTimeout(take,5500);
+setInterval(function(){var r=Math.random();if(r<.55)take();else if(r<.78)alarm();else note();},6500);
+stats();setInterval(stats,30000);
 </script>
 </body>
 </html>
