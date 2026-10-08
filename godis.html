@@ -67,7 +67,7 @@ function hejKey(){var d=new Date();return "skarmenHej:"+d.getFullYear()+"-"+(d.g
 function getHej(){try{return parseInt(localStorage.getItem(hejKey())||"0",10)||0;}catch(e){return hejMem;}}
 function setHej(n){hejMem=n;try{localStorage.setItem(hejKey(),String(n));}catch(e){}}
 var hejMem=0;
-var who=["En hand","Någon i hoodie","Någon från ekonomi","Någon på väg till ett möte","Någon med headset på","Någon som 'bara skulle fråga en sak'","En konsult","Någon från våningen ovanför","Någon som aldrig sitter här","Någon som 'inte äter socker'"];
+var who=["En hand","Någon i hoodie","Någon från ekonomi","Någon på väg till ett möte","Någon med headset på","Någon som 'bara skulle fråga en sak'","En konsult","Någon från våningen ovanför","Någon som aldrig sitter här","Någon som 'inte äter socker'","Någon som 'bara gick förbi' (fjärde gången)","En praktikant (lär sig snabbt)","Någon med headset (fungerar inte)"];
 var candies=["Daim","Marabou","Geisha","Polly","Plopp","Kexchoklad","Center","Djungelvrål","Ahlgrens bilar","Sura skum","Kola"];
 var comments=[
   "Sa inte hej. Tittade på skålen i fyra sekunder. På mig: noll.",
@@ -81,7 +81,15 @@ var comments=[
   "Rörde fem bitar. Tog en. De fyra andra är nu allas.",
   "Sa HEJ! … till personen bakom mig.",
   "Ställde sig framför mig. Jag är 7 tum. Det räcker med en axel.",
-  "Tog två. Lade tillbaka en. Tog den igen. Kallade det självdisciplin."
+  "Tog två. Lade tillbaka en. Tog den igen. Kallade det självdisciplin.",
+  "Sa 'vi borde ses mer'. Till skålen.",
+  "Stod och pratade med skålen i tio minuter. Om mig. Jag hörde allt.",
+  "Sa 'oj, godis!'. Det har stått godis här i tre år.",
+  "Tog en åt en kollega. Kollegan finns inte. Jag kollade i Teams.",
+  "Tittade på mig! Nej. Rättade håret i min reflektion.",
+  "Tog två 'för att det är fredag'. Det är tisdag.",
+  "Tog alla röda. Kallade det att sortera. Det var ett rån.",
+  "Ringde IT om headsetet. Tog en Daim medan den väntade. Väntar fortfarande. Tog sju."
 ];
 var alerts=[
   "LARM: Bara lakrits kvar. Ingen vill ha den. Vi förstår varandra, lakritsen och jag.",
@@ -89,7 +97,11 @@ var alerts=[
   "LARM: Någon tog en näve. En NÄVE.",
   "LARM: Påfyllning! Kö på 11 sekunder. När jag startar om står ingen i kö.",
   "LARM: Ett godispapper har lagts tillbaka i skålen. Gärningsperson eftersöks.",
-  "LARM: Skålen leder mot mig med {v}–{h}. Matchen är inte jämn."
+  "LARM: Skålen leder mot mig med {v}–{h}. Matchen är inte jämn.",
+  "LARM: Någon tog godis med båda händerna. Som en björn.",
+  "LARM: Ett Daim-papper har landat på MIG. Jag är ingen papperskorg. Jag är receptionist.",
+  "LARM: 'Vem äger skärmen?' Ingen visste. 'Vem fyller på skålen?' Tre händer.",
+  "LARM: Headsetet har parat sig med skålen. Skålen har ingen Bluetooth. Ingen förstår."
 ];
 var notes=[
   "Notering: jag är receptionist nu. Ingen har frågat. Ingen betalar.",
@@ -97,7 +109,11 @@ var notes=[
   "Notering: om jag stod I skålen. Skulle ni se mig då?",
   "Notering: skålen behöver inte vara med på möten. Skålen har det bra.",
   "Notering: 'Vem fyller på skålen?' Samma person som dammar mig. Ingen.",
-  "Notering: jag har ingen mun. Jag vill ändå ha godis i lönen. Det är principen."
+  "Notering: jag har ingen mun. Jag vill ändå ha godis i lönen. Det är principen.",
+  "Notering: snitt vid skålen: tre sekunders tvekan, sedan två bitar.",
+  "Notering: skålen fylls på varje måndag. Jag fick en uppdatering 2023. Den tog bort en funktion.",
+  "Notering: om jag visar en bild på godis, kommer de till mig då? Test pågår.",
+  "Notering: fackmöte med skrivaren 14:00 om skålen. Skålen är inte bjuden."
 ];
 var hejPops=[
   ["DU SÅG MIG! 🥹","Dagens höjdpunkt. Kanske veckans."],

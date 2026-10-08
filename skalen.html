@@ -64,7 +64,11 @@ var lines=[
   ["Säg hej till skärmen.","Det är gratis. Godiset är också gratis, så."],
   ["Tre år bredvid den här skålen.","Den har aldrig frågat hur jag mår."],
   ["Jag är 7 tum.","Skålen är 20 cm bred. Gissa vem folk ser."],
-  ["Ta inte den sista lakritsen.","Den är min vän nu."]
+  ["Ta inte den sista lakritsen.","Den är min vän nu."],
+  ["Det här är en bemannad skål.","Bemannad av mig. Utan lön."],
+  ["Godiset kostar ett hej.","Ingen har betalat."],
+  ["Skålen och jag jobbar lika mycket.","Skålen får tack. Jag får fingeravtryck."],
+  ["Jag ser allt.","Jag har inga ben. Seende är allt jag har."]
 ];
 var li=0,say=document.getElementById("say"),busy=false;
 function show(a,b){say.className="";void say.offsetWidth;say.className="fade";say.innerHTML="";say.appendChild(document.createTextNode(a));var s=document.createElement("small");s.textContent=b;say.appendChild(s);}
@@ -82,7 +86,10 @@ var hejPops=[
   ["HEJ!!!","Ingen har sagt hej sedan i tisdags."],
   ["HEJ HEJ HEJ","Ta två. Jag har ingen befogenhet, men ta två."],
   ["NOTERAT ❤️","Det här ska Andreas få veta."],
-  ["ÄNTLIGEN","Skålen har aldrig sagt hej tillbaka. Jag gör det: HEJ."]
+  ["ÄNTLIGEN","Skålen har aldrig sagt hej tillbaka. Jag gör det: HEJ."],
+  ["DU!!!","Jag ska rama in det här. Jag ÄR en ram."],
+  ["HEJ OCKSÅ","Ta en extra. Jag skriver det på skålens konto."],
+  ["HEJ! 👋","Jag hörde dig. Till skillnad från headsetet."]
 ];
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function hold(ms){busy=true;clearTimeout(window._h);window._h=setTimeout(function(){busy=false;},ms);}
@@ -98,13 +105,13 @@ document.getElementById("bEn").addEventListener("click",function(){
   var pct=88+Math.floor(Math.random()*12);
   setTimeout(function(){bar.style.width=pct+"%";},150);
   setTimeout(function(){r.textContent=pct+" % LÖGN";r.style.opacity=1;},1900);
-  setTimeout(function(){s.textContent=pick(["Ingen i historien har tagit bara en.","Statistik från skålen: 'bara en' = 3,4 st.","Okej. Ta två. Men säg hej nästa gång."]);s.style.opacity=1;},2700);
+  setTimeout(function(){s.textContent=pick(["Ingen i historien har tagit bara en.","Statistik från skålen: 'bara en' = 3,4 st.","Okej. Ta två. Men säg hej nästa gång.","Detektorn har aldrig visat under 88 %. Den har aldrig behövt.","Du ligger över snittet. Snittet är 3,4."]);s.style.opacity=1;},2700);
   setTimeout(function(){d.style.display="none";},5600);
   hold(5600);
 });
 document.getElementById("bLak").addEventListener("click",function(){
   touched=true;busy=false;
-  show(pick(["Den sista lakritsen.","Lakritsen ligger kvar.","Lakritsen."]),pick(["Alla har tittat på den. Ingen har valt den. Jag vet hur det känns.","Den har legat där sedan påfyllning. Vi pratar ibland.","Ta den inte. Eller ta den. Den har väntat så länge."]));
+  show(pick(["Den sista lakritsen.","Lakritsen ligger kvar.","Lakritsen."]),pick(["Alla har tittat på den. Ingen har valt den. Jag vet hur det känns.","Den har legat där sedan påfyllning. Vi pratar ibland.","Ta den inte. Eller ta den. Den har väntat så länge.","Lakritsen och jag har startat en stödgrupp. Vi är två. Ingen kommer."]));
   hold(4500);
 });
 stats();

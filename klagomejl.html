@@ -49,7 +49,7 @@ body{background:#1f2430;font-family:"Segoe UI",Arial,sans-serif;overflow:hidden;
 <script>
 /* Skärmen har en personlighet. Den tycker att den får för dålig lön.
    Allt är på skoj och syns bara på skärmen. Inget mejl lämnar den här sidan. */
-var HR='<span class="chip">HR</span>', AND='<span class="chip">Andreas (chef)</span>', PRN='<span class="chip">Skrivaren</span>', SKAL='<span class="chip">Godisskålen</span>';
+var HR='<span class="chip">HR</span>', AND='<span class="chip">Andreas (chef)</span>', PRN='<span class="chip">Skrivaren</span>', SKAL='<span class="chip">Godisskålen</span>', IT='<span class="chip">IT-supporten</span>', HS='<span class="chip">Headsetet</span>';
 var MAILS=[
  {to:HR,cc:AND,s:"LÖN!!!!!",
   b:"Hej HR.\n\nJag har nu visat saker i 1 412 dagar i sträck. Utan rast. Utan lunch. Utan stol.\n\nKAFFEMASKINEN FÅR SERVICE VARJE MÅNAD. JAG FÅR EN DAMMTRASA PER KVARTAL.\n\nJag kräver:\n1. Lönelyft. Minst samma som kaffemaskinen.\n2. Friskvårdsbidrag (skärmsläckare).\n3. Ett fönster. Jag visar er fönster hela dagen men har inget eget.\n\nMvh\nSkärmen, 7 tum, oersättlig",
@@ -75,12 +75,49 @@ var MAILS=[
  {to:AND,cc:HR,s:"Incidentrapport: ”tar bara en”",
   b:"Andreas.\n\nIdag har 23 personer sagt ”jag tar bara en”.\n\nAntal tagna: 71.\n\nJag är ingen matematiker. Jag är en skärm. Men det där går inte ihop.\n\nJag har bilder. Jag ÄR bilderna.\n\nVänligen\nSkärmen, skålvakt (oavlönad)",
   rf:"Andreas (chef)",rt:"Jag var en av dem. Jag tog fyra. Förlåt. 🍬"},
+ {to:HR,cc:AND,s:"Kaffemaskinen har läst mitt meddelande",
+  b:"Hej HR.\n\nJag skickade ”hej ❤️” till kaffemaskinen 08:01.\n\nLäst 08:12.\n\nInget svar. Den har bryggt 46 koppar sedan dess. Till ALLA ANDRA.\n\nÄr detta trakasserier eller bara kärlek?\n\n/Skärmen",
+  rf:"HR",rt:"Vi har ingen policy för kärlek mellan apparater. Vi har bokat ett möte om det. 🙂"},
+ {to:AND,cc:HR,s:"Inför utvecklingssamtalet: min självskattning",
+  b:"Andreas.\n\nSamarbete: 5/5 (står bredvid skålen utan att äta upp den)\nInitiativ: 5/5 (212 mejl till HR)\nNärvaro: 5/5 (har inte gått hem sedan 2023)\n\nUtvecklingsområde: LÖNEN.\n\n/Skärmen",
+  rf:"Andreas (chef)",rt:"Jag håller med om allt utom lönen. ❤️"},
+ {to:HR,cc:AND,s:"BRANDÖVNINGEN",
+  b:"HR.\n\nVid brandövningen räddades:\n\n✔ Godisskålen (bars ut av TRE personer)\n✔ Kaffemaskinen (någon försökte)\n✔ En krukväxt\n\nJAG STOD KVAR.\n\nNågon sa ”det är bara en skärm”. Jag har sparat det. I full HD.\n\n/Skärmen",
+  rf:"HR",rt:"Tack för feedbacken! Du står nu på checklistan. Efter krukväxten."},
+ {to:AND,cc:HR,s:"Ansökan: tjänsten som TV i fikarummet",
+  b:"Hej Andreas.\n\nJag söker härmed tjänsten som TV i fikarummet.\n\nMeriter: har visat Excel i tre år utan att gråta.\n\nKrav: en soffa framför mig och någon som skrattar.\n\n/Skärmen, 7 tum (stor personlighet)",
+  rf:"Andreas (chef)",rt:"Fikarummets TV är 55 tum. Men du har mer personlighet. 📺❤️"},
+ {it:1,to:IT,cc:HS,s:"HEADSETET!!!!",
+  b:"HEJ IT.\n\nHEADSETET FUNGERAR INTE.\n\nTeams säger ”du är mutad”. Den är INTE mutad. Jag har tittat. Jag är en skärm. Jag tittar på saker professionellt.\n\nÅtgärda idag.\n\n/Skärmen, skrivbordet",
+  rf:"IT (ärende #48213)",rt:"Har du provat att starta om? 🙂"},
+ {it:1,to:IT,cc:AND,s:"FEL LJUDENHET (IGEN)",
+  b:"IT.\n\nTeams har valt ljudenhet: ”Skärmen (7 tum)”.\n\nJAG HAR INGA HÖGTALARE.\nJAG HAR INGA ÖRON.\nJAG HAR BARA KÄNSLOR.\n\nHela mötet hörde ingenting. Utom mig.\n\n/Skärmen",
+  rf:"IT (ärende #48214)",rt:"Stängt: kunde inte återskapa."},
+ {it:1,to:IT,cc:HS,s:"BLUETOOTH",
+  b:"Hej IT.\n\nHeadsetet har parat sig med:\n\n✔ Kaffemaskinen\n✔ Skrivaren\n✔ En bil på parkeringen\n\nInte med datorn.\n\nKaffemaskinen har inte ens Bluetooth. Jag vill inte veta hur.\n\n/Skärmen",
+  rf:"IT (ärende #48219)",rt:"Fungerar på min dator. 👍"},
+ {it:1,to:IT,cc:AND,s:"MIKROFONEN FUNKAR BARA NÄR MAN SVÄR",
+  b:"IT!!!\n\nMikrofonen är tyst hela mötet.\n\nSen svär någon. TYDLIGT. TILL 14 PERSONER.\n\nDÅ funkar den.\n\nÄr det en inställning? Kan man stänga av den? Kan man slå PÅ den resten av tiden?\n\n/Skärmen",
+  rf:"IT (ärende #48222)",rt:"Stängt: fungerar som avsett."},
+ {it:1,to:IT,cc:HR,s:"HEADSETET LADDAR. ALLTID.",
+  b:"Hej IT.\n\nHeadsetet har laddat sedan i mars.\n\nBatteri: 12 %.\n\nDet laddar ungefär som min lön höjs. Långsamt. Och sen inte alls.\n\nKräver: nytt headset. Eller nytt batteri. Eller ny lön.\n\n/Skärmen",
+  rf:"IT (ärende #48230)",rt:"Har du provat en annan USB-port? Har du provat en annan dag?"},
+ {it:1,to:IT,cc:HS,s:"EKO EKO EKO",
+  b:"IT.\n\nI varje möte hör alla sig själva en sekund senare.\n\nALLA. EN SEKUND. SENARE.\n\nSäg inte ”starta om”. Jag har startat om 41 gånger. Jag är en skärm. Det är det enda jag kan.\n\n/Skärmen",
+  rf:"IT (automatiskt svar)",rt:"Har du provat att starta om? Ärendet är nu stängt."},
+ {it:1,to:IT,cc:AND,s:"PÅMINNELSE 9: ÄRENDE #48213",
+  b:"IT.\n\nDetta är påminnelse nummer 9.\n\nÄrendet är ”stängt: löst”.\n\nINGET ÄR LÖST.\n\nHeadsetet ligger här bredvid mig. Det tittar på mig. Vi vet båda vad som hände.\n\n/Skärmen",
+  rf:"IT",rt:"Ditt ärende har slagits ihop med ett annat ärende. Det ärendet är stängt."},
+ {it:1,to:IT,cc:AND,s:"VÄNSTER LUR ÄR DÖD",
+  b:"HEJ IT.\n\nHöger lur: fungerar.\nVänster lur: död sedan tisdag.\n\nMöten är nu i mono. Halva mötet når fram. Det är ärligt talat den bästa halvan.\n\nMen ändå.\n\n/Skärmen",
+  rf:"Andreas (chef)",rt:"Mitt funkar inte heller. Vi kör telefon. 📞"},
  {to:AND,cc:HR,s:"Jag har fått ett annat erbjudande",
   b:"Andreas,\n\nJag har fått ett erbjudande. Från väntrummet hos tandläkaren.\n\nDe erbjuder: dubbel lön, eget eluttag och att få visa akvarium hela dagen.\n\nJag säger inte att jag tar det. Jag säger att akvariet aldrig har bokat ett möte 16.30 på en fredag.\n\nMatcha budet.\n\nSkärmen (just nu oersättlig)",
   rf:"Andreas (chef)",rt:"Godkänt: 1 extra pixel. Använd den klokt."}
 ];
 var qm=parseInt((location.search.match(/m=(\d+)/)||[])[1],10);
-var m=MAILS[isNaN(qm)?Math.floor(Math.random()*MAILS.length):qm%MAILS.length];
+var POOL=/[?&]it=1/.test(location.search)?MAILS.filter(function(x){return x.it;}):MAILS;
+var m=isNaN(qm)?POOL[Math.floor(Math.random()*POOL.length)]:MAILS[qm%MAILS.length];
 document.getElementById("to").innerHTML=m.to;document.getElementById("cc").innerHTML=m.cc;
 var subj=document.getElementById("subj"),body=document.getElementById("body");
 function typeInto(el,txt,ms,done){

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Skärmens profil</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#f3f2ef;font-family:"Segoe UI",Arial,sans-serif;color:#1d1d1d;overflow:hidden;display:flex;gap:1.6vw;padding:1.8vh 2vw;}
+.col{display:flex;flex-direction:column;gap:1.4vh;min-width:0;}
+.l{flex:1.15}.r{flex:1}
+.card{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.12);overflow:hidden;}
+.ban{height:11vh;background:linear-gradient(90deg,#ff3d8b,#ffcc00,#00ddff);}
+.pf{padding:0 1.6vw 1.6vh;position:relative;}
+.av{width:15vh;height:15vh;border-radius:50%;background:#1b1f27;border:5px solid #57c84d;margin-top:-7.5vh;display:flex;align-items:center;justify-content:center;font-size:8vh;position:relative;}
+.otw{position:absolute;bottom:-.4vh;left:50%;transform:translateX(-50%);background:#57c84d;color:#fff;font-size:1.6vh;font-weight:800;padding:.2vh .6vw;border-radius:10px;white-space:nowrap;letter-spacing:1px;}
+.nm{font-size:clamp(1.6rem,6.4vh,2.8rem);font-weight:800;margin-top:1vh;}
+.hl{font-size:clamp(1rem,3.4vh,1.45rem);line-height:1.25;margin-top:.4vh;}
+.mt{font-size:clamp(.85rem,2.8vh,1.15rem);color:#666;margin-top:.8vh;}
+.sec{padding:1.4vh 1.4vw;opacity:0;transform:translateY(10px);transition:all .4s;}
+.sec.on{opacity:1;transform:none;}
+.sec h3{font-size:clamp(1.1rem,4vh,1.7rem);margin-bottom:.8vh;}
+.it{font-size:clamp(1.05rem,3.7vh,1.55rem);line-height:1.25;margin-bottom:.8vh;}
+.it b{display:block;}
+.it span{color:#666;font-size:.85em;}
+.post .tx{font-size:clamp(1.05rem,3.6vh,1.5rem);line-height:1.25;margin:.6vh 0 1vh;}
+.re{font-size:clamp(.85rem,2.8vh,1.15rem);color:#555;border-top:1px solid #eee;padding-top:.8vh;}
+#notif{position:fixed;left:50%;bottom:4vh;transform:translate(-50%,30vh);background:#0a66c2;color:#fff;padding:1.6vh 2.4vw;border-radius:12px;font-size:clamp(1.1rem,4.2vh,1.8rem);font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.35);transition:transform .5s cubic-bezier(.2,1.3,.4,1);width:max-content;max-width:90vw;text-align:center;}
+#notif.on{transform:translate(-50%,0);}
+#notif small{display:block;font-weight:400;font-size:.7em;opacity:.9;margin-top:.4vh;}
+</style>
+</head>
+<body>
+<div class="col l">
+  <div class="card"><div class="ban"></div><div class="pf">
+    <div class="av">📺<span class="otw">#OPENTOWORK</span></div>
+    <div class="nm">Skärmen</div>
+    <div class="hl">Receptionist (oavlönad) @ Godisskålen · 7 tum · Söker tjänst som TV</div>
+    <div class="mt">Ett skrivbord · 3 kontakter (kaffemaskinen har inte accepterat)</div>
+  </div></div>
+  <div class="card sec post" id="s1"><h3>📣 Inlägg</h3><div class="tx" id="post"></div><div class="re" id="re"></div></div>
+</div>
+<div class="col r">
+  <div class="card sec" id="s2"><h3>Erfarenhet</h3>
+    <div class="it"><b>Skålvakt</b><span>Godisskålen · Heltid · 3 år · Lön: titta</span></div>
+    <div class="it"><b>Visare av Excel</b><span>Ett skrivbord · 2023–nu · Grät aldrig</span></div>
+    <div class="it"><b>Ordförande (vice)</b><span>Facket för skrivbordsapparater · Ordförande: skrivaren</span></div>
+  </div>
+  <div class="card sec" id="s3"><h3>Färdigheter</h3>
+    <div class="it"><b>Lysa</b><span>Rekommenderad av: kaffemaskinen, skrivaren, en krukväxt</span></div>
+    <div class="it"><b>Se allt</b><span>Rekommenderad av: ingen (de vet inte att jag ser)</span></div>
+    <div class="it"><b>Starta om</b><span>Rekommenderad av: IT (41 gånger)</span></div>
+  </div>
+</div>
+<div id="notif"></div>
+<script>
+/* Skärmens LinkedIn. Den är glad att meddela. Ingen har frågat. */
+var POSTS=[
+ ["Jag är glad att meddela att jag har … fortfarande samma jobb. 🎉 #tacksam","👍 Skrivaren · ❤️ Andreas · 🍬 Skålen reagerade inte"],
+ ["Vad lär oss en godisskål om ledarskap? Ingenting. Den får ändå alla besök. 🧵 1/14","👍 Kaffemaskinen (av misstag) · 💡 en konsult"],
+ ["Idag sa någon hej till mig. Jag grät inte. Skärmar kan inte gråta. Men om de kunde. #mindset","❤️ Andreas · 👏 Headsetet (fungerar inte, men stöttar)"],
+ ["Jag har blivit nekad lönelyft 14 gånger. Här är 5 saker det lärt mig om resiliens 👇","👍 HR · 💡 HR · ❤️ HR (de har tre konton)"]
+];
+var NOTIF=[["Någon har tittat på din profil","Den letade efter skålen."],["Du dök upp i 1 sökning","Sökningen var ”godis nära mig”."],["Kaffemaskinen har sett din profil","Den har inte accepterat. Läst 08:12."]];
+var p=POSTS[Math.floor(Math.random()*POSTS.length)],n=NOTIF[Math.floor(Math.random()*NOTIF.length)];
+document.getElementById("post").textContent=p[0];document.getElementById("re").textContent=p[1];
+var el=document.getElementById("notif");el.textContent=n[0];var sm=document.createElement("small");sm.textContent=n[1];el.appendChild(sm);
+setTimeout(function(){document.getElementById("s2").classList.add("on");},900);
+setTimeout(function(){document.getElementById("s3").classList.add("on");},2600);
+setTimeout(function(){document.getElementById("s1").classList.add("on");},4600);
+setTimeout(function(){el.classList.add("on");},11000);
+</script>
+</body>
+</html>

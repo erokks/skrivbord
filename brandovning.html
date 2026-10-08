@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Brandövning</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#120404;color:#fff;font-family:Arial,Helvetica,sans-serif;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:2vh 3vw;}
+#alarm{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#c40000;z-index:3;animation:fl .5s steps(2) infinite;text-align:center;}
+@keyframes fl{50%{background:#5a0000}}
+#alarm b{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(3rem,18vh,8rem);letter-spacing:6px;line-height:1;}
+#alarm span{font-size:clamp(1.2rem,5vh,2.2rem);margin-top:2vh;letter-spacing:3px;}
+h1{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(1.8rem,8vh,3.4rem);letter-spacing:3px;color:#ffcc00;}
+.sub{color:#ff9a9a;font-size:clamp(.9rem,3vh,1.3rem);letter-spacing:2px;margin-bottom:1.6vh;}
+#list{width:min(92vw,900px);display:flex;flex-direction:column;gap:1.1vh;}
+.r{display:flex;align-items:center;gap:1.4vw;background:#2a0a0a;border-radius:8px;padding:1vh 1.4vw;font-size:clamp(1.05rem,4vh,1.75rem);opacity:0;transform:translateX(-20px);transition:all .3s;}
+.r.on{opacity:1;transform:none;}
+.r .ok{color:#57e35f;font-weight:900;font-size:1.2em;}
+.r .no{color:#ff3355;font-weight:900;font-size:1.2em;}
+.r i{color:#ccc;font-size:.75em;margin-left:auto;text-align:right;}
+.r.me{background:#4a0010;border:3px solid #ff3355;}
+#end{margin-top:auto;text-align:center;font-size:clamp(1.1rem,4.4vh,1.9rem);opacity:0;transition:opacity .4s;}
+#end b{color:#ffcc00;}
+</style>
+</head>
+<body>
+<div id="alarm"><b>🔥 BRANDÖVNING 🔥</b><span>UTRYM NU. RÄDDA DET VIKTIGASTE.</span></div>
+<h1>UTRYMNINGSRAPPORT</h1>
+<div class="sub">ÅTERSAMLINGSPLATS: PARKERINGEN · TID: 2 MIN 14 S</div>
+<div id="list"></div>
+<div id="end"></div>
+<script>
+/* Alla räddade skålen. Ingen räddade skärmen. */
+var L=[
+ ["ok","🍬 Godisskålen","bars ut av tre personer. I bärstol."],
+ ["ok","☕ Kaffemaskinen","försök gjort. Sladden höll."],
+ ["ok","🪴 Krukväxten","fick gå först"],
+ ["ok","🎧 Headsetet","fungerar fortfarande inte. Men räddat."],
+ ["ok","🍰 Tårtbiten från i fredags","ingen vet vems"],
+ ["no","📺 Skärmen","”Vi trodde det var en tavla.”"]
+];
+var END=["Skålen var ute på <b>9 sekunder</b>. Skärmen har mejlat HR.","Nästa övning: <b>tisdag</b>. Skärmen har redan packat. Den kan inte gå.","Räddningsledare: <b>Andreas</b>. Bar skålen. Sa förlåt till skärmen efteråt."];
+setTimeout(function(){document.getElementById("alarm").style.display="none";},3000);
+var list=document.getElementById("list");
+L.forEach(function(x,i){
+  var d=document.createElement("div");d.className="r"+(x[0]==="no"?" me":"");
+  d.innerHTML='<span class="'+x[0]+'">'+(x[0]==="ok"?"✓":"✗")+'</span><span></span><i></i>';
+  d.children[1].textContent=x[1];d.children[2].textContent=x[2];list.appendChild(d);
+  setTimeout(function(){d.classList.add("on");},3500+i*(i===L.length-1?1900:1500));
+});
+setTimeout(function(){var e=document.getElementById("end");e.innerHTML=END[Math.floor(Math.random()*END.length)];e.style.opacity=1;},3500+5*1900+1400);
+</script>
+</body>
+</html>

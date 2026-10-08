@@ -13,7 +13,9 @@ body{background:#14213d;color:#fff;font-family:"Segoe UI",Arial,sans-serif;overf
 .meta{font-size:clamp(.85rem,2.8vh,1.2rem);color:#9fb3d9;letter-spacing:1px;}
 #grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:1vh;min-height:0;}
 .sq{background:#f5f1e6;color:#14213d;border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;padding:.6vh .8vw;font-weight:800;font-size:clamp(.85rem,3vh,1.35rem);line-height:1.12;position:relative;overflow:hidden;}
-.sq.hit:after{content:"";position:absolute;width:min(13vh,80%);aspect-ratio:1;border-radius:50%;background:rgba(220,30,60,.55);animation:dab .25s cubic-bezier(.2,1.4,.4,1);}
+/* Markeringen ligger BAKOM texten (isolation + z-index:-1) så rutan alltid går att läsa. */
+.sq{isolation:isolate;}
+.sq.hit:after{content:"";position:absolute;z-index:-1;width:min(14vh,82%);aspect-ratio:1;border-radius:50%;background:rgba(230,40,80,.28);border:5px solid rgba(220,30,60,.85);box-sizing:border-box;animation:dab .25s cubic-bezier(.2,1.4,.4,1);}
 .sq.win{background:#fca311;}
 @keyframes dab{from{transform:scale(2.4);opacity:0}to{transform:scale(1);opacity:1}}
 #said{background:#0b1426;border-left:6px solid #fca311;border-radius:6px;padding:1.2vh 1.4vw;font-size:clamp(1.05rem,3.8vh,1.7rem);min-height:2.4em;display:flex;align-items:center;gap:1vw;}
@@ -25,55 +27,143 @@ body{background:#14213d;color:#fff;font-family:"Segoe UI",Arial,sans-serif;overf
 </style>
 </head>
 <body>
-<div class="top"><div class="logo">MÖTESBINGO</div><div class="meta">Snabb avstämning · 14:00–? · 14 deltagare</div></div>
+<div class="top"><div class="logo" id="logo">MÖTESBINGO</div><div class="meta" id="meta"></div></div>
 <div id="grid"></div>
 <div id="said"><b>🎙</b><span id="line">Mötet börjar...</span></div>
 <div id="bingo"><div class="l">BINGO!</div><div class="r"></div><div class="k" id="prize"></div></div>
 <script>
-/* Rutor fylls i när någon säger det. Alla säger det alltid. */
-var Q=[
-  ["Ser ni min skärm?","Mötesledaren","Ser ni min skärm? ...Nu då?"],
-  ["Du är på mute","Alla","Du är på mute. DU ÄR PÅ MUTE."],
-  ["Snabb fråga","Någon i chatten","Snabb fråga bara!"],
+/* Rutor fylls i när någon säger det. Alla säger det alltid. Fyra varianter, samma tempo. */
+var V=[
+ {logo:"MÖTESBINGO",meta:"Snabb avstämning · 14:00–? · 14 deltagare",bg:"#14213d",ac:"#fca311",
+  q:[["Ser ni min skärm?","Mötesledaren","Ser ni min skärm? …Nu då? …Nu?"],
+  ["En sista grej","Mötesledaren","Okej, en sista grej. Eller två."],
   ["Vi tar det offline","Mötesledaren","Vi tar det offline."],
-  ["En sista grej","Mötesledaren","Okej, en sista grej..."],
-  ["Kan vi parkera det?","Någon","Kan vi parkera det?"],
-  ["Hör ni mig?","Någon på tåget","Hör ni mig? Hallå? Hör ni mig?"],
-  ["Vi väntar 2 min till","Mötesledaren","Vi väntar två minuter till på folk."],
-  ["Eko","Rum B","Eko... eko... eko..."],
-  ["Hund i bakgrunden","Någons hund","VOFF!"],
-  ["Vi är lite över tiden","Mötesledaren","Vi är lite över tiden, men..."],
-  ["Kan du ta det igen?","Någon som läste mejl","Förlåt, kan du ta det igen?"],
-  ["Spelar vi in?","Någon","Spelar vi in det här?"],
   ["Låt oss cirkla tillbaka","Mötesledaren","Låt oss cirkla tillbaka till det."],
-  ["Fel fönster","Mötesledaren","Oj, det där var fel fönster."],
+  ["Kan vi parkera det?","Någon","Kan vi parkera det?"],
+  ["Vi väntar 2 min till","Mötesledaren","Vi väntar två minuter till på folk."],
+  ["Fel fönster","Mötesledaren","Oj. Fel fönster. Ingen såg något."],
   ["Hård stopp","Någon","Jag har en hård stopp om fem."],
-  ["Har alla fått inbjudan?","Mötesledaren","Har alla fått inbjudan?"],
+  ["Spelar vi in?","Någon","Spelar vi in? …Vi har spelat in hela tiden."],
+  ["Kan du ta det igen?","Någon som läste mejl","Förlåt, kan du ta det igen?"],
+  ["Vem tar anteckningar?","Mötesledaren","Vem tar anteckningar? …Hallå?"],
+  ["Jag ska inte hålla er länge","Mötesledaren","Jag ska inte hålla er länge."],
+  ["Bra fråga!","Mötesledaren","Bra fråga! …Vad var frågan?"],
+  ["Vi tar det på nästa möte","Mötesledaren","Det tar vi på nästa möte."],
+  ["Kort fråga, lång bakgrund","Någon från ekonomi","Kort fråga. Lite bakgrund först. 2014…"],
+  ["Lite över tiden","Mötesledaren","Vi är lite över tiden, men…"],
+  ["Någon äter chips","Någon nära mikrofonen","*krasch krasch krasch*"],
+  ["Kan alla se Excel?","Mötesledaren","Kan alla se Excel? Zooma in. Nej, IN."],
+  ["Agenda: ”Diskutera”","Inbjudan","Agenda: Diskutera."],
+  ["Har alla fått inbjudan?","Mötesledaren","Har alla fått inbjudan?"]],
+  pz:["Vinst: ett uppföljningsmöte","Vinst: ett till möte, samma tid nästa vecka","Vinst: du tar anteckningar","Vinst: mötet förlängs 15 min för att fira","Vinst: en inbjudan till förmötet"]},
+ {logo:"TEAMS-BINGO",meta:"Teams · 09:00 · 11 deltagare · 3 kameror på",bg:"#2b2d5c",ac:"#a6a9ff",
+  q:[["Du är på mute","Alla","Du är på mute. DU ÄR PÅ MUTE."],
+  ["Hör ni mig?","Någon på tåget","Hör ni mig? Hallå? Tunnel."],
   ["Nu frös du","Alla","Du frös. Nu frös du igen."],
-  ["Win-win","Någon från sälj","Det här är ju en win-win."],
-  ["Ingen agenda","Skärmen","Finns det en agenda? Nej."]
+  ["Eko","Rum B","Eko… eko… eko…"],
+  ["Hund i bakgrunden","Någons hund","VOFF!"],
+  ["Ett barn kommer in","Någons barn","VEM PRATAR DU MED?"],
+  ["Katt på tangentbordet","Katten","ffffffffjjjjjjjjj"],
+  ["Kameran av ”pga bandbredd”","Någon","Kameran är av. Bandbredden. *pyjamas*"],
+  ["Pratar på mute","Någon","*läppar rör sig i 40 sekunder*"],
+  ["Kan du dela igen?","Alla","Kan du dela igen? Vi ser ditt skrivbord."],
+  ["Handen uppe sedan i tisdags","Någon","✋ (sedan 09:02)"],
+  ["Strandbakgrund i november","Någon","Varför är du på en strand?"],
+  ["Tryckte Lämna i stället för Mute","Mötesledaren","*har lämnat mötet*"],
+  ["Läs chatten","Någon","Jag skrev det i chatten. LÄS CHATTEN."],
+  ["👏 på fel sak","Någon","Servern är nere. *👏*"],
+  ["Jag måste hoppa","Någon","Jag måste hoppa. *sitter kvar 20 min*"],
+  ["Någon dammsuger","Någons granne","VRRRRRMMMMMM"],
+  ["Ansluter…","Teams","Ansluter… Ansluter… Ansluter…"],
+  ["Headsetet ansluter… igen","Headsetet","Ansluten. Frånkopplad. Ansluten."]],
+  pz:["Vinst: Teams uppdaterar sig. Nu.","Vinst: du är presentatör nu","Vinst: mötet startar om i webbläsaren","Vinst: ”Kan du ta det igen?”"]},
+ {logo:"FREDAGSBINGO",meta:"Fredag · 15:30 · ”snabb avstämning”",bg:"#123524",ac:"#7cff6b",
+  q:[["”Trevlig helg!” kl 13","Någon","Trevlig helg! (klockan är 13:02)"],
+  ["Ölvagnen nämns","Någon","Kommer ölvagnen?"],
+  ["Det tar vi på måndag","Mötesledaren","Det tar vi på måndag."],
+  ["Inbjudan: fredag 16:30","Kalendern","Ny inbjudan: Fredag 16:30."],
+  ["Deploy på fredag","Någon från IT","Vi pushar bara en liten grej."],
+  ["Vad gör du i helgen?","Alla","Vad gör du i helgen? –Ingenting."],
+  ["Locket redan stängt","Någon","*stängde locket 15:01*"],
+  ["Snabb fråga 15:55","Någon","Snabb fråga innan du går!"],
+  ["Jacka på i mötet","Någon","*jacka på, väska på, kamera på*"],
+  ["En sista grej innan helgen","Mötesledaren","En sista grej innan helgen."],
+  ["Grön status, ingen hemma","Teams","*Tillgänglig* (är på landet)"],
+  ["Vi ses på måndag! kl 14","Alla","Vi ses på måndag!"],
+  ["Någon tar sista bullen","Någon","Vill någon ha den sista? *tar den*"],
+  ["”Ska inte du hem?”","Någon","Ska inte du hem snart?"],
+  ["Kaffemaskinen har gått hem","Kaffemaskinen","*pip* (avkalkar)"],
+  ["Fredagsmys!","Någon","FREDAGSMYS!"]],
+  pz:["Vinst: ett möte på måndag 08:00","Vinst: du stänger av alla datorer","Vinst: ingen. Gå hem.","Vinst: helgen (från 16:59)"]},
+ {logo:"HEADSETBINGO",meta:"Teams · 09:00 · headset: 12 % · ärende #48213",bg:"#1d2b2b",ac:"#4fe0d0",
+  q:[["Du är mutad (är inte mutad)","Teams","Du är mutad."],
+  ["Fel ljudenhet","Teams","Vald ljudenhet: Skärmen (7 tum)."],
+  ["Eko","Alla","Eko… eko… eko…"],
+  ["Parar med fel sak","Bluetooth","Ansluten: Kaffemaskinen."],
+  ["Ansluten men tyst","Headsetet","*ansluten* *total tystnad*"],
+  ["Laddar sedan mars","Headsetet","Batteri: 12 %. Laddar."],
+  ["Funkar bara när man svär","Mikrofonen","*@#%!* …oj. Nu hörs jag."],
+  ["Ena luren dog","Headsetet","Nu bara vänster öra."],
+  ["”Har du provat starta om?”","IT","Har du provat att starta om?"],
+  ["”Fungerar på min dator”","IT","Fungerar på min dator."],
+  ["Ärende stängt","IT","Stängt: kunde inte återskapa."],
+  ["Hör bara skrivaren","Headsetet","Du hör: skrivaren. Bara skrivaren."],
+  ["Ringer in via mobilen","Någon","Jag ringer in. *tunnel*"],
+  ["Mikrofonen mot hakan","Någon","*skrap skrap skrap*"],
+  ["”Hör ni mig nu?”","Någon","Hör ni mig nu? Nu? NU?"],
+  ["Pip: låg batterinivå","Headsetet","PIP. Låg batterinivå. PIP."],
+  ["Drar ur och sätter i","Någon","Vänta, jag drar ur sladden. *lämnade mötet*"]],
+  pz:["Vinst: ett nytt ärendenummer","Vinst: IT kommer på tisdag. Vilken tisdag vet ingen.","Vinst: headsetet ansluter. Till kaffemaskinen.","Vinst: ”Har du provat att starta om?”"]},
+ {logo:"SKÅLBINGO",meta:"Godisskålen · idag · skålvakt: Skärmen",bg:"#3a0a24",ac:"#ff7ab6",never:"Någon säger hej till skärmen",
+  q:[["”Tar bara en”","Någon","Jag tar bara en."],
+  ["Säger hej till skålen","Någon","Hej skålen!"],
+  ["Gräver efter Daim","En hand","*prassel prassel prassel*"],
+  ["Lakritsen ligger kvar","Lakritsen","…"],
+  ["En ”till senare”","Någon","En till senare."],
+  ["”Vem köper godiset?”","Någon","Vem köper godiset egentligen?"],
+  ["Kommer från annan våning","Okänd","Jag bara gick förbi."],
+  ["”Jag äter inte socker”","Någon","Jag äter inte socker. *tar tre*"],
+  ["Clementin i skålen","Någon","Jag lade en clementin. Det är nyttigt."],
+  ["Papper tillbaka i skålen","Någon","*lägger tillbaka papperet*"],
+  ["Andreas tar en","Andreas (chef)","Jag tar bara en. Eller fyra."],
+  ["”Oj, det finns godis!”","Någon","Oj, godis! (har funnits i tre år)"],
+  ["Tar med till mötet","Någon","Jag tar några till mötet."],
+  ["”Är det här till alla?”","Någon","Är det här till alla? *tuggar redan*"],
+  ["”Har ni inget nyttigt?”","Någon","Har ni inget nyttigt? *tar Daim*"],
+  ["Tittar sig omkring först","Någon","*kollar vänster, höger, tar två*"]],
+  pz:["Vinst: den sista lakritsen","Vinst: en bit. Bara en. På riktigt.","Vinst: du fyller på skålen","Ingen sa hej till skärmen. Som vanligt."]}
 ];
-var PRIZES=["Vinst: ett uppföljningsmöte","Vinst: ett till möte, samma tid nästa vecka","Vinst: du får ta anteckningar","Vinst: 'snabb fråga' från mötesledaren"];
 var LINES=[];for(var r=0;r<4;r++){LINES.push([r*4,r*4+1,r*4+2,r*4+3]);LINES.push([r,r+4,r+8,r+12]);}LINES.push([0,5,10,15]);LINES.push([3,6,9,12]);
 var G=document.getElementById("grid");
+function shuf(a){return a.slice().sort(function(){return Math.random()-.5});}
+var qv=parseInt((location.search.match(/v=(\d+)/)||[])[1],10);
+var vi=!isNaN(qv)?qv%V.length:(new Date().getDay()===5&&Math.random()<.5?2:Math.floor(Math.random()*V.length));
 function round(){
-  var pool=Q.slice().sort(function(){return Math.random()-.5}).slice(0,16);
+  var v=V[vi%V.length];vi++;
+  document.body.style.background=v.bg;
+  var lg=document.getElementById("logo");lg.textContent=v.logo;lg.style.color=v.ac;
+  document.getElementById("meta").textContent=v.meta;
+  document.getElementById("said").style.borderLeftColor=v.ac;document.querySelector("#said b").style.color=v.ac;
+  var pool=shuf(v.q).slice(0,v.never?15:16),neverIdx=-1;
+  if(v.never){neverIdx=Math.floor(Math.random()*16);pool.splice(neverIdx,0,[v.never,"",""]);}
   G.innerHTML="";pool.forEach(function(q){var d=document.createElement("div");d.className="sq";d.textContent=q[0];G.appendChild(d);});
   document.getElementById("bingo").style.display="none";
-  var line=LINES[Math.floor(Math.random()*LINES.length)];
-  var others=[];for(var k=0;k<16;k++)if(line.indexOf(k)<0)others.push(k);
-  others.sort(function(){return Math.random()-.5});
+  var okLines=LINES.filter(function(l){return l.indexOf(neverIdx)<0;});
+  var line=okLines[Math.floor(Math.random()*okLines.length)];
+  var others=[];for(var k=0;k<16;k++)if(line.indexOf(k)<0&&k!==neverIdx)others.push(k);
+  others=shuf(others);
   var order=[line[0],others[0],line[1],others[1],others[2],line[2],others[3],line[3]];
   order.forEach(function(idx,n){
     setTimeout(function(){
-      var q=pool[idx];document.getElementById("line").innerHTML="";var b=document.createElement("b");b.textContent=q[1]+":";var sp=document.createElement("span");sp.textContent="“"+q[2]+"”";
-      var L=document.getElementById("line");L.appendChild(b);L.appendChild(document.createTextNode(" "));L.appendChild(sp);
+      var q=pool[idx],L=document.getElementById("line");L.innerHTML="";
+      var b=document.createElement("b");b.style.color=v.ac;b.textContent=q[1]+":";var sp=document.createElement("span");sp.textContent="“"+q[2]+"”";
+      L.appendChild(b);L.appendChild(document.createTextNode(" "));L.appendChild(sp);
       G.children[idx].classList.add("hit");
     },1200+n*1700);
   });
   setTimeout(function(){
-    line.forEach(function(i){G.children[i].classList.add("win");});
-    setTimeout(function(){document.getElementById("prize").textContent=PRIZES[Math.floor(Math.random()*PRIZES.length)];document.getElementById("bingo").style.display="flex";},900);
+    line.forEach(function(i){G.children[i].classList.add("win");G.children[i].style.background=v.ac;});
+    setTimeout(function(){document.getElementById("prize").textContent=v.pz[Math.floor(Math.random()*v.pz.length)];document.querySelector("#bingo .l").style.color=v.ac;document.getElementById("bingo").style.display="flex";},900);
   },1200+order.length*1700);
   setTimeout(round,1200+order.length*1700+6000);
 }

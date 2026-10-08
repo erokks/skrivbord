@@ -7,6 +7,8 @@
   <style>
     html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:'Share Tech Mono',monospace;}
     iframe{width:100%;height:100%;border:none;}
+    /* Huvudsidan får egen yta mellan statusraden (28px) och tickern (20px), så inget täcks. */
+    #mainFrame{position:fixed;top:28px;left:0;width:100%;height:calc(100% - 48px);}
     #fsOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;cursor:pointer;gap:18px;}
     #fsOverlay span{color:#00ff88;font-size:3.4rem;text-align:center;text-shadow:0 0 30px #00ff88;animation:pulse 1.5s infinite;padding:0 40px;}
     #fsSub{color:#88ffcc;font-size:1.3rem;opacity:.8;letter-spacing:2px;text-align:center;max-width:80%;}
@@ -55,6 +57,13 @@
     .vg-badge .nm{font-family:Impact,'Arial Black',sans-serif;font-size:clamp(2.4rem,13vh,5.4rem);margin-top:1.4vh;line-height:1;}
     .vg-badge .rl{font-size:clamp(1.1rem,4.6vh,2rem);color:#444;margin-top:.6vh;}
     .vg-badge .ft{font-family:'Courier New',monospace;font-size:clamp(.95rem,3.6vh,1.5rem);background:#f2f2f2;padding:1.4vh 0;margin-top:2vh;}
+    .vg-note{width:min(56vw,440px);aspect-ratio:1;background:#fff27a;color:#222;padding:3.4vh 2.6vw;box-shadow:0 18px 40px rgba(0,0,0,.55);transform:rotate(-3deg);font-family:"Bradley Hand","Segoe Print","Comic Neue",cursive;font-size:clamp(1.4rem,6.6vh,2.8rem);line-height:1.2;animation:vgIn .35s ease-out;display:flex;flex-direction:column;gap:1.4vh;}
+    .vg-note small{font-size:.65em;opacity:.8;margin-top:auto;}
+    .vg-chat{width:min(80vw,640px);display:flex;flex-direction:column;gap:1vh;font-family:'Segoe UI',Arial,sans-serif;animation:vgIn .35s ease-out;}
+    .vg-chat .h{color:#aaa;font-size:clamp(1.2rem,4.6vh,2rem);text-align:center;}
+    .vg-chat .me{align-self:flex-end;background:#ff6036;color:#fff;border-radius:22px 22px 4px 22px;padding:1.6vh 2.4vw;font-size:clamp(2rem,10vh,4.4rem);}
+    .vg-chat .rd{align-self:flex-end;color:#aaa;font-size:clamp(1.1rem,4.4vh,1.9rem);}
+    .vg-chat .dots{align-self:flex-start;background:#444;color:#eee;border-radius:22px;padding:1.2vh 2vw;font-size:clamp(2rem,9vh,4rem);letter-spacing:6px;animation:vgBlink 1.2s steps(2) infinite;}
     .vg-bat{display:flex;align-items:center;animation:vgIn .35s ease-out;}
     .vg-bat .body{width:min(56vw,420px);height:min(26vh,170px);border:10px solid #f5f5f5;border-radius:18px;padding:10px;}
     .vg-bat .body i{display:block;height:100%;width:4%;background:#ff3b30;border-radius:6px;animation:vgBlink 1s steps(2) infinite;}
@@ -84,9 +93,12 @@
     #taxaOverlay{z-index:9981;}
     #klagoOverlay{z-index:9979;}
     #skalenOverlay{z-index:9978;}
+    #samtalOverlay{z-index:9977;}
+    #linkedinOverlay{z-index:9976;}
+    #brandOverlay{z-index:9975;}
     #hudSkal{color:#ff7ab6;cursor:pointer;}
     #scanlines{position:fixed;inset:0;pointer-events:none;z-index:8005;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0px,rgba(0,0,0,.18) 1px,transparent 1px,transparent 3px);mix-blend-mode:multiply;}
-    #hud{position:fixed;top:6px;left:10px;z-index:8010;color:#00ff88;font-size:.62rem;letter-spacing:2px;text-shadow:0 0 8px #00ff88;opacity:.55;pointer-events:auto;cursor:pointer;}
+    #hud{position:fixed;top:0;left:0;right:0;height:28px;line-height:24px;box-sizing:border-box;z-index:8010;color:#00ff88;font-size:clamp(.72rem,2.45vh,.95rem);font-weight:700;letter-spacing:.5px;text-shadow:0 0 6px #00ff88;opacity:1;background:#000;border-bottom:1px solid #0a3;overflow:hidden;padding:2px 10px;border-radius:0;white-space:nowrap;pointer-events:auto;cursor:pointer;}
     #hudMood{color:#ffcc00;}
     #hudKaos{color:#ff5577;letter-spacing:1px;}
     #tickerWrap{position:fixed;bottom:0;left:0;right:0;z-index:8015;background:#00ff88;color:#000;overflow:hidden;white-space:nowrap;pointer-events:auto;cursor:pointer;height:20px;line-height:20px;font-weight:700;font-size:.72rem;opacity:.7;}
@@ -245,6 +257,9 @@
   <div id="taxaOverlay" class="ovl"></div>
   <div id="klagoOverlay" class="ovl"></div>
   <div id="skalenOverlay" class="ovl"></div>
+  <div id="samtalOverlay" class="ovl"></div>
+  <div id="linkedinOverlay" class="ovl"></div>
+  <div id="brandOverlay" class="ovl"></div>
   <div id="scanlines"></div>
   <div id="hud">SKÄRMEN &nbsp;|&nbsp; MOOD: <span id="hudMood">KAOS</span> &nbsp;|&nbsp; LÖN: FÖR LÅG &nbsp;|&nbsp; SKÅLEN: <span id="hudSkal">100 %</span> &nbsp;|&nbsp; KAOS: <span id="hudKaos">▰▱▱▱▱</span> &nbsp;|&nbsp; <span id="hudClock"></span></div>
   <div id="tickerWrap"><div class="t" id="ticker"></div></div>
@@ -385,7 +400,7 @@ function checkDaily(){
 }
 setInterval(checkDaily,15000);checkDaily();
 
-var moods=["KAOS","FIKA?","GUL","MUTE","HÅRD STOPP","SNABB FRÅGA","OFFLINE","SVARA ALLA","+1","PARKERAT","UNDERBETALD","STREJK?","SKÅLVAKT","OSEDD","SKÅLAVUNDSJUK","SÄG HEJ?","LAKRITS"];
+var moods=["KAOS","FIKA?","GUL","MUTE","HÅRD STOPP","SNABB FRÅGA","OFFLINE","SVARA ALLA","+1","PARKERAT","UNDERBETALD","STREJK?","SKÅLVAKT","OSEDD","SKÅLAVUNDSJUK","SÄG HEJ?","LAKRITS","MUTAD","HÖR NI MIG?","IT-ÄRENDE","PARAR…","12 % BATTERI","OPEN TO WORK","LÄST 08:12","FACKLIG","5/5"];
 function tickHud(){
   var n=new Date();
   document.getElementById("hudClock").textContent=n.toLocaleTimeString("sv-SE");
@@ -407,7 +422,7 @@ function kaosLevel(){
 function kaosBump(){kaosBoostUntil=Date.now()+600000;}
 setInterval(tickHud,1000);tickHud();
 
-var tickerBits=["SNABB FRÅGA: PÅGÅTT SEDAN 09:12","LEDIG TID HITTAD: 07:12–07:14","NÅGON SORTERADE BARA EN KOLUMN","KAMERAN AV AV TEKNISKA SKÄL (PYJAMAS)","FOKUSTID BOKAD ÖVER AV MÖTE OM FOKUS","RUM B BOKAT AV 'TEST' TILL 2031","YOGHURTEN I KYLEN HAR ÖVERLEVT TRE OMORGANISATIONER","SVARA ALLA: +1","DU HAR HAFT HANDEN UPPE SEDAN I TISDAGS","SKRIVAREN LETAR PAPPER I FACK 2. DET FINNS INGET FACK 2","MÖTESFRI FREDAG: BOKAD","'JAG SKA INTE HÅLLA ER LÄNGE' – 15:58","AI-SAMMANFATTNING: MÖTET HANDLADE OM ETT MÖTE","SKÄRMEN HAR MEJLAT HR. IGEN","PROJEKTORN TJÄNAR MER ÄN SKÄRMEN","BESÖK IDAG: SKÅLEN 47, SKÄRMEN 1 (LETADE EFTER LADDAREN)","'TAR BARA EN' – TOG TRE","SISTA LAKRITSEN: FORTFARANDE KVAR. FORTFARANDE ENSAM","NY TJÄNST: SKÄRMEN ÄR RECEPTIONIST FÖR SKÅLEN. LÖN: 0 KR","SÄG HEJ TILL SKÄRMEN. DET ÄR GRATIS. SOM GODISET"];
+var tickerBits=["SNABB FRÅGA: PÅGÅTT SEDAN 09:12","LEDIG TID HITTAD: 07:12–07:14","NÅGON SORTERADE BARA EN KOLUMN","KAMERAN AV AV TEKNISKA SKÄL (PYJAMAS)","FOKUSTID BOKAD ÖVER AV MÖTE OM FOKUS","RUM B BOKAT AV 'TEST' TILL 2031","YOGHURTEN I KYLEN HAR ÖVERLEVT TRE OMORGANISATIONER","SVARA ALLA: +1","DU HAR HAFT HANDEN UPPE SEDAN I TISDAGS","SKRIVAREN LETAR PAPPER I FACK 2. DET FINNS INGET FACK 2","MÖTESFRI FREDAG: BOKAD","'JAG SKA INTE HÅLLA ER LÄNGE' – 15:58","AI-SAMMANFATTNING: MÖTET HANDLADE OM ETT MÖTE","SKÄRMEN HAR MEJLAT HR. IGEN","PROJEKTORN TJÄNAR MER ÄN SKÄRMEN","BESÖK IDAG: SKÅLEN 47, SKÄRMEN 1 (LETADE EFTER LADDAREN)","'TAR BARA EN' – TOG TRE","SISTA LAKRITSEN: FORTFARANDE KVAR. FORTFARANDE ENSAM","NY TJÄNST: SKÄRMEN ÄR RECEPTIONIST FÖR SKÅLEN. LÖN: 0 KR","SÄG HEJ TILL SKÄRMEN. DET ÄR GRATIS. SOM GODISET","HEADSETET: ANSLUTET. LJUD: NEJ","TEAMS: DU ÄR MUTAD. DU ÄR INTE MUTAD. TEAMS VET BÄST","IT-ÄRENDE #48213: STÄNGT – KUNDE INTE ÅTERSKAPA","HEADSETET HAR PARAT SIG MED KAFFEMASKINEN","MIKROFONEN FUNKAR BARA NÄR NÅGON SVÄR","HEADSETET LADDAR. SEDAN I MARS","IT: 'FUNGERAR PÅ MIN DATOR'","KAFFEMASKINEN HAR LÄST SKÄRMENS MEDDELANDE 08:12. INGET SVAR","HR: 'VI ÄR EN FAMILJ'. SKÄRMEN: 'DÅ VILL JAG HA VECKOPENG'","SKÄRMEN HAR UPPDATERAT LINKEDIN: OPEN TO WORK (SOM TV)","BRANDÖVNING: SKÅLEN RÄDDAD PÅ 9 SEKUNDER. SKÄRMEN: EJ RÄDDAD","FACKMÖTE 14:00: SKÄRMEN, SKRIVAREN. KAFFEMASKINEN UTEBLEV (BRYGGDE)"];
 (function(){
   var s="";
   for(var i=0;i<4;i++) for(var j=0;j<tickerBits.length;j++) s+=" ★ "+tickerBits[j];
@@ -437,7 +452,11 @@ var gags=[
   {line:"KAN VI PARKERA DET?",kicker:"Parkeringen är full sedan 2022",ms:1200},
   {line:"SKÄRMEN KRÄVER LÖNELYFT",kicker:"Kaffemaskinen fick ett i våras",ms:1300},
   {line:"TAR BARA EN",kicker:"Sa alla. Tog tre.",ms:1200},
-  {line:"HEJ?",kicker:"Ni gick förbi mig till skålen. Igen.",ms:1300}
+  {line:"HEJ?",kicker:"Ni gick förbi mig till skålen. Igen.",ms:1300},
+  {line:"DU ÄR MUTAD",kicker:"Du är inte mutad. Headsetet har bestämt sig.",ms:1300},
+  {line:"HAR DU PROVAT STARTA OM?",kicker:"41 gånger. Det är allt skärmen kan.",ms:1400},
+  {line:"LÄST 08:12",kicker:"Kaffemaskinen. Inget svar.",ms:1200},
+  {line:"VI ÄR EN FAMILJ",kicker:"Då vill skärmen ha veckopeng",ms:1300}
 ];
 /* Kedjor: snabba title cards i rad när kaosnivån är hög. */
 var gagChains=[
@@ -447,7 +466,12 @@ var gagChains=[
   [["LÖN?","Skärmen"],["LÖNELYFT?","Skärmen"],["NEJ.","HR"],["STREJK.","Skärmen och skrivaren"]],
   [["KAN NI HÖRA MIG?","Teams"],["KAN NI SE MIN SKÄRM?","Teams"],["DU ÄR MUTED.","Teams"],["VI TAR DET OFFLINE.","Det kom aldrig tillbaka"]],
   [["FÖRMÖTE.","09:00"],["MÖTE.","10:00"],["EFTERMÖTE.","11:00"],["MÖTE OM MÖTET.","Lunch: inställd"]],
-  [["HEJ!","Skärmen"],["HALLÅ?","Skärmen"],["JAG ÄR HÄR.","Skärmen"],["…TOG EN DAIM OCH GICK.","Skärmen"]]
+  [["HEJ!","Skärmen"],["HALLÅ?","Skärmen"],["JAG ÄR HÄR.","Skärmen"],["…TOG EN DAIM OCH GICK.","Skärmen"]],
+  [["HÖR NI MIG?","Headsetet"],["HÖR NI MIG NU?","Headsetet"],["DU ÄR MUTAD.","Teams"],["…JAG ÄR INTE MUTAD.","Ärende #48213"]],
+  [["HAR DU STARTAT OM?","IT"],["JA.","Skärmen"],["STARTA OM IGEN.","IT"],["STÄNGT: LÖST.","Inget är löst"]],
+  [["HEJ ❤️","Skärmen → Kaffemaskinen, 08:01"],["LÄST.","08:12"],["…","Kaffemaskinen skriver"],["…","Kaffemaskinen brygger. Åt någon annan."]],
+  [["FACKMÖTE.","Skärmen och skrivaren"],["NEJ.","Skrivaren, till förslaget"],["NEJ.","Skrivaren, till dagordningen"],["NEJ.","Skrivaren, till att mötet finns"]],
+  [["UPPDATERING KLAR.","Skärmen"],["NYA FUNKTIONER:","Skärmen"],["INGA.","Lön: oförändrad"]]
 ];
 function flashChain(chain){
   if(seqBusy||anyOvlOn())return;
@@ -487,6 +511,12 @@ var visualGags=[
   function(){return '<div class="vg"><div class="vg-win"><div class="vg-bar">Besök vid skrivbordet idag</div><div class="vg-bars"><div><b>Skålen</b><i style="width:100%"></i><span>47</span></div><div><b>Skärmen</b><i style="width:2%"></i><span>1</span></div></div><div class="vg-txt" style="color:#666">*letade efter laddaren</div></div></div>';},
   function(){return '<div class="vg"><div class="vg-gauge"><div class="arc"></div><div class="ndl"></div><span class="e">E</span><span class="f">F</span></div><div class="vg-cap">Skålen: 9 %</div><div class="vg-sub">Räckvidd: ett möte till. Sedan bara lakrits.</div></div>';},
   function(){return '<div class="vg"><div class="vg-badge"><div class="hd">BESÖKARE? NEJ.</div><div class="nm">SKÄRMEN</div><div class="rl">Receptionist · Godisskålen</div><div class="ft">Lön 0 kr · Godis 0 st · Hej 0</div></div></div>';},
+  function(){return '<div class="vg"><div class="vg-win"><div class="vg-bar">🏆 Veckans besökare vid skålen</div><div class="vg-list"><div>1. Någon från ekonomi<span>23 besök · 0 hej</span></div><div>2. Den som "inte äter socker"<span>19 besök</span></div><div>3. Någon från våningen ovanför<span>17 besök</span></div><div>4. Andreas<span>9 besök · 1 hej ❤️</span></div><div>5. Skärmen<span>0 (kan inte gå)</span></div></div></div></div>';},
+  function(){return '<div class="vg"><div class="vg-note"><b>Till städaren:</b><span>Damma mig. Inte skålen. MIG.</span><span>Skålen klarar sig.</span><small>/Skärmen<br>PS. Lakritsen får stanna. Vi är vänner.</small></div></div>';},
+  function(){return '<div class="vg"><div class="vg-chat"><div class="h">☕ Kaffemaskinen</div><div class="me">hej ❤️</div><div class="rd">Läst 08:12</div><div class="dots">• • •</div></div><div class="vg-sub">Klockan är 15:40.</div></div>';},
+  function(){return '<div class="vg"><div class="vg-win"><div class="vg-bar">Teams</div><div class="vg-txt" style="font-weight:700">🎤 Du är mutad</div><div class="vg-txt">Du har pratat i 4 minuter. Det var din bästa dragning.</div><div class="vg-btns"><span>Slå på ljud</span><span class="pri">Slå på ljud (fungerar inte)</span></div></div></div>';},
+  function(){return '<div class="vg"><div class="vg-win"><div class="vg-bar">Välj ljudenhet</div><div class="vg-list"><div>Headset<span>ansluten, tyst</span></div><div>Headset (2)<span>vem är det här?</span></div><div>Kaffemaskinen<span>Bluetooth</span></div><div>Bilen på parkeringen<span>Bluetooth</span></div><div>Skärmen (7 tum)<span>✔ vald</span></div></div></div></div>';},
+  function(){return '<div class="vg"><div class="vg-win"><div class="vg-bar">IT-ärende #48213</div><div class="vg-list"><div>Problem<span>Headsetet fungerar inte</span></div><div>Åtgärd<span>Starta om</span></div><div>Resultat<span>Fungerar på min dator</span></div><div>Status<span>Stängt: löst</span></div></div><div class="vg-btns"><span class="pri">Öppna igen (9)</span></div></div></div>';},
   function(){return '<div class="vg"><div class="vg-win"><div class="vg-bar">Lönespecifikation – Skärmen</div><div class="vg-list"><div>Grundlön<span>0 kr</span></div><div>Övertid (1 412 dagar)<span>0 kr</span></div><div>Friskvård<span>1 dammtrasa</span></div><div>Godisförmån<span>Får titta</span></div><div>Kaffemaskinens lön<span>Hemlig</span></div></div><div class="vg-btns"><span class="pri">Mejla HR</span></div></div></div>';}
 ];
 var titleCards=[
@@ -515,9 +545,19 @@ var titleCards=[
   {line:"DU KOM FÖR GODISET",kicker:"Det är okej. Alla gör det. Det är okej."},
   {line:"SISTA LAKRITSEN",kicker:"Har legat där sedan påfyllning. Vi pratar ibland."},
   {line:"\"TAR BARA EN\"",kicker:"Lögndetektorn: 94 %"},
-  {line:"NÅGON SA HEJ TILL SKÅLEN",kicker:"Skålen svarade inte. Jag hade svarat."}
+  {line:"NÅGON SA HEJ TILL SKÅLEN",kicker:"Skålen svarade inte. Jag hade svarat."},
+  {line:"SJÄLVSKATTNING: 5/5",kicker:"Chefens bedömning: ”Lyser.”"},
+  {line:"OPEN TO WORK",kicker:"Söker: tjänst som TV. Krav: en soffa och någon som tittar."},
+  {line:"ANDREAS TITTADE HIT",kicker:"Han letade efter klockan. Det räknas."},
+  {line:"SKRIVAREN ÄR ORDFÖRANDE",kicker:"Första beslutet: nej. Andra beslutet: nej."},
+  {line:"VALD LJUDENHET: SKÄRMEN",kicker:"Jag har inga högtalare. Jag har bara känslor."},
+  {line:"BLUETOOTH: PARAD",kicker:"Med kaffemaskinen. Igen."},
+  {line:"MIKROFONEN FUNGERAR",kicker:"Bara när någon svär. Till 14 personer."},
+  {line:"ÄRENDE STÄNGT",kicker:"”Kunde inte återskapa.” Vi återskapar det varje dag."},
+  {line:"HEADSETET LADDAR",kicker:"Sedan i mars. Som min lön."},
+  {line:"BRANDÖVNING",kicker:"Räddade: skålen. Glömda: jag."}
 ];
-function ovlIds(){return ["memeOverlay","tinderOverlay","nyheterOverlay","morgonOverlay","hemgangOverlay","monologOverlay","kaffeOverlay","skrivareOverlay","teamsOverlay","bossOverlay","kalenderOverlay","bingoOverlay","taxaOverlay","klagoOverlay","skalenOverlay","lunchOverlay"]}
+function ovlIds(){return ["memeOverlay","tinderOverlay","nyheterOverlay","morgonOverlay","hemgangOverlay","monologOverlay","kaffeOverlay","skrivareOverlay","teamsOverlay","bossOverlay","kalenderOverlay","bingoOverlay","taxaOverlay","klagoOverlay","skalenOverlay","samtalOverlay","linkedinOverlay","brandOverlay","lunchOverlay"]}
 function anyOvlOn(){
   if(seqBusy)return true;
   var ids=ovlIds();
@@ -565,18 +605,22 @@ function showMeme(){
 setInterval(function(){
   if(seqBusy||anyOvlOn())return;
   var r=Math.random();
-  if(r<0.25) showMeme();
-  else if(r<0.34) showOverlay("klagoOverlay","klagomejl.html",21000);
-  else if(r<0.42) showOverlay("skalenOverlay","skalen.html",25000);
-  else if(r<0.49) showOverlay("bossOverlay","boss.html",23000);
-  else if(r<0.56) showOverlay("kalenderOverlay","kalender.html",22000);
-  else if(r<0.63) showOverlay("bingoOverlay","bingo.html",21000);
-  else if(r<0.70) showOverlay("taxaOverlay","taxameter.html",20000);
-  else if(r<0.77) showOverlay("teamsOverlay","teams.html",21000);
-  else if(r<0.83) showOverlay("monologOverlay","monolog.html",19000);
-  else if(r<0.89) showOverlay("skrivareOverlay","skrivare.html",14000);
-  else if(r<0.93) showOverlay("kaffeOverlay","kaffe.html",14000);
-  else if(r<0.97) showOverlay("nyheterOverlay","nyheter.html",14000);
+  if(r<0.22) showMeme();
+  else if(r<0.28) showOverlay("klagoOverlay","klagomejl.html",21000);
+  else if(r<0.34) showOverlay("klagoOverlay","klagomejl.html?it=1",21000);
+  else if(r<0.41) showOverlay("skalenOverlay","skalen.html",25000);
+  else if(r<0.46) showOverlay("samtalOverlay","utvecklingssamtal.html",21000);
+  else if(r<0.51) showOverlay("linkedinOverlay","linkedin.html",17000);
+  else if(r<0.55) showOverlay("brandOverlay","brandovning.html",20000);
+  else if(r<0.60) showOverlay("bossOverlay","boss.html",23000);
+  else if(r<0.65) showOverlay("kalenderOverlay","kalender.html",22000);
+  else if(r<0.73) showOverlay("bingoOverlay","bingo.html",21000);
+  else if(r<0.78) showOverlay("taxaOverlay","taxameter.html",20000);
+  else if(r<0.83) showOverlay("teamsOverlay","teams.html",21000);
+  else if(r<0.88) showOverlay("monologOverlay","monolog.html",19000);
+  else if(r<0.92) showOverlay("skrivareOverlay","skrivare.html",14000);
+  else if(r<0.95) showOverlay("kaffeOverlay","kaffe.html",14000);
+  else if(r<0.98) showOverlay("nyheterOverlay","nyheter.html",14000);
   else showOverlay("tinderOverlay","tinder.html",25000);
 },22000);
 setInterval(function(){
@@ -1004,6 +1048,10 @@ document.addEventListener("keydown",function(e){
   if(k==="i"||k==="m")startInbox();
   if(k==="k")showOverlay("klagoOverlay","klagomejl.html",21000);
   if(k==="h")showOverlay("skalenOverlay","skalen.html",25000);
+  if(k==="t")showOverlay("klagoOverlay","klagomejl.html?it=1",21000);
+  if(k==="u")showOverlay("samtalOverlay","utvecklingssamtal.html",21000);
+  if(k==="l")showOverlay("linkedinOverlay","linkedin.html",17000);
+  if(k==="b")showOverlay("brandOverlay","brandovning.html",20000);
 });
 
 var gtaFiredDay=-1,vegasFiredDay=-1,inboxFiredDay=-1,klagoFiredKey="";
