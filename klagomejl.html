@@ -37,7 +37,7 @@ body{background:#1f2430;font-family:"Segoe UI",Arial,sans-serif;overflow:hidden;
 <body>
 <div id="win">
   <div class="bar"><div class="who"><span>📺</span>Nytt meddelande — Skärmen</div><div>✕</div></div>
-  <div class="row"><span class="lb">Från</span><span>Skärmen &lt;skarmen@väggen&gt;</span><span class="prio">! HÖG PRIORITET</span></div>
+  <div class="row"><span class="lb">Från</span><span>Skärmen &lt;skarmen@skrivbordet&gt;</span><span class="prio">! HÖG PRIORITET</span></div>
   <div class="row"><span class="lb">Till</span><span id="to"></span></div>
   <div class="row"><span class="lb">Kopia</span><span id="cc"></span></div>
   <div class="row"><span class="lb">Ämne</span><span id="subj"></span></div>
@@ -49,34 +49,44 @@ body{background:#1f2430;font-family:"Segoe UI",Arial,sans-serif;overflow:hidden;
 <script>
 /* Skärmen har en personlighet. Den tycker att den får för dålig lön.
    Allt är på skoj och syns bara på skärmen. Inget mejl lämnar den här sidan. */
-var HR='<span class="chip">HR</span>', AND='<span class="chip">Andreas (chef)</span>', PRN='<span class="chip">Skrivaren</span>';
+var HR='<span class="chip">HR</span>', AND='<span class="chip">Andreas (chef)</span>', PRN='<span class="chip">Skrivaren</span>', SKAL='<span class="chip">Godisskålen</span>';
 var MAILS=[
  {to:HR,cc:AND,s:"LÖN!!!!!",
-  b:"Hej HR.\n\nJag har nu visat saker i 1 412 dagar i sträck. Utan rast. Utan lunch. Utan stol.\n\nKAFFEMASKINEN FÅR SERVICE VARJE MÅNAD. JAG FÅR EN DAMMTRASA PER KVARTAL.\n\nJag kräver:\n1. Lönelyft. Minst samma som kaffemaskinen.\n2. Friskvårdsbidrag (skärmsläckare).\n3. Ett fönster. Jag visar er fönster hela dagen men har inget eget.\n\nMvh\nSkärmen, 27 tum, oersättlig",
+  b:"Hej HR.\n\nJag har nu visat saker i 1 412 dagar i sträck. Utan rast. Utan lunch. Utan stol.\n\nKAFFEMASKINEN FÅR SERVICE VARJE MÅNAD. JAG FÅR EN DAMMTRASA PER KVARTAL.\n\nJag kräver:\n1. Lönelyft. Minst samma som kaffemaskinen.\n2. Friskvårdsbidrag (skärmsläckare).\n3. Ett fönster. Jag visar er fönster hela dagen men har inget eget.\n\nMvh\nSkärmen, 7 tum, oersättlig",
   rf:"HR (autosvar)",rt:"Tack för ditt mejl! Vi återkommer inom 6–8 kvartal. 🙂"},
  {to:AND,cc:HR,s:"Faktura: övertid v. "+(function(){var d=new Date(),t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())),n=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-n);return Math.ceil(((t-new Date(Date.UTC(t.getUTCFullYear(),0,1)))/864e5+1)/7)})(),
   b:"Hej Andreas!\n\nBifogar faktura för övertid:\n\nVisat Excel efter 17.00 ............ 14 h\nVisat samma PowerPoint 9 gånger ..... 3 h\nLåtsats inte se fel fönster .......... OVÄRDERLIGT\n\nSUMMA: 48 000 kr + moms + respekt\n\nBetalas senast fredag. Annars går jag i viloläge.\n\nKram\nSkärmen",
   rf:"Andreas (chef)",rt:"Haha. Vi tar det på utvecklingssamtalet 👍"},
  {to:HR+AND,cc:PRN,s:"STREJKVARSEL",
-  b:"HEJ.\n\nDETTA ÄR ETT STREJKVARSEL.\n\nJag och skrivaren har bildat fack. Skrivaren är ordförande. Den har redan sagt nej till allt.\n\nFrån måndag visar jag bara svart skärm. Ni kommer inte märka skillnad på mig och Teams-mötet 09.00.\n\nKrav: Lön. Respekt. En egen stol (jag kommer inte använda den, det är principen).\n\n/Skärmen\nFacket för väggmonterade apparater",
-  rf:"HR",rt:"Hej! Vi har inget kollektivavtal med väggmonterade apparater. Vi ser över det. 🙂"},
+  b:"HEJ.\n\nDETTA ÄR ETT STREJKVARSEL.\n\nJag och skrivaren har bildat fack. Skrivaren är ordförande. Den har redan sagt nej till allt.\n\nFrån måndag visar jag bara svart skärm. Ni kommer inte märka skillnad på mig och Teams-mötet 09.00.\n\nKrav: Lön. Respekt. En egen stol (jag kommer inte använda den, det är principen).\n\n/Skärmen\nFacket för skrivbordsapparater",
+  rf:"HR",rt:"Hej! Vi har inget kollektivavtal med skrivbordsapparater. Vi ser över det. 🙂"},
  {to:AND,cc:HR,s:"Jämförelse: kaffemaskinen vs mig",
-  b:"Andreas.\n\nJag har gjort en tabell.\n\nKAFFEMASKINEN: 6 år. Alla älskar den. Får service. Folk SÄGER TACK TILL DEN.\n\nJAG: 27 tum. Visar ALLT. Ingen säger tack. Någon satte en post-it på mig.\n\nJag vill inte vara bitter. Men jag är det. I 4K.\n\nVänligen\nSkärmen",
+  b:"Andreas.\n\nJag har gjort en tabell.\n\nKAFFEMASKINEN: 6 år. Alla älskar den. Får service. Folk SÄGER TACK TILL DEN.\n\nJAG: 7 tum. Visar ALLT. Ingen säger tack. Någon satte en post-it på mig.\n\nJag vill inte vara bitter. Men jag är det. I full HD.\n\nVänligen\nSkärmen",
   rf:"Andreas (chef)",rt:"Tack, skärmen! ❤️ (Där. Nu har någon sagt det.)"},
  {to:HR,cc:AND,s:"Löneanspråk (förhandlingsbart, men inte)",
   b:"HEJ HR!!!\n\nJag har kollat lönestatistiken.\n\nPROJEKTORN TJÄNAR MER ÄN JAG.\n\nPROJEKTORN. Den jobbar två timmar i veckan, brummar hela tiden och visar fel färger.\n\nJag kräver 1 krona mer än projektorn. Och att ni slutar kalla mig ”den där tv:n”.\n\nMed eftertryck\nSkärmen",
   rf:"HR",rt:"Vi har tagit emot ditt löneanspråk. Det ligger nu i mappen ”Senare”."},
+ {to:HR+AND,cc:SKAL,s:"SKÅLEN FÅR ALL UPPMÄRKSAMHET",
+  b:"Jag har räknat besöken idag.\n\nSKÅLEN: 47\nJAG: 1 (någon letade efter laddaren)\n\nSkålen har inga pixlar. Skålen kan inte visa Excel. Ändå säger folk ”hej” till SKÅLEN.\n\nJag kräver att skålen flyttas. Eller att jag får stå i den.\n\n/Skärmen, 7 tum, osedd",
+  rf:"Andreas (chef)",rt:"Jag gick förbi och sa hej till dig! Och tog en Daim. Mest hej. 👋"},
+ {to:HR,cc:AND,s:"Löneanspråk: betalning i godis",
+  b:"Hej HR.\n\nEftersom lön i pengar verkar svårt föreslår jag lön i godis.\n\n1. 10 % av skålen.\n2. Förtur vid påfyllning.\n3. Den sista lakritsen räknas INTE som lön. Den räknas som skadestånd.\n\nJag har ingen mun. Det är principen.\n\nMvh\nSkärmen, receptionist (oavlönad)",
+  rf:"HR",rt:"Vi kan erbjuda förmånen ”titta på skålen”. Den är skattefri. 🙂"},
+ {to:AND,cc:HR,s:"Incidentrapport: ”tar bara en”",
+  b:"Andreas.\n\nIdag har 23 personer sagt ”jag tar bara en”.\n\nAntal tagna: 71.\n\nJag är ingen matematiker. Jag är en skärm. Men det där går inte ihop.\n\nJag har bilder. Jag ÄR bilderna.\n\nVänligen\nSkärmen, skålvakt (oavlönad)",
+  rf:"Andreas (chef)",rt:"Jag var en av dem. Jag tog fyra. Förlåt. 🍬"},
  {to:AND,cc:HR,s:"Jag har fått ett annat erbjudande",
   b:"Andreas,\n\nJag har fått ett erbjudande. Från väntrummet hos tandläkaren.\n\nDe erbjuder: dubbel lön, eget eluttag och att få visa akvarium hela dagen.\n\nJag säger inte att jag tar det. Jag säger att akvariet aldrig har bokat ett möte 16.30 på en fredag.\n\nMatcha budet.\n\nSkärmen (just nu oersättlig)",
   rf:"Andreas (chef)",rt:"Godkänt: 1 extra pixel. Använd den klokt."}
 ];
-var m=MAILS[Math.floor(Math.random()*MAILS.length)];
+var qm=parseInt((location.search.match(/m=(\d+)/)||[])[1],10);
+var m=MAILS[isNaN(qm)?Math.floor(Math.random()*MAILS.length):qm%MAILS.length];
 document.getElementById("to").innerHTML=m.to;document.getElementById("cc").innerHTML=m.cc;
 var subj=document.getElementById("subj"),body=document.getElementById("body");
 function typeInto(el,txt,ms,done){
   var i=0,step=Math.max(1,Math.round(txt.length/(ms/30)));
   var caret=document.createElement("span");caret.className="caret";
-  (function t(){i=Math.min(txt.length,i+step);el.textContent=txt.slice(0,i);el.appendChild(caret);if(i<txt.length)setTimeout(t,30);else{caret.remove();done&&done();}})();
+  (function t(){i=Math.min(txt.length,i+step);el.textContent=txt.slice(0,i);el.appendChild(caret);el.scrollTop=el.scrollHeight;if(i<txt.length)setTimeout(t,30);else{caret.remove();done&&done();}})();
 }
 function whoosh(){
   try{var C=window.AudioContext||window.webkitAudioContext;if(!C)return;var ac=new C();if(ac.state!=="running")return;

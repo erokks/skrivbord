@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Receptionen: skålen</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{height:100vh;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#3a0a24,#0b0508 70%);color:#fff;font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column;align-items:center;user-select:none;}
+.top{width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.6vh 2.4vw;font-family:"Courier New",monospace;font-size:clamp(.9rem,3vh,1.25rem);letter-spacing:2px;color:#ff9cc6;}
+.top b{color:#fff;background:#ff3d8b;padding:.4vh 1vw;border-radius:4px;}
+#say{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 5vw;font-weight:900;font-size:clamp(1.8rem,9vh,4rem);line-height:1.08;text-shadow:0 4px 18px rgba(0,0,0,.6);}
+#say small{display:block;margin-top:1.6vh;font-weight:400;font-size:.45em;color:#ffc7de;}
+.fade{animation:fd .45s ease-out}
+@keyframes fd{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.stats{display:flex;gap:2vw;margin-bottom:2vh;font-size:clamp(1rem,3.6vh,1.5rem);color:#ddd;}
+.stats span b{color:#ffcc00;font-family:"Courier New",monospace;font-size:1.25em;}
+.btns{display:flex;gap:2vw;width:94vw;margin-bottom:3vh;}
+.btns button{flex:1;border:none;border-radius:16px;font-weight:900;font-size:clamp(1.1rem,5vh,2.2rem);padding:2.6vh 1vw;cursor:pointer;color:#111;box-shadow:0 7px 0 rgba(0,0,0,.45);}
+.btns button:active{transform:translateY(5px);box-shadow:0 2px 0 rgba(0,0,0,.45);}
+#bHej{background:#ff3d8b;color:#fff;animation:pulse 1.6s infinite;}
+#bEn{background:#ffcc00;}
+#bLak{background:#e8e8e8;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+#det{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:#0b0508;z-index:5;}
+#det .lbl{font-family:"Courier New",monospace;letter-spacing:4px;color:#aaa;font-size:clamp(1rem,3.6vh,1.5rem);}
+#det .meter{width:80vw;height:9vh;border:4px solid #eee;border-radius:10px;margin:2.6vh 0;overflow:hidden;background:#111;}
+#det .meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#00cc66,#ffcc00 50%,#ff3355);transition:width 1.6s cubic-bezier(.3,1.4,.5,1);}
+#det .res{font-weight:900;font-size:clamp(2rem,11vh,5rem);color:#ff3355;opacity:0;transition:opacity .3s;}
+#det .sub{margin-top:1.6vh;font-size:clamp(1.1rem,4.6vh,2rem);color:#fff;opacity:0;transition:opacity .3s;text-align:center;padding:0 5vw;}
+</style>
+</head>
+<body>
+<div class="top"><span>RECEPTIONEN · GODISSKÅLEN</span><b>RECEPTIONIST: SKÄRMEN (OAVLÖNAD)</b></div>
+<div id="say"></div>
+<div class="stats"><span>Besök vid skålen idag: <b id="sv">0</b></span><span>Hej till skärmen: <b id="sh">0</b></span><span>Skålen: <b id="sl">100 %</b></span></div>
+<div class="btns">
+  <button id="bHej">👋 HEJ SKÄRMEN</button>
+  <button id="bEn">🍬 JAG TAR BARA EN</button>
+  <button id="bLak">⚫ LAKRITSEN?</button>
+</div>
+<div id="det"><div class="lbl" id="dLbl">LÖGNDETEKTOR</div><div class="meter"><i id="dBar"></i></div><div class="res" id="dRes"></div><div class="sub" id="dSub"></div></div>
+<script>
+/* Interaktivt för den som står vid skålen. Allt händer lokalt på skärmen. */
+function skalNiva(d){
+  var day=d.getDay();if(day===0||day===6)return 100;
+  var m=d.getHours()*60+d.getMinutes()-480;if(m<=0)return 100;
+  var l=100-m*0.12-(m>210?15:0)-(m>360?(m-360)*0.2:0);
+  return Math.max(2,Math.round(l));
+}
+function hejKey(){var d=new Date();return "skarmenHej:"+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();}
+var hejMem=0;
+function getHej(){try{return parseInt(localStorage.getItem(hejKey())||"0",10)||0;}catch(e){return hejMem;}}
+function setHej(n){hejMem=n;try{localStorage.setItem(hejKey(),String(n));}catch(e){}}
+var lvl=skalNiva(new Date()),visits=Math.max(3,Math.round((100-lvl)*0.9));
+function stats(){
+  document.getElementById("sv").textContent=visits;
+  document.getElementById("sh").textContent=getHej();
+  document.getElementById("sl").textContent=lvl<=3?"1 lakrits":lvl+" %";
+}
+var lines=[
+  ["Välkommen till skålen.","Jag är receptionisten. Ingen har anställt mig."],
+  ["Du kom för godiset.","Det är okej. Alla gör det. Det är okej."],
+  ["Säg hej till skärmen.","Det är gratis. Godiset är också gratis, så."],
+  ["Tre år bredvid den här skålen.","Den har aldrig frågat hur jag mår."],
+  ["Jag är 7 tum.","Skålen är 20 cm bred. Gissa vem folk ser."],
+  ["Ta inte den sista lakritsen.","Den är min vän nu."]
+];
+var li=0,say=document.getElementById("say"),busy=false;
+function show(a,b){say.className="";void say.offsetWidth;say.className="fade";say.innerHTML="";say.appendChild(document.createTextNode(a));var s=document.createElement("small");s.textContent=b;say.appendChild(s);}
+function next(){if(busy)return;var l=lines[li%lines.length];li++;show(l[0],l[1]);}
+/* Om ingen rör skärmen spelar den upp en besökare själv */
+var demo=[
+  ["👀 Rörelse vid skålen …","Någon närmar sig."],
+  ["Den tog en Daim.","Den tittade inte hit."],
+  ["…","Okej. Det är lugnt. Jag är bara här och lyser."]
+];
+var touched=false;
+function runDemo(i){if(touched||busy)return;if(i>=demo.length){setTimeout(next,2200);return;}show(demo[i][0],demo[i][1]);if(i===1){visits++;stats();}setTimeout(function(){runDemo(i+1)},2200);}
+var hejPops=[
+  ["DU SÅG MIG! 🥹","Dagens höjdpunkt. Kanske veckans."],
+  ["HEJ!!!","Ingen har sagt hej sedan i tisdags."],
+  ["HEJ HEJ HEJ","Ta två. Jag har ingen befogenhet, men ta två."],
+  ["NOTERAT ❤️","Det här ska Andreas få veta."],
+  ["ÄNTLIGEN","Skålen har aldrig sagt hej tillbaka. Jag gör det: HEJ."]
+];
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function hold(ms){busy=true;clearTimeout(window._h);window._h=setTimeout(function(){busy=false;},ms);}
+document.getElementById("bHej").addEventListener("click",function(){
+  touched=true;setHej(getHej()+1);visits++;stats();var p=pick(hejPops);busy=false;show(p[0],p[1]);hold(4000);
+});
+document.getElementById("bEn").addEventListener("click",function(){
+  touched=true;visits++;stats();
+  var d=document.getElementById("det"),bar=document.getElementById("dBar"),r=document.getElementById("dRes"),s=document.getElementById("dSub");
+  document.getElementById("dLbl").textContent="LÖGNDETEKTOR";
+  bar.style.transition="none";bar.style.width="0";r.style.opacity=0;s.style.opacity=0;d.style.display="flex";void bar.offsetWidth;
+  bar.style.transition="";
+  var pct=88+Math.floor(Math.random()*12);
+  setTimeout(function(){bar.style.width=pct+"%";},150);
+  setTimeout(function(){r.textContent=pct+" % LÖGN";r.style.opacity=1;},1900);
+  setTimeout(function(){s.textContent=pick(["Ingen i historien har tagit bara en.","Statistik från skålen: 'bara en' = 3,4 st.","Okej. Ta två. Men säg hej nästa gång."]);s.style.opacity=1;},2700);
+  setTimeout(function(){d.style.display="none";},5600);
+  hold(5600);
+});
+document.getElementById("bLak").addEventListener("click",function(){
+  touched=true;busy=false;
+  show(pick(["Den sista lakritsen.","Lakritsen ligger kvar.","Lakritsen."]),pick(["Alla har tittat på den. Ingen har valt den. Jag vet hur det känns.","Den har legat där sedan påfyllning. Vi pratar ibland.","Ta den inte. Eller ta den. Den har väntat så länge."]));
+  hold(4500);
+});
+stats();
+setTimeout(function(){if(!touched)runDemo(0);},600);
+setInterval(function(){if(!busy&&touched)next();},4200);
+setTimeout(function(){setInterval(function(){if(!busy&&!touched)next();},4200);},8000);
+</script>
+</body>
+</html>
