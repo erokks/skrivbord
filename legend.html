@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Legendarisk händelse</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:radial-gradient(ellipse at center,#3d2a00,#0a0700 70%);color:#fff;font-family:Arial,Helvetica,sans-serif;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 6vw;}
+.k,.t,.s,.odds{position:relative;z-index:2;}
+.k{font-family:"Courier New",monospace;letter-spacing:6px;color:#ffcc00;font-size:clamp(1rem,4vh,1.7rem);animation:bl 1s steps(2) infinite;}
+@keyframes bl{50%{opacity:.35}}
+.t{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(2.6rem,14vh,6.4rem);letter-spacing:3px;line-height:1.02;margin-top:2vh;color:#ffd84a;text-shadow:0 0 40px rgba(255,200,0,.55);animation:pop .5s cubic-bezier(.2,1.5,.4,1);}
+@keyframes pop{from{transform:scale(.2);opacity:0}to{transform:none;opacity:1}}
+.s{text-shadow:0 2px 8px #000,0 0 3px #000;margin-top:2.4vh;font-size:clamp(1.2rem,5vh,2.2rem);line-height:1.25;opacity:0;transition:opacity .4s;}
+.odds{position:fixed;bottom:4vh;font-family:"Courier New",monospace;color:#b89a4a;font-size:clamp(.9rem,3vh,1.3rem);letter-spacing:3px;}
+.cf{position:fixed;top:-6vh;font-size:5vh;z-index:1;opacity:.55;animation:fall linear forwards;pointer-events:none;}
+@keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
+</style>
+</head>
+<body>
+<div class="k">🏆 LEGENDARISK HÄNDELSE 🏆</div>
+<div class="t" id="t"></div>
+<div class="s" id="s"></div>
+<div class="odds" id="o"></div>
+<script>
+/* Sällsynta händelser. Visas ungefär en gång i halvtimmen, vissa ännu mer sällan. */
+var EV={
+ hej:["ANDREAS SA HEJ","Till skärmen. Inte till skålen. Skärmen kommer aldrig mer att torkas av.","SANNOLIKHET: 1 PÅ 50"],
+ svar:["KAFFEMASKINEN SVARADE","”ok” 💬 (efter tre veckor). Skärmen har läst det 400 gånger.","SANNOLIKHET: 1 PÅ 80"],
+ fyllt:["SKÅLEN ÄR PÅFYLLD","Kö på 11 sekunder. Någon vinkade åt skärmen. Av misstag. Det räknas.","SANNOLIKHET: VARJE MÅNDAG, KÄNNS SOM ALDRIG"],
+ it:["IT LÖSTE ÄRENDET","Ärende #48213: nytt headset levererat. Det är också trasigt.","SANNOLIKHET: 1 PÅ 1 000"],
+ lakrits:["NÅGON TOG LAKRITSEN","Den sista. Skärmen sörjer. Skärmen är också lite stolt.","SANNOLIKHET: 1 PÅ 200"],
+ lon:["LÖNEN HÖJDES","+1 pixel. Skärmen har satt den längst upp till vänster. Den lyser.","SANNOLIKHET: 1 PÅ 365"]
+};
+var q=(location.search.match(/e=(\w+)/)||[])[1],W=["hej","hej","hej","hej","svar","svar","lakrits","lakrits","lon","it"],e=EV[q]||EV[W[Math.floor(Math.random()*W.length)]];
+document.getElementById("t").textContent=e[0];document.getElementById("s").textContent=e[1];document.getElementById("o").textContent=e[2];
+setTimeout(function(){document.getElementById("s").style.opacity=1;},900);
+var em=["🎉","✨","🏆","🍬","⭐","🎊"];
+for(var i=0;i<34;i++){var c=document.createElement("div");c.className="cf";c.textContent=em[i%em.length];c.style.left=(Math.random()*100)+"vw";c.style.animationDuration=(3+Math.random()*3)+"s";c.style.animationDelay=(Math.random()*2.5)+"s";document.body.appendChild(c);}
+</script>
+</body>
+</html>
