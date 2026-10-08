@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mötestaxametern</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#111;color:#eee;font-family:"Segoe UI",Arial,sans-serif;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.meter{width:min(94vw,900px);background:linear-gradient(#2a2a2a,#151515);border:6px solid #3a3a3a;border-radius:18px;box-shadow:0 20px 60px #000,inset 0 2px 0 #555;padding:2.4vh 2.4vw;}
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.6vh;}
+.brand{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(1.4rem,5vh,2.2rem);letter-spacing:4px;color:#ffcf00;}
+.taxa{background:#ffcf00;color:#111;font-weight:900;padding:.4vh 1vw;border-radius:6px;font-size:clamp(.9rem,3vh,1.3rem);letter-spacing:2px;}
+.lcd{background:#0a1a0a;border:3px solid #000;border-radius:8px;padding:1.6vh 2vw;font-family:Consolas,"Courier New",monospace;color:#ff3b30;text-shadow:0 0 12px rgba(255,59,48,.7);display:flex;justify-content:space-between;align-items:baseline;}
+.lcd .cur{font-size:clamp(1.4rem,6vh,2.6rem);color:#a33;}
+#kr{font-size:clamp(3.4rem,17vh,8rem);font-weight:700;letter-spacing:4px;}
+.rows{display:grid;grid-template-columns:repeat(3,1fr);gap:1vw;margin-top:1.6vh;}
+.cell{background:#0a0a0a;border:2px solid #000;border-radius:6px;padding:.8vh 1vw;font-family:Consolas,monospace;}
+.cell small{display:block;color:#888;font-size:clamp(.7rem,2.2vh,1rem);letter-spacing:2px;}
+.cell b{color:#7CFF6B;font-size:clamp(1.3rem,5vh,2.2rem);text-shadow:0 0 10px rgba(124,255,107,.5);}
+.cell b.zero{color:#ff3b30;text-shadow:0 0 10px rgba(255,59,48,.6);}
+#adds{margin-top:1.6vh;height:clamp(70px,16vh,130px);overflow:hidden;font-size:clamp(1rem,3.4vh,1.45rem);font-weight:700;display:flex;flex-direction:column;justify-content:flex-end;gap:.4vh;}
+.add{color:#ffcf00;animation:in .3s ease-out;}
+@keyframes in{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
+#end{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5vw;}
+#end .l{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(2.4rem,11vh,5rem);letter-spacing:3px;color:#ffcf00;}
+#end .t{font-family:Consolas,monospace;font-size:clamp(2rem,9vh,4rem);color:#ff3b30;margin:1.6vh 0;}
+#end .k{font-size:clamp(1rem,3.6vh,1.5rem);letter-spacing:2px;color:#bbb;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div class="meter">
+  <div class="head"><div class="brand">MÖTESTAXAMETERN</div><div class="taxa" id="taxa">TAXA 2 · MÖTE</div></div>
+  <div class="lcd"><span class="cur">KR</span><span id="kr">0</span></div>
+  <div class="rows">
+    <div class="cell"><small>DELTAGARE</small><b id="ppl">9</b></div>
+    <div class="cell"><small>TID</small><b id="tid">0:00</b></div>
+    <div class="cell"><small>BESLUT</small><b class="zero">0</b></div>
+  </div>
+  <div id="adds"></div>
+</div>
+<div id="end"><div class="l">KÖRNINGEN AVSLUTAD</div><div class="t" id="tot"></div><div class="k">Kvitto: ett uppföljningsmöte · Dricks?</div></div>
+<script>
+/* En sekund här = en mötesminut. 9 personer à 700 kr/h. */
+var ppl=9,kr=0,min=0,extra=0;
+var ADDS=[
+  [3,"+ Väntar 2 min till på folk",380],
+  [9,"+ 'Ser ni min skärm?'",210],
+  [16,"+ Fel fönster delat",640],
+  [24,"+ Två personer anslöt sent: omstart",900],
+  [33,"+ 'Snabb fråga'",1200],
+  [45,"+ Diskussion om vem som tar anteckningar",450],
+  [58,"+ 'Vi tar det offline' (tog det inte offline)",700],
+  [70,"+ Kvällstaxa: möte efter 15:00",1500],
+  [80,"+ 'En sista grej'",2100]
+];
+var adds=document.getElementById("adds"),ai=0;
+function fmt(n){return Math.round(n).toLocaleString("sv-SE");}
+var iv=setInterval(function(){
+  min++;kr=ppl*700/60*min+extra;
+  if(min===40){ppl=11;document.getElementById("ppl").textContent=ppl;}
+  if(min===70){document.getElementById("taxa").textContent="TAXA 3 · ÖVERTID";}
+  while(ai<ADDS.length&&ADDS[ai][0]<=min){extra+=ADDS[ai][2];var d=document.createElement("div");d.className="add";d.textContent=ADDS[ai][1]+"  "+fmt(ADDS[ai][2])+" kr";adds.appendChild(d);while(adds.children.length>3)adds.removeChild(adds.firstChild);ai++;}
+  document.getElementById("kr").textContent=fmt(kr);
+  document.getElementById("tid").textContent=Math.floor(min/60)+":"+String(min%60).padStart(2,"0");
+  if(min>=90){clearInterval(iv);setTimeout(function(){document.getElementById("tot").textContent=fmt(kr)+" kr";document.getElementById("end").style.display="flex";},800);}
+},170);
+</script>
+</body>
+</html>
