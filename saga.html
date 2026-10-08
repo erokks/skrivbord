@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Tidigare i Skärmen</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#05060a;color:#fff;font-family:Arial,Helvetica,sans-serif;overflow:hidden;}
+.scene{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 6vw;}
+.scene.on{display:flex;animation:in .35s ease-out;}
+@keyframes in{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
+#s1{background:repeating-linear-gradient(0deg,#0b0b0b 0 2px,#111 2px 4px);}
+#s1 .k{font-family:"Courier New",monospace;letter-spacing:6px;color:#ffcc00;font-size:clamp(1.1rem,4.4vh,1.9rem);}
+#s1 .t{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(2.6rem,13vh,6rem);letter-spacing:4px;margin-top:1.4vh;}
+#s1 .rec{position:absolute;top:3vh;left:3vw;color:#ff3355;font-family:"Courier New",monospace;font-weight:900;font-size:clamp(1rem,3.6vh,1.5rem);animation:bl 1s steps(2) infinite;}
+@keyframes bl{50%{opacity:0}}
+.fb{font-size:clamp(1.4rem,7vh,3rem);font-weight:900;line-height:1.15;max-width:90vw;filter:sepia(.6);}
+.fb small{display:block;margin-top:1.6vh;font-weight:400;font-size:.5em;color:#ccc;font-family:"Courier New",monospace;letter-spacing:3px;}
+#s3 .ep{font-family:"Courier New",monospace;letter-spacing:8px;color:#ff7ab6;font-size:clamp(1rem,4vh,1.7rem);}
+#s3 .ti{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(3rem,17vh,8rem);letter-spacing:6px;line-height:1;margin-top:1vh;color:#ffcc00;text-shadow:0 0 30px rgba(255,204,0,.4);}
+#s4{align-items:stretch;justify-content:center;gap:1.8vh;padding:0 4vw;text-align:left;}
+.arc{display:flex;gap:2vw;align-items:center;background:#11131c;border-left:8px solid #ffcc00;border-radius:8px;padding:1.4vh 1.6vw;opacity:0;transform:translateX(-20px);transition:all .35s;}
+.arc.on{opacity:1;transform:none;}
+.arc .ic{font-size:clamp(2rem,9vh,4rem);}
+.arc b{display:block;color:#ffcc00;font-size:clamp(.9rem,3vh,1.25rem);letter-spacing:3px;}
+.arc span{font-size:clamp(1.3rem,5.4vh,2.3rem);line-height:1.2;}
+#s5 .k{font-family:"Courier New",monospace;letter-spacing:6px;color:#00ddff;font-size:clamp(1rem,4vh,1.7rem);}
+#s5 .n{font-size:clamp(1.6rem,8vh,3.4rem);font-weight:900;margin-top:1.6vh;line-height:1.15;}
+</style>
+</head>
+<body>
+<div class="scene" id="s1"><div class="rec">● REC</div><div class="k">TIDIGARE I</div><div class="t">SKÄRMEN …</div></div>
+<div class="scene" id="s2"><div class="fb" id="fb"></div></div>
+<div class="scene" id="s3"><div class="ep" id="ep"></div><div class="ti" id="ti"></div></div>
+<div class="scene" id="s4">
+  <div class="arc"><div class="ic">💸</div><div><b>LÖNESAGAN</b><span id="aLon"></span></div></div>
+  <div class="arc" style="border-left-color:#4fe0d0"><div class="ic">🎧</div><div><b style="color:#4fe0d0">ÄRENDE #48213</b><span id="aIt"></span></div></div>
+  <div class="arc" style="border-left-color:#ff3355"><div class="ic">✊</div><div><b style="color:#ff3355">STREJKEN</b><span id="aStr"></span></div></div>
+</div>
+<div class="scene" id="s5"><div class="k">NÄSTA AVSNITT</div><div class="n" id="nx"></div></div>
+<script src="saga-data.js"></script>
+<script>
+var qd=parseInt((location.search.match(/d=(\d)/)||[])[1],10);
+var dn=isNaN(qd)?new Date().getDay():qd;
+var D=SAGA.days[dn],P=SAGA.days[{0:6,1:5,2:1,3:2,4:3,5:4,6:5}[dn]];
+var fbs=[[P.lon,dn===1?"FÖRRA SÄSONGEN":"IGÅR"],[P.strejk,dn===1?"FÖRRA SÄSONGEN":"IGÅR"]];
+document.getElementById("ep").textContent=D.ep?"AVSNITT "+D.ep+(D.ep===5?" · SÄSONGSFINAL":""):"MELLANSÄSONG";
+document.getElementById("ti").textContent=D.title;
+document.getElementById("aLon").textContent=D.lon;document.getElementById("aIt").textContent=D.it;document.getElementById("aStr").textContent=D.strejk;
+document.getElementById("nx").textContent=D.next;
+function show(id){var s=document.querySelectorAll(".scene");for(var i=0;i<s.length;i++)s[i].classList.remove("on");document.getElementById(id).classList.add("on");}
+function fb(i){var el=document.getElementById("fb");el.textContent=fbs[i][0];var sm=document.createElement("small");sm.textContent=fbs[i][1];el.appendChild(sm);show("s2");}
+show("s1");
+setTimeout(function(){fb(0);},1800);
+setTimeout(function(){fb(1);},4200);
+setTimeout(function(){show("s3");},6600);
+setTimeout(function(){show("s4");var a=document.querySelectorAll(".arc");for(var i=0;i<a.length;i++)(function(e,i){setTimeout(function(){e.classList.add("on");},200+i*1300);})(a[i],i);},8600);
+setTimeout(function(){show("s5");},14200);
+</script>
+</body>
+</html>
