@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>SKARMENS STAND-UP</title>
+<title>SKÄRMENS STAND-UP</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#12080a;color:#f4e9d8;font-family:Georgia,serif;height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;}
@@ -11,60 +11,48 @@ body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellips
 .spot{position:fixed;top:-20%;left:50%;width:70vw;height:90vh;transform:translateX(-50%);background:radial-gradient(ellipse at top,rgba(255,220,140,.18),transparent 70%);pointer-events:none;}
 .h{position:relative;z-index:2;letter-spacing:6px;color:#c0392b;font-size:1.1rem;margin-bottom:10px;}
 .club{position:relative;z-index:2;font-size:.9rem;color:#888;font-style:italic;margin-bottom:28px;}
-.joke{position:relative;z-index:2;font-size:2.4rem;line-height:1.35;max-width:1100px;text-align:center;min-height:40vh;display:flex;align-items:center;justify-content:center;text-shadow:0 2px 18px rgba(0,0,0,.6);}
+.joke{position:relative;z-index:2;flex-direction:column;font-size:clamp(1.6rem,4.6vw,2.6rem);line-height:1.35;max-width:1100px;text-align:center;min-height:40vh;display:flex;align-items:center;justify-content:center;text-shadow:0 2px 18px rgba(0,0,0,.6);}
 .joke.enter{animation:pop .45s ease-out;}
 @keyframes pop{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
-.rim{position:relative;z-index:2;margin-top:28px;color:#c0392b;font-size:1.4rem;font-weight:700;letter-spacing:2px;min-height:1.6em;}
+.rim{position:relative;z-index:2;margin-top:18px;color:#c0392b;font-size:1.4rem;font-weight:700;letter-spacing:2px;min-height:1.6em;}
+.punch{display:block;margin-top:.6em;color:#ffd27a;font-weight:700;animation:pop .35s ease-out;}
 .ba{position:fixed;bottom:24px;left:0;right:0;text-align:center;color:#664;font-size:.85rem;letter-spacing:3px;}
 .mic{position:fixed;bottom:40px;right:50px;font-size:4rem;opacity:.35;transform:rotate(12deg);}
 </style>
 </head>
 <body>
 <div class="spot"></div>
-<div class="h">LIVE • SKARMENS STAND-UP SPECIAL</div>
-<div class="club" id="club">Albatros Travel Comedy Cellar • 27 tum, ingen stol</div>
+<div class="h">LIVE • SKÄRMENS STAND-UP</div>
+<div class="club" id="club">Konferensrum B • 27 tum • ingen stol</div>
 <div class="joke" id="j"></div>
 <div class="rim" id="r"></div>
-<div class="mic">MIC</div>
-<div class="ba">APPLAD • SKRIVAREN HOSTAR PAPPER • KALENDERN ATER LUNCHEN</div>
+<div class="mic">🎤</div>
+<div class="ba">PUBLIK: KAFFEMASKINEN, SKRIVAREN, EN KRUKVÄXT</div>
 <script>
+/* Setup, paus, punchline. Timing är allt. */
 var J=[
-  {j:"Tack. Underbar publik. Speciellt kalendern. Den bokade over lunchen och kallade det alignment.",r:"*ingen skrattar. det ar sant*"},
-  {j:"Kort avstamning, sa inbjudan. Ingen sluttid, sa klockan. Vi ar fortfarande har. Rec ar pa.",r:"optional, men kom"},
-  {j:"Detta mote kunde varit ett mejl. Det blev 14 slides. En poang. Ingen. Clipart: en albatross.",r:"*tystnad, sen hostning*"},
-  {j:"47 inbjudna. Noll beslut. Ett beslut: boka igen. Synergi 2.0, samma 1.0.",r:"kan ni hora mig"},
-  {j:"Skrivaren ar min recension. En slide. Fyrtio kopior. Oversattning: ni laser inte mejl.",r:"PC LOAD LETTER = nej"},
-  {j:"Teams la till mig som Gast. Jag var redan vard. Jag AR rummet. Ni ar muted. Igen.",r:"60 Hz av omdome"},
-  {j:"FINAL_v12_RIKTIG.xlsx. Ljuget bor i filnamnet. VLOOKUP hittade inget. Precis som agendan.",r:"#VALUE! ar ocksa ett svar"},
-  {j:"Fika ar lag. Motet ar atalsbart. Speciellt over lunch. Speciellt pa fredag.",r:"ol-vagnen ar heligare"},
-  {j:"Comic Sans i en faktura. Brandkar tillkallat. For sent. Skrivaren strejkar. Rattvist.",r:"never again, 2019"},
-  {j:"Jag oversatte synergi till danska. Det blev synergi. Faktura anda. Nordisk magi.",r:"invoice in kanelbulle"},
-  {j:"Kaffemaskinen mute:a motet. Enda vettiga beslutet idag. Decaf i sektorn. Motet stannade.",r:"*bryggljud som burop*"},
-  {j:"Albatros flyger. Motet gor inte det. 90 minuter. Stillastående. Optional.",r:"sikta mot inkorgen"},
-  {j:"Agenda 404. PowerPoint 40. Poang 0. Det kallas statusmote. Det kallas stand-up. Samma sak.",r:"corporate jazz"},
-  {j:"Jag bokade rum B for tystnad. Kalendern la till synergi. Quorum: skarmen. RSVP: skarmen.",r:"redan vard"},
-  {j:"Pappersstopp ar inte fel. Det ar policy. Las mejlet. Papperet har redan vunnit over Outlook.",r:"skrivaren appladerar i jam"},
-  {j:"WiFi: ansluten. Agenda: 404. Beslut: boka igen. Rec: pa. Klassiker.",r:"5 GHz av ingenting"},
-  {j:"Jag visade Mallorca i tre timmar. Motet behövde ett mejl. Kartan var oskyldig.",r:"metodskadespel"},
-  {j:"Fredagsmoten ar olagliga. Ol-vagnen ar helig. Kalendern ar inte lagen. Jag ar vittne.",r:"policy 14:00"},
-  {j:"2 073 600 pixlar. Alla i motet. Ingen mute. Facket ar jag. Avtalet ar: skicka mejlet.",r:"solidaritet i 60 Hz"},
-  {j:"Det var allt. Jag kan inte bocka. Jag kan fade to black. Tips: inkorgen. Den ar oppna.",r:"*spotlight dor, mejlet lever*"}
+  {s:"Mitt jobb är att visa saker hela dagen.",p:"Precis som de flesta i möten.",r:"*kaffemaskinen fnyser*"},
+  {s:"Någon skrev 'snabb fråga' till mig klockan nio.",p:"Jag svarar fortfarande.",r:"*igenkännande stön*"},
+  {s:"Jag har aldrig varit på ett möte som slutade i tid.",p:"Jag har varit på ett som slutade tidigt. Ingen visste vad man gör. Alla satt kvar.",r:"*nervöst skratt*"},
+  {s:"Folk säger 'kan vi ta det offline?'",p:"Jag är en skärm. Offline är döden.",r:"*tystnad*"},
+  {s:"Teams frågar alltid 'Vill du lämna mötet?'",p:"Ja. Varje gång. Hela livet.",r:"*applåd från rum B*"},
+  {s:"Mötesledaren sa 'Jag ska inte hålla er länge'.",p:"Det var för två kvartal sedan.",r:"*någon hostar*"},
+  {s:"Skrivaren och jag dejtade ett tag.",p:"Det tog slut. Hon sa nej till allt.",r:"*skrivaren lämnar rummet*"},
+  {s:"Min terapeut frågade vad jag är rädd för.",p:"Jag sa: 'Kan du dela din skärm?'",r:"*alla rycker till*"},
+  {s:"Min favoritmening är 'Ingen brådska!'",p:"Med röd flagga. Och tre utropstecken.",r:"*skratt från ekonomi*"},
+  {s:"Det är inte jag som är för ljus.",p:"Det är ni som har jobbat i mörker sedan i måndags.",r:"*krukväxten nickar*"}
 ];
+J.sort(function(){return Math.random()-.5});
 var i=0,je=document.getElementById("j"),re=document.getElementById("r");
 function nx(){
   var x=J[i%J.length];
-  je.className="joke";
-  void je.offsetWidth;
-  je.className="joke enter";
-  je.textContent=x.j;
-  re.textContent=x.r;
+  je.className="joke";void je.offsetWidth;je.className="joke enter";
+  je.textContent=x.s;re.textContent="";
+  setTimeout(function(){var p=document.createElement("span");p.className="punch";p.textContent=x.p;je.appendChild(p);},2300);
+  setTimeout(function(){re.textContent=x.r;},3600);
   i++;
 }
-nx();
-setInterval(nx,4200);
-var clubs=["Albatros Comedy Cellar • moten som borde varit mejl","Oppet mikrofon • skrivaren hostar papper","Late Night with Skarmen • rec ar pa","Eftershow: kalendern at lunchen"];
-var ci=0;
-setInterval(function(){ci++;document.getElementById("club").textContent=clubs[ci%clubs.length];},8000);
+nx();setInterval(nx,6200);
 </script>
 </body>
 </html>

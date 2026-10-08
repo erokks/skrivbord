@@ -27,24 +27,24 @@ body{background:#1a1a1a;height:100vh;overflow:hidden;font-family:"Segoe UI",Taho
   <div class="body">
     <div class="ico">🖨</div>
     <div class="msg">
-      <h1 id="h">PC LOAD LETTER</h1>
-      <p id="p">Oversattning fran 1998: nej. Las mejlet.</p>
-      <div class="meta" id="m">Jobb: Agenda.pdf · Sidor: 40 · Status: NEJ</div>
+      <h1 id="h">Papper saknas i fack 2</h1>
+      <p id="p">Det finns inget fack 2.</p>
+      <div class="meta" id="m">Jobb: Agenda.pdf · Sidor: 1 · Status: NEJ</div>
     </div>
   </div>
   <div class="btns"><div class="btn">Avbryt</div><div class="btn primary" id="ok">OK</div></div>
 </div>
-<div class="jam">PAPPERSSTOPP · DETTA KUNDE VARIT ETT MEJL · PAPPERSSTOPP</div>
+<div class="jam">PAPPERSSTOPP · ÖPPNA LUCKA A · ÖPPNA LUCKA B · DET FINNS INGEN LUCKA B</div>
 <script>
 var L=[
-  {h:"PC LOAD LETTER",p:"Oversattning fran 1998: nej. Las mejlet.",m:"Jobb: Agenda.pdf · Sidor: 1 · Status: NEJ"},
-  {h:"En slide. 40 kopior.",p:"Ni laser inte digitalt. Jag vet. Protesten ar i papper.",m:"Jobb: Slide1.pptx · Kopior: 40 · Status: TROTS"},
-  {h:"Pappersstopp",p:"Det ar inte fel. Det ar policy. Las mejlet.",m:"Sensor: papper · Beslut: stopp · Motivet: mejl"},
-  {h:"FINAL_v12_RIKTIG.xlsx",p:"Ljuget ar i namnet. 47 sidor anda.",m:"Jobb: Budget.xlsx · Sidor: 47 · Status: LJUG"},
-  {h:"Agendan ar blank",p:"Arligaste dokumentet i ar. Jag skrev ut sanningen.",m:"Jobb: Agenda.pdf · Sidor: 0 · Status: ARLIG"},
-  {h:"Comic Sans upptackt",p:"I fakturan. Jag strejkar. Brandkaret ar sent.",m:"Font: Comic Sans · Policy: BROTT · Status: STREJK"},
-  {h:"Dubbelsidigt?",p:"Motet hade ratt i ett mejl. En sida. En tanke.",m:"Lage: duplex · Rekommendation: OUTLOOK"},
-  {h:"Krav fran skrivaren",p:"1) Skicka mejlet. 2) Sluta med 40 kopior. 3) Fika.",m:"Krav: 3 · Uppfyllda: 0 · Status: VANTAR"}
+  {h:"Papper saknas i fack 2",p:"Det finns inget fack 2.",m:"Jobb: Agenda.pdf · Sidor: 1 · Status: NEJ"},
+  {h:"Pappersstopp",p:"Öppna lucka A. Öppna lucka B. Stäng båda. Gråt lite.",m:"Lucka C: finns inte · Status: STOPP"},
+  {h:"Toner slut",p:"Den var aldrig full.",m:"Ny toner: 1 400 kr · Ny skrivare: 900 kr"},
+  {h:"Skriver ut...",p:"Någon annans 87 sidor. Ditt jobb ligger under.",m:"Kö: 1 · Din plats: under"},
+  {h:"Dubbelsidigt?",p:"Ja. Båda sidorna är tomma.",m:"Läge: duplex · Innehåll: inget"},
+  {h:"Uppdatering krävs",p:"Skrivaren startar om. Om 45 minuter. Kanske.",m:"Drivrutin: 2003 · Status: TRÖTT"},
+  {h:"Anslut till nätverk",p:"Skrivaren hittar ett nätverk. Grannens.",m:"WiFi: Grannen_5G · Status: OTROGEN"},
+  {h:"Klar!",p:"Jobbet skrevs ut på skrivaren på tredje våningen.",m:"Ni har ingen tredje våning"}
 ];
 var i=0;
 function nx(){
@@ -52,7 +52,7 @@ function nx(){
   document.getElementById("h").textContent=x.h;
   document.getElementById("p").textContent=x.p;
   document.getElementById("m").textContent=x.m;
-  document.getElementById("ok").textContent=["OK","Nej","Las mejl","Avbryt"][i%4];
+  document.getElementById("ok").textContent=["OK","Nej","Försök igen","Ge upp"][i%4];
   i++;
 }
 nx();setInterval(nx,2200);

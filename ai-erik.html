@@ -7,7 +7,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
     body { margin:0; font-family:'Share Tech Mono',monospace; background:#0a0a0a; color:#00ff88; height:100vh; overflow:hidden; display:flex; flex-direction:column; }
-    header { background:linear-gradient(90deg,#001a12,#002d1f,#001a12); padding:0.8rem 1.5rem; font-size:2.5rem; font-weight:bold; text-align:center; text-shadow:0 0 20px #00ff88; border-bottom:2px solid #00ff8844; flex-shrink:0; }
+    header { background:linear-gradient(90deg,#001a12,#002d1f,#001a12); padding:0.8rem 1.5rem; font-size:clamp(1.3rem,3.6vw,2.5rem); font-weight:bold; text-align:center; text-shadow:0 0 20px #00ff88; border-bottom:2px solid #00ff8844; flex-shrink:0; }
     #chat { flex:1; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; padding:1rem 1.5rem; gap:0.6rem; }
     .message { font-size:2.2rem; line-height:1.3; padding:0.5rem 1rem; border-left:4px solid #00ff88; text-shadow:0 0 8px #00ff8866; animation:fadeIn 0.3s ease-in; white-space:pre-wrap; }
     .message.special { color:#ff6600; border-left-color:#ff6600; text-shadow:0 0 12px #ff660066; }
@@ -23,7 +23,7 @@
   </style>
 </head>
 <body>
-  <header>ERIK AI v4.20 — SKAMT KERNEL</header>
+  <header>ERIK AI — ASSISTENTEN SOM INGEN BAD OM</header>
   <div id="chat"></div>
   <footer>
     <span id="status">STATUS: ONLINE</span>
@@ -41,66 +41,39 @@ const interruptText = document.getElementById("interruptText");
 const MAX_MESSAGES = 5;
 
 const messages = [
-  { text: "Avbokar 90-minuters 'kort avstamning'. Skickar mejlet istallet. Civilisation.", type: "" },
-  { text: "Kalendern at lunchen. Aterstaller brickan. Kallade det inte alignment.", type: "" },
-  { text: "47 inbjudna, 0 agenda. Markerar motet som optional. Det var det inte.", type: "" },
-  { text: "Skrivaren skrev ut 1 slide x 40. Stoppar spoolern. Skickar PDF. En gang.", type: "" },
-  { text: "PC LOAD LETTER avkodad: nej. Svarar med ett mejl. Papperet forlorade.", type: "" },
-  { text: "FINAL_v12_RIKTIG.xlsx byter namn till utkast_1.xlsx. Ljuget upphor.", type: "" },
-  { text: "Teams: kan ni hora mig x3. Mutar rummet. Rec av. Beslut: boka inte igen.", type: "" },
-  { text: "Agenda 404. Skapar en punkt: skicka mejlet. Motet overlever inte det.", type: "" },
-  { text: "Skriver ut rapport i Comic Sans. Skrivaren strejkar. Fortjant.", type: "" },
-  { text: "Oversatter synergi till danska. Resultat: synergi. Fakturerar anda.", type: "" },
-  { text: "Skickar kalenderinbjudan till kaffemaskinen. 418 I'm a teapot. Battre an mote.", type: "" },
-  { text: "Bokar konferens B for tystnad. Kalendern la till synergi. Avvisad.", type: "" },
-  { text: "Installerar om skrivare. Skrivaren ar inte ansluten. Skrivaren har principer.", type: "" },
-  { text: "Markerar alla moten over lunch som brott. Kalendern overklagar. Avslag.", type: "" },
-  { text: "Fredagsmote upptackt. Flyttar till mandag. Nej: flyttar till mejl.", type: "" },
-  { text: "PowerPoint: 40 slides, 0 poang. Komprimerar till 3 rader. Inbox appladerar.", type: "" },
-  { text: "VLOOKUP hittade inget. Precis som agendan. Stanger fliken. Frid.", type: "" },
-  { text: "Decaf i sektorn. Evakuerar kaffet. Motet stannar. Motet forlorar.", type: "" },
-  { text: "Skapar backup av backupen. Vagrar kalla den FINAL. Ljug-filter pa.", type: "" },
-  { text: "Ritar en albatross i ASCII. Kallar det inte Q3-strategi. Kallar det fagel.", type: "" },
-  { text: "Pingar ol-vagnen. Timeout. Det ar inte fredag. Moral: anda hogre an motet.", type: "" },
-  { text: "Startar loop i loop for att losa loopproblem. Som statusmoten. Stoppar loopen.", type: "" },
-  { text: "Optimerar optimeringsfunktionen. Den blev langsammare. Som synergi 2.0.", type: "" },
-  { text: "Skickar 1 mejl till skrivaren. Inte 100. Skrivaren svarar: antligen.", type: "" },
-  { text: "Arkiverar 90-sidig tom PDF. Den hette Agenda. Arligaste filen i ar.", type: "" },
-  { text: "Gor om allt i VERSALER. DETTE AR INTE ETT MOTE. DETTE AR ETT MEJL.", type: "" },
-  { text: "Skriver ut en PDF och scannar in den. Cirkeln sluts. Brottsplatsen ocksa.", type: "" },
-  { text: "Lagger till sig sjalv i alla mejllistor. Inte i alla moten. Grans.", type: "" },
-  { text: "Byter bakgrund till Comic Sans. En gang. For historien. Brandkar redo.", type: "" },
-  { text: "Analyserar om mandagsmotet behovs. Slutsats: nej. Implementering: mejl.", type: "" },
-  { text: "Tränar pixlarna i stand-up. Forsta sketchen: Detta kunde varit ett mejl.", type: "" },
-  { text: "Kaffemaskinen mute:ar motet. Loggar som enda vettiga beslutet idag.", type: "" },
-  { text: "Skickar tackmejl till skrivaren. Svar: PC LOAD LETTER. Oversattning: nej.", type: "" },
-  { text: "Uppgraderar fika fran mote till religion. Ingen opponerade sig. Rec av.", type: "" },
-  { text: "Bokar inte om. Skickar tre rader. Civilisation nasta.", type: "" },
-  { text: "WiFi: ansluten. Agenda: 404. Åtgärd: inbox. Status: vuxen.", type: "" },
-  { text: "Albatros flyger. Motet gor inte det. Flyttar punkten till mejl.", type: "" },
-  { text: "Optional, men kom. Andrar till: optional, kom inte. Brandovning undantagen.", type: "" },
-  { text: "Pappersstopp avkodat som policy. Las mejlet. Papperet har redan vunnit.", type: "" },
-  { text: "Installerar ett mejl-API. Rate limit: ett. Kalendern: chockad. Och tom.", type: "" }
+  { text: "Hittade ledig tid i kalendern: 07:12–07:14. Bokade den åt dig. Med dig själv.", type: "" },
+  { text: "Översatte 'snabb fråga' till svenska: 40 minuter.", type: "" },
+  { text: "Avböjde ett möte åt dig. Skickade 'Tyvärr, krock' till alla. Krocken är lunch.", type: "" },
+  { text: "Läste 214 olästa mejl. Sammanfattning: 'Hej!' och 'Se nedan'.", type: "" },
+  { text: "Satte din Teams-status till Gul. Den var redan gul. Den är alltid gul.", type: "" },
+  { text: "Bytte namn på FINAL_v12_RIKTIG.xlsx till utkast.xlsx. Ärlighet installerad.", type: "" },
+  { text: "Svarade 'Låter bra!' på en tråd jag inte läst. Precis som du.", type: "" },
+  { text: "Räknade mötets kostnad: 13 400 kr. Beslut: en uppföljning.", type: "" },
+  { text: "Hittade yoghurten längst in i kylen. Den har överlevt tre omorganisationer.", type: "" },
+  { text: "Genererade lösenord: Höst2026! Upptaget. Av dig. Förra hösten.", type: "" },
+  { text: "Flyttade 'Fokustid' till 'Fokustid 2'. Den första blev bokad över.", type: "" },
+  { text: "Sorterade budgeten. Bara en kolumn. Jag ber om ursäkt till ekonomi.", type: "" },
+  { text: "Svarade alla. Ångrade. Återkallning misslyckades. Jag förstår er nu.", type: "" },
+  { text: "Skrev 'Per mitt senaste mejl' åt dig. Passiv aggressivitet: 100 %.", type: "" },
+  { text: "Lade till 'Ingen brådska!' och röd flagga. Klassisk kombination.", type: "" },
+  { text: "Stängde 47 flikar. 46 var samma Excel.", type: "" },
+  { text: "Väntade två minuter till på folk. Tre personer gick.", type: "" },
+  { text: "Sa 'Du är på mute' 11 gånger idag. Rekord.", type: "" },
+  { text: "Bokade rum B. Det var redan bokat av 'Test'. Till 2031.", type: "" },
+  { text: "Skrev ut ett mejl åt dig. Skrivaren sa nej. Skrivaren har rätt.", type: "" },
+  { text: "AI-sammanfattning av förmiddagen: Ni pratade om att prata.", type: "" },
+  { text: "Lärde mig säga 'Låt oss cirkla tillbaka'. Hittar inte ut ur cirkeln.", type: "" }
 ];
 
 const specials = [
-  { text: "ADMINLAEGE: AVBOKAR 90-MINUTERS. SKICKAR MEJLET. CIVILISATION.", type: "special" },
-  { text: "VARNING: KORT AVSTAMNING UTAN SLUTTID. REC AR PA.", type: "error" },
-  { text: "SYSTEMFEL: 47 INNE. 0 BESLUT. BESLUT: BOKA INTE IGEN.", type: "error" },
-  { text: "KALENDERN AT LUNCHEN. ATERSTALLER BRICKAN. INGET ALIGNMENT.", type: "error" },
-  { text: "SKRIVAREN: EN SLIDE, 40 KOPIOR. SPOOLERN STOPPAD.", type: "success" },
-  { text: "PC LOAD LETTER PUBLICERAD. OVERSATTNING: NEJ.", type: "success" },
-  { text: "VARNING: COMIC SANS I FAKTURA. BRANDKAR TILLKALLAT. SENT.", type: "error" },
-  { text: "AGENDA 404. INBOX 200. MOTET OVERLEVER INTE DET.", type: "special" },
-  { text: "FREDAGSMOTET INSTALLT. OL-VAGN HELIG. POLICY.", type: "success" },
-  { text: "OPTIONAL, MEN KOM. ANDRAT TILL: KOM INTE. BRANDOVNING UNDANTAGEN.", type: "special" },
-  { text: "DECAF I SEKTORN. EVAKUERING. MOTET STANNAR. MOTET FORLORAR.", type: "error" },
-  { text: "SKARMEN (GAST) KOR RUMMET. MUTED. ANDA VARD.", type: "special" },
-  { text: "FINAL_v12 LJUGDE I NAMNET. BYTT TILL utkast_1.xlsx.", type: "success" },
-  { text: "OL-VAGN PING: NEGATIV. MOTES-PING: OCKSA. MORAL: MEJL.", type: "error" },
-  { text: "SKAMT-KERNEL: DETTA KUNDE VARIT ETT MEJL. DENSITET: OLAGLIG.", type: "special" }
+  { text: "VARNING: 'EN SISTA GREJ' UPPTÄCKT KL 15:58.", type: "error" },
+  { text: "VARNING: NÅGON DELAR FEL FÖNSTER. ALLA SER KUNDVAGNEN.", type: "error" },
+  { text: "SYSTEMFEL: MÖTET SLUTADE 5 MIN TIDIGT. INGEN VET VAD MAN GÖR.", type: "error" },
+  { text: "INBOX ZERO UPPNÅDD. (ALLT MARKERAT SOM LÄST.)", type: "success" },
+  { text: "BESLUT FATTAT I MÖTE. LOGGAR FÖR HISTORIEBÖCKERNA.", type: "success" },
+  { text: "KAFFEMASKINEN ÄR LEDIG. INGEN KÖ. DET HÄR ÄR INTE ETT ÖVNINGSLARM.", type: "special" },
+  { text: "NY INBJUDAN: 'SNABB AVSTÄMNING (90 MIN)'. AVBÖJER MED VÅLD.", type: "special" }
 ];
-
 function updateClock() {
   clockEl.textContent = new Date().toLocaleTimeString("sv-SE");
 }
@@ -108,10 +81,9 @@ setInterval(updateClock, 1000);
 updateClock();
 
 const statuses = [
-  "STATUS: ONLINE", "STATUS: SKICKAR MEJL", "STATUS: AVBOKAR",
-  "STATUS: FIKAR", "STATUS: MUTED", "STATUS: KAFFEPAUS",
-  "STATUS: AGENDA 404", "STATUS: INBOX", "STATUS: SKAMTAR",
-  "STATUS: HDMI", "STATUS: REC AV", "STATUS: VLOOKUP?"
+  "STATUS: GUL", "STATUS: I MÖTE (OM MÖTET)", "STATUS: AVBÖJER",
+  "STATUS: FIKAR", "STATUS: PÅ MUTE", "STATUS: HÅRD STOPP 15:00",
+  "STATUS: LÄSER INTE", "STATUS: SVARAR INTE ALLA", "STATUS: PARKERAT"
 ];
 
 function isHungryTime() {
@@ -149,16 +121,15 @@ function addMessage(text, type) {
   typeChar();
 }
 const interrupts = [
-  "NÄR KOMMER ÖL VAGNEN?",
-  "DETTA VAR ETT MEJL",
-  "FIKA AR LAG",
-  "KORT AVSTAMNING",
-  "AGENDA 404"
+  "HAR DU EN MINUT?",
+  "SNABB FRÅGA",
+  "DU ÄR PÅ MUTE",
+  "SER NI MIN SKÄRM?"
 ];
 function loop() {
   const r = Math.random();
   if (isBeerTime() && r < 0.22) {
-    showInterrupt("NÄR KOMMER ÖL VAGNEN?");
+    showInterrupt("NÄR KOMMER ÖLVAGNEN?");
     setTimeout(loop, 6000); return;
   }
   if (isHungryTime() && r < 0.18) {
@@ -186,7 +157,7 @@ function loop() {
 }
 addMessage("Authenticating Erik...", "");
 setTimeout(() => {
-  addMessage("Access granted. Mejl-kernel oppen. Moten: avbokade.", "success");
+  addMessage("Åtkomst beviljad. Kalendern: full. Humöret: gul.", "success");
   setTimeout(loop, 2500);
 }, 1500);
 </script>

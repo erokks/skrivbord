@@ -22,37 +22,37 @@ body{background:#1b1a19;color:#fff;font-family:'Segoe UI',Arial,sans-serif;heigh
 </style>
 </head>
 <body>
-<div class="top"><span>Kort avstamning (optional, men kom) • 47 deltagare • 0 agenda</span><span class="pill">REC</span></div>
+<div class="top"><span>Snabb avstämning (90 min) • 14 deltagare • 0 kameror</span><span class="pill">REC</span></div>
 <div class="grid">
-  <div class="tile" style="background:#123"><div class="av">SCR</div><div class="nm">Skarmen (Gast)</div><div class="mute">LIVE</div></div>
-  <div class="tile"><div class="av">☕</div><div class="nm">Kaffemaskinen</div><div class="mute">muted</div></div>
-  <div class="tile"><div class="av">PRT</div><div class="nm">Skrivaren</div><div class="mute">PC LOAD LETTER</div></div>
-  <div class="tile"><div class="av">XLS</div><div class="nm">FINAL_v12.xlsx</div><div class="mute">sharing</div></div>
-  <div class="tile"><div class="av">🦆</div><div class="nm">Albatrossen</div><div class="mute">away</div></div>
-  <div class="tile"><div class="av">FIK</div><div class="nm">Fikarummet</div><div class="mute">echo</div></div>
+  <div class="tile" style="background:#123"><div class="av">📺</div><div class="nm">Skärmen (Gäst)</div><div class="mute">LIVE</div></div>
+  <div class="tile"><div class="av">☕</div><div class="nm">Kaffemaskinen</div><div class="mute">mute</div></div>
+  <div class="tile"><div class="av">🖨</div><div class="nm">Skrivaren</div><div class="mute">ansluter...</div></div>
+  <div class="tile"><div class="av">🐕</div><div class="nm">Någons hund</div><div class="mute">ej mute</div></div>
+  <div class="tile"><div class="av">🧹</div><div class="nm">Dammsugaren</div><div class="mute">ej mute</div></div>
+  <div class="tile"><div class="av">⏳</div><div class="nm">Mötesledaren</div><div class="mute">"ser ni min skärm?"</div></div>
 </div>
 <div class="chat" id="c"></div>
 <script>
 var M=[
-  ["Skarmen (Gast)","Detta kunde varit ett mejl. Vi ar 47. Rec ar pa. Klassiker."],
-  ["Kaffemaskinen","vem la till 90 minuter. det stod kort avstamning"],
-  ["Skarmen (Gast)","Kalendern sa optional. Optional som brandovning. Alla kom."],
-  ["Skrivaren","jag delar agendan. den heter PDF. 90 sidor. tom."],
-  ["FINAL_v12.xlsx","VLOOKUP hittade inget. Precis som beslutet."],
-  ["Albatrossen","jag flyger. ni har stilla. agenda?"],
-  ["Skarmen (Gast)","Agenda: 404. Fika: lag. Beslut: boka igen."],
-  ["Fikarummet","kan ni hora mig... kan ni hora mig... jag ar ett rum"],
-  ["Kaffemaskinen","du ar muted. alla ar muted. det ar motet."],
-  ["Skarmen (Gast)","JAG HAR INGEN MIC. JAG HAR TEXT. DET RACKER."],
-  ["Skrivaren","en slide, 40 kopior, som protest. las mejlet."],
-  ["Skarmen (Gast)","Vi ses i 60 Hz. Eller i inkorgen. Inkorgen ar finare."]
+  ["Mötesledaren","Vi väntar två minuter till på folk."],
+  ["Skärmen (Gäst)","Tre personer har gått under de två minuterna."],
+  ["Mötesledaren","Ser ni min skärm?"],
+  ["Kaffemaskinen","vi ser din inkorg. 214 olästa."],
+  ["Mötesledaren","Nu då?"],
+  ["Skrivaren","nu ser vi fliken 'lediga jobb'"],
+  ["Någons hund","VOFF"],
+  ["Mötesledaren","Kan alla som inte pratar mute:a sig?"],
+  ["Dammsugaren","VRRRRRRRRRRR"],
+  ["Skärmen (Gäst)","Du är på mute. Du har varit på mute i 11 minuter. Det var bra."],
+  ["Mötesledaren","Okej, vi är lite över tiden, så bara en sista grej..."],
+  ["Skärmen (Gäst)","Det fanns sju sista grejer."]
 ];
 var i=0,c=document.getElementById("c");
 function nx(){
   if(i>=M.length){i=0;c.innerHTML="";}
   var d=document.createElement("div");
   d.className="m";
-  var cls=M[i][0].indexOf("Skarmen")>=0?"you":"who";
+  var cls=M[i][0].indexOf("Skärmen")>=0?"you":"who";
   d.innerHTML='<span class="'+cls+'">'+M[i][0]+'</span> '+M[i][1];
   c.appendChild(d);
   while(c.children.length>6)c.removeChild(c.firstChild);

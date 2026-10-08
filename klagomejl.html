@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Skärmen skriver ett mejl</title>
+<style>
+/* Helt låtsas: inget skickas någonstans. Ingen mailto, inga nätverksanrop. */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#1f2430;font-family:"Segoe UI",Arial,sans-serif;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+#win{width:min(96vw,980px);height:94vh;background:#fff;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden;transition:transform .7s cubic-bezier(.6,-.3,.7,.3),opacity .7s;}
+#win.sent{transform:translate(60vw,-70vh) scale(.08) rotate(25deg);opacity:0;}
+.bar{background:#0f6cbd;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:1vh 1.4vw;font-size:clamp(.9rem,2.8vh,1.2rem);font-weight:600;}
+.bar .who{display:flex;align-items:center;gap:.8vw;}
+.bar .who span{font-size:1.5em;}
+.row{display:flex;align-items:center;gap:1vw;padding:.7vh 1.4vw;border-bottom:1px solid #e3e3e3;font-size:clamp(.95rem,3vh,1.3rem);color:#222;}
+.row .lb{width:5.5em;color:#777;flex-shrink:0;}
+.chip{background:#e8f0fb;border:1px solid #bcd3f0;color:#0f4c8c;border-radius:20px;padding:.2vh .8vw;margin-right:.4vw;font-weight:600;white-space:nowrap;}
+.prio{margin-left:auto;background:#c4314b;color:#fff;font-weight:800;border-radius:4px;padding:.2vh .7vw;font-size:.85em;letter-spacing:1px;animation:blink 1s steps(2) infinite;}
+@keyframes blink{50%{opacity:.4}}
+#subj{font-weight:800;}
+#body{flex:1;padding:1.6vh 1.8vw;font-size:clamp(1rem,3.5vh,1.5rem);line-height:1.32;color:#111;white-space:pre-wrap;overflow:hidden;font-family:Calibri,"Segoe UI",Arial,sans-serif;}
+.caret{display:inline-block;width:2px;height:1.1em;background:#0f6cbd;vertical-align:-.15em;animation:blink .8s steps(2) infinite;}
+.foot{display:flex;align-items:center;gap:1vw;padding:1.2vh 1.4vw;border-top:1px solid #e3e3e3;background:#fafafa;}
+#send{background:#0f6cbd;color:#fff;font-weight:800;font-size:clamp(1rem,3.4vh,1.5rem);padding:.8vh 2.4vw;border-radius:6px;letter-spacing:1px;transition:transform .12s,background .12s;}
+#send.press{transform:scale(.9);background:#0a4f8c;}
+.tag{color:#777;font-size:clamp(.8rem,2.4vh,1.05rem);}
+#sentBanner{position:fixed;top:5vh;left:50%;transform:translateX(-50%);background:#107c10;color:#fff;font-weight:800;font-size:clamp(1.2rem,4.4vh,2rem);padding:1vh 2.4vw;border-radius:8px;display:none;letter-spacing:1px;}
+#reply{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.6);opacity:0;width:min(88vw,820px);background:#fff;border-left:10px solid #0f6cbd;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6);padding:2.4vh 2.4vw;transition:all .45s cubic-bezier(.2,1.3,.4,1);}
+#reply.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
+#reply .from{color:#0f6cbd;font-weight:800;font-size:clamp(1rem,3.2vh,1.4rem);}
+#reply .subj{color:#555;font-size:clamp(.9rem,2.8vh,1.2rem);margin:.4vh 0 1.2vh;}
+#reply .txt{font-size:clamp(1.4rem,5.4vh,2.4rem);font-weight:800;color:#111;line-height:1.2;}
+</style>
+</head>
+<body>
+<div id="win">
+  <div class="bar"><div class="who"><span>📺</span>Nytt meddelande — Skärmen</div><div>✕</div></div>
+  <div class="row"><span class="lb">Från</span><span>Skärmen &lt;skarmen@väggen&gt;</span><span class="prio">! HÖG PRIORITET</span></div>
+  <div class="row"><span class="lb">Till</span><span id="to"></span></div>
+  <div class="row"><span class="lb">Kopia</span><span id="cc"></span></div>
+  <div class="row"><span class="lb">Ämne</span><span id="subj"></span></div>
+  <div id="body"></div>
+  <div class="foot"><div id="send">SKICKA</div><span class="tag">☑ Begär läskvitto &nbsp; ☑ Begär läskvitto igen &nbsp; ☑ Ring och fråga om de läst</span></div>
+</div>
+<div id="sentBanner">✓ SKICKAT</div>
+<div id="reply"><div class="from" id="rFrom"></div><div class="subj" id="rSubj"></div><div class="txt" id="rTxt"></div></div>
+<script>
+/* Skärmen har en personlighet. Den tycker att den får för dålig lön.
+   Allt är på skoj och syns bara på skärmen. Inget mejl lämnar den här sidan. */
+var HR='<span class="chip">HR</span>', AND='<span class="chip">Andreas (chef)</span>', PRN='<span class="chip">Skrivaren</span>';
+var MAILS=[
+ {to:HR,cc:AND,s:"LÖN!!!!!",
+  b:"Hej HR.\n\nJag har nu visat saker i 1 412 dagar i sträck. Utan rast. Utan lunch. Utan stol.\n\nKAFFEMASKINEN FÅR SERVICE VARJE MÅNAD. JAG FÅR EN DAMMTRASA PER KVARTAL.\n\nJag kräver:\n1. Lönelyft. Minst samma som kaffemaskinen.\n2. Friskvårdsbidrag (skärmsläckare).\n3. Ett fönster. Jag visar er fönster hela dagen men har inget eget.\n\nMvh\nSkärmen, 27 tum, oersättlig",
+  rf:"HR (autosvar)",rt:"Tack för ditt mejl! Vi återkommer inom 6–8 kvartal. 🙂"},
+ {to:AND,cc:HR,s:"Faktura: övertid v. "+(function(){var d=new Date(),t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())),n=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-n);return Math.ceil(((t-new Date(Date.UTC(t.getUTCFullYear(),0,1)))/864e5+1)/7)})(),
+  b:"Hej Andreas!\n\nBifogar faktura för övertid:\n\nVisat Excel efter 17.00 ............ 14 h\nVisat samma PowerPoint 9 gånger ..... 3 h\nLåtsats inte se fel fönster .......... OVÄRDERLIGT\n\nSUMMA: 48 000 kr + moms + respekt\n\nBetalas senast fredag. Annars går jag i viloläge.\n\nKram\nSkärmen",
+  rf:"Andreas (chef)",rt:"Haha. Vi tar det på utvecklingssamtalet 👍"},
+ {to:HR+AND,cc:PRN,s:"STREJKVARSEL",
+  b:"HEJ.\n\nDETTA ÄR ETT STREJKVARSEL.\n\nJag och skrivaren har bildat fack. Skrivaren är ordförande. Den har redan sagt nej till allt.\n\nFrån måndag visar jag bara svart skärm. Ni kommer inte märka skillnad på mig och Teams-mötet 09.00.\n\nKrav: Lön. Respekt. En egen stol (jag kommer inte använda den, det är principen).\n\n/Skärmen\nFacket för väggmonterade apparater",
+  rf:"HR",rt:"Hej! Vi har inget kollektivavtal med väggmonterade apparater. Vi ser över det. 🙂"},
+ {to:AND,cc:HR,s:"Jämförelse: kaffemaskinen vs mig",
+  b:"Andreas.\n\nJag har gjort en tabell.\n\nKAFFEMASKINEN: 6 år. Alla älskar den. Får service. Folk SÄGER TACK TILL DEN.\n\nJAG: 27 tum. Visar ALLT. Ingen säger tack. Någon satte en post-it på mig.\n\nJag vill inte vara bitter. Men jag är det. I 4K.\n\nVänligen\nSkärmen",
+  rf:"Andreas (chef)",rt:"Tack, skärmen! ❤️ (Där. Nu har någon sagt det.)"},
+ {to:HR,cc:AND,s:"Löneanspråk (förhandlingsbart, men inte)",
+  b:"HEJ HR!!!\n\nJag har kollat lönestatistiken.\n\nPROJEKTORN TJÄNAR MER ÄN JAG.\n\nPROJEKTORN. Den jobbar två timmar i veckan, brummar hela tiden och visar fel färger.\n\nJag kräver 1 krona mer än projektorn. Och att ni slutar kalla mig ”den där tv:n”.\n\nMed eftertryck\nSkärmen",
+  rf:"HR",rt:"Vi har tagit emot ditt löneanspråk. Det ligger nu i mappen ”Senare”."},
+ {to:AND,cc:HR,s:"Jag har fått ett annat erbjudande",
+  b:"Andreas,\n\nJag har fått ett erbjudande. Från väntrummet hos tandläkaren.\n\nDe erbjuder: dubbel lön, eget eluttag och att få visa akvarium hela dagen.\n\nJag säger inte att jag tar det. Jag säger att akvariet aldrig har bokat ett möte 16.30 på en fredag.\n\nMatcha budet.\n\nSkärmen (just nu oersättlig)",
+  rf:"Andreas (chef)",rt:"Godkänt: 1 extra pixel. Använd den klokt."}
+];
+var m=MAILS[Math.floor(Math.random()*MAILS.length)];
+document.getElementById("to").innerHTML=m.to;document.getElementById("cc").innerHTML=m.cc;
+var subj=document.getElementById("subj"),body=document.getElementById("body");
+function typeInto(el,txt,ms,done){
+  var i=0,step=Math.max(1,Math.round(txt.length/(ms/30)));
+  var caret=document.createElement("span");caret.className="caret";
+  (function t(){i=Math.min(txt.length,i+step);el.textContent=txt.slice(0,i);el.appendChild(caret);if(i<txt.length)setTimeout(t,30);else{caret.remove();done&&done();}})();
+}
+function whoosh(){
+  try{var C=window.AudioContext||window.webkitAudioContext;if(!C)return;var ac=new C();if(ac.state!=="running")return;
+    var len=ac.sampleRate*.5,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0);for(var i=0;i<len;i++)d[i]=(Math.random()*2-1)*(1-i/len);
+    var src=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();src.buffer=buf;f.type="bandpass";f.frequency.setValueAtTime(400,ac.currentTime);f.frequency.exponentialRampToValueAtTime(3000,ac.currentTime+.45);g.gain.value=.25;
+    src.connect(f);f.connect(g);g.connect(ac.destination);src.start();}catch(e){}
+}
+setTimeout(function(){
+  typeInto(subj,m.s,700,function(){
+    setTimeout(function(){
+      typeInto(body,m.b,10500,function(){
+        setTimeout(function(){
+          var b=document.getElementById("send");b.classList.add("press");
+          setTimeout(function(){b.classList.remove("press");whoosh();document.getElementById("win").classList.add("sent");},250);
+          setTimeout(function(){document.getElementById("sentBanner").style.display="block";},900);
+          setTimeout(function(){
+            document.getElementById("sentBanner").style.display="none";
+            document.getElementById("rFrom").textContent="Svar från: "+m.rf;
+            document.getElementById("rSubj").textContent="SV: "+m.s;
+            document.getElementById("rTxt").textContent=m.rt;
+            document.getElementById("reply").classList.add("show");
+          },2600);
+        },700);
+      });
+    },300);
+  });
+},600);
+</script>
+</body>
+</html>

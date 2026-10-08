@@ -18,27 +18,27 @@ body{background:#120900;color:#e8c9a0;font-family:"Share Tech Mono",Consolas,mon
 </head>
 <body>
 <div class="panel">
-  <div class="head"><span>KAFFE-SYSTEMET</span><span id="clk">04:20</span></div>
-  <div class="def" id="def">DEFCON 2</div>
-  <div class="msg" id="msg">Brygg-niva: motet har inte fortjanat kopp 2.</div>
+  <div class="head"><span>KAFFEMASKINEN</span><span id="clk">--:--</span></div>
+  <div class="def" id="def">TÖM SUMPEN</div>
+  <div class="msg" id="msg">Sumpen var full. Någon tryckte ändå.</div>
   <div class="barwrap"><div class="fill" id="fill"></div></div>
-  <div class="foot" id="log">BOOT: kaffe.sys ... OK</div>
+  <div class="foot" id="log">&gt; Avkalka: påminnelse 412</div>
 </div>
 <script>
 var msgs=[
-  "Brygg-niva: motet har inte fortjanat kopp 2.",
-  "Bonorna har bildat fack. Krav: fika. Inte 90 min avstamning.",
-  "Decaf upptackt i sektorn. Evakuering. Motet stannade.",
-  "Statistik: 14 koppar, 0 beslut, 1 PowerPoint.",
-  "Kaffet dog. Mandagen overlevde. Olycka.",
-  "Bryggprotokoll 4.20: inga moten over kaffet.",
-  "Kaffemaskinen mute:a motet. Enda vettiga beslutet idag.",
-  "Sista kanelbullen gick till ett mote. Den dog forintet.",
-  "Espresso forhandlar med kalendern. Kalendern at lunchen.",
-  "Albatros flyger battre efter kopp tva. Motet gor inte det."
+  "Sumpen var full. Någon tryckte ändå.",
+  "Den som tar sista koppen brygger ny. Lag sedan 2014. Följd: aldrig.",
+  "Någon har tagit kaffe och lämnat 2 cm i kannan. Juridiskt inte tom.",
+  "Mjölken gick ut i tisdags. Ingen har luktat. Alla har hällt.",
+  "Kön till maskinen är längre än kön till helpdesk.",
+  "Knappen 'Stark' gör samma sak som 'Mild'. Ingen har märkt.",
+  "Någon diskade din kopp. Du förstår inte hur du ska hantera det.",
+  "Jag har blinkat AVKALKA sedan 2021. Jag har slutat hoppas.",
+  "Varmt vatten är inte te. Sluta låtsas.",
+  "Muggen 'Världens bästa chef' används av alla. Ingen frågar."
 ];
-var defs=["DEFCON 3","DEFCON 2","DEFCON 1","DEFCON FIKA","DEFCON OEL?","DEFCON 2"];
-var logs=["BOOT: kaffe.sys ... OK","SENSOR: lukt av mote","ALERT: decaf i sektorn","INFO: kalendern at lunchen","WARN: kopp till ett 90-min","OK: fika-policy > agenda","NOTE: motet har inte fortjanat kopp 2.","PING: 418 I'm a teapot."];
+var defs=["TÖM SUMPEN","FYLL PÅ VATTEN","AVKALKA","TÖM SUMPEN","KAFFE?","TÖM SUMPEN"];
+var logs=["Avkalka: påminnelse 412","Sump: 104 %","Mjölk: misstänkt","Kö: 7 personer, 1 kanna","Kopp kvar i maskinen sedan 08:14","Status: trött"];
 var i=0,p=12;
 function nx(){
   document.getElementById("msg").textContent=msgs[i%msgs.length];

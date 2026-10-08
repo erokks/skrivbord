@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eriks Helpdesk – Nu betjänas nummer</title>
+  <title>Helpdesk – nu betjänas nummer</title>
   <style>
     body { background:#f4f4f4; color:#002647; font-family:"Segoe UI",Tahoma,sans-serif; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; margin:0; overflow:hidden; }
     h1 { font-size:2.2rem; margin-bottom:12px; text-align:center; }
@@ -15,44 +15,47 @@
     .error { margin-top:24px; padding:16px 22px; background:#ffe6e6; color:#a80000; border:3px dashed #a80000; border-radius:10px; font-size:1.25rem; display:none; text-align:center; max-width:80%; }
     .ticker { position:absolute; top:0; left:0; right:0; background:#002647; color:#fff; padding:8px 0; overflow:hidden; white-space:nowrap; font-weight:700; }
     .ticker span { display:inline-block; padding-left:100%; animation:t 22s linear infinite; }
+    .qr { width:110px; height:110px; margin-top:30px; background:#fff; border:8px solid #fff; box-shadow:0 0 0 2px #002647; background-image:repeating-conic-gradient(#002647 0% 25%, #fff 0% 50%); background-size:22px 22px; }
+    .qrcap { font-size:.95rem; color:#666; margin-top:6px; }
     @keyframes t { 100%{transform:translateX(-100%)} }
   </style>
 </head>
 <body>
-  <div class="ticker"><span>NU BETJÄNAS • DETTA KUNDE VARIT ETT MEJL • KORT AVSTÄMNING I LUCKA 90 • PC LOAD LETTER = NEJ • AGENDA 404 • </span></div>
-  <h1 id="headline">Eriks Helpdesk – Nu betjänas nummer</h1>
-  <div class="sub" id="sub">Vänligen vänta. Eller skicka mejlet. Mejlet är också hjälp.</div>
+  <div class="ticker"><span>NU BETJÄNAS • HAR DU PROVAT ATT STARTA OM? • DIN FRÅGA ÄR VIKTIG FÖR OSS • DU ÄR NUMMER 41 I KÖN • KÖN ÄR OCKSÅ NUMMER 41 • </span></div>
+  <h1 id="headline">Helpdesk – nu betjänas nummer</h1>
+  <div class="sub" id="sub">Har du provat att starta om?</div>
   <div class="display" id="numberDisplay">001</div>
-  <div class="error" id="errorBox">Systemfel. Vänligen ta ny lapp. Eller skicka mejlet.</div>
-  <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://eriks-helpdesk.se/lapp" alt="QR" style="margin-top: 36px;">
-  <div class="footer" id="footer">Vänligen vänta. Eller: detta kunde varit ett mejl.</div>
+  <div class="error" id="errorBox">Systemfel. Ta en ny lapp.</div>
+  <div class="qr" aria-hidden="true"></div><div class="qrcap">Skanna för att hamna längre bak i kön</div>
+  <div class="footer" id="footer">Beräknad väntetid: ja.</div>
 <script>
 const display = document.getElementById("numberDisplay");
 const errorBox = document.getElementById("errorBox");
 const sub = document.getElementById("sub");
 const footer = document.getElementById("footer");
 let currentNumber = 1;
-const wild = ["FIKA","∞","π","HDMI","000","KAFFE","NEJ","JA","VLOOKUP","PC LOAD","4.20","OEL?","???"];
+const wild = ["???","∞","−3","π","A4","NEJ","LUNCH","STARTA OM","1/2","42"];
 const subs = [
-  "Vänligen vänta. Eller skicka mejlet. Mejlet är också hjälp.",
-  "Nummer 000 är mötet. Det kunde varit ett mejl.",
-  "Skrivaren har nummer PC LOAD LETTER. Översättning: nej.",
-  "Lucka 3 är en myt. Lucka 90 är kort avstämning.",
-  "Din tur kommer. Precis efter beslutet. Så: aldrig.",
-  "Helpdesk har gått på lunch. Kalendern åt den."
+  "Har du provat att starta om?",
+  "Har du provat att starta om ordentligt?",
+  "Nej, inte bara skärmen.",
+  "Har du provat att dra ur sladden? Inte den. Den andra.",
+  "Ditt ärende har eskalerats. Till samma person.",
+  "Vi har tagit emot din fråga. Den ligger nu i en mapp som heter 'Senare'.",
+  "Nummer 000 gick på lunch 2019."
 ];
 const errs = [
-  "Systemfel. Vänligen ta ny lapp. Eller skicka mejlet.",
-  "Kösystemet har bildat fack. Krav: inga 90-minuters.",
-  "Numret du väntar på är i ett annat möte. Optional, men kom.",
-  "VLOOKUP hittade inte din lapp. Den hittade ingen agenda.",
-  "Kalendern tog din tur och kallade det alignment."
+  "Systemfel. Ta en ny lapp.",
+  "Din lapp har gått ut. Den var giltig i 4 sekunder.",
+  "Lappen hittades inte. Har du provat att starta om den?",
+  "Ärendet stängt: 'Löst av sig själv'. Det har det inte.",
+  "Numret du väntar på har bytt jobb."
 ];
 const foots = [
-  "Vänligen vänta. Eller: detta kunde varit ett mejl.",
-  "Beräknad väntetid: 40 slides. 0 poäng.",
-  "Om din lapp är Comic Sans: brottsplats. Börja om.",
-  "Albatros HQ • lucka 90: kort avstämning • agenda: 404"
+  "Beräknad väntetid: ja.",
+  "Ditt samtal är viktigt för oss. Inte jätteviktigt. Men viktigt.",
+  "Tips: säg 'det funkade nyss' när teknikern kommer. Då funkar det.",
+  "Lucka 3 finns inte. Har aldrig funnits."
 ];
 function formatNumber(num) { return num.toString().padStart(3, "0"); }
 function updateNumber() {
@@ -81,11 +84,11 @@ function updateNumber() {
   if (Math.random() < 0.06) {
     document.body.style.backgroundColor = "#002647";
     document.body.style.color = "#ffcc00";
-    document.getElementById("headline").textContent = "PAUS. ALLA NUMMER ÄR NU ETT MEJL.";
+    document.getElementById("headline").textContent = "PAUS. HELPDESK STARTAR OM.";
     setTimeout(() => {
       document.body.style.backgroundColor = "#f4f4f4";
       document.body.style.color = "#002647";
-      document.getElementById("headline").textContent = "Eriks Helpdesk – Nu betjänas nummer";
+      document.getElementById("headline").textContent = "Helpdesk – nu betjänas nummer";
     }, 3500);
   }
   setTimeout(updateNumber, Math.random() * 2800 + 900);

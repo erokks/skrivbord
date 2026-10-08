@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CANDY SURVEILLANCE</title>
+  <title>GODISÖVERVAKNING</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#0a0a0a;color:#00ff41;font-family:"Courier New",monospace;height:100vh;overflow:hidden;display:flex;flex-direction:column;}
@@ -14,13 +14,13 @@
     .main{flex:1;display:flex;overflow:hidden;}
     .feed{flex:2;padding:20px;overflow:hidden;display:flex;flex-direction:column;}
     .sidebar{flex:1;border-left:2px solid #333;padding:20px;display:flex;flex-direction:column;gap:15px;}
-    .event{padding:12px;border-left:3px solid #00ff41;margin-bottom:8px;background:#0d1a0d;animation:slideIn 0.5s;font-size:0.95rem;line-height:1.5;}
+    .event{padding:12px;border-left:3px solid #00ff41;margin-bottom:8px;background:#0d1a0d;animation:slideIn 0.5s;font-size:1.3rem;line-height:1.4;}
     .event.alert{border-left-color:#ff0000;background:#1a0d0d;}
     .event.warning{border-left-color:#ffaa00;background:#1a150d;}
     .event .time{color:#666;font-size:0.8rem;}
     .event .name{color:#00ddff;font-weight:700;}
     .event .candy{color:#ff69b4;}
-    .event .comment{color:#aaa;font-style:italic;margin-top:4px;}
+    .event .comment{color:#ccc;font-style:italic;margin-top:4px;font-size:1.1rem;}
     @keyframes slideIn{from{transform:translateX(-30px);opacity:0;}to{transform:translateX(0);opacity:1;}}
     .stat-box{background:#111;border:1px solid #333;padding:12px;border-radius:4px;}
     .stat-box h3{color:#666;font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;}
@@ -28,7 +28,7 @@
     .stat-box .val.danger{color:#ff0000;}
     .leaderboard{background:#111;border:1px solid #333;padding:12px;border-radius:4px;flex:1;overflow:hidden;}
     .leaderboard h3{color:#ff0000;font-size:0.85rem;letter-spacing:2px;margin-bottom:10px;text-transform:uppercase;}
-    .lb-entry{display:flex;justify-content:space-between;padding:4px 0;font-size:0.85rem;border-bottom:1px solid #1a1a1a;}
+    .lb-entry{display:flex;justify-content:space-between;padding:4px 0;font-size:1rem;border-bottom:1px solid #1a1a1a;}
     .lb-entry .rank{color:#666;}
     .lb-entry .n{color:#00ddff;}
     .lb-entry .cnt{color:#ff69b4;font-weight:700;}
@@ -38,52 +38,45 @@
 </head>
 <body>
   <div class="header">
-    <h1>CANDY SURVEILLANCE SYSTEM v4.20</h1>
-    <div class="threat" id="threatLevel" style="background:#ff0000;color:white;">THREAT LEVEL: ELEVATED</div>
+    <h1>GODISÖVERVAKNINGEN</h1>
+    <div class="threat" id="threatLevel" style="background:#ff0000;color:white;">HOTNIVÅ: FÖRHÖJD</div>
   </div>
   <div class="scanner"></div>
   <div class="main">
     <div class="feed" id="feed"></div>
     <div class="sidebar">
-      <div class="stat-box"><h3>Candies consumed today</h3><div class="val danger" id="totalCount">0</div></div>
-      <div class="stat-box"><h3>Estimated sugar intake</h3><div class="val" id="sugarLevel">0g</div></div>
-      <div class="stat-box"><h3>Dentist bill forecast</h3><div class="val danger" id="dentist">0 DKK</div></div>
+      <div class="stat-box"><h3>Godisbitar idag</h3><div class="val danger" id="totalCount">0</div></div>
+      <div class="stat-box"><h3>Socker</h3><div class="val" id="sugarLevel">0g</div></div>
+      <div class="stat-box"><h3>Tandläkarprognos</h3><div class="val danger" id="dentist">0 kr</div></div>
       <div class="leaderboard">
-        <h3>Most Wanted Candy Criminals</h3>
+        <h3>Mest efterlysta händer</h3>
         <div id="leaderboard"></div>
       </div>
     </div>
   </div>
 <script>
-var names=["Marianne","Jakob","Frederik","Sofie","Erik","Hedda","Marlene","Marcus","Emelie","Lotta","Line","Vivi","Sandra","Bjorn","Tina","Karin","Emma","Katrine","Nicklas"];
-var candies=["Snickers","Mars","Twix","KitKat","Daim","Marabou","Geisha","Polly","Plopp","Kexchoklad","Center","Djungelvraal","Turkish Pepper","Salt Sild","Ahlgrens Bilar","Cola Bottles","Gummy Bears","Sour Skittles"];
+var names=["Hand #7","Hand i grå hoodie","'Bara en till'","Någon från ekonomi","Någon i möte (tog två)","Rum B","Skuggan vid kopiatorn","Den som 'inte äter socker'","Hand med Teams-headset","Okänd (bar mössa inne)"];
+var candies=["Daim","Marabou","Geisha","Polly","Plopp","Kexchoklad","Center","Djungelvrål","Turkisk peppar","Salta sillar","Ahlgrens bilar","Gott & blandat","Sura skum","Lakritsbåt","Grön kola"];
 var reactions=[
-  "AGAIN?! This is their {n}th today!",
-  "The dentist sends their regards.",
-  "That candy had a family.",
-  "Sugar levels now classified as a biohazard.",
-  "At this rate, the candy bowl will be empty by lunch.",
-  "HR has been notified. Just kidding. Or are we?",
-  "The candy didn't even get to say goodbye.",
-  "This is why we can't have nice things.",
-  "Scanning for remorse... none detected.",
-  "The screen is judging you. Hard.",
-  "That was the LAST {candy}. Hope you're proud.",
-  "Fun fact: that candy costs more than your attention span.",
-  "Adding to your permanent record.",
-  "Your blood sugar called. It wants a divorce.",
-  "Plot twist: the candy was a decoy. We're watching you.",
-  "Alerting Interpol... just kidding. Maybe."
+  "Det var bit nummer {n}. Idag.",
+  "Tog en. Tittade sig omkring. Tog en till.",
+  "Sa 'jag äter egentligen inte godis'. Tog tre.",
+  "Grävde efter de goda. Lämnade lakritsen. Igen.",
+  "Tog {candy} med sig in i ett möte. Delade inte.",
+  "Tog en på väg till 'snabb fråga'. Kom tillbaka efter 40 min. Tog en till.",
+  "Ångrade sig. Lade tillbaka. Tog den bredvid.",
+  "Sista {candy}. Skålen sörjer.",
+  "Låtsades hämta vatten. Hämtade inte vatten.",
+  "Inget samvete upptäckt. Skannar igen.",
+  "Rörde vid fem bitar. Tog en. De andra fyra är nu allas."
 ];
 var alerts=[
-  "ALERT: Candy bowl structural integrity compromised",
-  "WARNING: Sugar consumption exceeding NATO guidelines",
-  "NOTICE: The candy bowl filed a restraining order against {name}",
-  "SECURITY: Unauthorized hand detected near premium chocolate section",
-  "URGENT: Candy supply chain disruption imminent",
-  "DEFCON 2: Only {n} candies remaining. Panic authorized.",
-  "BREAKING: {name} spotted approaching candy bowl for the {n}th time",
-  "INTEL: Satellite imagery confirms candy bowl is 67% depleted"
+  "LARM: Någon lade en clementin i godisskålen",
+  "LARM: Bara lakrits kvar. Panik godkänd.",
+  "LARM: {name} närmar sig skålen för {n}:e gången",
+  "LARM: Skålen är 67 % tom. Klockan är 09:40.",
+  "LARM: Någon har tagit hela påsen till sitt skrivbord",
+  "LARM: {name} sa 'det är ju onsdag'. Det är ingen ursäkt."
 ];
 
 var counts={},total=0,feed=document.getElementById("feed");
@@ -104,20 +97,20 @@ function addEvent(type,html){
 function updateStats(){
   document.getElementById("totalCount").textContent=total;
   document.getElementById("sugarLevel").textContent=(total*12)+"g";
-  document.getElementById("dentist").textContent=(total*85).toLocaleString()+" DKK";
+  document.getElementById("dentist").textContent=(total*85).toLocaleString("sv-SE")+" kr";
   // Update threat level
   var tl=document.getElementById("threatLevel");
-  if(total<5){tl.textContent="THREAT LEVEL: LOW";tl.style.background="#00aa00";}
-  else if(total<15){tl.textContent="THREAT LEVEL: ELEVATED";tl.style.background="#ffaa00";tl.style.color="#000";}
-  else if(total<30){tl.textContent="THREAT LEVEL: HIGH";tl.style.background="#ff6600";tl.style.color="#fff";}
-  else if(total<50){tl.textContent="THREAT LEVEL: SEVERE";tl.style.background="#ff0000";}
-  else{tl.textContent="THREAT LEVEL: WE ARE ALL DOOMED";tl.style.background="#ff0000";}
+  if(total<5){tl.textContent="HOTNIVÅ: LÅG";tl.style.background="#00aa00";}
+  else if(total<15){tl.textContent="HOTNIVÅ: FÖRHÖJD";tl.style.background="#ffaa00";tl.style.color="#000";}
+  else if(total<30){tl.textContent="HOTNIVÅ: HÖG";tl.style.background="#ff6600";tl.style.color="#fff";}
+  else if(total<50){tl.textContent="HOTNIVÅ: SOCKERCHOCK";tl.style.background="#ff0000";}
+  else{tl.textContent="HOTNIVÅ: BARA LAKRITS KVAR";tl.style.background="#ff0000";}
   // Leaderboard
   var sorted=Object.entries(counts).sort(function(a,b){return b[1]-a[1];});
   var lb=document.getElementById("leaderboard");lb.innerHTML="";
   for(var i=0;i<Math.min(sorted.length,8);i++){
     var medal=i===0?"\u{1F6A8}":i===1?"\u26A0\uFE0F":i===2?"\u{1F440}":"";
-    lb.innerHTML+='<div class="lb-entry"><span class="rank">'+(i+1)+'.</span><span class="n">'+medal+" "+sorted[i][0]+'</span><span class="cnt">'+sorted[i][1]+' pcs</span></div>';
+    lb.innerHTML+='<div class="lb-entry"><span class="rank">'+(i+1)+'.</span><span class="n">'+medal+" "+sorted[i][0]+'</span><span class="cnt">'+sorted[i][1]+' st</span></div>';
   }
 }
 
@@ -126,7 +119,7 @@ function logCandy(){
   var n=counts[name]=(counts[name]||0)+1;
   total++;
   var reaction=pick(reactions).replace("{n}",n).replace("{candy}",candy);
-  addEvent("normal",'<span class="name">'+name+'</span> took a <span class="candy">'+candy+'</span><div class="comment">'+reaction+'</div>');
+  addEvent("normal",'<span class="name">'+name+'</span> tog en <span class="candy">'+candy+'</span><div class="comment">'+reaction+'</div>');
   updateStats();
 }
 
@@ -138,21 +131,19 @@ function logAlert(){
 
 function logWarning(){
   var warnings=[
-    "Motion sensor triggered near candy bowl. All units standby.",
-    "Thermal scan detects warm hand approaching sector 7 (the candy bowl).",
-    "Pattern analysis: candy consumption spikes every Wednesday. Today is Wednesday.",
-    "Facial recognition identified repeat offender. Deploying guilt protocol.",
-    "Candy bowl weight decreased by 23g in last 60 seconds. Investigating.",
-    "Anomaly detected: someone put FRUIT in the candy bowl. Heresy.",
-    "The candy bowl is filing an emotional distress claim.",
-    "Satellite uplink confirmed: the candy bowl is visible from space (barely)."
+    "Rörelse vid skålen. Alla enheter: titta upp från Excel.",
+    "Godisskålen har flyttats 20 cm närmare ekonomi. Utreds.",
+    "Mönster: konsumtionen ökar 2 min före varje möte.",
+    "Någon frågade 'vem köper godiset egentligen?'. Ingen svarade.",
+    "Skålen vägde 23 g mindre på 60 sekunder. Ingen var där.",
+    "Papperet från en Daim ligger i skålen. Psykopat."
   ];
   addEvent("warning",pick(warnings));
 }
 
 // Initial events
-addEvent("normal","SYSTEM ONLINE. Candy surveillance active. All bowls monitored.");
-setTimeout(function(){addEvent("warning","Calibrating sugar detection sensors...");},2000);
+addEvent("normal","SYSTEMET ONLINE. Skålen övervakas. Ni är inte anonyma.");
+setTimeout(function(){addEvent("warning","Kalibrerar sockersensorer... och samvetet.");},2000);
 setTimeout(function(){logCandy();},4000);
 
 // Regular events
@@ -166,7 +157,7 @@ setInterval(function(){
 // Extra candy bursts
 setInterval(function(){
   logCandy();setTimeout(logCandy,800);setTimeout(logCandy,1600);
-  setTimeout(function(){addEvent("alert","CANDY HEIST IN PROGRESS! Multiple subjects detected!");},2200);
+  setTimeout(function(){addEvent("alert","GODISRÅN PÅGÅR! Flera händer samtidigt!");},2200);
 },45000);
 
 updateStats();
