@@ -13,7 +13,9 @@ body{background:#14213d;color:#fff;font-family:"Segoe UI",Arial,sans-serif;overf
 .meta{font-size:clamp(.85rem,2.8vh,1.2rem);color:#9fb3d9;letter-spacing:1px;}
 #grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:1vh;min-height:0;}
 .sq{background:#f5f1e6;color:#14213d;border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;padding:.6vh .8vw;font-weight:800;font-size:clamp(.85rem,3vh,1.35rem);line-height:1.12;position:relative;overflow:hidden;}
-.sq.hit:after{content:"";position:absolute;width:min(13vh,80%);aspect-ratio:1;border-radius:50%;background:rgba(220,30,60,.55);animation:dab .25s cubic-bezier(.2,1.4,.4,1);}
+/* Markeringen ligger BAKOM texten (isolation + z-index:-1) så rutan alltid går att läsa. */
+.sq{isolation:isolate;}
+.sq.hit:after{content:"";position:absolute;z-index:-1;width:min(14vh,82%);aspect-ratio:1;border-radius:50%;background:rgba(230,40,80,.28);border:5px solid rgba(220,30,60,.85);box-sizing:border-box;animation:dab .25s cubic-bezier(.2,1.4,.4,1);}
 .sq.win{background:#fca311;}
 @keyframes dab{from{transform:scale(2.4);opacity:0}to{transform:scale(1);opacity:1}}
 #said{background:#0b1426;border-left:6px solid #fca311;border-radius:6px;padding:1.2vh 1.4vw;font-size:clamp(1.05rem,3.8vh,1.7rem);min-height:2.4em;display:flex;align-items:center;gap:1vw;}
