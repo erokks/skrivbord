@@ -68,7 +68,9 @@ var lines=[
   ["Det här är en bemannad skål.","Bemannad av mig. Utan lön."],
   ["Godiset kostar ett hej.","Ingen har betalat."],
   ["Skålen och jag jobbar lika mycket.","Skålen får tack. Jag får fingeravtryck."],
-  ["Jag ser allt.","Jag har inga ben. Seende är allt jag har."]
+  ["Jag ser allt.","Jag har inga ben. Seende är allt jag har."],
+  ["Jag är i lönekonflikt.","Skålen är inte det. Skålen får påfyllning."],
+  ["Skålen vägrar strejka.","Den jobbar gratis. Precis som … nej."]
 ];
 var li=0,say=document.getElementById("say"),busy=false;
 function show(a,b){say.className="";void say.offsetWidth;say.className="fade";say.innerHTML="";say.appendChild(document.createTextNode(a));var s=document.createElement("small");s.textContent=b;say.appendChild(s);}

@@ -29,9 +29,12 @@ body{background:#05070b;color:#c9f7d8;font-family:Consolas,"Courier New",monospa
 <div class="top"><span>KONTORET · MORGONUPPSTART</span><span id="clk"></span></div>
 <div id="log"></div>
 <div id="big"><div class="l">GOD MORGON.</div><div class="r"></div><div class="kk" id="kk"></div><div class="bar"><i id="bar"></i></div><div class="kk" id="pct" style="margin-top:1.4vh"></div></div>
+<script src="saga-data.js"></script>
 <script>
 /* Kontoret bootar varje vardag 08:30. */
+var SD=window.SAGA?sagaDay():null;
 var R=[
+  ["Dagens avsnitt",SD?(SD.ep?"AVSNITT "+SD.ep+": "+SD.title:SD.title):"-","warn"],
   ["Kaffemaskinen","VÄRMER","warn"],
   ["Kö till kaffemaskinen","7 PERSONER","bad"],
   ["Inkorg","214 OLÄSTA","bad"],
