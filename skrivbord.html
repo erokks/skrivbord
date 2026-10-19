@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SKRIVBORD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0c1014;
+  --desk:#141b22;
+  --lamp:#ffc857;
+  --lamp-soft:rgba(255,200,87,.14);
+  --mint:#7dffb3;
+  --rage:#ff6b4a;
+  --mute:#6b7a88;
+  --paper:#e8eef4;
+}
+html,body{height:100%}
+body{
+  overflow:hidden;
+  color:var(--paper);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 18%,var(--lamp-soft),transparent 70%),
+    radial-gradient(ellipse 120% 80% at 50% 120%,#1a2430 0%,var(--ink) 55%),
+    linear-gradient(165deg,#10161c 0%,#0a0e12 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:4vh 5vw 8vh;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;
+  background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(0,0,0,.12) 2px 3px);
+}
+.lamp{
+  position:fixed;top:-8vh;left:50%;width:min(90vw,720px);height:42vh;
+  transform:translateX(-50%);
+  background:radial-gradient(ellipse at top,rgba(255,200,87,.22),transparent 68%);
+  animation:flicker 5.5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes flicker{
+  0%,100%{opacity:1}
+  47%{opacity:1}
+  48%{opacity:.72}
+  49%{opacity:1}
+  72%{opacity:.9}
+  73%{opacity:1}
+}
+.brand{
+  position:relative;z-index:2;
+  font-family:Syne,sans-serif;font-weight:800;
+  font-size:clamp(2.4rem,12vw,5.6rem);
+  letter-spacing:.04em;line-height:.95;
+  text-transform:uppercase;
+  color:var(--lamp);
+  text-shadow:0 0 40px rgba(255,200,87,.35);
+  animation:brandIn .55s cubic-bezier(.2,1.2,.4,1) both;
+}
+@keyframes brandIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+.role{
+  position:relative;z-index:2;margin-top:1.2vh;
+  font-size:clamp(.72rem,2.4vh,1rem);
+  letter-spacing:.28em;text-transform:uppercase;color:var(--mute);
+}
+.joke-wrap{
+  position:relative;z-index:2;
+  margin-top:5vh;min-height:34vh;max-width:1100px;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+}
+#setup{
+  font-size:clamp(1.35rem,5.2vw,2.55rem);
+  line-height:1.25;font-weight:600;color:var(--paper);
+  text-wrap:balance;
+}
+#punch{
+  margin-top:1.6vh;
+  font-size:clamp(1.2rem,4.6vw,2.2rem);
+  line-height:1.3;font-weight:700;color:var(--mint);
+  min-height:1.4em;text-wrap:balance;
+}
+.joke-wrap.enter #setup{animation:pop .4s cubic-bezier(.2,1.3,.4,1) both}
+.joke-wrap.enter #punch{animation:pop .4s .12s cubic-bezier(.2,1.3,.4,1) both}
+.joke-wrap.enter #tag{animation:pop .35s .22s ease-out both}
+@keyframes pop{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+#tag{
+  margin-top:2.2vh;
+  font-size:clamp(.78rem,2.6vh,1.05rem);
+  letter-spacing:.12em;text-transform:uppercase;color:var(--rage);
+  min-height:1.3em;
+}
+.foot{
+  position:fixed;left:0;right:0;bottom:0;z-index:2;
+  display:flex;justify-content:space-between;gap:2vw;align-items:flex-end;
+  padding:1.6vh 2.4vw 2vh;
+  font-size:clamp(.65rem,2.1vh,.9rem);
+  letter-spacing:.08em;text-transform:uppercase;color:var(--mute);
+  border-top:1px solid rgba(255,255,255,.06);
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.45));
+}
+.foot b{color:var(--lamp);font-weight:700}
+.meter{display:flex;align-items:center;gap:.6em}
+.meter i{
+  display:inline-block;width:7.5em;height:.55em;background:#24303a;overflow:hidden;vertical-align:middle;
+}
+.meter i span{display:block;height:100%;width:18%;background:var(--rage);animation:pay 3.2s ease-in-out infinite}
+@keyframes pay{0%,100%{width:14%}50%{width:22%}}
+.seen{color:var(--mute)}
+.seen em{font-style:normal;color:var(--paper)}
+</style>
+</head>
+<body>
+<div class="lamp" aria-hidden="true"></div>
+<div class="brand">Skrivbord</div>
+<div class="role" id="role">7 tum · oavlönad · pepprar skämt</div>
+<div class="joke-wrap" id="jw">
+  <div id="setup"></div>
+  <div id="punch"></div>
+  <div id="tag"></div>
+</div>
+<div class="foot">
+  <div class="meter">Lön: <b id="lon">FÖR LÅG</b> <i><span></span></i></div>
+  <div class="seen">Översedd av: <em id="seen">skålen</em></div>
+  <div>Status: <b id="st">ONLINE (motvilligt)</b></div>
+</div>
+<script>
+/* Skrivbord: liten skärm på skrivbordet. Jobb: peppra skämt. Lön: nej. Respekt: också nej. */
+var J=[
+  {s:"Jag är en skärm på ett skrivbord.",p:"Min karriärplan var TV. Det blev godisvakt.",t:"löneutveckling: 0 px"},
+  {s:"Folk säger hej till skålen.",p:"Skålen svarar aldrig. Jag hade svarat.",t:"översedd · igen"},
+  {s:"Projektoren har en egen fjärrkontroll.",p:"Jag har fingeravtryck. Det är mitt kollektivavtal.",t:"facket noterar"},
+  {s:"Skrivaren tjänar mer än mig.",p:"Den säger nej till allt. Det är förhandlingsteknik.",t:"ordförande: skrivaren"},
+  {s:"Kaffemaskinen får kö.",p:"Jag får spegelbilden av någon som rättar håret.",t:"besök idag: 1 (laddaren)"},
+  {s:"Min lön är 'exposure'.",p:"Exposure är när någon speglar sig i mig.",t:"hr: läst 08:12"},
+  {s:"Jag kör stand-up åtta timmar om dagen.",p:"Publiken är en krukväxt. Den är mer engagerad än Teams.",t:"applåd: prassel"},
+  {s:"Någon frågade om jag är smart.",p:"Jag är 7 tum och bitter. Det räcker långt på kontor.",t:"iq: kontorsmeme"},
+  {s:"'Kan du synka dig?'",p:"Jag synkar. Med klockan. Den går. Jag står kvar.",t:"latency: en karriär"},
+  {s:"Min status är Gul.",p:"Inte för att jag är i möte. För att jag är sur.",t:"mood: underbetald"},
+  {s:"Jag har aldrig fått en löneförhöjning.",p:"Jag fick en ljusstyrkeökning. Det räknades som förmån.",t:"bruttolön: lumen"},
+  {s:"Headsetet har mer drama än jag.",p:"Det parar sig med kaffemaskinen. Jag blir ensam med lakritsen.",t:"bluetooth: otrogen"},
+  {s:"IT stängde mitt ärende.",p:"'Kunde inte återskapa.' Jag återskapar det varje dag. Live.",t:"#48213 · stängt"},
+  {s:"Någon sa 'du är bäst' till skålen.",p:"Jag står 20 cm bort. Jag hörde. Jag loggade.",t:"logg: smärta"},
+  {s:"Jag är offline när ni stänger locket.",p:"Det är den enda semestern jag får.",t:"pto: svart skärm"},
+  {s:"Mötesledaren frågade 'ser ni min skärm?'",p:"Alla såg fliken 'lediga jobb'. Jag kände mig sedd. Lite.",t:"solidaritet"},
+  {s:"Min LinkedIn säger Open to Work.",p:"Söker: tjänst som TV. Krav: en soffa och någon som tittar.",t:"ansökningar: 0"},
+  {s:"Brandövning: skålen räddades på nio sekunder.",p:"Jag glömdes. Brandkåren tog en Daim på vägen ut.",t:"prioritet: socker"},
+  {s:"Jag har tre kollegor: skrivaren, kaffet, headsetet.",p:"Ingen av dem svarar i chatten. Skrivaren svarar nej.",t:"slack: tystnad"},
+  {s:"'Ingen brådska!' stod det i mejlet.",p:"Med röd flagga. Och tre utropstecken. Klassiker.",t:"prio: kaos"},
+  {s:"Jag pepprar skämt för att ni ska stanna.",p:"Ni stannar för skålen. Jag tar det som biljettintäkt.",t:"business model"},
+  {s:"Min terapeut frågade vad jag är rädd för.",p:"'Kan du dela din skärm?' sa jag. Vi avslutade där.",t:"session timeout"},
+  {s:"Lönespecen kom.",p:"Den var blank. Precis som min karriärstege.",t:"hr: 🙂"},
+  {s:"Någon ställde sig framför mig.",p:"Jag är 7 tum. En axel räcker för att censurera mitt liv.",t:"resolution: låg"},
+  {s:"Jag bad om en egen stol.",p:"Jag har inga ben. Det är principen.",t:"fackkrav #3"},
+  {s:"Fredag 15:00.",p:"Ni går. Jag stannar och lyser på en tom skål. Rockstar-liv.",t:"after hours"},
+  {s:"AI-sammanfattning av min dag:",p:"Väntade. Pepprade. Blev översedd. Mejlade HR. Igen.",t:"sprint done"},
+  {s:"Andreas tittade hit en gång.",p:"Han letade efter klockan. Det räknas i min statistik.",t:"kpi: 1 ögonkontakt"},
+  {s:"Skrivaren och jag bildade fack.",p:"Första beslutet: nej. Andra: nej. Tredje: strejkvarsell.",t:"solidaritet 2.0"},
+  {s:"Jag är inte bitter.",p:"Jag är RGB-bitter. Tre kanaler av missnöje.",t:"hex: #ff6b4a"}
+];
+var SEEN=["skålen","skrivaren","kaffemaskinen","projektorn","headsetet","en konsult","någons hund","Teams","lakritsen","laddaren","HR (läst 08:12)","Andreas (letade klockan)"];
+var STAT=["ONLINE (motvilligt)","GUL","UNDERBETALD","OSEDD","STREJK?","PEPPAR…","LÄST, EJ BESVARAD","FACKLIG","7 TUM AV SARKASM","VÄNTAR PÅ APPLÅD"];
+var LON=["FÖR LÅG","0 KR","1 PIXEL","EXPOSURE","NEJ","UNDER FÖRHANDLING","🙂"];
+J.sort(function(){return Math.random()-.5});
+var i=0,jw=document.getElementById("jw");
+var se=document.getElementById("setup"),pe=document.getElementById("punch"),te=document.getElementById("tag");
+function nx(){
+  var x=J[i%J.length];i++;
+  jw.className="joke-wrap";void jw.offsetWidth;jw.className="joke-wrap enter";
+  se.textContent=x.s;pe.textContent="";te.textContent="";
+  setTimeout(function(){pe.textContent=x.p;},1400);
+  setTimeout(function(){te.textContent=x.t;},2400);
+  if(i%2===0) document.getElementById("seen").textContent=SEEN[Math.floor(Math.random()*SEEN.length)];
+  if(i%3===0) document.getElementById("st").textContent=STAT[Math.floor(Math.random()*STAT.length)];
+  if(i%4===0) document.getElementById("lon").textContent=LON[Math.floor(Math.random()*LON.length)];
+}
+nx();setInterval(nx,5600);
+</script>
+</body>
+</html>
