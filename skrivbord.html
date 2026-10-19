@@ -170,13 +170,13 @@ function nx(){
   var x=J[i%J.length];i++;
   jw.className="joke-wrap";void jw.offsetWidth;jw.className="joke-wrap enter";
   se.textContent=x.s;pe.textContent="";te.textContent="";
-  setTimeout(function(){pe.textContent=x.p;},900);
-  setTimeout(function(){te.textContent=x.t;},1600);
+  setTimeout(function(){pe.textContent=x.p;},1400);
+  setTimeout(function(){te.textContent=x.t;},2400);
   if(i%2===0) document.getElementById("seen").textContent=SEEN[Math.floor(Math.random()*SEEN.length)];
   if(i%3===0) document.getElementById("st").textContent=STAT[Math.floor(Math.random()*STAT.length)];
   if(i%4===0) document.getElementById("lon").textContent=LON[Math.floor(Math.random()*LON.length)];
 }
-nx();setInterval(nx,4800);
+nx();setInterval(nx,5600);
 </script>
 </body>
 </html>
