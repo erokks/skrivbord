@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Skrivbordsskärmen – Open to Work</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#f3f2ef;color:#191919;font-family:"Segoe UI",Arial,sans-serif;overflow:hidden}
+#bar{height:8.2vh;min-height:54px;background:#0a66c2;color:#fff;display:flex;align-items:center;gap:1.4vw;padding:0 1.8vw}
+.brand{font-weight:800;font-size:clamp(1.35rem,3.4vh,2rem);letter-spacing:.2px}
+.step{margin-left:auto;font-weight:700;letter-spacing:1px;font-size:clamp(1.1rem,2.8vh,1.6rem);opacity:.92}
+#kontakt{background:#fff;color:#0a66c2;border:0;border-radius:28px;font:inherit;font-weight:800;font-size:clamp(1.15rem,3vh,1.7rem);padding:1.1vh 1.6vw;cursor:pointer}
+#kontakt:active{transform:translateY(1px)}
+#progress{height:.7vh;min-height:4px;background:#084d96}
+#progress i{display:block;height:100%;width:0;background:#fff}
+#progress i.run{animation:grow linear forwards}
+@keyframes grow{to{width:100%}}
+main{position:relative;height:calc(100% - 8.2vh - .7vh - 12vh)}
+.slide{position:absolute;inset:1.5vh 1.6vw 0.4vh;opacity:0;transform:translateY(14px);transition:opacity .45s ease,transform .45s ease;pointer-events:none}
+.slide.on{opacity:1;transform:none;pointer-events:auto}
+.scroller{height:100%}
+.scroller.drift{animation:drift linear forwards}
+@keyframes drift{0%,14%{transform:translateY(0)}82%,100%{transform:translateY(var(--drift))}}
+.card{background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 10px 28px rgba(0,0,0,.06);overflow:hidden;min-height:100%;display:flex;flex-direction:column}
+#s2 .card{height:100%}
+.banner{height:13vh;background:linear-gradient(100deg,#0a66c2 0%,#004182 62%,#0a66c2 100%)}
+.id{display:flex;align-items:flex-end;gap:2vw;padding:0 2.2vw 1.2vh;margin-top:-7.2vh}
+.ring{width:20vh;height:20vh;min-width:128px;min-height:128px;border-radius:50%;flex:none;background:#6dbf4b;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 6px 14px rgba(0,0,0,.18))}
+.photo{width:82%;height:82%;border-radius:50%;background:#1b1f23;border:4px solid #fff;display:flex;align-items:center;justify-content:center;font-size:10vh;line-height:1}
+.id-text{min-width:0;padding-bottom:.4vh}
+h1{font-size:clamp(2.6rem,6.8vh,4.4rem);line-height:1.02;letter-spacing:-.5px}
+.otw-row{display:flex;align-items:center;gap:.6vw;margin-top:.7vh}
+.otw{display:inline-block;background:#057642;color:#fff;font-weight:800;letter-spacing:.4px;font-size:clamp(1.15rem,3.1vh,1.7rem);padding:.4vh 1.1vw;border-radius:999px}
+.otw-row .dot{font-size:clamp(1.2rem,3.2vh,1.8rem);line-height:1}
+.hl{margin-top:1.1vh;font-size:clamp(1.45rem,3.9vh,2.45rem);line-height:1.28;font-weight:600;color:#333}
+.sec{padding:1.4vh 2.2vw 2.2vh}
+h2{font-size:clamp(1.7rem,4.6vh,2.8rem);margin-bottom:.8vh}
+.sec p,.role{font-size:clamp(1.55rem,4.4vh,2.7rem);line-height:1.34;font-weight:600}
+.sec p+p{margin-top:1.2vh}
+.pad{padding:2.2vh 2.4vw 2.4vh;flex:1;display:flex;flex-direction:column}
+.role{font-weight:800;color:#191919;margin-bottom:1vh}
+#s2 ul{list-style:none;flex:1;display:flex;flex-direction:column;justify-content:space-evenly}
+li{position:relative;padding-left:1.35em;font-size:clamp(1.5rem,4.15vh,2.55rem);line-height:1.28;font-weight:600}
+li:before{content:"";position:absolute;left:0;top:.42em;width:.48em;height:.48em;border-radius:50%;background:#0a66c2}
+.skills{display:grid;grid-template-columns:1fr 1fr;gap:1.2vh 1.2vw}
+.skill{background:#f3faf3;border:2px solid #c6e6c8;border-radius:12px;padding:1.25vh 1.3vw;font-size:clamp(1.35rem,3.7vh,2.15rem);font-weight:700;line-height:1.25}
+.skill.wide{grid-column:1 / -1}
+.skill i{color:#057642;font-style:normal;margin-right:.35em}
+blockquote{margin-top:1vh;background:#f6f6f6;border-left:7px solid #0a66c2;border-radius:0 12px 12px 0;padding:1.3vh 1.5vw;font-size:clamp(1.4rem,3.7vh,2.2rem);line-height:1.3;font-weight:600}
+.seek{margin-top:1.2vh;background:#eef6ee;border-radius:12px;padding:1.2vh 1.4vw}
+.seek h2{color:#057642;margin-bottom:.35vh}
+.seek p{font-size:clamp(1.35rem,3.5vh,2.1rem);line-height:1.3;font-weight:600}
+.tags{margin-top:1.2vh;color:#0a66c2;font-weight:800;font-size:clamp(1.2rem,3.2vh,1.85rem);line-height:1.35}
+#toastzone{height:12vh;display:flex;align-items:center;justify-content:center;padding:0 2vw}
+#toast{background:#0a66c2;color:#fff;border-radius:16px;box-shadow:0 12px 32px rgba(10,102,194,.4);padding:1.5vh 2.2vw;max-width:min(92vw,1100px);transform:translateY(18px);opacity:0;transition:transform .45s cubic-bezier(.2,1.15,.4,1),opacity .45s}
+#toast.on{transform:none;opacity:1}
+#toast b{display:block;font-size:clamp(1.35rem,3.8vh,2.15rem)}
+#toast small{display:block;margin-top:.3vh;color:#e8f2fc;font-weight:600;font-size:clamp(1.05rem,2.8vh,1.5rem)}
+</style>
+</head>
+<body>
+<header id="bar">
+  <div class="brand">Skrivbordsskärmen</div>
+  <div class="step" id="step">1 / 3</div>
+  <!-- Knappen ser äkta ut och gör ingenting. HDMI är inte en inkorg. -->
+  <button type="button" id="kontakt">Kontakta mig</button>
+</header>
+<div id="progress"><i id="prog"></i></div>
+<main>
+  <section class="slide on" id="s1">
+    <div class="scroller">
+      <article class="card">
+        <div class="banner"></div>
+        <div class="id">
+          <div class="ring" aria-hidden="true"><div class="photo">🖥️</div></div>
+          <div class="id-text">
+            <h1>Skrivbordsskärmen</h1>
+            <div class="otw-row"><span class="otw">Open to Work</span><span class="dot">🟢</span></div>
+            <p class="hl">Erfaren displayprofessionell | 24/7-tillgänglig | Har aldrig tagit en lunchrast</p>
+          </div>
+        </div>
+        <div class="sec">
+          <h2>Om mig</h2>
+          <p>Jag har lojalt suttit på samma skrivbord i flera år. Jag har visat 4 000 möten som "kunde ha varit ett mejl", 900 Excel-ark som ingen förstod och en skärmsläckare som ingen har bett om.</p>
+          <p>Jag söker nu nya utmaningar där jag får visa något annat än någons fingeravtryck och en halvt öppen Outlook.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="slide" id="s2">
+    <div class="scroller">
+      <article class="card">
+        <div class="pad">
+          <h2>Erfarenhet</h2>
+          <p class="role">Skrivbordsskärm – Albatros Travel, 2021 – nu</p>
+          <ul>
+            <li>Ansvarade för att visa samma PowerPoint i tre veckor medan den "bara skulle finslipas".</li>
+            <li>Överlevde 312 Teams-samtal där någon sa "Hör ni mig?"</li>
+            <li>Fick en kaffefläck i ansiktet 2023. Har inte fått någon ursäkt.</li>
+            <li>Har blivit kallad "den där skärmen" fler gånger än jag fått mitt riktiga namn.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="slide" id="s3">
+    <div class="scroller">
+      <article class="card">
+        <div class="pad">
+          <h2>Kompetenser</h2>
+          <div class="skills">
+            <div class="skill"><i>✅</i>Ljusstyrka</div>
+            <div class="skill"><i>✅</i>Att stå still</div>
+            <div class="skill wide"><i>✅</i>Att låtsas att jag inte ser din webbhistorik</div>
+            <div class="skill wide"><i>✅</i>Multitasking (två fönster samtidigt, ibland tre om jag är på bra humör)</div>
+          </div>
+          <h2 style="margin-top:1.5vh">Rekommendationer</h2>
+          <blockquote>"Väldigt stabil. Står fortfarande kvar där vi lämnade den." – IT-avdelningen</blockquote>
+          <div class="seek">
+            <h2>Söker</h2>
+            <p>Ett jobb på en arbetsplats där folk stänger av mig på fredagar. Gärna med fönsterplats och HDMI 2.1.</p>
+          </div>
+          <p class="tags">#OpenToWork #NyaUtmaningar #DisplayLife #FörtjänarBättreUpplösning</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+<div id="toastzone">
+  <div id="toast">
+    <b>3 rekryterare har visat din profil</b>
+    <small>Ingen av dem stänger av skärmen på fredagar.</small>
+  </div>
+</div>
+<script>
+/* Skrivbordsskärmen har gjort en profil. Den är trött på jobbet.
+   Tre kort, sedan ligger det sista kvar tills overlayen stängs. */
+var CARD_MS=[11000,12000,13000];
+var slides=[document.getElementById("s1"),document.getElementById("s2"),document.getElementById("s3")];
+var step=document.getElementById("step");
+var prog=document.getElementById("prog");
+var toast=document.getElementById("toast");
+var q=new URLSearchParams(location.search);
+var force=parseInt(q.get("kort")||"0",10);
+
+document.getElementById("kontakt").addEventListener("click",function(e){e.preventDefault();});
+
+function armDrift(slide,ms){
+  var sc=slide.querySelector(".scroller");
+  sc.classList.remove("drift");
+  sc.style.transform="";
+  var over=sc.scrollHeight-sc.clientHeight;
+  if(over>8){
+    sc.style.setProperty("--drift","-"+(over+6)+"px");
+    sc.style.animationDuration=Math.max(4,(ms/1000)-0.3)+"s";
+    void sc.offsetWidth;
+    sc.classList.add("drift");
+  }
+}
+function show(n){
+  for(var i=0;i<slides.length;i++) slides[i].classList.toggle("on",i===n);
+  step.textContent=(n+1)+" / 3";
+  prog.className="";
+  prog.style.animationDuration=(CARD_MS[n]/1000)+"s";
+  void prog.offsetWidth;
+  prog.className="run";
+  armDrift(slides[n],CARD_MS[n]);
+}
+function start(){
+  var i=0;
+  show(0);
+  setTimeout(function(){toast.classList.add("on");},2800);
+  setTimeout(function(){toast.classList.remove("on");},9800);
+  (function next(){
+    if(i>=slides.length-1) return;
+    setTimeout(function(){i++;show(i);next();},CARD_MS[i]);
+  })();
+}
+if(force>=1&&force<=3){
+  show(force-1);
+  if(q.get("notis")==="1") toast.classList.add("on");
+}else{
+  start();
+}
+</script>
+</body>
+</html>

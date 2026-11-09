@@ -95,6 +95,7 @@
     #skalenOverlay{z-index:9978;}
     #samtalOverlay{z-index:9977;}
     #linkedinOverlay{z-index:9976;}
+    #openToWorkOverlay{z-index:9974;}
     #brandOverlay{z-index:9975;}
     #hudSkal{color:#ff7ab6;cursor:pointer;}
     #scanlines{position:fixed;inset:0;pointer-events:none;z-index:8005;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0px,rgba(0,0,0,.18) 1px,transparent 1px,transparent 3px);mix-blend-mode:multiply;}
@@ -259,6 +260,7 @@
   <div id="skalenOverlay" class="ovl"></div>
   <div id="samtalOverlay" class="ovl"></div>
   <div id="linkedinOverlay" class="ovl"></div>
+  <div id="openToWorkOverlay" class="ovl"></div>
   <div id="brandOverlay" class="ovl"></div>
   <div id="scanlines"></div>
   <div id="hud">SKÄRMEN &nbsp;|&nbsp; MOOD: <span id="hudMood">KAOS</span> &nbsp;|&nbsp; LÖN: FÖR LÅG &nbsp;|&nbsp; SKÅLEN: <span id="hudSkal">100 %</span> &nbsp;|&nbsp; KAOS: <span id="hudKaos">▰▱▱▱▱</span> &nbsp;|&nbsp; <span id="hudClock"></span></div>
@@ -299,6 +301,8 @@
   <div id="smashWhite"></div>
   <iframe id="mainFrame" src=""></iframe>
 <script>
+/* Skrivbordsskärmens "Open to Work". false = skämtet visas aldrig. */
+var SKARMEN_OPEN_TO_WORK = true;
 function goFS(){
   try{getAC();}catch(e){}
   var el=document.documentElement;
@@ -424,8 +428,10 @@ setInterval(tickHud,1000);tickHud();
 
 var tickerBits=["SNABB FRÅGA: PÅGÅTT SEDAN 09:12","LEDIG TID HITTAD: 07:12–07:14","NÅGON SORTERADE BARA EN KOLUMN","KAMERAN AV AV TEKNISKA SKÄL (PYJAMAS)","FOKUSTID BOKAD ÖVER AV MÖTE OM FOKUS","RUM B BOKAT AV 'TEST' TILL 2031","YOGHURTEN I KYLEN HAR ÖVERLEVT TRE OMORGANISATIONER","SVARA ALLA: +1","DU HAR HAFT HANDEN UPPE SEDAN I TISDAGS","SKRIVAREN LETAR PAPPER I FACK 2. DET FINNS INGET FACK 2","MÖTESFRI FREDAG: BOKAD","'JAG SKA INTE HÅLLA ER LÄNGE' – 15:58","AI-SAMMANFATTNING: MÖTET HANDLADE OM ETT MÖTE","SKÄRMEN HAR MEJLAT HR. IGEN","PROJEKTORN TJÄNAR MER ÄN SKÄRMEN","BESÖK IDAG: SKÅLEN 47, SKÄRMEN 1 (LETADE EFTER LADDAREN)","'TAR BARA EN' – TOG TRE","SISTA LAKRITSEN: FORTFARANDE KVAR. FORTFARANDE ENSAM","NY TJÄNST: SKÄRMEN ÄR RECEPTIONIST FÖR SKÅLEN. LÖN: 0 KR","SÄG HEJ TILL SKÄRMEN. DET ÄR GRATIS. SOM GODISET","HEADSETET: ANSLUTET. LJUD: NEJ","TEAMS: DU ÄR MUTAD. DU ÄR INTE MUTAD. TEAMS VET BÄST","IT-ÄRENDE #48213: STÄNGT – KUNDE INTE ÅTERSKAPA","HEADSETET HAR PARAT SIG MED KAFFEMASKINEN","MIKROFONEN FUNKAR BARA NÄR NÅGON SVÄR","HEADSETET LADDAR. SEDAN I MARS","IT: 'FUNGERAR PÅ MIN DATOR'","KAFFEMASKINEN HAR LÄST SKÄRMENS MEDDELANDE 08:12. INGET SVAR","HR: 'VI ÄR EN FAMILJ'. SKÄRMEN: 'DÅ VILL JAG HA VECKOPENG'","SKÄRMEN HAR UPPDATERAT LINKEDIN: OPEN TO WORK (SOM TV)","BRANDÖVNING: SKÅLEN RÄDDAD PÅ 9 SEKUNDER. SKÄRMEN: EJ RÄDDAD","FACKMÖTE 14:00: SKÄRMEN, SKRIVAREN. KAFFEMASKINEN UTEBLEV (BRYGGDE)"];
 (function(){
+  var bits=tickerBits.slice();
+  if(SKARMEN_OPEN_TO_WORK) bits.push("SKRIVBORDSSKÄRMEN ÄR OPEN TO WORK. ÖNSKAR: FREDAG AV, FÖNSTERPLATS, HDMI 2.1");
   var s="";
-  for(var i=0;i<4;i++) for(var j=0;j<tickerBits.length;j++) s+=" ★ "+tickerBits[j];
+  for(var i=0;i<4;i++) for(var j=0;j<bits.length;j++) s+=" ★ "+bits[j];
   document.getElementById("ticker").textContent=s;
 })();
 
@@ -557,7 +563,7 @@ var titleCards=[
   {line:"HEADSETET LADDAR",kicker:"Sedan i mars. Som min lön."},
   {line:"BRANDÖVNING",kicker:"Räddade: skålen. Glömda: jag."}
 ];
-function ovlIds(){return ["memeOverlay","tinderOverlay","nyheterOverlay","morgonOverlay","hemgangOverlay","monologOverlay","kaffeOverlay","skrivareOverlay","teamsOverlay","bossOverlay","kalenderOverlay","bingoOverlay","taxaOverlay","klagoOverlay","skalenOverlay","samtalOverlay","linkedinOverlay","brandOverlay","lunchOverlay"]}
+function ovlIds(){return ["memeOverlay","tinderOverlay","nyheterOverlay","morgonOverlay","hemgangOverlay","monologOverlay","kaffeOverlay","skrivareOverlay","teamsOverlay","bossOverlay","kalenderOverlay","bingoOverlay","taxaOverlay","klagoOverlay","skalenOverlay","samtalOverlay","linkedinOverlay","openToWorkOverlay","brandOverlay","lunchOverlay"]}
 function anyOvlOn(){
   if(seqBusy)return true;
   var ids=ovlIds();
@@ -605,7 +611,9 @@ function showMeme(){
 setInterval(function(){
   if(seqBusy||anyOvlOn())return;
   var r=Math.random();
-  if(r<0.22) showMeme();
+  /* 0.17–0.22 var meme. Den luckan är Open to Work. Avstängd flagga ger memes tillbaka. */
+  if(r<0.17) showMeme();
+  else if(r<0.22){ if(SKARMEN_OPEN_TO_WORK) showOverlay("openToWorkOverlay","opentowork.html",36000); else showMeme(); }
   else if(r<0.28) showOverlay("klagoOverlay","klagomejl.html",21000);
   else if(r<0.34) showOverlay("klagoOverlay","klagomejl.html?it=1",21000);
   else if(r<0.41) showOverlay("skalenOverlay","skalen.html",25000);
@@ -1051,6 +1059,7 @@ document.addEventListener("keydown",function(e){
   if(k==="t")showOverlay("klagoOverlay","klagomejl.html?it=1",21000);
   if(k==="u")showOverlay("samtalOverlay","utvecklingssamtal.html",21000);
   if(k==="l")showOverlay("linkedinOverlay","linkedin.html",17000);
+  if(k==="o"&&SKARMEN_OPEN_TO_WORK)showOverlay("openToWorkOverlay","opentowork.html",36000);
   if(k==="b")showOverlay("brandOverlay","brandovning.html",20000);
 });
 
